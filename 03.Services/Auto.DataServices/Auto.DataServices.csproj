@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="EFCore.BulkExtensions" Version="2.4.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\02.Infrastructure\Auto.Commons\Auto.Commons.csproj" />
+    <ProjectReference Include="..\..\02.Infrastructure\Auto.EFCore\Auto.EFCore.csproj" />
+  </ItemGroup>
+
+</Project>

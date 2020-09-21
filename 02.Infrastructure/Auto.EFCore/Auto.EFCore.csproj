@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Configurations\Maps\MapSets\**" />
+    <Compile Remove="Configurations\Views\MapSets\**" />
+    <EmbeddedResource Remove="Configurations\Maps\MapSets\**" />
+    <EmbeddedResource Remove="Configurations\Views\MapSets\**" />
+    <None Remove="Configurations\Maps\MapSets\**" />
+    <None Remove="Configurations\Views\MapSets\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FluentValidation" Version="9.3.0-preview2" />
+    <PackageReference Include="Microsoft.Composition" Version="1.0.31" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.1.14" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.1.14" />
+  </ItemGroup>
+
+</Project>

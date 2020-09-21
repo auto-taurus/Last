@@ -1,0 +1,31 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>D:\03_项目文件\04_Last\2.1\Gbxx\Gbxx.BackStage\Gbxx.BackStage.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.2" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.9" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\02.Infrastructure\Auto.Commons\Auto.Commons.csproj" />
+    <ProjectReference Include="..\02.Infrastructure\Auto.EFCore\Auto.EFCore.csproj" />
+    <ProjectReference Include="..\03.Services\Auto.DataServices\Auto.DataServices.csproj" />
+    <ProjectReference Include="..\03.Services\Auto.ElasticServices\Auto.ElasticServices.csproj" />
+    <ProjectReference Include="..\03.Services\Auto.RedisServices\Auto.RedisServices.csproj" />
+    <ProjectReference Include="..\04.Applications\Auto.Applications\Auto.Applications.csproj" />
+  </ItemGroup>
+
+</Project>

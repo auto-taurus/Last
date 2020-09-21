@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CatFactory.SqlServer" Version="3.0.0-alpha-build16"/>
+    <PackageReference Include="CatFactory.AspNetCore" Version="3.0.0-alpha-build15"/>
+    <PackageReference Include="CatFactory.EntityFrameworkCore" Version="1.0.0-beta-sun-build50"/>
+  </ItemGroup>
+</Project>
