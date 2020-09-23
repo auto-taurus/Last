@@ -25,13 +25,6 @@ namespace Auto.EFCore.Entities
 
         public string ContentsRecords { get; set; }
 
-        public int? IsEnable { get; set; }
-
-        public string Remarks { get; set; }
-
-        public int? CreateBy { get; set; }
-
-        public DateTime? CreateTime { get; set; }
 
         #endregion
 

@@ -1,15 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using FluentValidation;
+using FluentValidation.AspNetCore;
+using Gbxx.BackStage.Configure.Ioc;
+using Gbxx.WebApi.Configure.Swagger;
+using Gbxx.WebApi.Requests.Item.Validators;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
+using Newtonsoft.Json.Serialization;
 
 namespace Gbxx.WebApi {
     public class Startup {
@@ -18,23 +17,67 @@ namespace Gbxx.WebApi {
         }
 
         public IConfiguration Configuration { get; }
+        private readonly string Any = "Any";
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services) {
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            ServiceConfigure.Configure(services);
+            SwaggerConfigure.Configure(services);
+
+            services.AddMvc()
+                    .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
+                    .AddJsonOptions(options => {
+                        //action返回json格式首字母大写调整
+                        //options.SerializerSettings.ContractResolver = new DefaultContractResolver();
+                        options.SerializerSettings.DateFormatHandling = Newtonsoft.Json.DateFormatHandling.MicrosoftDateFormat;
+                        options.SerializerSettings.DateFormatString = "yyyy-MM-dd HH:mm:ss";
+                    }).AddFluentValidation(x => {
+                        x.RegisterValidatorsFromAssemblyContaining<PostSiteAccessRequestValidator>();
+                        x.RunDefaultMvcValidationAfterFluentValidationExecutes = false;
+                        x.ValidatorOptions.CascadeMode = CascadeMode.Stop;
+                    });
+            // 配置信息注入
+            services.AddSingleton(Configuration);
+            //独立发布跨域
+            services.AddCors(options =>
+                             options.AddPolicy(Any, builder =>
+                                                    builder.AllowCredentials()
+                                                           .AllowAnyHeader()
+                                                           .AllowAnyOrigin()
+                                                           .SetIsOriginAllowedToAllowWildcardSubdomains()
+                                                           .WithMethods("GET", "POST", "PUT", "DELETE", "HEAD", "OPTIONS", "TRACE")
+            ));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env) {
             if (env.IsDevelopment()) {
+                app.UseCors(Any);
                 app.UseDeveloperExceptionPage();
             }
             else {
                 app.UseHsts();
             }
-
             app.UseHttpsRedirection();
+            app.UseStaticFiles();
+            // 启用Swagger中间件
+            app.UseSwagger();
+            // 配置SwaggerUI
+            app.UseSwaggerUI(c => {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
+                c.RoutePrefix = string.Empty;
+            });
             app.UseMvc();
+            //app.UseMvc(routes => {
+            //    routes.MapRoute(
+            //      name: "areas",
+            //      template: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
+            //    );
+            //    routes.MapRoute(
+            //      name: "default",
+            //      template: "{controller=Home}/{action=Index}/{id?}"
+            //    );
+            //});
         }
     }
 }

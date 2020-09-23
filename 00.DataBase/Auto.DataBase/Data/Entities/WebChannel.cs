@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace Auto.EFCore.Entities
 {
     public partial class WebChannel
-        : IBaseEntity
+        : EntityBase
     {
         public WebChannel()
         {
@@ -25,7 +25,7 @@ namespace Auto.EFCore.Entities
 
         public int? IsEnable { get; set; }
 
-        public Byte[] Timestamp { get; set; }
+        public Byte[] RowVers { get; set; }
 
         public string Remarks { get; set; }
 

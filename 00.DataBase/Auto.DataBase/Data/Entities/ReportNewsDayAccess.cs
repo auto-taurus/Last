@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace Auto.EFCore.Entities
 {
     public partial class ReportNewsDayAccess
-        : IBaseEntity
+        : EntityBase
     {
         public ReportNewsDayAccess()
         {

@@ -58,9 +58,9 @@ namespace Company.AutoNews.Data.Mapping
                 .HasColumnType("nvarchar(4000)")
                 .HasMaxLength(4000);
 
-            builder.Property(t => t.Timestamp)
+            builder.Property(t => t.RowVers)
                 .IsRowVersion()
-                .HasColumnName("Timestamp")
+                .HasColumnName("RowVers")
                 .HasColumnType("rowversion")
                 .HasMaxLength(8)
                 .ValueGeneratedOnAddOrUpdate();
@@ -111,8 +111,8 @@ namespace Company.AutoNews.Data.Mapping
             public const string Author = "Author";
             /// <summary>Column Name constant for property <see cref="Auto.EFCore.Entities.WebSensitive.Urls" /></summary>
             public const string Urls = "Urls";
-            /// <summary>Column Name constant for property <see cref="Auto.EFCore.Entities.WebSensitive.Timestamp" /></summary>
-            public const string Timestamp = "Timestamp";
+            /// <summary>Column Name constant for property <see cref="Auto.EFCore.Entities.WebSensitive.RowVers" /></summary>
+            public const string RowVers = "RowVers";
             /// <summary>Column Name constant for property <see cref="Auto.EFCore.Entities.WebSensitive.IsEnable" /></summary>
             public const string IsEnable = "IsEnable";
             /// <summary>Column Name constant for property <see cref="Auto.EFCore.Entities.WebSensitive.Remarks" /></summary>

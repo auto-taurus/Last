@@ -29,9 +29,14 @@ namespace Company.AutoNews.Data.Mapping
                 .HasColumnName("NewsId")
                 .HasColumnType("int");
 
-            builder.Property(t => t.SiteId)
-                .HasColumnName("SiteId")
+            builder.Property(t => t.SiteNo)
+                .HasColumnName("SiteNo")
                 .HasColumnType("int");
+
+            builder.Property(t => t.SpecialCode)
+                .HasColumnName("SpecialCode")
+                .HasColumnType("varchar(10)")
+                .HasMaxLength(10);
 
             builder.Property(t => t.CategoryId)
                 .HasColumnName("CategoryId")
@@ -181,9 +186,9 @@ namespace Company.AutoNews.Data.Mapping
                 .HasColumnName("IsEnable")
                 .HasColumnType("int");
 
-            builder.Property(t => t.Timestamp)
+            builder.Property(t => t.RowVers)
                 .IsRowVersion()
-                .HasColumnName("Timestamp")
+                .HasColumnName("RowVers")
                 .HasColumnType("rowversion")
                 .HasMaxLength(8)
                 .ValueGeneratedOnAddOrUpdate();
@@ -223,8 +228,10 @@ namespace Company.AutoNews.Data.Mapping
         {
             /// <summary>Column Name constant for property <see cref="Auto.EFCore.Entities.WebNews.NewsId" /></summary>
             public const string NewsId = "NewsId";
-            /// <summary>Column Name constant for property <see cref="Auto.EFCore.Entities.WebNews.SiteId" /></summary>
-            public const string SiteId = "SiteId";
+            /// <summary>Column Name constant for property <see cref="Auto.EFCore.Entities.WebNews.SiteNo" /></summary>
+            public const string SiteNo = "SiteNo";
+            /// <summary>Column Name constant for property <see cref="Auto.EFCore.Entities.WebNews.SpecialCode" /></summary>
+            public const string SpecialCode = "SpecialCode";
             /// <summary>Column Name constant for property <see cref="Auto.EFCore.Entities.WebNews.CategoryId" /></summary>
             public const string CategoryId = "CategoryId";
             /// <summary>Column Name constant for property <see cref="Auto.EFCore.Entities.WebNews.CategoryName" /></summary>
@@ -289,8 +296,8 @@ namespace Company.AutoNews.Data.Mapping
             public const string Sequence = "Sequence";
             /// <summary>Column Name constant for property <see cref="Auto.EFCore.Entities.WebNews.IsEnable" /></summary>
             public const string IsEnable = "IsEnable";
-            /// <summary>Column Name constant for property <see cref="Auto.EFCore.Entities.WebNews.Timestamp" /></summary>
-            public const string Timestamp = "Timestamp";
+            /// <summary>Column Name constant for property <see cref="Auto.EFCore.Entities.WebNews.RowVers" /></summary>
+            public const string RowVers = "RowVers";
             /// <summary>Column Name constant for property <see cref="Auto.EFCore.Entities.WebNews.Remarks" /></summary>
             public const string Remarks = "Remarks";
             /// <summary>Column Name constant for property <see cref="Auto.EFCore.Entities.WebNews.CreateBy" /></summary>

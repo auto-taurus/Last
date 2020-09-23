@@ -1,4 +1,4 @@
-﻿using Auto.Commons.Extensions.IocPrictic;
+﻿using Auto.Commons.Ioc.IContract;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyModel;
 using System;

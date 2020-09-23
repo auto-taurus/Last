@@ -1,4 +1,6 @@
 ﻿using Auto.EFCore.Configurations;
+using Auto.EFCore.Configurations.Maps;
+using Auto.EFCore.Entities;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -8,8 +10,9 @@ using System.Text;
 
 namespace Auto.EFCore {
     public partial class AutoNewsContext : DbContext {
-        public AutoNewsContext(DbContextOptions<AutoNewsContext> options) : base(options) {
-
+        public IEntityMapper _EntityMapper { get; }
+        public AutoNewsContext(DbContextOptions<AutoNewsContext> options, IEntityMapper entityMapper) : base(options) {
+            _EntityMapper = entityMapper;
         }
         /// <summary>
         /// EF配置
@@ -24,10 +27,11 @@ namespace Auto.EFCore {
         /// <param name="modelBuilder"></param>
         protected override void OnModelCreating(ModelBuilder modelBuilder) {
             #region Generated Configuration
-            this.AddEntities(modelBuilder);
+            _EntityMapper.ConfigureEntities(modelBuilder);
+            //this.AddEntities(modelBuilder);
             base.OnModelCreating(modelBuilder);
-            this.AddMappingConfigures(modelBuilder);
-            this.AddViewsConfigures(modelBuilder);
+            //this.AddMappingConfigures(modelBuilder);
+            //this.AddViewsConfigures(modelBuilder);
             #endregion
         }
         /// <summary>
@@ -35,9 +39,7 @@ namespace Auto.EFCore {
         /// </summary>
         /// <param name="modelBuilder"></param>
         private void AddEntities(ModelBuilder modelBuilder) {
-            var entityTypes = Assembly.GetEntryAssembly()
-                                      .GetTypes()
-                                      .Where(type => typeof(IEntity).IsAssignableFrom(type));
+            var entityTypes = Assembly.GetExecutingAssembly().GetTypes().Where(q => q.GetInterface(typeof(IEntity).FullName) != null);
             foreach (var type in entityTypes) {
                 modelBuilder.Model.GetOrAddEntityType(type);
             }

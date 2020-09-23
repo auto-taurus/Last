@@ -102,9 +102,9 @@ namespace Company.AutoNews.Data.Mapping
                 .HasColumnName("IsEnable")
                 .HasColumnType("int");
 
-            builder.Property(t => t.Timestamp)
+            builder.Property(t => t.RowVers)
                 .IsRowVersion()
-                .HasColumnName("Timestamp")
+                .HasColumnName("RowVers")
                 .HasColumnType("rowversion")
                 .HasMaxLength(8)
                 .ValueGeneratedOnAddOrUpdate();
@@ -171,8 +171,8 @@ namespace Company.AutoNews.Data.Mapping
             public const string Sequence = "Sequence";
             /// <summary>Column Name constant for property <see cref="Auto.EFCore.Entities.WebCategory.IsEnable" /></summary>
             public const string IsEnable = "IsEnable";
-            /// <summary>Column Name constant for property <see cref="Auto.EFCore.Entities.WebCategory.Timestamp" /></summary>
-            public const string Timestamp = "Timestamp";
+            /// <summary>Column Name constant for property <see cref="Auto.EFCore.Entities.WebCategory.RowVers" /></summary>
+            public const string RowVers = "RowVers";
             /// <summary>Column Name constant for property <see cref="Auto.EFCore.Entities.WebCategory.Remarks" /></summary>
             public const string Remarks = "Remarks";
             /// <summary>Column Name constant for property <see cref="Auto.EFCore.Entities.WebCategory.CreateBy" /></summary>

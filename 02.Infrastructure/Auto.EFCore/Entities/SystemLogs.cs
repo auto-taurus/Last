@@ -4,8 +4,7 @@ using System.Collections.Generic;
 namespace Auto.EFCore.Entities
 {
     public partial class SystemLogs
-        : EntityBase
-    {
+        : IEntity {
         public SystemLogs()
         {
             #region Generated Constructor

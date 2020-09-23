@@ -4,8 +4,7 @@ using System.Collections.Generic;
 namespace Auto.EFCore.Entities
 {
     public partial class ReportNewsDayClick
-        : EntityBase
-    {
+        : IEntity {
         public ReportNewsDayClick()
         {
             #region Generated Constructor

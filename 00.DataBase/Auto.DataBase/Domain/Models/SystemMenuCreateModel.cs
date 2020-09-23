@@ -49,7 +49,7 @@ namespace Company.AutoNews.Domain.Models
 
         public int? IsEnable { get; set; }
 
-        public Byte[] Timestamp { get; set; }
+        public Byte[] RowVers { get; set; }
 
         public string Remarks { get; set; }
 

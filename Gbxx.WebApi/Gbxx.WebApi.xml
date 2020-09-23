@@ -1,0 +1,226 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Gbxx.WebApi</name>
+    </assembly>
+    <members>
+        <member name="T:Gbxx.WebApi.Areas.v1.Controllers.CategoryController">
+            <summary>
+            分类管理
+            </summary>
+        </member>
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.CategoryController.#ctor(Microsoft.Extensions.Logging.ILogger{Gbxx.WebApi.Areas.v1.Controllers.SiteController})">
+            <summary>
+            
+            </summary>
+            <param name="logger"></param>
+        </member>
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.CategoryController.GetCategoryAsync(System.String,System.String)">
+            <summary>
+            分类信息
+            </summary>
+            <param name="mark">站点标识</param>
+            <param name="id">分类编号</param>
+            <returns></returns>
+        </member>
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.CategoryController.GetCategoriesAsync(System.String)">
+            <summary>
+            分类列表
+            </summary>
+            <param name="mark">站点标识</param>
+            <returns></returns>
+        </member>
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.CategoryController.GetCategoryNewsAsync(System.String,System.String,System.Int32,System.Int32)">
+            <summary>
+            分类新闻列表
+            </summary>
+            <param name="mark">站点标识</param>
+            <param name="id">新闻编号</param>
+            <param name="pageIndex">当前页</param>
+            <param name="pageSize">页大小</param>
+            <returns></returns>
+        </member>
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.CategoryController.GetCategoryAccessAsync(System.String,System.String)">
+            <summary>
+            栏目访问统计
+            </summary>
+            <param name="mark">站点标识</param>
+            <param name="id">栏目编号</param>
+            <returns></returns>
+        </member>
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.CategoryController.GetCategoryClickAsync(System.String,System.String)">
+            <summary>
+            栏目点击统计
+            </summary>
+            <param name="mark">站点标识</param>
+            <param name="id">栏目编号</param>
+            <returns></returns>
+        </member>
+        <member name="T:Gbxx.WebApi.Areas.v1.Controllers.CodeController">
+            <summary>
+            专栏管理
+            </summary>
+        </member>
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.CodeController.#ctor(Microsoft.Extensions.Logging.ILogger{Gbxx.WebApi.Areas.v1.Controllers.SiteController})">
+            <summary>
+            
+            </summary>
+            <param name="logger"></param>
+        </member>
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.CodeController.GetCodeNewsAsync(System.String,System.String,System.Int32,System.Int32)">
+            <summary>
+            专栏新闻列表
+            </summary>
+            <param name="mark">站点标识</param>
+            <param name="code">专栏code</param>
+            <param name="pageIndex">当前页</param>
+            <param name="pageSize">页大小</param>
+            <returns></returns>
+        </member>
+        <member name="T:Gbxx.WebApi.Areas.v1.Controllers.NewsController">
+            <summary>
+            新闻管理
+            </summary>
+        </member>
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.NewsController.#ctor(Microsoft.Extensions.Logging.ILogger{Gbxx.WebApi.Areas.v1.Controllers.SiteController})">
+            <summary>
+            
+            </summary>
+            <param name="logger"></param>
+        </member>
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.NewsController.GetNewsAsync(System.String,System.String)">
+            <summary>
+            新闻信息
+            </summary>
+            <param name="mark"></param>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.NewsController.GetNewsCarouselAsync(System.String)">
+            <summary>
+            新闻首页轮播列表
+            </summary>
+            <param name="mark"></param>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.NewsController.GetNewsBigAsync(System.String)">
+            <summary>
+            新闻首页大标信息
+            </summary>
+            <param name="mark"></param>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.NewsController.GetNewsAccessAsync(System.String,System.String)">
+            <summary>
+            新闻访问统计
+            </summary>
+            <param name="mark">站点标识</param>
+            <param name="id">文章编号</param>
+            <returns></returns>
+        </member>
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.NewsController.GetNewsClickAsync(System.String,System.String)">
+            <summary>
+            新闻点击统计
+            </summary>
+            <param name="mark">站点标识</param>
+            <param name="id">文章编号</param>
+            <returns></returns>
+        </member>
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.NewsController.PostNewsSearchAsync(System.String,Gbxx.WebApi.Requests.Query.NewsSearchQuery)">
+            <summary>
+            新闻信息检索
+            </summary>
+            <param name="mark">站点标识</param>
+            <param name="item">过滤信息</param>
+            <returns></returns>
+        </member>
+        <member name="T:Gbxx.WebApi.Areas.v1.Controllers.SiteController">
+            <summary>
+            站点管理
+            </summary>
+        </member>
+        <member name="F:Gbxx.WebApi.Areas.v1.Controllers.SiteController._ILogger">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.SiteController.#ctor(Microsoft.Extensions.Logging.ILogger{Gbxx.WebApi.Areas.v1.Controllers.SiteController})">
+            <summary>
+            站点管理
+            </summary>
+            <param name="logger"></param>
+        </member>
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.SiteController.GetWebSiteAsync(System.String)">
+            <summary>
+            获取站点信息
+            </summary>
+            <param name="mark"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.SiteController.GetSiteAccessAsync(Gbxx.WebApi.Requests.Query.SiteAccessQuery)">
+            <summary>
+            站点访问信息统计
+            </summary>
+            <param name="mark">站点标识</param>
+            <returns></returns>
+        </member>
+        <member name="P:Gbxx.WebApi.Requests.EntityApiBase.Mark">
+            <summary>
+            站点标识
+            </summary>
+        </member>
+        <member name="T:Gbxx.WebApi.Requests.Query.NewsSearchQuery">
+            <summary>
+            新闻检索
+            </summary>
+        </member>
+        <member name="P:Gbxx.WebApi.Requests.Query.NewsSearchQuery.Title">
+            <summary>
+            标题
+            </summary>
+        </member>
+        <member name="P:Gbxx.WebApi.Requests.Query.NewsSearchQuery.PageIndex">
+            <summary>
+            当前页
+            </summary>
+        </member>
+        <member name="P:Gbxx.WebApi.Requests.Query.NewsSearchQuery.PageSize">
+            <summary>
+            页大小
+            </summary>
+        </member>
+        <member name="T:Gbxx.WebApi.Requests.Query.SiteAccessQuery">
+            <summary>
+            站点访问参数
+            </summary>
+        </member>
+        <member name="P:Gbxx.WebApi.Requests.Query.SiteAccessQuery.Referrer">
+            <summary>
+            源域名（Referrer,referer）
+            </summary>
+        </member>
+        <member name="P:Gbxx.WebApi.Requests.Query.SiteAccessQuery.Unique">
+            <summary>
+            站点唯一标识
+            </summary>
+        </member>
+        <member name="T:Gbxx.BackStage.Configure.Ioc.ServiceConfigure">
+            <summary>
+            AddSingleton的生命周期：
+            项目启动-项目关闭 相当于静态类  只会有一个
+            AddScoped的生命周期：
+            请求开始-请求结束 在这次请求中获取的对象都是同一个
+            AddTransient的生命周期：
+            请求获取-（GC回收-主动释放） 每一次获取的对象都不是同一个
+            </summary>
+        </member>
+        <member name="M:Gbxx.BackStage.Configure.Ioc.ServiceConfigure.Configure(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            注册指定程序集中的服务
+            </summary>
+            <param name="services">IServiceCollection类型的对象</param>
+        </member>
+    </members>
+</doc>

@@ -4,13 +4,28 @@
     <TargetFramework>netcoreapp2.1</TargetFramework>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>D:\03_项目文件\04_Last\2.1\Gbxx\Gbxx.WebApi\Gbxx.WebApi.xml</DocumentationFile>
+  </PropertyGroup>
+
   <ItemGroup>
+    <Folder Include="Areas\v1\Data\" />
+    <Folder Include="Areas\v1\Models\" />
+    <Folder Include="Areas\v1\Views\" />
     <Folder Include="wwwroot\" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="FluentValidation.AspNetCore" Version="9.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.2" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.9" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\02.Infrastructure\Auto.Commons\Auto.Commons.csproj" />
+    <ProjectReference Include="..\02.Infrastructure\Auto.Dto\Auto.Dto.csproj" />
   </ItemGroup>
 
 </Project>

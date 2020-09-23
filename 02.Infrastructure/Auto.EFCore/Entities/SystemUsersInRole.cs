@@ -4,8 +4,7 @@ using System.Collections.Generic;
 namespace Auto.EFCore.Entities
 {
     public partial class SystemUsersInRole
-        : EntityBase
-    {
+        : IEntity {
         public SystemUsersInRole()
         {
             #region Generated Constructor
@@ -13,6 +12,7 @@ namespace Auto.EFCore.Entities
         }
 
         #region Generated Properties
+        public int Id { get; set; }
         public int? UsersId { get; set; }
 
         public int? RoleId { get; set; }

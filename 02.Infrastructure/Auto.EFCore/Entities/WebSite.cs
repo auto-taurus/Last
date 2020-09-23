@@ -31,15 +31,7 @@ namespace Auto.EFCore.Entities
 
         public string Description { get; set; }
 
-        public Byte[] Timestamp { get; set; }
-
-        public int? IsEnable { get; set; }
-
-        public string Remarks { get; set; }
-
-        public int? CreateBy { get; set; }
-
-        public DateTime? CreateTime { get; set; }
+        public Byte[] RowVers { get; set; }
 
         #endregion
 

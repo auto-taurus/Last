@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace Auto.EFCore.Entities
 {
     public partial class SystemDictionary
-        : IBaseEntity
+        : EntityBase
     {
         public SystemDictionary()
         {

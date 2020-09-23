@@ -22,16 +22,8 @@ namespace Auto.EFCore.Entities
         public string ChannelAddress { get; set; }
 
         public string ChannelJs { get; set; }
-
-        public int? IsEnable { get; set; }
-
-        public Byte[] Timestamp { get; set; }
-
-        public string Remarks { get; set; }
-
-        public int? CreateBy { get; set; }
-
-        public DateTime? CreateTime { get; set; }
+        
+        public Byte[] RowVers { get; set; }
 
         #endregion
 

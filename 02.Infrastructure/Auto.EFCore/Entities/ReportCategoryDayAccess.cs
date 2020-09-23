@@ -4,8 +4,7 @@ using System.Collections.Generic;
 namespace Auto.EFCore.Entities
 {
     public partial class ReportCategoryDayAccess
-        : IEntity
-    {
+        : IEntity {
         public ReportCategoryDayAccess()
         {
             #region Generated Constructor

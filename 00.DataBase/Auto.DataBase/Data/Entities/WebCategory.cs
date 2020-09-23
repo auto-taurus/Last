@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace Auto.EFCore.Entities
 {
     public partial class WebCategory
-        : IBaseEntity
+        : EntityBase
     {
         public WebCategory()
         {
@@ -48,7 +48,7 @@ namespace Auto.EFCore.Entities
 
         public int? IsEnable { get; set; }
 
-        public Byte[] Timestamp { get; set; }
+        public Byte[] RowVers { get; set; }
 
         public string Remarks { get; set; }
 

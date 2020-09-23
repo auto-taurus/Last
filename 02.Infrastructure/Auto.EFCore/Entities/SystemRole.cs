@@ -1,17 +1,14 @@
 using System;
 using System.Collections.Generic;
 
-namespace Auto.EFCore.Entities
-{
+namespace Auto.EFCore.Entities {
     public partial class SystemRole
-        : EntityBase
-    {
-        public SystemRole()
-        {
+        : EntityBase {
+        public SystemRole() {
             #region Generated Constructor
-            SystemRoleInDictionaries = new HashSet<SystemRoleInDictionary>();
-            SystemRoleInMenus = new HashSet<SystemRoleInMenu>();
-            SystemUsersInRoles = new HashSet<SystemUsersInRole>();
+            SystemRoleDictionaries = new HashSet<SystemRoleDictionary>();
+            SystemMenus = new HashSet<SystemRoleInMenu>();
+            SystemUsers = new HashSet<SystemUsersInRole>();
             #endregion
         }
 
@@ -20,22 +17,14 @@ namespace Auto.EFCore.Entities
 
         public string RoleName { get; set; }
 
-        public int? IsEnable { get; set; }
-
-        public string Remarks { get; set; }
-
-        public int? CreateBy { get; set; }
-
-        public DateTime? CreateDate { get; set; }
-
         #endregion
 
         #region Generated Relationships
-        public virtual ICollection<SystemRoleInDictionary> SystemRoleInDictionaries { get; set; }
+        public virtual ICollection<SystemRoleDictionary> SystemRoleDictionaries { get; set; }
 
-        public virtual ICollection<SystemRoleInMenu> SystemRoleInMenus { get; set; }
+        public virtual ICollection<SystemRoleInMenu> SystemMenus { get; set; }
 
-        public virtual ICollection<SystemUsersInRole> SystemUsersInRoles { get; set; }
+        public virtual ICollection<SystemUsersInRole> SystemUsers { get; set; }
 
         #endregion
 

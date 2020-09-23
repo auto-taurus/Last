@@ -21,7 +21,7 @@ namespace Company.AutoNews.Data.Mapping
             builder.ToTable("Web_Special", "dbo");
 
             // key
-            builder.HasKey(t => new { t.SpecialId, t.SpecialCode });
+            builder.HasKey(t => t.SpecialId);
 
             // properties
             builder.Property(t => t.SpecialId)
@@ -35,7 +35,6 @@ namespace Company.AutoNews.Data.Mapping
                 .HasColumnType("int");
 
             builder.Property(t => t.SpecialCode)
-                .IsRequired()
                 .HasColumnName("SpecialCode")
                 .HasColumnType("varchar(10)")
                 .HasMaxLength(10);
@@ -53,9 +52,9 @@ namespace Company.AutoNews.Data.Mapping
                 .HasColumnName("IsEnable")
                 .HasColumnType("int");
 
-            builder.Property(t => t.Timestamp)
+            builder.Property(t => t.RowVers)
                 .IsRowVersion()
-                .HasColumnName("Timestamp")
+                .HasColumnName("RowVers")
                 .HasColumnType("rowversion")
                 .HasMaxLength(8)
                 .ValueGeneratedOnAddOrUpdate();
@@ -100,8 +99,8 @@ namespace Company.AutoNews.Data.Mapping
             public const string DisplayType = "DisplayType";
             /// <summary>Column Name constant for property <see cref="Auto.EFCore.Entities.WebSpecial.IsEnable" /></summary>
             public const string IsEnable = "IsEnable";
-            /// <summary>Column Name constant for property <see cref="Auto.EFCore.Entities.WebSpecial.Timestamp" /></summary>
-            public const string Timestamp = "Timestamp";
+            /// <summary>Column Name constant for property <see cref="Auto.EFCore.Entities.WebSpecial.RowVers" /></summary>
+            public const string RowVers = "RowVers";
             /// <summary>Column Name constant for property <see cref="Auto.EFCore.Entities.WebSpecial.Remarks" /></summary>
             public const string Remarks = "Remarks";
             /// <summary>Column Name constant for property <see cref="Auto.EFCore.Entities.WebSpecial.CreateBy" /></summary>

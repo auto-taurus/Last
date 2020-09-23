@@ -4,13 +4,13 @@ using System.Collections.Generic;
 namespace Auto.EFCore.Entities
 {
     public partial class SystemUsers
-        : IBaseEntity
+        : EntityBase
     {
         public SystemUsers()
         {
             #region Generated Constructor
             SystemUsersInRoles = new HashSet<SystemUsersInRole>();
-            UserSystemUsersInDictionaries = new HashSet<SystemUsersInDictionary>();
+            UserSystemUsersDictionaries = new HashSet<SystemUsersDictionary>();
             UserSystemUsersInMenus = new HashSet<SystemUsersInMenu>();
             #endregion
         }
@@ -45,7 +45,7 @@ namespace Auto.EFCore.Entities
         #region Generated Relationships
         public virtual ICollection<SystemUsersInRole> SystemUsersInRoles { get; set; }
 
-        public virtual ICollection<SystemUsersInDictionary> UserSystemUsersInDictionaries { get; set; }
+        public virtual ICollection<SystemUsersDictionary> UserSystemUsersDictionaries { get; set; }
 
         public virtual ICollection<SystemUsersInMenu> UserSystemUsersInMenus { get; set; }
 

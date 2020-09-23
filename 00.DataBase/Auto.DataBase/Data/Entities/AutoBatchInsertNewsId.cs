@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace Auto.EFCore.Entities
 {
     public partial class AutoBatchInsertNewsId
-        : IBaseEntity
+        : EntityBase
     {
         public AutoBatchInsertNewsId()
         {

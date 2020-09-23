@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace Auto.EFCore.Entities
 {
     public partial class WebNews
-        : IBaseEntity
+        : EntityBase
     {
         public WebNews()
         {
@@ -16,7 +16,9 @@ namespace Auto.EFCore.Entities
         #region Generated Properties
         public int NewsId { get; set; }
 
-        public int? SiteId { get; set; }
+        public int? SiteNo { get; set; }
+
+        public string SpecialCode { get; set; }
 
         public int? CategoryId { get; set; }
 
@@ -82,7 +84,7 @@ namespace Auto.EFCore.Entities
 
         public int? IsEnable { get; set; }
 
-        public Byte[] Timestamp { get; set; }
+        public Byte[] RowVers { get; set; }
 
         public string Remarks { get; set; }
 

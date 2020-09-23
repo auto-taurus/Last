@@ -23,23 +23,83 @@ namespace Auto.DataServices {
             _BaseDb?.Dispose();
             Disposed = true;
         }
-        public virtual IQueryable<TEntity> Query() => _BaseDb.Set<TEntity>().AsNoTracking().AsQueryable();
-        public virtual IQueryable<TEntity> Querys<T>() => _BaseDb.Set<TEntity>().AsNoTracking().AsQueryable();
-        public virtual async Task<Tuple<int, List<TEntity>>> QueryPager<TSort>(Expression<Func<TEntity, bool>> predicate, Expression<Func<TEntity, TSort>> expression, bool isDesc = false, int pageIndex = 1, int pageSize = 10) {
+        /// <summary>
+        /// 检查数据是否存在
+        /// </summary>
+        /// <param name="predicate"></param>
+        /// <returns></returns>
+        public virtual async Task<bool> IsExistAsync(Expression<Func<TEntity, bool>> predicate) {
+            return await this._BaseDb.Set<TEntity>().AnyAsync(predicate);
+        }
+        /// <summary>
+        /// 获取单个实体
+        /// </summary>
+        /// <param name="predicate"></param>
+        /// <returns></returns>
+        public virtual async Task<TEntity> SingleAsync(Expression<Func<TEntity, bool>> predicate)
+            => await _BaseDb.Set<TEntity>().AsNoTracking().SingleOrDefaultAsync(predicate);
+        /// <summary>
+        /// 自定义条件过滤、排序、分页，请使用此方法（不跟踪查询）
+        /// 根据指定条件获取单个实体
+        /// 根据指定条件获取列表
+        /// </summary>
+        /// <returns>返回查询IQueryable</returns>
+        public virtual IQueryable<TEntity> Query()
+            => _BaseDb.Set<TEntity>().AsNoTracking().AsQueryable();
+        /// <summary>
+        /// 根据过滤条件获取列表
+        /// </summary>
+        /// <param name="predicate"></param>
+        /// <returns></returns>
+        public virtual async Task<IList<TEntity>> Query(Expression<Func<TEntity, bool>> predicate)
+            => await _BaseDb.Set<TEntity>().AsNoTracking().Where(predicate).ToListAsync();
+        /// <summary>
+        /// 根据过滤条件获取列表,并进行排序
+        /// </summary>
+        /// <param name="predicate"></param>
+        /// <param name="expression"></param>
+        /// <param name="isDesc"></param>
+        /// <returns></returns>
+        public virtual async Task<IList<TEntity>> Query<TSort>(Expression<Func<TEntity, bool>> predicate, Expression<Func<TEntity, TSort>> expression, bool isDesc = false) {
+            var query = this.Query().Where(predicate);
+            if (isDesc)
+                query = query.OrderByDescending<TEntity, TSort>(expression);
+            else
+                query = query.OrderBy<TEntity, TSort>(expression);
+            return await query.ToListAsync();
+        }
+        /// <summary>
+        /// 查询分页排序
+        /// </summary>
+        /// <typeparam name="TSort">排序字段</typeparam>
+        /// <param name="predicate">过滤条件</param>
+        /// <param name="expression">排序字段</param>
+        /// <param name="isDesc">是否倒序</param>
+        /// <param name="pageIndex">当前页</param>
+        /// <param name="pageSize">页大小</param>
+        /// <returns></returns>
+        public virtual async Task<Tuple<int, IList<TEntity>>> QueryPager<TSort>(Expression<Func<TEntity, bool>> predicate, Expression<Func<TEntity, TSort>> expression, bool isDesc = false, int pageIndex = 1, int pageSize = 10) {
             var query = this.Query().Where(predicate);
             var count = await query.CountAsync();
             if (isDesc)
                 query = query.OrderByDescending<TEntity, TSort>(expression);
             else
                 query = query.OrderBy<TEntity, TSort>(expression);
-            var result = await query.Paging(pageIndex, pageSize).ToListAsync();
-            return new Tuple<int, List<TEntity>>(count, result);
+            var result = await query.ToPager(pageIndex, pageSize).ToListAsync();
+            return new Tuple<int, IList<TEntity>>(count, result);
         }
         /// <summary>
-        /// 单个实体添加，并调用CommitChanges或CommitChangesAsync保存
+        /// 单个实体添加，需调用CommitChanges获CommitChangesAsync保存
         /// </summary>
         /// <param name="entity"></param>
-        public virtual async ValueTask<EntityEntry<TEntity>> Add(TEntity entity) {
+        public virtual EntityEntry<TEntity> Add(TEntity entity) {
+            return this._BaseDb.Set<TEntity>().Add(entity);
+        }
+        /// <summary>
+        /// 单个实体添加，需调用CommitChanges获CommitChangesAsync保存
+        /// </summary>
+        /// <param name="entity"></param>
+        public virtual async ValueTask<EntityEntry<TEntity>> AddAsync(TEntity entity) {
             return await this._BaseDb.Set<TEntity>().AddAsync(entity);
         }
         /// <summary>
@@ -47,7 +107,7 @@ namespace Auto.DataServices {
         /// </summary>
         /// <param name="entities"></param>
         /// <returns></returns>
-        public virtual async Task<bool> BatchAddAsync(List<TEntity> entities) {
+        public virtual async Task<bool> BatchAddAsync(IList<TEntity> entities) {
             var flag = false;
             try {
                 var config = new BulkConfig();
@@ -61,7 +121,7 @@ namespace Auto.DataServices {
             return flag;
         }
         /// <summary>
-        /// 单个实体更新，并调用CommitChanges或CommitChangesAsync保存
+        /// 单个实体更新，需调用CommitChanges获CommitChangesAsync保存
         /// </summary>
         /// <param name="entity">实体</param>
         public virtual void Update(TEntity entity) {
@@ -74,30 +134,45 @@ namespace Auto.DataServices {
             entry.State = EntityState.Modified;
         }
         /// <summary>
-        /// 批量实体更新，并调用CommitChanges或CommitChangesAsync保存
-        /// </summary>
-        /// <param name="predicate">实体过滤条件</param>
-        /// <param name="entity">实体，须实例化后传入</param>
-        /// <returns></returns>
-        public virtual async Task BatchUpdateAsync(Expression<Func<TEntity, bool>> predicate, Expression<Func<TEntity, TEntity>> entity) {
-            await this._BaseDb.Set<TEntity>().Where(predicate).BatchUpdateAsync(entity);
-        }
-        /// <summary>
-        /// 批量删除
+        /// 批量实体更新
         /// </summary>
         /// <param name="entities"></param>
         /// <returns></returns>
-        public virtual async Task BatchUpdate(List<TEntity> entities) {
-            await this._BaseDb.BulkUpdateAsync(entities);
+        public virtual async Task<bool> BatchUpdateAsync(IList<TEntity> entities) {
+            var flag = false;
+            try {
+                await this._BaseDb.BulkUpdateAsync(entities);
+                flag = true;
+            }
+            catch (Exception ex) {
+                flag = false;
+            }
+            return flag;
         }
         /// <summary>
-        /// 单个实体删除，并调用CommitChanges或CommitChangesAsync保存
+        /// 批量实体更新
+        /// </summary>
+        /// <param name="predicate">实体过滤条件</param>
+        /// <param name="entity">更新字段</param>
+        /// <returns></returns>
+        public virtual async Task<bool> BatchUpdateAsync(Expression<Func<TEntity, bool>> predicate, Expression<Func<TEntity, TEntity>> entity) {
+            var flag = false;
+            try {
+                await this._BaseDb.Set<TEntity>().Where(predicate).BatchUpdateAsync(entity);
+                flag = true;
+            }
+            catch (Exception ex) {
+                flag = false;
+            }
+            return flag;
+        }
+        /// <summary>
+        /// 单个实体删除，需调用CommitChanges获CommitChangesAsync保存
         /// </summary>
         /// <param name="entity">实体</param>
         public virtual void Remove(TEntity entity) {
             // Get entity's entry
             var entry = _BaseDb.Entry(entity);
-
             if (entry.State == EntityState.Deleted) {
                 // Create set for entity
                 var dbSet = _BaseDb.Set<TEntity>();
@@ -111,20 +186,38 @@ namespace Auto.DataServices {
             }
         }
         /// <summary>
-        /// 
+        /// 批量实体删除
         /// </summary>
         /// <param name="entities"></param>
         /// <returns></returns>
-        public virtual async Task BatchRemove(List<TEntity> entities) {
-            await this._BaseDb.BulkDeleteAsync(entities);
+        public virtual async Task<bool> BatchRemoveAsync(IList<TEntity> entities) {
+            var flag = false;
+            try {
+                await this._BaseDb.BulkDeleteAsync(entities);
+                flag = true;
+            }
+            catch (Exception ex) {
+
+                flag = false;
+            }
+            return flag;
         }
         /// <summary>
-        /// 批量实体删除，并调用CommitChanges或CommitChangesAsync保存
+        /// 批量实体删除
         /// </summary>
         /// <param name="predicate">实体过滤条件</param>
         /// <returns></returns>
-        public virtual async Task BatchRemove(Expression<Func<TEntity, bool>> predicate) {
-            await this._BaseDb.Set<TEntity>().Where(predicate).BatchDeleteAsync();
+        public virtual async Task<bool> BatchRemove(Expression<Func<TEntity, bool>> predicate) {
+            var flag = false;
+            try {
+                await this._BaseDb.Set<TEntity>().Where(predicate).BatchDeleteAsync();
+                flag = true;
+            }
+            catch (Exception ex) {
+
+                flag = false;
+            }
+            return flag;
         }
         /// <summary>
         /// 同步提交

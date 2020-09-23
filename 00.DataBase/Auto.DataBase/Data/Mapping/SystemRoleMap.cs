@@ -27,8 +27,7 @@ namespace Company.AutoNews.Data.Mapping
             builder.Property(t => t.RoleId)
                 .IsRequired()
                 .HasColumnName("RoleId")
-                .HasColumnType("int")
-                .ValueGeneratedOnAdd();
+                .HasColumnType("int");
 
             builder.Property(t => t.RoleName)
                 .HasColumnName("RoleName")

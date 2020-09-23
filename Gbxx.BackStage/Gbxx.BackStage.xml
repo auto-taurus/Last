@@ -4,6 +4,55 @@
         <name>Gbxx.BackStage</name>
     </assembly>
     <members>
+        <member name="T:Gbxx.BackStage.Areas.v1.Controllers.DefaultController">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:Gbxx.BackStage.Areas.v1.Controllers.SystemUsersController">
+            <summary>
+            系统用户管理
+            </summary>
+        </member>
+        <member name="M:Gbxx.BackStage.Areas.v1.Controllers.SystemUsersController.GetSystemUsersAsync(Gbxx.BackStage.Requests.Query.SystemUsersQuery)">
+            <summary>
+            用户列表分页查询
+            </summary>
+            <param name="args"></param>
+            <param name="pageSize"></param>
+            <param name="pageNumber"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Gbxx.BackStage.Areas.v1.Controllers.SystemUsersController.GetSystemUsersAsync(System.Nullable{System.Int32})">
+            <summary>
+            用户Info
+            </summary>
+            <param name="id">用户编号</param>
+            <returns></returns>
+        </member>
+        <member name="M:Gbxx.BackStage.Areas.v1.Controllers.SystemUsersController.PostSystemUsersAsync(Gbxx.BackStage.Requests.Items.SystemUsersRequest)">
+            <summary>
+            用户更新
+            </summary>
+            <param name="requestModel"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Gbxx.BackStage.Areas.v1.Controllers.SystemUsersController.PostSystemUsersInMenuAsync(System.Nullable{System.Int32},System.Collections.Generic.List{System.Int32})">
+            <summary>
+            用户对应菜单添加
+            </summary>
+            <param name="id">用户编号</param>
+            <param name="menuIds">菜单编号列表</param>
+            <returns></returns>
+        </member>
+        <member name="M:Gbxx.BackStage.Areas.v1.Controllers.SystemUsersController.PostSystemUsersInRoleAsync(System.Nullable{System.Int32},System.Collections.Generic.List{System.Int32})">
+            <summary>
+            用户对应角色添加
+            </summary>
+            <param name="id">用户编号</param>
+            <param name="roleIds">角色编号列表</param>
+            <returns></returns>
+        </member>
         <member name="T:Gbxx.BackStage.Configure.Ioc.ServiceConfigure">
             <summary>
             AddSingleton的生命周期：
@@ -19,6 +68,86 @@
             注册指定程序集中的服务
             </summary>
             <param name="services">IServiceCollection类型的对象</param>
+        </member>
+        <member name="P:Gbxx.BackStage.Requests.Items.SystemUsersRequest.UsersId">
+            <summary>
+            用户编号
+            </summary>
+        </member>
+        <member name="P:Gbxx.BackStage.Requests.Items.SystemUsersRequest.UsersName">
+            <summary>
+            真实名
+            </summary>
+        </member>
+        <member name="P:Gbxx.BackStage.Requests.Items.SystemUsersRequest.LoginName">
+            <summary>
+            登录名
+            </summary>
+        </member>
+        <member name="P:Gbxx.BackStage.Requests.Items.SystemUsersRequest.Password">
+            <summary>
+            登录密码
+            </summary>
+        </member>
+        <member name="P:Gbxx.BackStage.Requests.Items.SystemUsersRequest.MobilePhone">
+            <summary>
+            移动电话
+            </summary>
+        </member>
+        <member name="P:Gbxx.BackStage.Requests.Items.SystemUsersRequest.Email">
+            <summary>
+            Email
+            </summary>
+        </member>
+        <member name="P:Gbxx.BackStage.Requests.Items.SystemUsersRequest.LoginIp">
+            <summary>
+            登录IP
+            </summary>
+        </member>
+        <member name="P:Gbxx.BackStage.Requests.Items.SystemUsersRequest.LoginTime">
+            <summary>
+            登录时间
+            </summary>
+        </member>
+        <member name="P:Gbxx.BackStage.Requests.Items.SystemUsersRequest.IsEnable">
+            <summary>
+            是否启用
+            </summary>
+        </member>
+        <member name="P:Gbxx.BackStage.Requests.Items.SystemUsersRequest.Remarks">
+            <summary>
+            备注/自定义描述
+            </summary>
+        </member>
+        <member name="T:Gbxx.BackStage.Requests.Query.SystemUsersQuery">
+            <summary>
+            系统用户查询实体
+            </summary>
+        </member>
+        <member name="P:Gbxx.BackStage.Requests.Query.SystemUsersQuery.UserName">
+            <summary>
+            真实姓名
+            </summary>
+        </member>
+        <member name="P:Gbxx.BackStage.Requests.Query.SystemUsersQuery.LoginName">
+            <summary>
+            登录名
+            </summary>
+        </member>
+        <member name="P:Gbxx.BackStage.Requests.Query.SystemUsersQuery.IsEnable">
+            <summary>
+            是否启用
+            </summary>
+        </member>
+        <member name="P:Gbxx.BackStage.Requests.Query.SystemUsersQuery.MobilePhone">
+            <summary>
+            手机号
+            </summary>
+        </member>
+        <member name="P:Gbxx.BackStage.Requests.Query.SystemUsersQuery.Email">
+            <summary>
+            Email
+            </summary>
         </member>
     </members>
 </doc>

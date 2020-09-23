@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace Auto.EFCore.Entities
 {
     public partial class WebSensitive
-        : IBaseEntity
+        : EntityBase
     {
         public WebSensitive()
         {
@@ -27,7 +27,7 @@ namespace Auto.EFCore.Entities
 
         public string Urls { get; set; }
 
-        public Byte[] Timestamp { get; set; }
+        public Byte[] RowVers { get; set; }
 
         public int? IsEnable { get; set; }
 

@@ -4,8 +4,7 @@ using System.Collections.Generic;
 namespace Auto.EFCore.Entities
 {
     public partial class SystemDictionary
-        : EntityBase
-    {
+        : IEntity {
         public SystemDictionary()
         {
             #region Generated Constructor

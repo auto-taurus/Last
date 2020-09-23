@@ -10,6 +10,7 @@ namespace Auto.EFCore.Validator
         public WebNewsCreateModelValidator()
         {
             #region Generated Constructor
+            RuleFor(p => p.SpecialCode).MaximumLength(10);
             RuleFor(p => p.CategoryName).MaximumLength(50);
             RuleFor(p => p.NewsTitle).MaximumLength(500);
             RuleFor(p => p.CustomTitle).MaximumLength(500);

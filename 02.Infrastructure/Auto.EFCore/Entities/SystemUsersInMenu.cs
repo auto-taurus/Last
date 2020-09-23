@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace Auto.EFCore.Entities
 {
     public partial class SystemUsersInMenu
-        : EntityBase
+        : IEntity
     {
         public SystemUsersInMenu()
         {
@@ -13,6 +13,7 @@ namespace Auto.EFCore.Entities
         }
 
         #region Generated Properties
+        public int Id { get; set; }
         public int? UserId { get; set; }
 
         public int? MenuId { get; set; }
@@ -22,7 +23,7 @@ namespace Auto.EFCore.Entities
         #region Generated Relationships
         public virtual SystemMenu SystemMenu { get; set; }
 
-        public virtual SystemUsers UserSystemUsers { get; set; }
+        public virtual SystemUsers SystemUsers { get; set; }
 
         #endregion
 

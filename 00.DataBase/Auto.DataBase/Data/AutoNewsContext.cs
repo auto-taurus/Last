@@ -30,7 +30,7 @@ namespace Company.AutoNews.Data
 
         public virtual DbSet<Auto.EFCore.Entities.SystemMenu> SystemMenus { get; set; }
 
-        public virtual DbSet<Auto.EFCore.Entities.SystemRoleInDictionary> SystemRoleInDictionaries { get; set; }
+        public virtual DbSet<Auto.EFCore.Entities.SystemRoleDictionary> SystemRoleDictionaries { get; set; }
 
         public virtual DbSet<Auto.EFCore.Entities.SystemRoleInMenu> SystemRoleInMenus { get; set; }
 
@@ -38,7 +38,7 @@ namespace Company.AutoNews.Data
 
         public virtual DbSet<Auto.EFCore.Entities.SystemUsers> SystemUsers { get; set; }
 
-        public virtual DbSet<Auto.EFCore.Entities.SystemUsersInDictionary> SystemUsersInDictionaries { get; set; }
+        public virtual DbSet<Auto.EFCore.Entities.SystemUsersDictionary> SystemUsersDictionaries { get; set; }
 
         public virtual DbSet<Auto.EFCore.Entities.SystemUsersInMenu> SystemUsersInMenus { get; set; }
 
@@ -76,10 +76,10 @@ namespace Company.AutoNews.Data
             modelBuilder.ApplyConfiguration(new Company.AutoNews.Data.Mapping.SystemDictionaryMap());
             modelBuilder.ApplyConfiguration(new Company.AutoNews.Data.Mapping.SystemLogsMap());
             modelBuilder.ApplyConfiguration(new Company.AutoNews.Data.Mapping.SystemMenuMap());
-            modelBuilder.ApplyConfiguration(new Company.AutoNews.Data.Mapping.SystemRoleInDictionaryMap());
+            modelBuilder.ApplyConfiguration(new Company.AutoNews.Data.Mapping.SystemRoleDictionaryMap());
             modelBuilder.ApplyConfiguration(new Company.AutoNews.Data.Mapping.SystemRoleInMenuMap());
             modelBuilder.ApplyConfiguration(new Company.AutoNews.Data.Mapping.SystemRoleMap());
-            modelBuilder.ApplyConfiguration(new Company.AutoNews.Data.Mapping.SystemUsersInDictionaryMap());
+            modelBuilder.ApplyConfiguration(new Company.AutoNews.Data.Mapping.SystemUsersDictionaryMap());
             modelBuilder.ApplyConfiguration(new Company.AutoNews.Data.Mapping.SystemUsersInMenuMap());
             modelBuilder.ApplyConfiguration(new Company.AutoNews.Data.Mapping.SystemUsersInRoleMap());
             modelBuilder.ApplyConfiguration(new Company.AutoNews.Data.Mapping.SystemUsersMap());

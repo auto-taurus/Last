@@ -9,7 +9,9 @@ namespace Company.AutoNews.Domain.Models
         #region Generated Properties
         public int NewsId { get; set; }
 
-        public int? SiteId { get; set; }
+        public int? SiteNo { get; set; }
+
+        public string SpecialCode { get; set; }
 
         public int? CategoryId { get; set; }
 
@@ -75,7 +77,7 @@ namespace Company.AutoNews.Domain.Models
 
         public int? IsEnable { get; set; }
 
-        public Byte[] Timestamp { get; set; }
+        public Byte[] RowVers { get; set; }
 
         public string Remarks { get; set; }
 

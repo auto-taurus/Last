@@ -10,7 +10,6 @@ namespace Auto.EFCore.Validator
         public WebSpecialUpdateModelValidator()
         {
             #region Generated Constructor
-            RuleFor(p => p.SpecialCode).NotEmpty();
             RuleFor(p => p.SpecialCode).MaximumLength(10);
             RuleFor(p => p.Name).MaximumLength(50);
             RuleFor(p => p.Remarks).MaximumLength(255);

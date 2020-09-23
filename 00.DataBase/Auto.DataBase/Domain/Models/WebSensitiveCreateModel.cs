@@ -21,7 +21,7 @@ namespace Company.AutoNews.Domain.Models
 
         public string Urls { get; set; }
 
-        public Byte[] Timestamp { get; set; }
+        public Byte[] RowVers { get; set; }
 
         public int? IsEnable { get; set; }
 

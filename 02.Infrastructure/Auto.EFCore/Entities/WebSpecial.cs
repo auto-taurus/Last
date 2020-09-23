@@ -22,20 +22,14 @@ namespace Auto.EFCore.Entities
         public string Name { get; set; }
 
         public int? DisplayType { get; set; }
+        
+        public Byte[] RowVers { get; set; }
 
-        public int? IsEnable { get; set; }
-
-        public Byte[] Timestamp { get; set; }
-
-        public string Remarks { get; set; }
-
-        public int? CreateBy { get; set; }
-
-        public DateTime? CreateTime { get; set; }
 
         #endregion
 
         #region Generated Relationships
+
         #endregion
 
     }

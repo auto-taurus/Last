@@ -1,13 +1,10 @@
 using System;
 using System.Collections.Generic;
 
-namespace Auto.EFCore.Entities
-{
+namespace Auto.EFCore.Entities {
     public partial class WebNews
-        : EntityBase
-    {
-        public WebNews()
-        {
+        : EntityBase {
+        public WebNews() {
             #region Generated Constructor
             WebNewsOperateLogs = new HashSet<WebNewsOperateLogs>();
             #endregion
@@ -16,7 +13,9 @@ namespace Auto.EFCore.Entities
         #region Generated Properties
         public int NewsId { get; set; }
 
-        public int? SiteId { get; set; }
+        public int? SiteNo { get; set; }
+
+        public string SpecialCode { get; set; }
 
         public int? CategoryId { get; set; }
 
@@ -80,15 +79,7 @@ namespace Auto.EFCore.Entities
 
         public int? Sequence { get; set; }
 
-        public int? IsEnable { get; set; }
-
-        public Byte[] Timestamp { get; set; }
-
-        public string Remarks { get; set; }
-
-        public int? CreateBy { get; set; }
-
-        public DateTime? CreateTime { get; set; }
+        public Byte[] RowVers { get; set; }
 
         #endregion
 

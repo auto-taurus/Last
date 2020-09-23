@@ -1,12 +1,13 @@
 ﻿using System;
 using CatFactory.AspNetCore;
+using CatFactory.CodeFactory;
 using CatFactory.EfCore;
 using CatFactory.SqlServer;
 
 namespace Auto.Test {
     class Program {
         static void Main(string[] args) {
-            B();
+            A();
         }
         static void A() {
             // Import database
@@ -45,9 +46,11 @@ namespace Auto.Test {
 
             var aspNetCoreProject = entityFrameworkProject
                 .CreateAspNetCoreProject("Northwind.WebAPI", @"./", entityFrameworkProject.Database);
-
-            aspNetCoreProject.GlobalSelection(settings => settings.ForceOverwrite = true);
-
+            aspNetCoreProject.GlobalSelection(settings => {
+                settings.ForceOverwrite = true;
+            });
+            var se = new ProjectFeature<AspNetCoreProjectSettings>();
+            aspNetCoreProject.AddFeature(se);
             aspNetCoreProject.ScaffoldAspNetCore();
 
         }
@@ -68,7 +71,6 @@ namespace Auto.Test {
             entityFrameworkProject.GlobalSelection(settings => {
                 settings.ForceOverwrite = true;
                 settings.ConcurrencyToken = "Timestamp";
-                settings.ConcurrencyToken = "123";
                 settings.Validate();
                 settings.EnableDataBindings = true;
                 settings.AuditEntity = new AuditEntity {

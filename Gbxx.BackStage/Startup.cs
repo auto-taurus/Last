@@ -1,19 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Auto.EFCore;
+﻿using Auto.EFCore;
+using Auto.EFCore.Configurations.Maps;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using Gbxx.BackStage.Configure.Ioc;
 using Gbxx.BackStage.Configure.Swagger;
+using Gbxx.BackStage.Requests.Items.Validators;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Newtonsoft.Json.Serialization;
 
 namespace Gbxx.BackStage {
@@ -34,6 +31,7 @@ namespace Gbxx.BackStage {
             ServiceConfigure.Configure(services);
             SwaggerConfigure.Configure(services);
 
+
             services.AddMvc()
                     .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
                     .AddJsonOptions(options => {
@@ -41,6 +39,10 @@ namespace Gbxx.BackStage {
                         options.SerializerSettings.ContractResolver = new DefaultContractResolver();
                         options.SerializerSettings.DateFormatHandling = Newtonsoft.Json.DateFormatHandling.MicrosoftDateFormat;
                         options.SerializerSettings.DateFormatString = "yyyy-MM-dd HH:mm:ss";
+                    }).AddFluentValidation(x => {
+                        x.RegisterValidatorsFromAssemblyContaining<PostSystemUsersValidator>();
+                        x.RunDefaultMvcValidationAfterFluentValidationExecutes = false;
+                        x.ValidatorOptions.CascadeMode = CascadeMode.Stop;
                     });
             // 配置EF连接字符串
             services.AddDbContextPool<AutoNewsContext>(x => {
@@ -53,6 +55,7 @@ namespace Gbxx.BackStage {
             .AddOptions();
             // 配置信息注入
             services.AddSingleton(Configuration);
+            services.AddSingleton<IEntityMapper, AutoNewsEntityMapper>();
             //独立发布跨域
             services.AddCors(options =>
                              options.AddPolicy(Any, builder =>
@@ -89,7 +92,16 @@ namespace Gbxx.BackStage {
 
             app.UseStaticFiles();
             app.UseHttpsRedirection();
-            app.UseMvc();
+            //app.UseMvc(routes => {
+            //    routes.MapRoute(
+            //      name: "areas",
+            //      template: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
+            //    );
+            //    routes.MapRoute(
+            //      name: "default",
+            //      template: "{controller=Home}/{action=Index}/{id?}"
+            //    );
+            //});
         }
     }
 }

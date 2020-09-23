@@ -9,10 +9,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Folder Include="Areas\v1\Data\" />
+    <Folder Include="Areas\v1\Models\" />
+    <Folder Include="Areas\v1\Views\" />
     <Folder Include="wwwroot\" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="FluentValidation.AspNetCore" Version="9.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.2" PrivateAssets="All" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.9" />

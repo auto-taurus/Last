@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.1145
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gbxx.Web", "Gbxx.Web\Gbxx.Web.csproj", "{63CBAFF2-A409-48F8-A804-D0DD0CE990F8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gbxx.Web", "Gbxx.Web\Gbxx.Web.csproj", "{63CBAFF2-A409-48F8-A804-D0DD0CE990F8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gbxx.BackStage", "Gbxx.BackStage\Gbxx.BackStage.csproj", "{B079F7FA-17E2-43A8-BED4-24AE6F1F03DF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gbxx.BackStage", "Gbxx.BackStage\Gbxx.BackStage.csproj", "{B079F7FA-17E2-43A8-BED4-24AE6F1F03DF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gbxx.WebApi", "Gbxx.WebApi\Gbxx.WebApi.csproj", "{9544C477-F323-4141-A965-5FEDCF59E797}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gbxx.WebApi", "Gbxx.WebApi\Gbxx.WebApi.csproj", "{9544C477-F323-4141-A965-5FEDCF59E797}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gbxx.Gather", "Gbxx.Gather\Gbxx.Gather.csproj", "{AD547570-0132-4FE4-9A6C-AD6667A22851}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gbxx.Gather", "Gbxx.Gather\Gbxx.Gather.csproj", "{AD547570-0132-4FE4-9A6C-AD6667A22851}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01.Libraries", "01.Libraries", "{4437A689-1E9A-477A-B51B-D117557689E8}"
 EndProject
@@ -19,19 +19,21 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "03.Services", "03.Services"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "04.Applications", "04.Applications", "{E61F9500-95D2-4180-8F87-F175550194A9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Auto.EFCore", "02.Infrastructure\Auto.EFCore\Auto.EFCore.csproj", "{07A523D0-F4E8-4862-A451-E77BF4B40949}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Auto.EFCore", "02.Infrastructure\Auto.EFCore\Auto.EFCore.csproj", "{07A523D0-F4E8-4862-A451-E77BF4B40949}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "00.DataBase", "00.DataBase", "{07400EF2-4B3A-45DF-AA1E-3EF45FD4322D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Auto.Applications", "04.Applications\Auto.Applications\Auto.Applications.csproj", "{6D4EBF45-A803-484F-8908-26D54352EA05}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Auto.Applications", "04.Applications\Auto.Applications\Auto.Applications.csproj", "{6D4EBF45-A803-484F-8908-26D54352EA05}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Auto.RedisServices", "03.Services\Auto.RedisServices\Auto.RedisServices.csproj", "{70D6B2F6-15B7-4100-B81A-E38950F2FA33}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Auto.RedisServices", "03.Services\Auto.RedisServices\Auto.RedisServices.csproj", "{70D6B2F6-15B7-4100-B81A-E38950F2FA33}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Auto.ElasticServices", "03.Services\Auto.ElasticServices\Auto.ElasticServices.csproj", "{541D495A-147C-4B7E-9069-117AE0C2862E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Auto.ElasticServices", "03.Services\Auto.ElasticServices\Auto.ElasticServices.csproj", "{541D495A-147C-4B7E-9069-117AE0C2862E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Auto.DataServices", "03.Services\Auto.DataServices\Auto.DataServices.csproj", "{89407A78-63D4-4AEA-B1DB-429D1C797703}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Auto.DataServices", "03.Services\Auto.DataServices\Auto.DataServices.csproj", "{89407A78-63D4-4AEA-B1DB-429D1C797703}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Auto.Commons", "02.Infrastructure\Auto.Commons\Auto.Commons.csproj", "{2379E8C3-41A1-4566-B4BA-ED752F96B29B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Auto.Commons", "02.Infrastructure\Auto.Commons\Auto.Commons.csproj", "{2379E8C3-41A1-4566-B4BA-ED752F96B29B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Auto.Dto", "02.Infrastructure\Auto.Dto\Auto.Dto.csproj", "{CF355AFF-AE9B-4431-B03D-CED256EBC09C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -79,6 +81,10 @@ Global
 		{2379E8C3-41A1-4566-B4BA-ED752F96B29B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2379E8C3-41A1-4566-B4BA-ED752F96B29B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2379E8C3-41A1-4566-B4BA-ED752F96B29B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CF355AFF-AE9B-4431-B03D-CED256EBC09C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CF355AFF-AE9B-4431-B03D-CED256EBC09C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CF355AFF-AE9B-4431-B03D-CED256EBC09C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CF355AFF-AE9B-4431-B03D-CED256EBC09C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -90,6 +96,7 @@ Global
 		{541D495A-147C-4B7E-9069-117AE0C2862E} = {794F7652-6956-4A9F-B557-7F250CB85B54}
 		{89407A78-63D4-4AEA-B1DB-429D1C797703} = {794F7652-6956-4A9F-B557-7F250CB85B54}
 		{2379E8C3-41A1-4566-B4BA-ED752F96B29B} = {875B95E7-D386-48E4-9A41-2FD0CDC3A9EC}
+		{CF355AFF-AE9B-4431-B03D-CED256EBC09C} = {875B95E7-D386-48E4-9A41-2FD0CDC3A9EC}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {410C7B5D-27A7-4276-BAF0-95468BFF4370}

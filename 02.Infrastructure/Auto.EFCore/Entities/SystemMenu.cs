@@ -1,16 +1,13 @@
 using System;
 using System.Collections.Generic;
 
-namespace Auto.EFCore.Entities
-{
+namespace Auto.EFCore.Entities {
     public partial class SystemMenu
-        : EntityBase
-    {
-        public SystemMenu()
-        {
+        : EntityBase {
+        public SystemMenu() {
             #region Generated Constructor
-            SystemRoleInMenus = new HashSet<SystemRoleInMenu>();
-            SystemUsersInMenus = new HashSet<SystemUsersInMenu>();
+            SystemRoles = new HashSet<SystemRoleInMenu>();
+            SystemUsers = new HashSet<SystemUsersInMenu>();
             #endregion
         }
 
@@ -55,22 +52,14 @@ namespace Auto.EFCore.Entities
 
         public int? Sequence { get; set; }
 
-        public int? IsEnable { get; set; }
-
-        public Byte[] Timestamp { get; set; }
-
-        public string Remarks { get; set; }
-
-        public int? CreateBy { get; set; }
-
-        public DateTime? CreateTime { get; set; }
+        public Byte[] RowVers { get; set; }
 
         #endregion
 
         #region Generated Relationships
-        public virtual ICollection<SystemRoleInMenu> SystemRoleInMenus { get; set; }
+        public virtual ICollection<SystemRoleInMenu> SystemRoles { get; set; }
 
-        public virtual ICollection<SystemUsersInMenu> SystemUsersInMenus { get; set; }
+        public virtual ICollection<SystemUsersInMenu> SystemUsers { get; set; }
 
         #endregion
 
