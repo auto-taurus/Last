@@ -41,6 +41,7 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                 entityWebSite.SiteId = 1;
                 response.Data = entityWebSite;
                 response.Code = true;
+                await Task.Run(() => entityWebSite = new SiteDto());
             }
             catch (Exception ex) {
                 response.SetError(ex, this._ILogger);
