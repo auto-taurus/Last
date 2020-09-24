@@ -1,7 +1,6 @@
 ﻿using Auto.Commons.ApiHandles.Responses;
+using Gbxx.WebApi.Areas.v1.Data;
 using Gbxx.WebApi.Requests;
-using Gbxx.WebApi.Requests.Query;
-using Gbxx.WebApi.Responses;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Swashbuckle.AspNetCore.Annotations;
@@ -31,7 +30,7 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
         /// <returns></returns>
         [SwaggerResponse(200, "", typeof(List<NewsListResponse>))]
         [HttpGet("{code}/News")]
-        public async Task<IActionResult> GetCodeNewsAsync(string mark, string code, [FromQuery]QueryPager args) {
+        public async Task<IActionResult> GetCodeNewsAsync(string mark, string code, [FromQuery]GetPager args) {
             var response = new Response<List<NewsListResponse>>();
             try {
 

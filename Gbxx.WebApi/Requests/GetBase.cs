@@ -7,7 +7,7 @@ namespace Gbxx.WebApi.Requests {
     /// <summary>
     /// 基础信息
     /// </summary>
-    public class QueryBase {
+    public class GetBase {
         /// <summary>
         /// 来源ip
         /// </summary>

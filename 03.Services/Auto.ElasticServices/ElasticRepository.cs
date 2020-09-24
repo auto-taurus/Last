@@ -61,7 +61,7 @@ namespace Auto.ElasticServices {
         /// <returns></returns>
         public async Task<List<TEntity>> SearchAsync(string indexName, Func<QueryContainerDescriptor<TEntity>, QueryContainer> selector = null) {
 
-            var list = await EsLinqClient.SearchAsync<TEntity>(option => option.Index(indexName.ToLower()).SearchType(SearchType.QueryThenFetch).Query(selector).Scroll());
+            var list = await EsLinqClient.SearchAsync<TEntity>(option => option.Index(indexName.ToLower()).SearchType(SearchType.QueryThenFetch).Query(selector));
             return list.Documents.ToList();
         }
         /// <summary>

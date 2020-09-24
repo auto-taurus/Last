@@ -7,11 +7,11 @@ namespace Gbxx.WebApi.Requests {
     /// <summary>
     /// 查询分页
     /// </summary>
-    public class QueryPager : QueryBase {
+    public class GetPager : GetBase {
         /// <summary>
         /// 查询分页
         /// </summary>
-        public QueryPager() {
+        public GetPager() {
             this.PageIndex = 1;
             this.PageSize = 10;
         }

@@ -1,15 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Auto.Commons.ApiHandles.Responses;
+﻿using Auto.Commons.ApiHandles.Responses;
+using Gbxx.WebApi.Areas.v1.Data;
+using Gbxx.WebApi.Areas.v1.Models.Get;
 using Gbxx.WebApi.Requests;
-using Gbxx.WebApi.Requests.Query;
-using Gbxx.WebApi.Responses;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Swashbuckle.AspNetCore.Annotations;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Gbxx.WebApi.Areas.v1.Controllers {
     /// <summary>
@@ -33,7 +31,7 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
         /// <returns></returns>
         [HttpGet("{id}")]
         [SwaggerResponse(200, "", typeof(NewsResponse))]
-        public async Task<IActionResult> GetNewsAsync(string mark, string id, [FromQuery]QueryBase args) {
+        public async Task<IActionResult> GetNewsAsync(string mark, string id, [FromQuery]GetBase args) {
             var response = new Response<NewsResponse>();
             try {
 
@@ -52,7 +50,7 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
         /// <returns></returns>
         [HttpGet("Carousel")]
         [SwaggerResponse(200, "", typeof(List<NewsListResponse>))]
-        public async Task<IActionResult> GetNewsCarouselAsync(string mark, [FromQuery]QueryPager args) {
+        public async Task<IActionResult> GetNewsCarouselAsync(string mark, [FromQuery]GetPager args) {
             var response = new Response<List<NewsListResponse>>();
             try {
 
@@ -71,7 +69,7 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
         /// <returns></returns>
         [HttpGet("Big")]
         [SwaggerResponse(200, "", typeof(NewsListResponse))]
-        public async Task<IActionResult> GetNewsBigAsync(string mark, [FromQuery]QueryBase args) {
+        public async Task<IActionResult> GetNewsBigAsync(string mark, [FromQuery]GetBase args) {
             var response = new Response<NewsListResponse>();
             try {
 
@@ -90,7 +88,7 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
         /// <param name="args"></param>
         /// <returns></returns>
         [HttpGet("{id}/Access")]
-        public async Task<IActionResult> GetNewsAccessAsync(string mark, string id, [FromQuery]QueryBase args) {
+        public async Task<IActionResult> GetNewsAccessAsync(string mark, string id, [FromQuery]GetBase args) {
             var response = new Response<Object>();
             try {
 
@@ -109,7 +107,7 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
         /// <param name="args"></param>
         /// <returns></returns>
         [HttpGet("{id}/Click")]
-        public async Task<IActionResult> GetNewsClickAsync(string mark, string id, [FromQuery]QueryBase args) {
+        public async Task<IActionResult> GetNewsClickAsync(string mark, string id, [FromQuery]GetBase args) {
             var response = new Response<Object>();
             try {
 
@@ -128,7 +126,7 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
         /// <returns></returns>
         [SwaggerResponse(200, "", typeof(List<NewsListResponse>))]
         [HttpGet("Tag")]
-        public async Task<IActionResult> GetNewsSearchAsync(string mark, [FromQuery]NewsSearchQuery args) {
+        public async Task<IActionResult> GetNewsSearchAsync(string mark, [FromQuery]GetNewsSearch args) {
             var response = new Response<List<NewsListResponse>>();
             try {
 
@@ -146,7 +144,7 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
         /// <returns></returns>
         [SwaggerResponse(200, "", typeof(List<NewsListResponse>))]
         [HttpGet("Hot")]
-        public async Task<IActionResult> GetNewsHotAsync(string mark, [FromQuery]NewsHotQuery args) {
+        public async Task<IActionResult> GetNewsHotAsync(string mark, [FromQuery]GetNewsHot args) {
             var response = new Response<List<NewsListResponse>>();
             try {
 

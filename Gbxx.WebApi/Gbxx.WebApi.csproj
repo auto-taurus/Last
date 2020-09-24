@@ -9,10 +9,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Areas\v1\Data\" />
-    <Folder Include="Areas\v1\Models\" />
     <Folder Include="Areas\v1\Views\" />
-    <Folder Include="wwwroot\" />
+    <Folder Include="Areas\v1\Models\Post\" />
+    <Folder Include="Areas\v1\Models\Put\" />
+    <Folder Include="Areas\v1\Models\Delete\" />
   </ItemGroup>
 
   <ItemGroup>
