@@ -60,7 +60,7 @@ namespace Auto.DataServices {
         /// <param name="expression"></param>
         /// <param name="isDesc"></param>
         /// <returns></returns>
-        public virtual async Task<IList<TEntity>> Query<TSort>(Expression<Func<TEntity, bool>> predicate, Expression<Func<TEntity, TSort>> expression, bool isDesc = false) {
+        public virtual async Task<IList<TEntity>> Query<TSort>(Expression<Func<TEntity, bool>> predicate, Expression<Func<TEntity, TSort>> expression, bool isDesc = false) where TSort : class {
             var query = this.Query().Where(predicate);
             if (isDesc)
                 query = query.OrderByDescending<TEntity, TSort>(expression);
@@ -78,7 +78,7 @@ namespace Auto.DataServices {
         /// <param name="pageIndex">当前页</param>
         /// <param name="pageSize">页大小</param>
         /// <returns></returns>
-        public virtual async Task<Tuple<int, IList<TEntity>>> QueryPager<TSort>(Expression<Func<TEntity, bool>> predicate, Expression<Func<TEntity, TSort>> expression, bool isDesc = false, int pageIndex = 1, int pageSize = 10) {
+        public virtual async Task<Tuple<int, IList<TEntity>>> QueryPager<TSort>(Expression<Func<TEntity, bool>> predicate, Expression<Func<TEntity, TSort>> expression, bool isDesc = false, int pageIndex = 1, int pageSize = 10) where TSort : class {
             var query = this.Query().Where(predicate);
             var count = await query.CountAsync();
             if (isDesc)

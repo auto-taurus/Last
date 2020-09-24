@@ -6,6 +6,5 @@ using System.Text;
 
 namespace Auto.DataServices.Contracts {
     public interface ISystemUsersRepository : IRepository<SystemUsers>, ISingletonInject {
-        //AddRolesAsync(IList<>)
     }
 }

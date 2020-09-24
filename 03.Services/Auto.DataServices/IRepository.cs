@@ -42,7 +42,7 @@ namespace Auto.DataServices {
         /// <param name="expression"></param>
         /// <param name="isDesc"></param>
         /// <returns></returns>
-        Task<IList<TEntity>> Query<TSort>(Expression<Func<TEntity, bool>> predicate, Expression<Func<TEntity, TSort>> expression, bool isDesc = false);
+        Task<IList<TEntity>> Query<TSort>(Expression<Func<TEntity, bool>> predicate, Expression<Func<TEntity, TSort>> expression, bool isDesc = false) where TSort : class;
         /// <summary>
         /// 查询分页排序
         /// </summary>
@@ -53,7 +53,7 @@ namespace Auto.DataServices {
         /// <param name="pageIndex">当前页</param>
         /// <param name="pageSize">页大小</param>
         /// <returns></returns>
-        Task<Tuple<int, IList<TEntity>>> QueryPager<TSort>(Expression<Func<TEntity, bool>> predicate, Expression<Func<TEntity, TSort>> expression, bool isDesc = false, int pageIndex = 1, int pageSize = 10);
+        Task<Tuple<int, IList<TEntity>>> QueryPager<TSort>(Expression<Func<TEntity, bool>> predicate, Expression<Func<TEntity, TSort>> expression, bool isDesc = false, int pageIndex = 1, int pageSize = 10) where TSort : class;
         /// <summary>
         /// 单个实体添加，需调用CommitChanges获CommitChangesAsync保存
         /// </summary>

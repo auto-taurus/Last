@@ -5,12 +5,12 @@ using System.Threading.Tasks;
 
 namespace Gbxx.WebApi.Requests.Query {
     /// <summary>
-    /// 新闻检索
+    /// 热门查询
     /// </summary>
-    public class NewsSearchQuery : QueryPager {
+    public class NewsHotQuery : QueryPager {
         /// <summary>
-        /// 标题
+        /// 天数
         /// </summary>
-        public string Title { get; set; }
+        public int? Days { get; set; }
     }
 }

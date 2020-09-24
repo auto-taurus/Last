@@ -3,10 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Auto.Commons.ApiHandles.Responses;
+using Gbxx.WebApi.Requests;
 using Gbxx.WebApi.Requests.Query;
+using Gbxx.WebApi.Responses;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace Gbxx.WebApi.Areas.v1.Controllers {
     /// <summary>
@@ -26,10 +29,12 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
         /// </summary>
         /// <param name="mark"></param>
         /// <param name="id"></param>
+        /// <param name="args"></param>
         /// <returns></returns>
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetNewsAsync(string mark, string id) {
-            var response = new Response<Object>();
+        [SwaggerResponse(200, "", typeof(NewsResponse))]
+        public async Task<IActionResult> GetNewsAsync(string mark, string id, [FromQuery]QueryBase args) {
+            var response = new Response<NewsResponse>();
             try {
 
 
@@ -43,11 +48,12 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
         /// 新闻首页轮播列表
         /// </summary>
         /// <param name="mark"></param>
-        /// <param name="id"></param>
+        /// <param name="args"></param>
         /// <returns></returns>
         [HttpGet("Carousel")]
-        public async Task<IActionResult> GetNewsCarouselAsync(string mark) {
-            var response = new Response<Object>();
+        [SwaggerResponse(200, "", typeof(List<NewsListResponse>))]
+        public async Task<IActionResult> GetNewsCarouselAsync(string mark, [FromQuery]QueryPager args) {
+            var response = new Response<List<NewsListResponse>>();
             try {
 
 
@@ -61,11 +67,12 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
         /// 新闻首页大标信息
         /// </summary>
         /// <param name="mark"></param>
-        /// <param name="id"></param>
+        /// <param name="args"></param>
         /// <returns></returns>
         [HttpGet("Big")]
-        public async Task<IActionResult> GetNewsBigAsync(string mark) {
-            var response = new Response<Object>();
+        [SwaggerResponse(200, "", typeof(NewsListResponse))]
+        public async Task<IActionResult> GetNewsBigAsync(string mark, [FromQuery]QueryBase args) {
+            var response = new Response<NewsListResponse>();
             try {
 
 
@@ -80,9 +87,10 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
         /// </summary>
         /// <param name="mark">站点标识</param>
         /// <param name="id">文章编号</param>
+        /// <param name="args"></param>
         /// <returns></returns>
         [HttpGet("{id}/Access")]
-        public async Task<IActionResult> GetNewsAccessAsync(string mark, string id) {
+        public async Task<IActionResult> GetNewsAccessAsync(string mark, string id, [FromQuery]QueryBase args) {
             var response = new Response<Object>();
             try {
 
@@ -98,9 +106,10 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
         /// </summary>
         /// <param name="mark">站点标识</param>
         /// <param name="id">文章编号</param>
+        /// <param name="args"></param>
         /// <returns></returns>
         [HttpGet("{id}/Click")]
-        public async Task<IActionResult> GetNewsClickAsync(string mark, string id) {
+        public async Task<IActionResult> GetNewsClickAsync(string mark, string id, [FromQuery]QueryBase args) {
             var response = new Response<Object>();
             try {
 
@@ -115,13 +124,31 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
         /// 新闻信息检索
         /// </summary>
         /// <param name="mark">站点标识</param>
-        /// <param name="item">过滤信息</param>
+        /// <param name="args"></param>
         /// <returns></returns>
-        [HttpPost]
-        public async Task<IActionResult> PostNewsSearchAsync(string mark, [FromBody] NewsSearchQuery item) {
-            var response = new Response<Object>();
+        [SwaggerResponse(200, "", typeof(List<NewsListResponse>))]
+        [HttpGet("Tag")]
+        public async Task<IActionResult> GetNewsSearchAsync(string mark, [FromQuery]NewsSearchQuery args) {
+            var response = new Response<List<NewsListResponse>>();
             try {
 
+            }
+            catch (Exception ex) {
+                response.SetError(ex, this._ILogger);
+            }
+            return response.ToHttpResponse();
+        }
+        /// <summary>
+        /// 文章热门访问
+        /// </summary>
+        /// <param name="mark">站点标识</param>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        [SwaggerResponse(200, "", typeof(List<NewsListResponse>))]
+        [HttpGet("Hot")]
+        public async Task<IActionResult> GetNewsHotAsync(string mark, [FromQuery]NewsHotQuery args) {
+            var response = new Response<List<NewsListResponse>>();
+            try {
 
             }
             catch (Exception ex) {

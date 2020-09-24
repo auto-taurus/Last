@@ -1,11 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Auto.Commons.ApiHandles.Responses;
-using Microsoft.AspNetCore.Http;
+﻿using Auto.Commons.ApiHandles.Responses;
+using Gbxx.WebApi.Requests;
+using Gbxx.WebApi.Requests.Query;
+using Gbxx.WebApi.Responses;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Swashbuckle.AspNetCore.Annotations;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Gbxx.WebApi.Areas.v1.Controllers {
     /// <summary>
@@ -25,14 +27,13 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
         /// </summary>
         /// <param name="mark">站点标识</param>
         /// <param name="code">专栏code</param>
-        /// <param name="pageIndex">当前页</param>
-        /// <param name="pageSize">页大小</param>
+        /// <param name="args">查询字段</param>
         /// <returns></returns>
+        [SwaggerResponse(200, "", typeof(List<NewsListResponse>))]
         [HttpGet("{code}/News")]
-        public async Task<IActionResult> GetCodeNewsAsync(string mark, string code, int pageIndex = 1, int pageSize = 7) {
-            var response = new Response<Object>();
+        public async Task<IActionResult> GetCodeNewsAsync(string mark, string code, [FromQuery]QueryPager args) {
+            var response = new Response<List<NewsListResponse>>();
             try {
-
 
             }
             catch (Exception ex) {

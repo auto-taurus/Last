@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Auto.Commons.ApiHandles.Responses;
+using Gbxx.WebApi.Requests;
+using Gbxx.WebApi.Responses;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace Gbxx.WebApi.Areas.v1.Controllers {
     /// <summary>
@@ -21,14 +24,15 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
             this._ILogger = logger;
         }
         /// <summary>
-        /// 分类信息
+        /// 分类列表
         /// </summary>
         /// <param name="mark">站点标识</param>
-        /// <param name="id">分类编号</param>
+        /// <param name="args"></param>
         /// <returns></returns>
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetCategoryAsync(string mark, string id) {
-            var response = new Response<Object>();
+        [SwaggerResponse(200, "", typeof(List<CategoryResponse>))]
+        [HttpGet]
+        public async Task<IActionResult> GetCategoriesAsync(string mark, [FromQuery]QueryBase args) {
+            var response = new Response<List<CategoryResponse>>();
             try {
 
 
@@ -39,13 +43,16 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
             return response.ToHttpResponse();
         }
         /// <summary>
-        /// 分类列表
+        /// 分类信息
         /// </summary>
         /// <param name="mark">站点标识</param>
+        /// <param name="id">分类编号</param>
+        /// <param name="args"></param>
         /// <returns></returns>
-        [HttpGet]
-        public async Task<IActionResult> GetCategoriesAsync(string mark) {
-            var response = new Response<Object>();
+        [SwaggerResponse(200, "", typeof(CategoryResponse))]
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetCategoryAsync(string mark, string id, [FromQuery]QueryBase args) {
+            var response = new Response<CategoryResponse>();
             try {
 
 
@@ -60,14 +67,13 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
         /// </summary>
         /// <param name="mark">站点标识</param>
         /// <param name="id">新闻编号</param>
-        /// <param name="pageIndex">当前页</param>
-        /// <param name="pageSize">页大小</param>
+        /// <param name="args"></param>
         /// <returns></returns>
+        [SwaggerResponse(200, "", typeof(List<NewsListResponse>))]
         [HttpGet("{id}/News")]
-        public async Task<IActionResult> GetCategoryNewsAsync(string mark, string id, int pageIndex = 1, int pageSize = 10) {
+        public async Task<IActionResult> GetCategoryNewsAsync(string mark, string id, [FromQuery]QueryPager args) {
             var response = new Response<Object>();
             try {
-
 
             }
             catch (Exception ex) {
