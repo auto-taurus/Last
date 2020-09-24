@@ -45,7 +45,7 @@ namespace Auto.ElasticServices {
                 resStr = await EsJsonClient.Indices.ExistsAsync<StringResponse>(index);
                 if (resStr.HttpStatusCode == 200) {
                     flag = true;
-                }
+                } 
             }
             catch (Exception ex) {
             }
