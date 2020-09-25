@@ -10,7 +10,7 @@ using System.Text;
 
 namespace Auto.ElasticServices.Repositories {
     public class WebNewsElastic : ElasticRepository<NewsDoc>, IWebNewsElastic {
-        public WebNewsElastic(IConfiguration configuration, IMemoryCache memoryCache) : base(configuration, memoryCache) {
+        public WebNewsElastic(IElasticClient elasticClient, IMemoryCache memoryCache) : base(elasticClient, memoryCache) {
 
         }
     }

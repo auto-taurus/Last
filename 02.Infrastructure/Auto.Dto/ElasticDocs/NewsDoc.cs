@@ -5,19 +5,19 @@ using System.Text;
 
 namespace Auto.Dto.ElasticDoc {
 
-    //[ElasticsearchType(IdProperty = "nid")]
+    [ElasticsearchType(IdProperty = "NewsId")]
     public class NewsDoc {
         /// <summary>
         /// 新闻编号
         /// </summary>
         /// <value></value>
-        //[LongRange(Index = true)]
+        [LongRange(Index = true)]
         public int? NewsId { get; set; }
         /// <summary>
         /// 分类编号
         /// </summary>
         /// <value></value>
-        //[Text(Index = true, Store = true)]
+        [IntegerRange(Index = true)]
         public int? CategoryId { get; set; }
         /// <summary>
         /// 分类名称
@@ -28,24 +28,25 @@ namespace Auto.Dto.ElasticDoc {
         /// 内容标题
         /// </summary>
         /// <value></value>
-        //[Text(Index = true)]
+        [Text(Index = true)]
         public string NewsTitle { get; set; }
         /// <summary>
         /// 来源
         /// </summary>
         /// <value></value>
+        [Text(Index = true)]
         public string Source { get; set; }
         /// <summary>
         /// 标签
         /// </summary>
         /// <value></value>
-        //[Text(Index = true)]
+        [Text(Index = true)]
         public string Tags { get; set; }
         /// <summary>
         /// 内容
         /// </summary>
         /// <value></value>
-        //[Text(Index = true)]
+        [Text(Index = true)]
         public string Contents { get; set; }
         /// <summary>
         /// 访问地址
@@ -65,6 +66,7 @@ namespace Auto.Dto.ElasticDoc {
         /// 显示类型，前台独立位置显示
         /// </summary>
         /// <value>0默认，1置顶，2大标，3推荐</value>
+        [IntegerRange(Index = true)]
         public int? DisplayType { get; set; }
         /// <summary>
         /// 是否热门（只是站点热门标识，不参与排序、或特定页显示靠前）
@@ -75,11 +77,13 @@ namespace Auto.Dto.ElasticDoc {
         /// 访问总数
         /// </summary>
         /// <value></value>
+        [IntegerRange(Index = true)]
         public int? AccessCount { get; set; }
         /// <summary>
         /// 发布时间
         /// </summary>
         //[Date(Index = true)]
+        [IntegerRange(Index = true)]
         public DateTime? PushTime { get; set; }
         /// <summary>
         /// 网页标题

@@ -92,7 +92,6 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
             var response = new Response<Object>();
             try {
 
-
             }
             catch (Exception ex) {
                 response.SetError(ex, this._ILogger);

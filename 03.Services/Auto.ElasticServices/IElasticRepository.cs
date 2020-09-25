@@ -8,6 +8,10 @@ using System.Threading.Tasks;
 namespace Auto.ElasticServices {
     public interface IElasticRepository<TEntity> where TEntity : class {
         /// <summary>
+        /// 索引名称
+        /// </summary>
+        string IndexName { get; }
+        /// <summary>
         /// 检测索引是否已经存在
         /// </summary>
         /// <param name="index"></param>

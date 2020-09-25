@@ -49,6 +49,8 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                 var entityWebSite = new SiteResponse();
                 //await _IWebNewsElastic.DeleteIndexAsync("newstest");
                 await _IWebNewsElastic.CreateIndexAsync("newstest");
+
+                _IWebNewsElastic.SearchAsync("newstest", e =>e);
                 var docs = new NewsDoc();
                 docs.NewsId = 1;
                 docs.CategoryId = 2;

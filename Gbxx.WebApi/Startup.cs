@@ -1,6 +1,7 @@
 ﻿using FluentValidation;
 using FluentValidation.AspNetCore;
 using Gbxx.BackStage.Configure.Ioc;
+using Gbxx.WebApi.Configure;
 using Gbxx.WebApi.Configure.Swagger;
 using Gbxx.WebApi.Requests.Item.Validators;
 using Microsoft.AspNetCore.Builder;
@@ -21,7 +22,10 @@ namespace Gbxx.WebApi {
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services) {
-            ServiceConfigure.Configure(services);
+            // 配置信息注入
+            services.AddSingleton(Configuration);
+            services.BatchServices();
+            services.InitElasticSearch(Configuration);
             SwaggerConfigure.Configure(services);
 
             services.AddMvc()
@@ -36,8 +40,6 @@ namespace Gbxx.WebApi {
                         x.RunDefaultMvcValidationAfterFluentValidationExecutes = false;
                         x.ValidatorOptions.CascadeMode = CascadeMode.Stop;
                     });
-            // 配置信息注入
-            services.AddSingleton(Configuration);
             //独立发布跨域
             services.AddCors(options =>
                              options.AddPolicy(Any, builder =>
