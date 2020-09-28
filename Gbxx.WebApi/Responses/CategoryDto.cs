@@ -7,7 +7,7 @@ namespace Gbxx.WebApi.Responses {
     /// <summary>
     /// 分类信息
     /// </summary>
-    public class CategoryResponse {
+    public class CategoryDto {
         ///<summary>
         /// 栏目编号
         ///</summary>

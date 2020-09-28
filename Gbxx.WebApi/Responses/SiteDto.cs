@@ -7,7 +7,7 @@ namespace Gbxx.WebApi.Responses {
     /// <summary>
     /// 站点信息
     /// </summary>
-    public class SiteResponse {
+    public class SiteDto {
         /// <summary>
         /// 站点编号
         /// </summary>

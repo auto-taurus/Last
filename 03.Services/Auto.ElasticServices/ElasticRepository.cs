@@ -21,19 +21,20 @@ namespace Auto.ElasticServices {
         public IElasticClient Client { get; set; }
         public string Prefix { get; set; }
         private IMemoryCache _IMemoryCache { get; set; }
-        public ElasticRepository(IElasticClient elasticClient, IMemoryCache memoryCache) {
+        public ElasticRepository(IElasticClient elasticClient, IMemoryCache memoryCache, IConfiguration configuration) {
             this._IMemoryCache = memoryCache;
             this.Client = elasticClient;
+            this.Prefix = configuration["ElasticConfig:Prefix"];
         }
         /// <summary>
         /// 检测索引是否已经存在
         /// </summary>
-        /// <param name="index"></param>
+        /// <param name="indexName"></param>
         /// <returns></returns>
-        public async Task<bool> IsExsitIndex(string index) {
+        public async Task<bool> IsExsitIndex(string indexName) {
             bool flag = false;
             try {
-                var result = await Client.Indices.ExistsAsync(index);
+                var result = await Client.Indices.ExistsAsync(indexName);
                 if (result.ApiCall.HttpStatusCode == 200) {
                     flag = true;
                 }
@@ -55,6 +56,8 @@ namespace Auto.ElasticServices {
                 option => option.Index(indexName.ToLower())
                                 .SearchType(SearchType.QueryThenFetch)
                                 .Query(selector));
+
+
             return list.Documents.ToList();
         }
         /// <summary>
@@ -129,11 +132,11 @@ namespace Auto.ElasticServices {
         /// <param name="_id">自定义编号</param>
         /// <returns></returns>
         public async Task<bool> AddDocumentAsync(TEntity entity, string indexName, string _id = "") {
-            var response = new CreateResponse();
+            var response = new IndexResponse();
             if (_id.Length > 0)
-                response = await Client.CreateAsync(entity, x => x.Index(indexName.ToLower()).Id(_id));
+                response = await Client.IndexAsync(entity, x => x.Index(indexName.ToLower()).Id(_id));
             else
-                response = await Client.CreateAsync(entity, x => x.Index(indexName.ToLower()));
+                response = await Client.IndexAsync(entity, x => x.Index(indexName.ToLower()));
             if (response.Shards.Successful > 0) {
                 return true;
             }
@@ -149,8 +152,22 @@ namespace Auto.ElasticServices {
         public async Task<bool> BatchAddDocumentAsync(string indexName, List<TEntity> entities) {
             var isRefresh = await SetIndexRar(indexName.ToLower());
             if (isRefresh) {
-                var response = await Client.BulkAsync(x => x.CreateMany(entities).Index(indexName));
-                return response.Errors;
+                var response = Client.BulkAll(entities, b => b.Index(indexName)
+                                                              .BackOffTime("30s")
+                                                              .BackOffRetries(2)
+                                                              .RefreshOnCompleted()
+                                                              .MaxDegreeOfParallelism(Environment.ProcessorCount)
+                                                              .Size(10000)
+                                                            )
+                                                            .Wait(TimeSpan.FromMinutes(15), next => {
+                                                                var d = next;
+                                                                // do something e.g. write number of pages to console
+                                                            });
+                //var response = await Client.BulkAsync(x => x.Index(indexName).IndexMany(entities));
+                if (response.TotalNumberOfFailedBuffers <= 0 || response.TotalNumberOfRetries <= 0) {
+                    _IMemoryCache.Set("isRar", false);
+                    return true;
+                }
             }
             return false;
         }
@@ -195,24 +212,17 @@ namespace Auto.ElasticServices {
         /// <param name="typeName">类别名称</param>
         /// <param name="listDocment">数据集合，注：docment 里要有_id,否则更新不进去</param>
         /// <returns></returns>
-        public async Task<bool> BatchUpdateDocumentAsync(string indexName, List<Dictionary<string, TEntity>> entities) {
+        public async Task<bool> BatchUpdateDocumentAsync(string indexName, List<TEntity> entities) {
             bool flag = false;
             try {
-                var request = new BulkRequest();
-                entities.ForEach(x => {
-                    var key = x.Keys.SingleOrDefault();
-                    if (x.TryGetValue(key, out TEntity entity)) {
-                        
-                        request..Operations.Add(new BulkDescriptor().Update<TEntity>(y=>y.Index(key).Doc(entity)));
-                    }
-                });
-                var stringRespones = await Client.BulkAsync(x=>x.UpdateMany(entities,(a,b)=> a.));
-                var resObj = JObject.Parse(stringRespones.Body);
-                if (!(bool)resObj["errors"]) {
-                    return true;
-                }
+                var bulkIndexResponse = await Client.BulkAsync(x => x.Index(indexName)
+                                                               .UpdateMany(entities, (descriptor, docs) => {
+                                                                   return descriptor;
+                                                               }));
             }
-            catch { }
+            catch {
+
+            }
             return flag;
         }
 

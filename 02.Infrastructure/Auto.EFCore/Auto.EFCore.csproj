@@ -20,4 +20,8 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.1.14" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Auto.Dto\Auto.Dto.csproj" />
+  </ItemGroup>
+
 </Project>

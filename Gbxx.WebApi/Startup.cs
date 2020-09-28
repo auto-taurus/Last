@@ -4,12 +4,13 @@ using Gbxx.BackStage.Configure.Ioc;
 using Gbxx.WebApi.Configure;
 using Gbxx.WebApi.Configure.Swagger;
 using Gbxx.WebApi.Requests.Item.Validators;
+using Gbxx.WebApi.Utils;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Newtonsoft.Json.Serialization;
 
 namespace Gbxx.WebApi {
     public class Startup {
@@ -21,9 +22,16 @@ namespace Gbxx.WebApi {
         private readonly string Any = "Any";
 
         // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services) {
-            // 配置信息注入
+        public void ConfigureServices(IServiceCollection services) {// 配置信息注入
             services.AddSingleton(Configuration);
+            // 配置EF连接字符串
+            services.AddDbContextPool<MysqlDbContext>(x => {
+                x.UseMySql(Configuration.GetConnectionString("GbxxNews"));
+            })
+            .AddSingleton<MysqlDbContext>()
+            .AddOptions();
+            //services.AddDbContext<MySqlDbContext>(options => options.UseMySQL(Configuration.GetConnectionString("GbxxNews")));
+
             services.BatchServices();
             services.InitElasticSearch(Configuration);
             SwaggerConfigure.Configure(services);

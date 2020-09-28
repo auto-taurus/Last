@@ -9,13 +9,13 @@
             分类管理
             </summary>
         </member>
-        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.CategoryController.#ctor(Microsoft.Extensions.Logging.ILogger{Gbxx.WebApi.Areas.v1.Controllers.SiteController})">
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.CategoryController.#ctor(Microsoft.Extensions.Logging.ILogger{Gbxx.WebApi.Areas.v1.Controllers.SiteController},Auto.ElasticServices.Contracts.IWebNewsElastic,Nest.IElasticClient)">
             <summary>
             
             </summary>
             <param name="logger"></param>
         </member>
-        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.CategoryController.GetCategoriesAsync(System.String,Gbxx.WebApi.Requests.QueryBase)">
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.CategoryController.GetCategoriesAsync(System.String,Nest.QueryBase)">
             <summary>
             分类列表
             </summary>
@@ -23,7 +23,7 @@
             <param name="args"></param>
             <returns></returns>
         </member>
-        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.CategoryController.GetCategoryAsync(System.String,System.String,Gbxx.WebApi.Requests.QueryBase)">
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.CategoryController.GetCategoryAsync(System.String,System.String,Nest.QueryBase)">
             <summary>
             分类信息
             </summary>
@@ -37,24 +37,24 @@
             分类新闻列表
             </summary>
             <param name="mark">站点标识</param>
-            <param name="id">新闻编号</param>
+            <param name="id">分类编号</param>
             <param name="args"></param>
             <returns></returns>
         </member>
         <member name="M:Gbxx.WebApi.Areas.v1.Controllers.CategoryController.GetCategoryAccessAsync(System.String,System.String)">
             <summary>
-            栏目访问统计
+            分类访问统计
             </summary>
             <param name="mark">站点标识</param>
-            <param name="id">栏目编号</param>
+            <param name="id">分类编号</param>
             <returns></returns>
         </member>
         <member name="M:Gbxx.WebApi.Areas.v1.Controllers.CategoryController.GetCategoryClickAsync(System.String,System.String)">
             <summary>
-            栏目点击统计
+            分类点击统计
             </summary>
             <param name="mark">站点标识</param>
-            <param name="id">栏目编号</param>
+            <param name="id">分类编号</param>
             <returns></returns>
         </member>
         <member name="T:Gbxx.WebApi.Areas.v1.Controllers.CodeController">
@@ -82,13 +82,14 @@
             新闻管理
             </summary>
         </member>
-        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.NewsController.#ctor(Microsoft.Extensions.Logging.ILogger{Gbxx.WebApi.Areas.v1.Controllers.SiteController})">
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.NewsController.#ctor(Microsoft.Extensions.Logging.ILogger{Gbxx.WebApi.Areas.v1.Controllers.SiteController},Nest.IElasticClient)">
             <summary>
             
             </summary>
             <param name="logger"></param>
+            <param name="elasticClient"></param>
         </member>
-        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.NewsController.GetNewsAsync(System.String,System.String,Gbxx.WebApi.Requests.QueryBase)">
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.NewsController.GetNewsAsync(System.String,System.String,Gbxx.WebApi.Requests.RequestBase)">
             <summary>
             新闻信息
             </summary>
@@ -105,7 +106,7 @@
             <param name="args"></param>
             <returns></returns>
         </member>
-        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.NewsController.GetNewsBigAsync(System.String,Gbxx.WebApi.Requests.QueryBase)">
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.NewsController.GetNewsBigAsync(System.String,Gbxx.WebApi.Requests.RequestBase)">
             <summary>
             新闻首页大标信息
             </summary>
@@ -113,7 +114,7 @@
             <param name="args"></param>
             <returns></returns>
         </member>
-        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.NewsController.GetNewsAccessAsync(System.String,System.String,Gbxx.WebApi.Requests.QueryBase)">
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.NewsController.GetNewsAccessAsync(System.String,System.String,Gbxx.WebApi.Requests.RequestBase)">
             <summary>
             新闻访问统计
             </summary>
@@ -122,7 +123,7 @@
             <param name="args"></param>
             <returns></returns>
         </member>
-        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.NewsController.GetNewsClickAsync(System.String,System.String,Gbxx.WebApi.Requests.QueryBase)">
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.NewsController.GetNewsClickAsync(System.String,System.String,Gbxx.WebApi.Requests.RequestBase)">
             <summary>
             新闻点击统计
             </summary>
@@ -133,13 +134,13 @@
         </member>
         <member name="M:Gbxx.WebApi.Areas.v1.Controllers.NewsController.GetNewsSearchAsync(System.String,Gbxx.WebApi.Requests.Query.NewsSearchQuery)">
             <summary>
-            新闻信息检索
+            新闻标题检索
             </summary>
             <param name="mark">站点标识</param>
             <param name="args"></param>
             <returns></returns>
         </member>
-        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.NewsController.GetNewsHotAsync(System.String,Gbxx.WebApi.Requests.Query.NewsHotQuery)">
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.NewsController.GetNewsHotAsync(System.String,Gbxx.WebApi.Requests.QueryPager)">
             <summary>
             文章热门访问
             </summary>
@@ -157,18 +158,19 @@
             
             </summary>
         </member>
-        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.SiteController.#ctor(Microsoft.Extensions.Logging.ILogger{Gbxx.WebApi.Areas.v1.Controllers.SiteController},Auto.ElasticServices.Contracts.IWebNewsElastic)">
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.SiteController.#ctor(Microsoft.Extensions.Logging.ILogger{Gbxx.WebApi.Areas.v1.Controllers.SiteController},Auto.ElasticServices.Contracts.IWebNewsElastic,Gbxx.WebApi.Utils.IMySqlRepository)">
             <summary>
             站点管理
             </summary>
             <param name="logger"></param>
+            <param name="webNewsElastic"></param>
         </member>
-        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.SiteController.GetWebSiteAsync(System.String,Gbxx.WebApi.Requests.QueryBase)">
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.SiteController.GetWebSiteAsync(System.String,Gbxx.WebApi.Requests.RequestBase)">
             <summary>
             获取站点信息
             </summary>
-            <param name="mark">站点标识</param>
-            <param name="args">基础参数</param>
+            <param name="mark">站点标记</param>
+            <param name="args">查询字段</param>
             <returns></returns>
         </member>
         <member name="M:Gbxx.WebApi.Areas.v1.Controllers.SiteController.GetSiteAccessAsync(System.String,Gbxx.WebApi.Requests.Query.SiteAccessQuery)">
@@ -178,26 +180,6 @@
             <param name="mark">站点标识</param>
             <param name="args">基础参数</param>
             <returns></returns>
-        </member>
-        <member name="T:Gbxx.WebApi.Requests.QueryBase">
-            <summary>
-            基础信息
-            </summary>
-        </member>
-        <member name="P:Gbxx.WebApi.Requests.QueryBase.Ip">
-            <summary>
-            来源ip
-            </summary>
-        </member>
-        <member name="P:Gbxx.WebApi.Requests.QueryBase.Device">
-            <summary>
-            设备号
-            </summary>
-        </member>
-        <member name="P:Gbxx.WebApi.Requests.QueryBase.Version">
-            <summary>
-            版本号
-            </summary>
         </member>
         <member name="T:Gbxx.WebApi.Requests.QueryPager">
             <summary>
@@ -217,16 +199,6 @@
         <member name="P:Gbxx.WebApi.Requests.QueryPager.PageSize">
             <summary>
             页大小
-            </summary>
-        </member>
-        <member name="T:Gbxx.WebApi.Requests.Query.NewsHotQuery">
-            <summary>
-            热门查询
-            </summary>
-        </member>
-        <member name="P:Gbxx.WebApi.Requests.Query.NewsHotQuery.Days">
-            <summary>
-            天数
             </summary>
         </member>
         <member name="T:Gbxx.WebApi.Requests.Query.NewsSearchQuery">
@@ -254,252 +226,283 @@
             站点唯一标识
             </summary>
         </member>
-        <member name="T:Gbxx.WebApi.Responses.CategoryResponse">
+        <member name="T:Gbxx.WebApi.Requests.RequestBase">
+            <summary>
+            基础信息
+            </summary>
+        </member>
+        <member name="P:Gbxx.WebApi.Requests.RequestBase.Ip">
+            <summary>
+            来源ip
+            </summary>
+        </member>
+        <member name="P:Gbxx.WebApi.Requests.RequestBase.Device">
+            <summary>
+            设备号
+            </summary>
+        </member>
+        <member name="P:Gbxx.WebApi.Requests.RequestBase.Version">
+            <summary>
+            版本号
+            </summary>
+        </member>
+        <member name="T:Gbxx.WebApi.Responses.CategoryDto">
             <summary>
             分类信息
             </summary>
         </member>
-        <member name="P:Gbxx.WebApi.Responses.CategoryResponse.CategoryId">
+        <member name="P:Gbxx.WebApi.Responses.CategoryDto.CategoryId">
             <summary>
              栏目编号
             </summary>
         </member>
-        <member name="P:Gbxx.WebApi.Responses.CategoryResponse.CategoryName">
+        <member name="P:Gbxx.WebApi.Responses.CategoryDto.CategoryName">
             <summary>
              栏目名称
             </summary>
         </member>
-        <member name="P:Gbxx.WebApi.Responses.CategoryResponse.ParentId">
+        <member name="P:Gbxx.WebApi.Responses.CategoryDto.ParentId">
             <summary>
              父级栏目编号
             </summary>
         </member>
-        <member name="P:Gbxx.WebApi.Responses.CategoryResponse.Controller">
+        <member name="P:Gbxx.WebApi.Responses.CategoryDto.Controller">
             <summary>
             控制器
             </summary>
         </member>
-        <member name="P:Gbxx.WebApi.Responses.CategoryResponse.Action">
+        <member name="P:Gbxx.WebApi.Responses.CategoryDto.Action">
             <summary>
             动作
             </summary>
         </member>
-        <member name="P:Gbxx.WebApi.Responses.CategoryResponse.Urls">
+        <member name="P:Gbxx.WebApi.Responses.CategoryDto.Urls">
             <summary>
              访问地址
             </summary>
         </member>
-        <member name="P:Gbxx.WebApi.Responses.CategoryResponse.Title">
+        <member name="P:Gbxx.WebApi.Responses.CategoryDto.Title">
             <summary>
              网页标题
             </summary>
         </member>
-        <member name="P:Gbxx.WebApi.Responses.CategoryResponse.Keywords">
+        <member name="P:Gbxx.WebApi.Responses.CategoryDto.Keywords">
             <summary>
              网页关键字
             </summary>
         </member>
-        <member name="P:Gbxx.WebApi.Responses.CategoryResponse.Description">
+        <member name="P:Gbxx.WebApi.Responses.CategoryDto.Description">
             <summary>
              网页描述
             </summary>
         </member>
-        <member name="T:Gbxx.WebApi.Responses.NewsListResponse">
-            <summary>
-            新闻列表
-            </summary>
-        </member>
-        <member name="P:Gbxx.WebApi.Responses.NewsListResponse.nid">
-            <summary>
-            新闻编号
-            </summary>
-            <value></value>
-        </member>
-        <member name="P:Gbxx.WebApi.Responses.NewsListResponse.cid">
-            <summary>
-            分类编号
-            </summary>
-            <value></value>
-        </member>
-        <member name="P:Gbxx.WebApi.Responses.NewsListResponse.cname">
-            <summary>
-            分类名称
-            </summary>
-            <value></value>
-        </member>
-        <member name="P:Gbxx.WebApi.Responses.NewsListResponse.title">
-            <summary>
-            内容标题
-            </summary>
-            <value></value>
-        </member>
-        <member name="P:Gbxx.WebApi.Responses.NewsListResponse.source">
-            <summary>
-            来源
-            </summary>
-            <value></value>
-        </member>
-        <member name="P:Gbxx.WebApi.Responses.NewsListResponse.curl">
-            <summary>
-            广告调整地址
-            </summary>
-        </member>
-        <member name="P:Gbxx.WebApi.Responses.NewsListResponse.img">
-            <summary>
-            缩略图列表（用于列表页显示图片），以∮分割
-            </summary>
-            <value></value>
-        </member>
-        <member name="P:Gbxx.WebApi.Responses.NewsListResponse.imgpath">
-            <summary>
-            正常大小，可规定指定大小（用于轮播等其他大图展示）
-            </summary>
-            <value></value>
-        </member>
-        <member name="P:Gbxx.WebApi.Responses.NewsListResponse.ishot">
-            <summary>
-            是否热门（只是站点热门标识，不参与排序、或特定页显示靠前）
-            </summary>
-            <value>0不是，1是</value>
-        </member>
-        <member name="P:Gbxx.WebApi.Responses.NewsListResponse.acount">
-            <summary>
-            访问总数
-            </summary>
-            <value></value>
-        </member>
-        <member name="P:Gbxx.WebApi.Responses.NewsListResponse.ptime">
-            <summary>
-            发布时间
-            </summary>
-        </member>
-        <member name="T:Gbxx.WebApi.Responses.NewsResponse">
+        <member name="T:Gbxx.WebApi.Responses.NewsDto">
             <summary>
             新闻详情信息
             </summary>
         </member>
-        <member name="P:Gbxx.WebApi.Responses.NewsResponse.nid">
+        <member name="P:Gbxx.WebApi.Responses.NewsDto.NewsId">
             <summary>
             新闻编号
             </summary>
             <value></value>
         </member>
-        <member name="P:Gbxx.WebApi.Responses.NewsResponse.cid">
+        <member name="P:Gbxx.WebApi.Responses.NewsDto.CategoryId">
             <summary>
             分类编号
             </summary>
             <value></value>
         </member>
-        <member name="P:Gbxx.WebApi.Responses.NewsResponse.cname">
+        <member name="P:Gbxx.WebApi.Responses.NewsDto.CategoryName">
             <summary>
             分类名称
             </summary>
             <value></value>
         </member>
-        <member name="P:Gbxx.WebApi.Responses.NewsResponse.ntitle">
+        <member name="P:Gbxx.WebApi.Responses.NewsDto.NewsTitle">
             <summary>
             内容标题
             </summary>
             <value></value>
         </member>
-        <member name="P:Gbxx.WebApi.Responses.NewsResponse.source">
+        <member name="P:Gbxx.WebApi.Responses.NewsDto.Source">
             <summary>
             来源
             </summary>
             <value></value>
         </member>
-        <member name="P:Gbxx.WebApi.Responses.NewsResponse.tags">
+        <member name="P:Gbxx.WebApi.Responses.NewsDto.Author">
+            <summary>
+            作者
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Gbxx.WebApi.Responses.NewsDto.Tags">
             <summary>
             标签，以∮分割
             </summary>
             <value></value>
         </member>
-        <member name="P:Gbxx.WebApi.Responses.NewsResponse.contents">
+        <member name="P:Gbxx.WebApi.Responses.NewsDto.Contents">
             <summary>
             内容
             </summary>
             <value></value>
         </member>
-        <member name="P:Gbxx.WebApi.Responses.NewsResponse.curl">
+        <member name="P:Gbxx.WebApi.Responses.NewsDto.Curl">
             <summary>
             访问地址
             </summary>
         </member>
-        <member name="P:Gbxx.WebApi.Responses.NewsResponse.ishot">
+        <member name="P:Gbxx.WebApi.Responses.NewsDto.IsHot">
             <summary>
             是否热门（只是站点热门标识，不参与排序、或特定页显示靠前）
             </summary>
             <value>0不是，1是</value>
         </member>
-        <member name="P:Gbxx.WebApi.Responses.NewsResponse.ptime">
+        <member name="P:Gbxx.WebApi.Responses.NewsDto.PushTime">
             <summary>
             发布时间
             </summary>
         </member>
-        <member name="P:Gbxx.WebApi.Responses.NewsResponse.title">
+        <member name="P:Gbxx.WebApi.Responses.NewsDto.Title">
             <summary>
             网页标题
             </summary>
             <value></value>
         </member>
-        <member name="P:Gbxx.WebApi.Responses.NewsResponse.words">
+        <member name="T:Gbxx.WebApi.Responses.NewsListDto">
             <summary>
-            网页关键字
+            新闻列表
+            </summary>
+        </member>
+        <member name="P:Gbxx.WebApi.Responses.NewsListDto.NewsId">
+            <summary>
+            新闻编号
             </summary>
             <value></value>
         </member>
-        <member name="P:Gbxx.WebApi.Responses.NewsResponse.desc">
+        <member name="P:Gbxx.WebApi.Responses.NewsListDto.CategoryId">
             <summary>
-            网页描述
+            分类编号
             </summary>
             <value></value>
         </member>
-        <member name="T:Gbxx.WebApi.Responses.SiteResponse">
+        <member name="P:Gbxx.WebApi.Responses.NewsListDto.CategoryName">
+            <summary>
+            分类名称
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Gbxx.WebApi.Responses.NewsListDto.NewsTitle">
+            <summary>
+            内容标题
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Gbxx.WebApi.Responses.NewsListDto.Source">
+            <summary>
+            来源
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Gbxx.WebApi.Responses.NewsListDto.Author">
+            <summary>
+            作者
+            </summary>
+        </member>
+        <member name="P:Gbxx.WebApi.Responses.NewsListDto.Curl">
+            <summary>
+            广告调整地址
+            </summary>
+        </member>
+        <member name="P:Gbxx.WebApi.Responses.NewsListDto.Img">
+            <summary>
+            缩略图列表（用于列表页显示图片），以∮分割
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Gbxx.WebApi.Responses.NewsListDto.ImagePath">
+            <summary>
+            正常大小，可规定指定大小（用于轮播等其他大图展示）
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Gbxx.WebApi.Responses.NewsListDto.IsHot">
+            <summary>
+            是否热门（只是站点热门标识，不参与排序、或特定页显示靠前）
+            </summary>
+            <value>0不是，1是</value>
+        </member>
+        <member name="P:Gbxx.WebApi.Responses.NewsListDto.AccessCount">
+            <summary>
+            访问总数
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Gbxx.WebApi.Responses.NewsListDto.PushTime">
+            <summary>
+            发布时间
+            </summary>
+        </member>
+        <member name="T:Gbxx.WebApi.Responses.SiteDto">
             <summary>
             站点信息
             </summary>
         </member>
-        <member name="P:Gbxx.WebApi.Responses.SiteResponse.SiteId">
+        <member name="P:Gbxx.WebApi.Responses.SiteDto.SiteId">
             <summary>
             站点编号
             </summary>
         </member>
-        <member name="P:Gbxx.WebApi.Responses.SiteResponse.SiteMark">
+        <member name="P:Gbxx.WebApi.Responses.SiteDto.SiteMark">
             <summary>
              站点标识
             </summary>
         </member>
-        <member name="P:Gbxx.WebApi.Responses.SiteResponse.SiteName">
+        <member name="P:Gbxx.WebApi.Responses.SiteDto.SiteName">
             <summary>
             站点名称
             </summary>
         </member>
-        <member name="P:Gbxx.WebApi.Responses.SiteResponse.SiteUrls">
+        <member name="P:Gbxx.WebApi.Responses.SiteDto.SiteUrls">
             <summary>
             站点域名
             </summary>
         </member>
-        <member name="P:Gbxx.WebApi.Responses.SiteResponse.LogoUrls">
+        <member name="P:Gbxx.WebApi.Responses.SiteDto.LogoUrls">
             <summary>
             站点Logo
             </summary>
         </member>
-        <member name="P:Gbxx.WebApi.Responses.SiteResponse.Title">
+        <member name="P:Gbxx.WebApi.Responses.SiteDto.Title">
             <summary>
             网页标题
             </summary>
         </member>
-        <member name="P:Gbxx.WebApi.Responses.SiteResponse.Keywords">
+        <member name="P:Gbxx.WebApi.Responses.SiteDto.Keywords">
             <summary>
             网页关键字
             </summary>
         </member>
-        <member name="P:Gbxx.WebApi.Responses.SiteResponse.Description">
+        <member name="P:Gbxx.WebApi.Responses.SiteDto.Description">
             <summary>
             网页描述
             </summary>
         </member>
-        <member name="T:Gbxx.BackStage.Configure.Ioc.ServiceConfigure">
+        <member name="M:Gbxx.WebApi.Utils.MysqlDbContext.OnConfiguring(Microsoft.EntityFrameworkCore.DbContextOptionsBuilder)">
+            <summary>
+            EF配置
+            </summary>
+            <param name="optionsBuilder"></param>
+        </member>
+        <member name="M:Gbxx.WebApi.Utils.MysqlDbContext.OnModelCreating(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <summary>
+            实体配置
+            </summary>
+            <param name="modelBuilder"></param>
+        </member>
+        <member name="T:Gbxx.BackStage.Configure.Ioc.ServiceConfigureExtensions">
             <summary>
             AddSingleton的生命周期：
             项目启动-项目关闭 相当于静态类  只会有一个
@@ -509,7 +512,7 @@
             请求获取-（GC回收-主动释放） 每一次获取的对象都不是同一个
             </summary>
         </member>
-        <member name="M:Gbxx.BackStage.Configure.Ioc.ServiceConfigure.Configure(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+        <member name="M:Gbxx.BackStage.Configure.Ioc.ServiceConfigureExtensions.BatchServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
             <summary>
             注册指定程序集中的服务
             </summary>

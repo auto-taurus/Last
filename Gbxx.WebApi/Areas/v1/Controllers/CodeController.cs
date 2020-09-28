@@ -29,10 +29,10 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
         /// <param name="code">专栏code</param>
         /// <param name="args">查询字段</param>
         /// <returns></returns>
-        [SwaggerResponse(200, "", typeof(List<NewsListResponse>))]
+        [SwaggerResponse(200, "", typeof(List<NewsListDto>))]
         [HttpGet("{code}/News")]
         public async Task<IActionResult> GetCodeNewsAsync(string mark, string code, [FromQuery]QueryPager args) {
-            var response = new Response<List<NewsListResponse>>();
+            var response = new Response<List<NewsListDto>>();
             try {
 
             }

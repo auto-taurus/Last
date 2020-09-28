@@ -10,8 +10,14 @@ using System.Text;
 
 namespace Auto.ElasticServices.Repositories {
     public class WebNewsElastic : ElasticRepository<NewsDoc>, IWebNewsElastic {
-        public WebNewsElastic(IElasticClient elasticClient, IMemoryCache memoryCache) : base(elasticClient, memoryCache) {
+        public WebNewsElastic(
+            IElasticClient elasticClient,
+            IMemoryCache memoryCache,
+            IConfiguration configuration)
+            
+            : base(elasticClient, memoryCache, configuration) {
 
         }
+        public string IndexName => base.Prefix + "-news";
     }
 }

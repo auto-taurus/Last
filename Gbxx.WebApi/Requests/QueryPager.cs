@@ -7,18 +7,17 @@ namespace Gbxx.WebApi.Requests {
     /// <summary>
     /// 查询分页
     /// </summary>
-    public class QueryPager : QueryBase {
+    public class QueryPager : RequestBase {
         /// <summary>
         /// 查询分页
         /// </summary>
         public QueryPager() {
-            this.PageIndex = 1;
             this.PageSize = 10;
         }
         /// <summary>
         /// 当前页
         /// </summary>
-        public int? PageIndex { get; set; }
+        public String[] PageIndex { get; set; }
         /// <summary>
         /// 页大小
         /// </summary>

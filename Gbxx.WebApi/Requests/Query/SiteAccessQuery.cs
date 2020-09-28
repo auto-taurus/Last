@@ -7,7 +7,7 @@ namespace Gbxx.WebApi.Requests.Query {
     /// <summary>
     /// 站点访问参数
     /// </summary>
-    public class SiteAccessQuery : QueryBase {
+    public class SiteAccessQuery : RequestBase {
         /// <summary>
         /// 源域名（Referrer,referer）
         /// </summary>

@@ -11,12 +11,13 @@ namespace Auto.ElasticServices {
         /// 索引名称
         /// </summary>
         string IndexName { get; }
+         IElasticClient Client { get; set; }
         /// <summary>
         /// 检测索引是否已经存在
         /// </summary>
-        /// <param name="index"></param>
+        /// <param name="indexName"></param>
         /// <returns></returns>
-        Task<bool> IsExsitIndex(string index);
+        Task<bool> IsExsitIndex(string indexName);
         /// <summary>
         /// 封装后的linq的查询方式
         /// </summary>
@@ -24,20 +25,20 @@ namespace Auto.ElasticServices {
         /// <param name="indexName">index的名称</param>
         /// <param name="selector">linq内容</param>
         /// <returns></returns>
-        Task<List<TEntity>> SearchAsync(string indexName, Func<QueryContainerDescriptor<TEntity>, QueryContainer> selector = null);
+        Task<List<TEntity>> QueryAsync(string indexName, Func<QueryContainerDescriptor<TEntity>, QueryContainer> selector = null);
         /// <summary>
         /// 封装后的创建index
         /// </summary>
         /// <param name="indexName"></param>
         /// <param name="shards">分片数量，即数据块最小单元</param>
         /// <returns></returns>
-        Task<bool> CreateIndexAsync(string indexName, int shards = 5);
+        Task<bool> AddIndexAsync(string indexName, int shards = 5);
         /// <summary>
         /// 封装后的删除index
         /// </summary>
         /// <param name="indexName"></param>
         /// <returns></returns>
-        Task<bool> DeleteIndexAsync(string indexName);
+        Task<bool> RemoveIndexAsync(string indexName);
         /// <summary>
         /// 插入文档
         /// </summary>
@@ -46,7 +47,7 @@ namespace Auto.ElasticServices {
         /// <param name="objectDocment">文档内容</param>
         /// <param name="_id">自定义_id</param>
         /// <returns></returns>
-        Task<bool> InsertDocumentAsync(string indexName, string typeName, object objectDocment, string _id = "");
+        Task<bool> AddDocumentAsync(TEntity entity, string indexName, string _id = "");
         /// <summary>
         /// 批量插入文档
         /// </summary>
@@ -55,7 +56,7 @@ namespace Auto.ElasticServices {
         /// <param name="typeName"></param>
         /// <param name="listDocment">数据集合</param>
         /// <returns></returns>
-        Task<bool> InsertListDocumentAsync(string indexName, string typeName, List<object> listDocment);
+        Task<bool> BatchAddDocumentAsync(string indexName, List<TEntity> entities);
         /// <summary>
         /// 删除一个文档
         /// </summary>
@@ -63,7 +64,7 @@ namespace Auto.ElasticServices {
         /// <param name="typeName">类别名称</param>
         /// <param name="_id">elasticsearch的id</param>
         /// <returns></returns>
-        Task<bool> DeleteDocumentAsync(string indexName, string typeName, string _id);
+        Task<bool> RemoveDocumentAsync(string indexName, string _id);
         /// <summary>
         /// 更新文档
         /// </summary>
@@ -72,7 +73,7 @@ namespace Auto.ElasticServices {
         /// <param name="_id">elasticsearch的id</param>
         /// <param name="objectDocment">单条数据的所有内容</param>
         /// <returns></returns>
-        Task<bool> UpdateDocumentAsync(string indexName, string typeName, string _id, object objectDocment);
+        Task<bool> UpdateDocumentAsync(TEntity entity, string indexName, string _id);
         /// <summary>
         /// 批量更新文档
         /// </summary>
@@ -80,6 +81,6 @@ namespace Auto.ElasticServices {
         /// <param name="typeName">类别名称</param>
         /// <param name="listDocment">数据集合，注：docment 里要有_id</param>
         /// <returns></returns>
-        Task<bool> UpdateListDocumentAsync(string indexName, string typeName, List<object> listDocment);
+        Task<bool> BatchUpdateDocumentAsync(string indexName, List<TEntity> entities);
     }
 }
