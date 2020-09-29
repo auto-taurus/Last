@@ -1,9 +1,9 @@
 ﻿using FluentValidation;
 using FluentValidation.AspNetCore;
 using Gbxx.BackStage.Configure.Ioc;
+using Gbxx.WebApi.Areas.v1.Models;
 using Gbxx.WebApi.Configure;
 using Gbxx.WebApi.Configure.Swagger;
-using Gbxx.WebApi.Requests.Item.Validators;
 using Gbxx.WebApi.Utils;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -44,7 +44,7 @@ namespace Gbxx.WebApi {
                         options.SerializerSettings.DateFormatHandling = Newtonsoft.Json.DateFormatHandling.MicrosoftDateFormat;
                         options.SerializerSettings.DateFormatString = "yyyy-MM-dd HH:mm:ss";
                     }).AddFluentValidation(x => {
-                        x.RegisterValidatorsFromAssemblyContaining<PostSiteAccessRequestValidator>();
+                        x.RegisterValidatorsFromAssemblyContaining<DeviceArgsValidator>();
                         x.RunDefaultMvcValidationAfterFluentValidationExecutes = false;
                         x.ValidatorOptions.CascadeMode = CascadeMode.Stop;
                     });

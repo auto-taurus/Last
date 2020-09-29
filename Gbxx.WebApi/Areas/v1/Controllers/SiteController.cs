@@ -1,6 +1,8 @@
 ﻿using Auto.Commons.ApiHandles.Responses;
 using Auto.Dto.ElasticDoc;
 using Auto.ElasticServices.Contracts;
+using Gbxx.WebApi.Areas.v1.Data;
+using Gbxx.WebApi.Areas.v1.Models;
 using Gbxx.WebApi.Requests;
 using Gbxx.WebApi.Requests.Query;
 using Gbxx.WebApi.Utils;
@@ -23,13 +25,20 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
         /// 
         /// </summary>
         protected readonly ILogger _ILogger;
+        /// <summary>
+        /// 
+        /// </summary>
         protected IMySqlRepository _IMySqlRepository;
+        /// <summary>
+        /// 
+        /// </summary>
         protected IWebNewsElastic _IWebNewsElastic;
         /// <summary>
-        /// 站点管理
+        /// 
         /// </summary>
         /// <param name="logger"></param>
         /// <param name="webNewsElastic"></param>
+        /// <param name="mySqlRepository"></param>
         public SiteController(
             ILogger<SiteController> logger,
             IWebNewsElastic webNewsElastic,
@@ -42,15 +51,16 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
         /// <summary>
         /// 获取站点信息
         /// </summary>
-        /// <param name="mark">站点标记</param>
-        /// <param name="args">查询字段</param>
+        /// <param name="args"></param>
+        /// <param name="mark"></param>
         /// <returns></returns>
         [HttpGet("{mark}")]
-        [SwaggerResponse(200, "", typeof(Responses.SiteDto))]
-        public async Task<IActionResult> GetWebSiteAsync(string mark, [FromQuery]RequestBase args) {
-            var response = new Response<Responses.SiteDto>();
+        [SwaggerResponse(200, "", typeof(SiteResponse))]
+        public async Task<IActionResult> GetWebSiteAsync([FromHeader(Name = "Device-Args")]string args,
+                                                         string mark) {
+            var response = new Response<SiteResponse>();
             try {
-                var entityWebSite = new Responses.SiteDto();
+                var entityWebSite = new SiteResponse();
 
                 response.Code = true;
             }
@@ -62,11 +72,12 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
         /// <summary>
         /// 站点访问信息统计
         /// </summary>
-        /// <param name="mark">站点标识</param>
-        /// <param name="args">基础参数</param>
+        /// <param name="args"></param>
+        /// <param name="item"></param>
         /// <returns></returns>
         [HttpGet("{mark}/Access")]
-        public async Task<IActionResult> GetSiteAccessAsync(string mark, [FromQuery]SiteAccessQuery args) {
+        public async Task<IActionResult> GetSiteAccessAsync([FromHeader(Name = "Device-Args")]string args,
+                                                            [FromQuery]SiteAccessGet item) {
             var response = new Response<Object>();
             try {
                 List<NewsDoc> result;

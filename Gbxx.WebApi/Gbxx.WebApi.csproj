@@ -9,9 +9,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Areas\v1\Data\" />
-    <Folder Include="Areas\v1\Models\" />
-    <Folder Include="Areas\v1\Views\" />
+    <Folder Include="Areas\v1\Models\Put\" />
+    <Folder Include="Areas\v1\Models\Delete\" />
     <Folder Include="wwwroot\" />
   </ItemGroup>
 

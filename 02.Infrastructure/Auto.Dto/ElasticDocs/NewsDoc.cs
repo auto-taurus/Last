@@ -23,8 +23,14 @@ namespace Auto.Dto.ElasticDoc {
         /// 分类名称
         /// </summary>
         /// <value></value>
-        [Text(Index = true)]
+        [Keyword(Index = true)]
         public string CategoryName { get; set; }
+        /// <summary>
+        /// 专栏代码
+        /// </summary>
+        /// <value></value>
+        [Keyword(Index = true)]
+        public string Code { get; set; }
         /// <summary>
         /// 内容标题
         /// </summary>
@@ -35,13 +41,13 @@ namespace Auto.Dto.ElasticDoc {
         /// 来源
         /// </summary>
         /// <value></value>
-        [Text(Index = true)]
+        [Keyword(Index = true)]
         public string Source { get; set; }
         /// <summary>
         /// 作者
         /// </summary>
         /// <value></value>
-        [Text(Index = true)]
+        [Keyword(Index = true)]
         public string Author { get; set; }
         /// <summary>
         /// 标签

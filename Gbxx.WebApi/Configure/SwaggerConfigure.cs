@@ -15,10 +15,10 @@ namespace Gbxx.WebApi.Configure.Swagger {
                     new Microsoft.OpenApi.Models.OpenApiInfo {
                         Title = "Wap、Web、M端资讯接口",
                         Version = "v1",
-                        Description = "接口调用示例：<br/>" +
-                        "基本参数(不区分大小写)-> {\"Ip\": \"IP地址\",\"Device\": \"设备号\",\"Version\": \"版本号\"}<br/>" +
-                        "GET请求示例-> https://localhost:44328/v1/1/Category/2?Ip=3&Device=4&Version=5 <br/>" +
-                        "GET加其他参数示例->https://localhost:44328/v1/1/News/Tag?Title=%E7%89%B9%E6%9C%97%E6%99%AE&PageIndex=1&PageSize=10&Ip=127.0.0.1&Device=ios.10.26.1&Version=10.26.0"
+                        Description = "接口调用说明：<br/>" +
+                        "<p>Header头部设备参数(参数不区分大小写/不可包含中文)-> <label style='color:red;'>Device-Args : {\"Ip\": \"127.0.0.1\",\"Device\": \"ios14.0.23\",\"Version\": \"1.0.0\"}</label></p>" +
+                        "<p>Header头部权限参数(参数不区分大小写/不可包含中文)-> <label style='color:red;'>Authorization : asdlfqpwerup9qwe;oadfjg'jzjxpvhaiprhtiqwr;oqwje</label></p>" +
+                        "<label style='color:red;'>URL地中带{value}的不需要在header，from，body等其他地方再进行传递</label>"
                     });
                 c.ExampleFilters();
                 //添加xml文件

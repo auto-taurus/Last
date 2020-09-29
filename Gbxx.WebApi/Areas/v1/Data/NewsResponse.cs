@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Gbxx.WebApi.Responses {
+namespace Gbxx.WebApi.Areas.v1.Data {
     /// <summary>
     /// 新闻详情信息
     /// </summary>
-    public class NewsDto {
+    public class NewsResponse {
         /// <summary>
         /// 新闻编号
         /// </summary>
