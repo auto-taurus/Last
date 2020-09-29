@@ -7,9 +7,13 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
 namespace Gbxx.WebApi.Areas.v1.Controllers {
+    /// <summary>
+    /// 
+    /// </summary>
     [Route("v1/{mark}/[controller]")]
     [ApiController]
     [Produces("application/json")]
     public class DefaultController : ControllerBase {
+
     }
 }

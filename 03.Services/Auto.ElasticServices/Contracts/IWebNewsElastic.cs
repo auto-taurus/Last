@@ -6,6 +6,6 @@ using System.Text;
 
 namespace Auto.ElasticServices.Contracts {
     public interface IWebNewsElastic : IElasticRepository<NewsDoc>, IScopedInject {
-
+       
     }
 }

@@ -9,52 +9,72 @@
             分类管理
             </summary>
         </member>
-        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.CategoryController.#ctor(Microsoft.Extensions.Logging.ILogger{Gbxx.WebApi.Areas.v1.Controllers.SiteController})">
+        <member name="F:Gbxx.WebApi.Areas.v1.Controllers.CategoryController._ILogger">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:Gbxx.WebApi.Areas.v1.Controllers.CategoryController._IWebNewsElastic">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:Gbxx.WebApi.Areas.v1.Controllers.CategoryController._client">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.CategoryController.#ctor(Microsoft.Extensions.Logging.ILogger{Gbxx.WebApi.Areas.v1.Controllers.SiteController},Auto.ElasticServices.Contracts.IWebNewsElastic,Nest.IElasticClient)">
             <summary>
             
             </summary>
             <param name="logger"></param>
+            <param name="webNewsElastic"></param>
+            <param name="elasticClient"></param>
         </member>
-        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.CategoryController.GetCategoriesAsync(System.String,Gbxx.WebApi.Requests.QueryBase)">
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.CategoryController.GetCategoriesAsync(System.String,System.String)">
             <summary>
             分类列表
             </summary>
+            <param name="args">设备信息</param>
             <param name="mark">站点标识</param>
-            <param name="args"></param>
             <returns></returns>
         </member>
-        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.CategoryController.GetCategoryAsync(System.String,System.String,Gbxx.WebApi.Requests.QueryBase)">
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.CategoryController.GetCategoryAsync(System.String,System.String,System.String)">
             <summary>
             分类信息
             </summary>
+            <param name="args">设备信息</param>
             <param name="mark">站点标识</param>
             <param name="id">分类编号</param>
-            <param name="args"></param>
             <returns></returns>
         </member>
-        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.CategoryController.GetCategoryNewsAsync(System.String,System.String,Gbxx.WebApi.Requests.QueryPager)">
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.CategoryController.GetCategoryNewsAsync(System.String,System.String,System.String,Gbxx.WebApi.Areas.v1.Models.PageItem)">
             <summary>
             分类新闻列表
             </summary>
+            <param name="args">设备信息</param>
             <param name="mark">站点标识</param>
-            <param name="id">新闻编号</param>
-            <param name="args"></param>
+            <param name="id">分类编号</param>
+            <param name="item">分页信息</param>
             <returns></returns>
         </member>
-        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.CategoryController.GetCategoryAccessAsync(System.String,System.String)">
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.CategoryController.GetCategoryAccessAsync(System.String,System.String,System.String)">
             <summary>
-            栏目访问统计
+            分类访问统计
             </summary>
+            <param name="args">设备信息</param>
             <param name="mark">站点标识</param>
-            <param name="id">栏目编号</param>
+            <param name="id">分类编号</param>
             <returns></returns>
         </member>
-        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.CategoryController.GetCategoryClickAsync(System.String,System.String)">
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.CategoryController.GetCategoryClickAsync(System.String,System.String,System.String)">
             <summary>
-            栏目点击统计
+            分类点击统计
             </summary>
+            <param name="args">设备信息</param>
             <param name="mark">站点标识</param>
-            <param name="id">栏目编号</param>
+            <param name="id">分类编号</param>
             <returns></returns>
         </member>
         <member name="T:Gbxx.WebApi.Areas.v1.Controllers.CodeController">
@@ -62,50 +82,78 @@
             专栏管理
             </summary>
         </member>
-        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.CodeController.#ctor(Microsoft.Extensions.Logging.ILogger{Gbxx.WebApi.Areas.v1.Controllers.SiteController})">
+        <member name="F:Gbxx.WebApi.Areas.v1.Controllers.CodeController._ILogger">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:Gbxx.WebApi.Areas.v1.Controllers.CodeController._client">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.CodeController.#ctor(Microsoft.Extensions.Logging.ILogger{Gbxx.WebApi.Areas.v1.Controllers.SiteController},Nest.IElasticClient)">
             <summary>
             
             </summary>
             <param name="logger"></param>
         </member>
-        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.CodeController.GetCodeNewsAsync(System.String,System.String,Gbxx.WebApi.Requests.QueryPager)">
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.CodeController.GetCodeNewsAsync(System.String,System.String,System.String,Gbxx.WebApi.Areas.v1.Models.PageItem)">
             <summary>
             专栏新闻列表
             </summary>
+            <param name="args">设备信息</param>
             <param name="mark">站点标识</param>
-            <param name="code">专栏code</param>
-            <param name="args">查询字段</param>
+            <param name="code">专栏代码</param>
+            <param name="item">分页信息</param>
             <returns></returns>
+        </member>
+        <member name="T:Gbxx.WebApi.Areas.v1.Controllers.DefaultController">
+            <summary>
+            
+            </summary>
         </member>
         <member name="T:Gbxx.WebApi.Areas.v1.Controllers.NewsController">
             <summary>
             新闻管理
             </summary>
         </member>
-        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.NewsController.#ctor(Microsoft.Extensions.Logging.ILogger{Gbxx.WebApi.Areas.v1.Controllers.SiteController})">
+        <member name="F:Gbxx.WebApi.Areas.v1.Controllers.NewsController._ILogger">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:Gbxx.WebApi.Areas.v1.Controllers.NewsController._client">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.NewsController.#ctor(Microsoft.Extensions.Logging.ILogger{Gbxx.WebApi.Areas.v1.Controllers.SiteController},Nest.IElasticClient)">
             <summary>
             
             </summary>
             <param name="logger"></param>
+            <param name="elasticClient"></param>
         </member>
-        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.NewsController.GetNewsAsync(System.String,System.String,Gbxx.WebApi.Requests.QueryBase)">
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.NewsController.GetNewsAsync(System.String,System.String,System.String)">
             <summary>
             新闻信息
             </summary>
-            <param name="mark"></param>
-            <param name="id"></param>
             <param name="args"></param>
+            <param name="mark"></param>
+            <param name="id">新闻编号</param>
             <returns></returns>
         </member>
-        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.NewsController.GetNewsCarouselAsync(System.String,Gbxx.WebApi.Requests.QueryPager)">
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.NewsController.GetNewsCarouselAsync(System.String,System.String,Gbxx.WebApi.Areas.v1.Models.PageItem)">
             <summary>
             新闻首页轮播列表
             </summary>
-            <param name="mark"></param>
             <param name="args"></param>
+            <param name="mark"></param>
+            <param name="item">分页信息</param>
             <returns></returns>
         </member>
-        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.NewsController.GetNewsBigAsync(System.String,Gbxx.WebApi.Requests.QueryBase)">
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.NewsController.GetNewsBigAsync(System.String,System.String)">
             <summary>
             新闻首页大标信息
             </summary>
@@ -113,38 +161,40 @@
             <param name="args"></param>
             <returns></returns>
         </member>
-        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.NewsController.GetNewsAccessAsync(System.String,System.String,Gbxx.WebApi.Requests.QueryBase)">
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.NewsController.GetNewsAccessAsync(System.String,System.String,System.String)">
             <summary>
             新闻访问统计
             </summary>
-            <param name="mark">站点标识</param>
-            <param name="id">文章编号</param>
             <param name="args"></param>
+            <param name="mark"></param>
+            <param name="id">新闻编号</param>
             <returns></returns>
         </member>
-        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.NewsController.GetNewsClickAsync(System.String,System.String,Gbxx.WebApi.Requests.QueryBase)">
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.NewsController.GetNewsClickAsync(System.String,System.String,System.String)">
             <summary>
             新闻点击统计
             </summary>
-            <param name="mark">站点标识</param>
-            <param name="id">文章编号</param>
             <param name="args"></param>
+            <param name="mark"></param>
+            <param name="id">新闻编号</param>
             <returns></returns>
         </member>
-        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.NewsController.GetNewsSearchAsync(System.String,Gbxx.WebApi.Requests.Query.NewsSearchQuery)">
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.NewsController.GetNewsSearchAsync(System.String,System.String,Gbxx.WebApi.Requests.Query.NewsTitleSearchGet)">
             <summary>
-            新闻信息检索
+            新闻标题检索
             </summary>
-            <param name="mark">站点标识</param>
             <param name="args"></param>
+            <param name="mark"></param>
+            <param name="item">标题查询分页</param>
             <returns></returns>
         </member>
-        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.NewsController.GetNewsHotAsync(System.String,Gbxx.WebApi.Requests.Query.NewsHotQuery)">
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.NewsController.GetNewsHotAsync(System.String,System.String,Gbxx.WebApi.Areas.v1.Models.PageItem)">
             <summary>
             文章热门访问
             </summary>
-            <param name="mark">站点标识</param>
             <param name="args"></param>
+            <param name="mark"></param>
+            <param name="item">分页信息</param>
             <returns></returns>
         </member>
         <member name="T:Gbxx.WebApi.Areas.v1.Controllers.SiteController">
@@ -157,349 +207,466 @@
             
             </summary>
         </member>
-        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.SiteController.#ctor(Microsoft.Extensions.Logging.ILogger{Gbxx.WebApi.Areas.v1.Controllers.SiteController},Auto.ElasticServices.Contracts.IWebNewsElastic)">
+        <member name="F:Gbxx.WebApi.Areas.v1.Controllers.SiteController._IMySqlRepository">
             <summary>
-            站点管理
+            
+            </summary>
+        </member>
+        <member name="F:Gbxx.WebApi.Areas.v1.Controllers.SiteController._IWebNewsElastic">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.SiteController.#ctor(Microsoft.Extensions.Logging.ILogger{Gbxx.WebApi.Areas.v1.Controllers.SiteController},Auto.ElasticServices.Contracts.IWebNewsElastic,Gbxx.WebApi.Utils.IMySqlRepository)">
+            <summary>
+            
             </summary>
             <param name="logger"></param>
+            <param name="webNewsElastic"></param>
+            <param name="mySqlRepository"></param>
         </member>
-        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.SiteController.GetWebSiteAsync(System.String,Gbxx.WebApi.Requests.QueryBase)">
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.SiteController.GetWebSiteAsync(System.String,System.String)">
             <summary>
             获取站点信息
             </summary>
-            <param name="mark">站点标识</param>
-            <param name="args">基础参数</param>
+            <param name="args"></param>
+            <param name="mark"></param>
             <returns></returns>
         </member>
-        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.SiteController.GetSiteAccessAsync(System.String,Gbxx.WebApi.Requests.Query.SiteAccessQuery)">
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.SiteController.GetSiteAccessAsync(System.String,Gbxx.WebApi.Requests.Query.SiteAccessGet)">
             <summary>
             站点访问信息统计
             </summary>
-            <param name="mark">站点标识</param>
-            <param name="args">基础参数</param>
+            <param name="args"></param>
+            <param name="item"></param>
             <returns></returns>
         </member>
-        <member name="T:Gbxx.WebApi.Requests.QueryBase">
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.UsersController.GetUserSearchAsync(Gbxx.WebApi.Areas.v1.Models.DeviceArgs,System.String,Gbxx.WebApi.Areas.v1.Models.Get.UserSearchGet)">
             <summary>
-            基础信息
+            
             </summary>
+            <param name="authorization"></param>
+            <param name="deviceArgs"></param>
+            <param name="item"></param>
+            <returns></returns>
         </member>
-        <member name="P:Gbxx.WebApi.Requests.QueryBase.Ip">
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.UsersController.PostUserSearchAsync(System.String,System.String,Gbxx.WebApi.Areas.v1.Models.Get.UserSearchGet)">
             <summary>
-            来源ip
+            
             </summary>
+            <param name="deviceArgs"></param>
+            <param name="authorization"></param>
+            <param name="item"></param>
+            <returns></returns>
         </member>
-        <member name="P:Gbxx.WebApi.Requests.QueryBase.Device">
-            <summary>
-            设备号
-            </summary>
-        </member>
-        <member name="P:Gbxx.WebApi.Requests.QueryBase.Version">
-            <summary>
-            版本号
-            </summary>
-        </member>
-        <member name="T:Gbxx.WebApi.Requests.QueryPager">
-            <summary>
-            查询分页
-            </summary>
-        </member>
-        <member name="M:Gbxx.WebApi.Requests.QueryPager.#ctor">
-            <summary>
-            查询分页
-            </summary>
-        </member>
-        <member name="P:Gbxx.WebApi.Requests.QueryPager.PageIndex">
-            <summary>
-            当前页
-            </summary>
-        </member>
-        <member name="P:Gbxx.WebApi.Requests.QueryPager.PageSize">
-            <summary>
-            页大小
-            </summary>
-        </member>
-        <member name="T:Gbxx.WebApi.Requests.Query.NewsHotQuery">
-            <summary>
-            热门查询
-            </summary>
-        </member>
-        <member name="P:Gbxx.WebApi.Requests.Query.NewsHotQuery.Days">
-            <summary>
-            天数
-            </summary>
-        </member>
-        <member name="T:Gbxx.WebApi.Requests.Query.NewsSearchQuery">
-            <summary>
-            新闻检索
-            </summary>
-        </member>
-        <member name="P:Gbxx.WebApi.Requests.Query.NewsSearchQuery.Title">
-            <summary>
-            标题
-            </summary>
-        </member>
-        <member name="T:Gbxx.WebApi.Requests.Query.SiteAccessQuery">
-            <summary>
-            站点访问参数
-            </summary>
-        </member>
-        <member name="P:Gbxx.WebApi.Requests.Query.SiteAccessQuery.Referrer">
-            <summary>
-            源域名（Referrer,referer）
-            </summary>
-        </member>
-        <member name="P:Gbxx.WebApi.Requests.Query.SiteAccessQuery.Unique">
-            <summary>
-            站点唯一标识
-            </summary>
-        </member>
-        <member name="T:Gbxx.WebApi.Responses.CategoryResponse">
+        <member name="T:Gbxx.WebApi.Areas.v1.Data.CategoryResponse">
             <summary>
             分类信息
             </summary>
         </member>
-        <member name="P:Gbxx.WebApi.Responses.CategoryResponse.CategoryId">
+        <member name="P:Gbxx.WebApi.Areas.v1.Data.CategoryResponse.CategoryId">
             <summary>
              栏目编号
             </summary>
         </member>
-        <member name="P:Gbxx.WebApi.Responses.CategoryResponse.CategoryName">
+        <member name="P:Gbxx.WebApi.Areas.v1.Data.CategoryResponse.CategoryName">
             <summary>
              栏目名称
             </summary>
         </member>
-        <member name="P:Gbxx.WebApi.Responses.CategoryResponse.ParentId">
+        <member name="P:Gbxx.WebApi.Areas.v1.Data.CategoryResponse.ParentId">
             <summary>
              父级栏目编号
             </summary>
         </member>
-        <member name="P:Gbxx.WebApi.Responses.CategoryResponse.Controller">
+        <member name="P:Gbxx.WebApi.Areas.v1.Data.CategoryResponse.Controller">
             <summary>
             控制器
             </summary>
         </member>
-        <member name="P:Gbxx.WebApi.Responses.CategoryResponse.Action">
+        <member name="P:Gbxx.WebApi.Areas.v1.Data.CategoryResponse.Action">
             <summary>
             动作
             </summary>
         </member>
-        <member name="P:Gbxx.WebApi.Responses.CategoryResponse.Urls">
+        <member name="P:Gbxx.WebApi.Areas.v1.Data.CategoryResponse.Urls">
             <summary>
              访问地址
             </summary>
         </member>
-        <member name="P:Gbxx.WebApi.Responses.CategoryResponse.Title">
+        <member name="P:Gbxx.WebApi.Areas.v1.Data.CategoryResponse.Title">
             <summary>
              网页标题
             </summary>
         </member>
-        <member name="P:Gbxx.WebApi.Responses.CategoryResponse.Keywords">
+        <member name="P:Gbxx.WebApi.Areas.v1.Data.CategoryResponse.Keywords">
             <summary>
              网页关键字
             </summary>
         </member>
-        <member name="P:Gbxx.WebApi.Responses.CategoryResponse.Description">
+        <member name="P:Gbxx.WebApi.Areas.v1.Data.CategoryResponse.Description">
             <summary>
              网页描述
             </summary>
         </member>
-        <member name="T:Gbxx.WebApi.Responses.NewsListResponse">
+        <member name="T:Gbxx.WebApi.Areas.v1.Data.NewsListResponse">
             <summary>
             新闻列表
             </summary>
         </member>
-        <member name="P:Gbxx.WebApi.Responses.NewsListResponse.nid">
+        <member name="P:Gbxx.WebApi.Areas.v1.Data.NewsListResponse.NewsId">
             <summary>
             新闻编号
             </summary>
             <value></value>
         </member>
-        <member name="P:Gbxx.WebApi.Responses.NewsListResponse.cid">
+        <member name="P:Gbxx.WebApi.Areas.v1.Data.NewsListResponse.CategoryId">
             <summary>
             分类编号
             </summary>
             <value></value>
         </member>
-        <member name="P:Gbxx.WebApi.Responses.NewsListResponse.cname">
+        <member name="P:Gbxx.WebApi.Areas.v1.Data.NewsListResponse.CategoryName">
             <summary>
             分类名称
             </summary>
             <value></value>
         </member>
-        <member name="P:Gbxx.WebApi.Responses.NewsListResponse.title">
+        <member name="P:Gbxx.WebApi.Areas.v1.Data.NewsListResponse.NewsTitle">
             <summary>
             内容标题
             </summary>
             <value></value>
         </member>
-        <member name="P:Gbxx.WebApi.Responses.NewsListResponse.source">
+        <member name="P:Gbxx.WebApi.Areas.v1.Data.NewsListResponse.Source">
             <summary>
             来源
             </summary>
             <value></value>
         </member>
-        <member name="P:Gbxx.WebApi.Responses.NewsListResponse.curl">
+        <member name="P:Gbxx.WebApi.Areas.v1.Data.NewsListResponse.Author">
+            <summary>
+            作者
+            </summary>
+        </member>
+        <member name="P:Gbxx.WebApi.Areas.v1.Data.NewsListResponse.Curl">
             <summary>
             广告调整地址
             </summary>
         </member>
-        <member name="P:Gbxx.WebApi.Responses.NewsListResponse.img">
+        <member name="P:Gbxx.WebApi.Areas.v1.Data.NewsListResponse.Img">
             <summary>
             缩略图列表（用于列表页显示图片），以∮分割
             </summary>
             <value></value>
         </member>
-        <member name="P:Gbxx.WebApi.Responses.NewsListResponse.imgpath">
+        <member name="P:Gbxx.WebApi.Areas.v1.Data.NewsListResponse.ImagePath">
             <summary>
             正常大小，可规定指定大小（用于轮播等其他大图展示）
             </summary>
             <value></value>
         </member>
-        <member name="P:Gbxx.WebApi.Responses.NewsListResponse.ishot">
+        <member name="P:Gbxx.WebApi.Areas.v1.Data.NewsListResponse.IsHot">
             <summary>
             是否热门（只是站点热门标识，不参与排序、或特定页显示靠前）
             </summary>
             <value>0不是，1是</value>
         </member>
-        <member name="P:Gbxx.WebApi.Responses.NewsListResponse.acount">
+        <member name="P:Gbxx.WebApi.Areas.v1.Data.NewsListResponse.AccessCount">
             <summary>
             访问总数
             </summary>
             <value></value>
         </member>
-        <member name="P:Gbxx.WebApi.Responses.NewsListResponse.ptime">
+        <member name="P:Gbxx.WebApi.Areas.v1.Data.NewsListResponse.PushTime">
             <summary>
             发布时间
             </summary>
         </member>
-        <member name="T:Gbxx.WebApi.Responses.NewsResponse">
+        <member name="T:Gbxx.WebApi.Areas.v1.Data.NewsResponse">
             <summary>
             新闻详情信息
             </summary>
         </member>
-        <member name="P:Gbxx.WebApi.Responses.NewsResponse.nid">
+        <member name="P:Gbxx.WebApi.Areas.v1.Data.NewsResponse.NewsId">
             <summary>
             新闻编号
             </summary>
             <value></value>
         </member>
-        <member name="P:Gbxx.WebApi.Responses.NewsResponse.cid">
+        <member name="P:Gbxx.WebApi.Areas.v1.Data.NewsResponse.CategoryId">
             <summary>
             分类编号
             </summary>
             <value></value>
         </member>
-        <member name="P:Gbxx.WebApi.Responses.NewsResponse.cname">
+        <member name="P:Gbxx.WebApi.Areas.v1.Data.NewsResponse.CategoryName">
             <summary>
             分类名称
             </summary>
             <value></value>
         </member>
-        <member name="P:Gbxx.WebApi.Responses.NewsResponse.ntitle">
+        <member name="P:Gbxx.WebApi.Areas.v1.Data.NewsResponse.NewsTitle">
             <summary>
             内容标题
             </summary>
             <value></value>
         </member>
-        <member name="P:Gbxx.WebApi.Responses.NewsResponse.source">
+        <member name="P:Gbxx.WebApi.Areas.v1.Data.NewsResponse.Source">
             <summary>
             来源
             </summary>
             <value></value>
         </member>
-        <member name="P:Gbxx.WebApi.Responses.NewsResponse.tags">
+        <member name="P:Gbxx.WebApi.Areas.v1.Data.NewsResponse.Author">
+            <summary>
+            作者
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Gbxx.WebApi.Areas.v1.Data.NewsResponse.Tags">
             <summary>
             标签，以∮分割
             </summary>
             <value></value>
         </member>
-        <member name="P:Gbxx.WebApi.Responses.NewsResponse.contents">
+        <member name="P:Gbxx.WebApi.Areas.v1.Data.NewsResponse.Contents">
             <summary>
             内容
             </summary>
             <value></value>
         </member>
-        <member name="P:Gbxx.WebApi.Responses.NewsResponse.curl">
+        <member name="P:Gbxx.WebApi.Areas.v1.Data.NewsResponse.Curl">
             <summary>
             访问地址
             </summary>
         </member>
-        <member name="P:Gbxx.WebApi.Responses.NewsResponse.ishot">
+        <member name="P:Gbxx.WebApi.Areas.v1.Data.NewsResponse.IsHot">
             <summary>
             是否热门（只是站点热门标识，不参与排序、或特定页显示靠前）
             </summary>
             <value>0不是，1是</value>
         </member>
-        <member name="P:Gbxx.WebApi.Responses.NewsResponse.ptime">
+        <member name="P:Gbxx.WebApi.Areas.v1.Data.NewsResponse.PushTime">
             <summary>
             发布时间
             </summary>
         </member>
-        <member name="P:Gbxx.WebApi.Responses.NewsResponse.title">
+        <member name="P:Gbxx.WebApi.Areas.v1.Data.NewsResponse.Title">
             <summary>
             网页标题
             </summary>
             <value></value>
         </member>
-        <member name="P:Gbxx.WebApi.Responses.NewsResponse.words">
-            <summary>
-            网页关键字
-            </summary>
-            <value></value>
-        </member>
-        <member name="P:Gbxx.WebApi.Responses.NewsResponse.desc">
-            <summary>
-            网页描述
-            </summary>
-            <value></value>
-        </member>
-        <member name="T:Gbxx.WebApi.Responses.SiteResponse">
+        <member name="T:Gbxx.WebApi.Areas.v1.Data.SiteResponse">
             <summary>
             站点信息
             </summary>
         </member>
-        <member name="P:Gbxx.WebApi.Responses.SiteResponse.SiteId">
+        <member name="P:Gbxx.WebApi.Areas.v1.Data.SiteResponse.SiteId">
             <summary>
             站点编号
             </summary>
         </member>
-        <member name="P:Gbxx.WebApi.Responses.SiteResponse.SiteMark">
+        <member name="P:Gbxx.WebApi.Areas.v1.Data.SiteResponse.SiteMark">
             <summary>
              站点标识
             </summary>
         </member>
-        <member name="P:Gbxx.WebApi.Responses.SiteResponse.SiteName">
+        <member name="P:Gbxx.WebApi.Areas.v1.Data.SiteResponse.SiteName">
             <summary>
             站点名称
             </summary>
         </member>
-        <member name="P:Gbxx.WebApi.Responses.SiteResponse.SiteUrls">
+        <member name="P:Gbxx.WebApi.Areas.v1.Data.SiteResponse.SiteUrls">
             <summary>
             站点域名
             </summary>
         </member>
-        <member name="P:Gbxx.WebApi.Responses.SiteResponse.LogoUrls">
+        <member name="P:Gbxx.WebApi.Areas.v1.Data.SiteResponse.LogoUrls">
             <summary>
             站点Logo
             </summary>
         </member>
-        <member name="P:Gbxx.WebApi.Responses.SiteResponse.Title">
+        <member name="P:Gbxx.WebApi.Areas.v1.Data.SiteResponse.Title">
             <summary>
             网页标题
             </summary>
         </member>
-        <member name="P:Gbxx.WebApi.Responses.SiteResponse.Keywords">
+        <member name="P:Gbxx.WebApi.Areas.v1.Data.SiteResponse.Keywords">
             <summary>
             网页关键字
             </summary>
         </member>
-        <member name="P:Gbxx.WebApi.Responses.SiteResponse.Description">
+        <member name="P:Gbxx.WebApi.Areas.v1.Data.SiteResponse.Description">
             <summary>
             网页描述
             </summary>
         </member>
-        <member name="T:Gbxx.BackStage.Configure.Ioc.ServiceConfigure">
+        <member name="T:Gbxx.WebApi.Areas.v1.Models.DeviceArgs">
+            <summary>
+            来源设备基础信息
+            </summary>
+        </member>
+        <member name="P:Gbxx.WebApi.Areas.v1.Models.DeviceArgs.Ip">
+            <summary>
+            来源ip
+            </summary>
+        </member>
+        <member name="P:Gbxx.WebApi.Areas.v1.Models.DeviceArgs.Device">
+            <summary>
+            设备信息
+            </summary>
+        </member>
+        <member name="P:Gbxx.WebApi.Areas.v1.Models.DeviceArgs.Version">
+            <summary>
+            版本号
+            </summary>
+        </member>
+        <member name="T:Gbxx.WebApi.Areas.v1.Models.DeviceArgsValidator">
+            <summary>
+            来源设备基础信息 验证
+            </summary>
+        </member>
+        <member name="M:Gbxx.WebApi.Areas.v1.Models.DeviceArgsValidator.#ctor">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:Gbxx.WebApi.Areas.v1.Models.IPageItem">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Gbxx.WebApi.Areas.v1.Models.IPageItem.PageIndex">
+            <summary>
+            当前页
+            </summary>
+        </member>
+        <member name="P:Gbxx.WebApi.Areas.v1.Models.IPageItem.PageSize">
+            <summary>
+            页大小
+            </summary>
+        </member>
+        <member name="T:Gbxx.WebApi.Areas.v1.Models.PageItem">
+            <summary>
+            分页查询
+            </summary>
+        </member>
+        <member name="M:Gbxx.WebApi.Areas.v1.Models.PageItem.#ctor">
+            <summary>
+            查询分页
+            </summary>
+        </member>
+        <member name="P:Gbxx.WebApi.Areas.v1.Models.PageItem.PageIndex">
+            <summary>
+            当前页
+            格式：value,value,value...
+            </summary>
+        </member>
+        <member name="P:Gbxx.WebApi.Areas.v1.Models.PageItem.PageSize">
+            <summary>
+            页大小
+            </summary>
+        </member>
+        <member name="T:Gbxx.WebApi.Areas.v1.Models.PageItemValidator">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Gbxx.WebApi.Areas.v1.Models.PageItemValidator.#ctor">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:Gbxx.WebApi.Areas.v1.Models.Post.LoginPost">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Gbxx.WebApi.Areas.v1.Models.Post.LoginPost.LoginName">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Gbxx.WebApi.Areas.v1.Models.Post.LoginPost.Password">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:Gbxx.WebApi.Areas.v1.Models.Post.UserPostValidator">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:Gbxx.WebApi.Requests.Query.NewsTitleSearchGet">
+            <summary>
+            新闻标题检索
+            </summary>
+        </member>
+        <member name="P:Gbxx.WebApi.Requests.Query.NewsTitleSearchGet.Title">
+            <summary>
+            标题
+            </summary>
+        </member>
+        <member name="P:Gbxx.WebApi.Requests.Query.NewsTitleSearchGet.PageIndex">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Gbxx.WebApi.Requests.Query.NewsTitleSearchGet.PageSize">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:Gbxx.WebApi.Requests.Query.NewsTitleSearchGetValidator">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Gbxx.WebApi.Requests.Query.NewsTitleSearchGetValidator.#ctor">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:Gbxx.WebApi.Requests.Query.SiteAccessGet">
+            <summary>
+            站点访问参数
+            </summary>
+        </member>
+        <member name="P:Gbxx.WebApi.Requests.Query.SiteAccessGet.Referrer">
+            <summary>
+            源域名（Referrer,referer）
+            </summary>
+        </member>
+        <member name="P:Gbxx.WebApi.Requests.Query.SiteAccessGet.Unique">
+            <summary>
+            站点唯一标识
+            </summary>
+        </member>
+        <member name="T:Gbxx.WebApi.Requests.Query.SiteAccessGetValidator">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Gbxx.WebApi.Requests.Query.SiteAccessGetValidator.#ctor">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Gbxx.WebApi.Utils.MysqlDbContext.OnConfiguring(Microsoft.EntityFrameworkCore.DbContextOptionsBuilder)">
+            <summary>
+            EF配置
+            </summary>
+            <param name="optionsBuilder"></param>
+        </member>
+        <member name="M:Gbxx.WebApi.Utils.MysqlDbContext.OnModelCreating(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <summary>
+            实体配置
+            </summary>
+            <param name="modelBuilder"></param>
+        </member>
+        <member name="T:Gbxx.BackStage.Configure.Ioc.ServiceConfigureExtensions">
             <summary>
             AddSingleton的生命周期：
             项目启动-项目关闭 相当于静态类  只会有一个
@@ -509,7 +676,7 @@
             请求获取-（GC回收-主动释放） 每一次获取的对象都不是同一个
             </summary>
         </member>
-        <member name="M:Gbxx.BackStage.Configure.Ioc.ServiceConfigure.Configure(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+        <member name="M:Gbxx.BackStage.Configure.Ioc.ServiceConfigureExtensions.BatchServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
             <summary>
             注册指定程序集中的服务
             </summary>

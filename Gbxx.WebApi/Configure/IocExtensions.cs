@@ -16,12 +16,12 @@ namespace Gbxx.BackStage.Configure.Ioc {
     /// AddTransient的生命周期：
     /// 请求获取-（GC回收-主动释放） 每一次获取的对象都不是同一个
     /// </summary>
-    public class ServiceConfigure {
+    public static class IocExtensions {
         /// <summary>
         /// 注册指定程序集中的服务
         /// </summary>
         /// <param name="services">IServiceCollection类型的对象</param>
-        public static void Configure(IServiceCollection services) {
+        public static void BatchServices(this IServiceCollection services) {
             Type iNeedInject = typeof(INeedInject);
             Type iTransientInject = typeof(ITransientInject);
             Type iScopedInject = typeof(IScopedInject);
