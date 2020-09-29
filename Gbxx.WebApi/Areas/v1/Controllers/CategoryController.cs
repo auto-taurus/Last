@@ -1,12 +1,14 @@
-﻿using Auto.Commons.ApiHandles.Responses;
-using Gbxx.WebApi.Areas.v1.Data;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Auto.Commons.ApiHandles.Responses;
 using Gbxx.WebApi.Requests;
+using Gbxx.WebApi.Responses;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Swashbuckle.AspNetCore.Annotations;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace Gbxx.WebApi.Areas.v1.Controllers {
     /// <summary>
@@ -29,7 +31,7 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
         /// <returns></returns>
         [SwaggerResponse(200, "", typeof(List<CategoryResponse>))]
         [HttpGet]
-        public async Task<IActionResult> GetCategoriesAsync(string mark, [FromQuery]GetBase args) {
+        public async Task<IActionResult> GetCategoriesAsync(string mark, [FromQuery]QueryBase args) {
             var response = new Response<List<CategoryResponse>>();
             try {
 
@@ -49,7 +51,7 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
         /// <returns></returns>
         [SwaggerResponse(200, "", typeof(CategoryResponse))]
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetCategoryAsync(string mark, string id, [FromQuery]GetBase args) {
+        public async Task<IActionResult> GetCategoryAsync(string mark, string id, [FromQuery]QueryBase args) {
             var response = new Response<CategoryResponse>();
             try {
 
@@ -69,7 +71,7 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
         /// <returns></returns>
         [SwaggerResponse(200, "", typeof(List<NewsListResponse>))]
         [HttpGet("{id}/News")]
-        public async Task<IActionResult> GetCategoryNewsAsync(string mark, string id, [FromQuery]GetPager args) {
+        public async Task<IActionResult> GetCategoryNewsAsync(string mark, string id, [FromQuery]QueryPager args) {
             var response = new Response<Object>();
             try {
 

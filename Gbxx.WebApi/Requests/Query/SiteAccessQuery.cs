@@ -1,16 +1,19 @@
-﻿using Gbxx.WebApi.Requests;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace Gbxx.WebApi.Areas.v1.Models.Get {
+namespace Gbxx.WebApi.Requests.Query {
     /// <summary>
     /// 站点访问参数
     /// </summary>
-    public class GetSiteAccess : GetBase {
+    public class SiteAccessQuery : QueryBase {
         /// <summary>
         /// 源域名（Referrer,referer）
         /// </summary>
         public string Referrer { get; set; }
         /// <summary>
-        /// 唯一标识
+        /// 站点唯一标识
         /// </summary>
         public string Unique { get; set; }
 

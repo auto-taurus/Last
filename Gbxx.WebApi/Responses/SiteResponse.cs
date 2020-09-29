@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Gbxx.WebApi.Areas.v1.Data {
+namespace Gbxx.WebApi.Responses {
     /// <summary>
     /// 站点信息
     /// </summary>
