@@ -1,0 +1,6 @@
+DDD：
+    》表示层 USER
+    》应用层 Application
+    》领域模型层 Domin
+    》基础结构层 Common
+    》CQRS表示读写分离

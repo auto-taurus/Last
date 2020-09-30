@@ -1,4 +1,5 @@
 ﻿using Auto.Commons.ApiHandles.Responses;
+using Auto.Commons.Extensions.Redis;
 using Auto.Dto.ElasticDoc;
 using Auto.ElasticServices.Contracts;
 using Gbxx.WebApi.Areas.v1.Data;
@@ -33,6 +34,7 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
         /// 
         /// </summary>
         protected IWebNewsElastic _IWebNewsElastic;
+        protected IRedisStore _IRedisStore;
         /// <summary>
         /// 
         /// </summary>
@@ -41,12 +43,14 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
         /// <param name="mySqlRepository"></param>
         public SiteController(
             ILogger<SiteController> logger,
-            IWebNewsElastic webNewsElastic,
-            IMySqlRepository mySqlRepository) {
+            //IWebNewsElastic webNewsElastic,
+            //IMySqlRepository mySqlRepository, 
+            IRedisStore redisStore) {
             this._ILogger = logger;
-            this._IWebNewsElastic = webNewsElastic;
-            this._IMySqlRepository = mySqlRepository;
-            _IWebNewsElastic.AddIndexAsync(_IWebNewsElastic.IndexName);
+            //this._IWebNewsElastic = webNewsElastic;
+            //this._IMySqlRepository = mySqlRepository;
+            //_IWebNewsElastic.AddIndexAsync(_IWebNewsElastic.IndexName);
+            this._IRedisStore = redisStore;
         }
         /// <summary>
         /// 获取站点信息
@@ -80,12 +84,14 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                                                             [FromQuery]SiteAccessGet item) {
             var response = new Response<Object>();
             try {
-                List<NewsDoc> result;
-                for (int pageIndex = 1; pageIndex <= 60; pageIndex++) {
-                    result = new List<NewsDoc>();
-                    result = _IMySqlRepository.GetList(pageIndex, 50000, 1910325);
-                    await _IWebNewsElastic.BatchAddDocumentAsync(_IWebNewsElastic.IndexName, result);
-                }
+
+                var dd = this._IRedisStore.Instance;
+                //List<NewsDoc> result;
+                //for (int pageIndex = 1; pageIndex <= 60; pageIndex++) {
+                //    result = new List<NewsDoc>();
+                //    result = _IMySqlRepository.GetList(pageIndex, 50000, 1910325);
+                //    await _IWebNewsElastic.BatchAddDocumentAsync(_IWebNewsElastic.IndexName, result);
+                //}
                 response.Code = true;
             }
             catch (Exception ex) {

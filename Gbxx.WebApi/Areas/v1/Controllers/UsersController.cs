@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Auto.Commons.ApiHandles.Responses;
+using Auto.Commons.Extensions.Redis;
 using Gbxx.WebApi.Areas.v1.Models;
 using Gbxx.WebApi.Areas.v1.Models.Get;
 using Microsoft.AspNetCore.Http;
@@ -15,8 +16,9 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
     public class UsersController : ControllerBase {
 
         protected readonly ILogger _ILogger;
-        public UsersController(ILogger<SiteController> logger) {
-
+        protected IRedisStore _IRedisStore;
+        public UsersController(ILogger<SiteController> logger, IRedisStore redisStore) {
+            this._IRedisStore = redisStore;
         }
         /// <summary>
         /// 
@@ -31,7 +33,7 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                                                             [FromQuery]UserSearchGet item) {
             var response = new Response<Object>();
             try {
-
+               var dd = this._IRedisStore.Instance;
                 response.Code = true;
             }
             catch (Exception ex) {
@@ -52,6 +54,8 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                                                              [FromBody]UserSearchGet item) {
             var response = new Response<Object>();
             try {
+
+                var dd = this._IRedisStore.GetInstance("localhost");
                 response.Code = true;
             }
             catch (Exception ex) {
