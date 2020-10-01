@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Auto.Commons.ApiHandles.Responses;
 using Auto.Commons.Extensions.Redis;
+using Auto.RedisServices.Repositories;
 using Gbxx.WebApi.Areas.v1.Models;
 using Gbxx.WebApi.Areas.v1.Models.Get;
 using Microsoft.AspNetCore.Http;
@@ -16,9 +17,9 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
     public class UsersController : ControllerBase {
 
         protected readonly ILogger _ILogger;
-        protected IRedisStore _IRedisStore;
-        public UsersController(ILogger<SiteController> logger, IRedisStore redisStore) {
-            this._IRedisStore = redisStore;
+        protected IWebNewsRedis _IWebNewsRedis;
+        public UsersController(ILogger<SiteController> logger, IWebNewsRedis webNewsRedis) {
+            this._IWebNewsRedis = webNewsRedis;
         }
         /// <summary>
         /// 
@@ -33,7 +34,7 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                                                             [FromQuery]UserSearchGet item) {
             var response = new Response<Object>();
             try {
-               var dd = this._IRedisStore.Instance;
+                var dd = this._IWebNewsRedis.GetClickMonths("1", System.DateTime.Now, 1, 10);
                 response.Code = true;
             }
             catch (Exception ex) {
@@ -55,7 +56,6 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
             var response = new Response<Object>();
             try {
 
-                var dd = this._IRedisStore.GetInstance("localhost");
                 response.Code = true;
             }
             catch (Exception ex) {

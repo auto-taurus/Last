@@ -217,7 +217,7 @@
             
             </summary>
         </member>
-        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.SiteController.#ctor(Microsoft.Extensions.Logging.ILogger{Gbxx.WebApi.Areas.v1.Controllers.SiteController},Auto.ElasticServices.Contracts.IWebNewsElastic,Gbxx.WebApi.Utils.IMySqlRepository)">
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.SiteController.#ctor(Microsoft.Extensions.Logging.ILogger{Gbxx.WebApi.Areas.v1.Controllers.SiteController},Auto.Commons.Extensions.Redis.IRedisStore)">
             <summary>
             
             </summary>
@@ -666,7 +666,7 @@
             </summary>
             <param name="modelBuilder"></param>
         </member>
-        <member name="T:Gbxx.BackStage.Configure.Ioc.ServiceConfigureExtensions">
+        <member name="T:Gbxx.BackStage.Configure.Ioc.IocExtensions">
             <summary>
             AddSingleton的生命周期：
             项目启动-项目关闭 相当于静态类  只会有一个
@@ -676,7 +676,7 @@
             请求获取-（GC回收-主动释放） 每一次获取的对象都不是同一个
             </summary>
         </member>
-        <member name="M:Gbxx.BackStage.Configure.Ioc.ServiceConfigureExtensions.BatchServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+        <member name="M:Gbxx.BackStage.Configure.Ioc.IocExtensions.BatchServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
             <summary>
             注册指定程序集中的服务
             </summary>

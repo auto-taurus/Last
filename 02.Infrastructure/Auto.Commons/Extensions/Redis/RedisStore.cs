@@ -1,20 +1,28 @@
 ﻿using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
 using StackExchange.Redis;
 using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace Auto.Commons.Extensions.Redis {
     public class RedisStore : IRedisStore {
         private readonly object Locker = new object();
         private readonly IConfiguration _IConfiguration;
         private ConnectionMultiplexer _instance;
-        private readonly ConcurrentDictionary<string, ConnectionMultiplexer> _ConcurrentDictionary;
+        private readonly ConcurrentDictionary<string, ConnectionMultiplexer> _ConcurrentDictionary = new ConcurrentDictionary<string, ConnectionMultiplexer>();
         private readonly string _RedisRootNode = "RedisConfig";
-        private string _NodeServer = "default";
+        public string PrefixKey { get; set; }
         public RedisStore(IConfiguration configuration) {
             this._IConfiguration = configuration;
-            this._ConcurrentDictionary = new ConcurrentDictionary<string, ConnectionMultiplexer>();
+            this.PrefixKey = this._IConfiguration["RedisConfig:Default:Prefix"];
         }
+        /// <summary>
+        /// 当前实例
+        /// </summary>
         public ConnectionMultiplexer Instance {
             get {
                 if (_instance == null) {
@@ -33,12 +41,12 @@ namespace Auto.Commons.Extensions.Redis {
         /// <param name="instanceName"></param>
         /// <returns></returns>
         public ConnectionMultiplexer GetInstance(string nodeServer = null) {
-            this._NodeServer = string.IsNullOrEmpty(nodeServer) ? this._NodeServer : nodeServer;
+            nodeServer = string.IsNullOrEmpty(nodeServer) ? "Default" : nodeServer;
             //不存在，创建实例
-            if (!_ConcurrentDictionary.ContainsKey(this._NodeServer)) {
-                this._ConcurrentDictionary[this._NodeServer] = this.GetConnect(this.CheckConfiguration(this._NodeServer));
+            if (!_ConcurrentDictionary.ContainsKey(nodeServer)) {
+                this._ConcurrentDictionary[nodeServer] = this.GetConnect(this.CheckConfiguration(nodeServer));
             }
-            return this._ConcurrentDictionary[this._NodeServer];
+            return this._ConcurrentDictionary[nodeServer];
         }
         /// <summary>
         /// 获取默认数据库
@@ -47,6 +55,14 @@ namespace Auto.Commons.Extensions.Redis {
         /// <returns></returns>
         public IDatabaseAsync GetDatabase(int? number = null) {
             return this.Instance.GetDatabase(number.HasValue ? number.Value : 0);
+        }
+        /// <summary>
+        /// 获取默认服务
+        /// </summary>
+        /// <param name="number"></param>
+        /// <returns></returns>
+        public IServer GetServer(string hostAndPort) {
+            return this.Instance.GetServer(hostAndPort);
         }
         /// <summary>
         /// 检查参数
@@ -146,4 +162,5 @@ namespace Auto.Commons.Extensions.Redis {
 
         #endregion 事件
     }
+
 }

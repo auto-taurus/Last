@@ -30,10 +30,9 @@ namespace Gbxx.WebApi {
             })
             .AddSingleton<MysqlDbContext>()
             .AddOptions();
-            //services.AddDbContext<MySqlDbContext>(options => options.UseMySQL(Configuration.GetConnectionString("GbxxNews")));
 
             services.BatchServices();
-            //services.InitElasticSearch(Configuration);
+            services.InitElasticSearch(Configuration);
             SwaggerConfigure.Configure(services);
 
             services.AddMvc()

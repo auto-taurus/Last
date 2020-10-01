@@ -28,6 +28,7 @@
     <ProjectReference Include="..\02.Infrastructure\Auto.Commons\Auto.Commons.csproj" />
     <ProjectReference Include="..\02.Infrastructure\Auto.Dto\Auto.Dto.csproj" />
     <ProjectReference Include="..\03.Services\Auto.ElasticServices\Auto.ElasticServices.csproj" />
+    <ProjectReference Include="..\03.Services\Auto.RedisServices\Auto.RedisServices.csproj" />
   </ItemGroup>
 
 </Project>
