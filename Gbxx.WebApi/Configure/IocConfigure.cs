@@ -16,7 +16,7 @@ namespace Gbxx.BackStage.Configure.Ioc {
     /// AddTransient的生命周期：
     /// 请求获取-（GC回收-主动释放） 每一次获取的对象都不是同一个
     /// </summary>
-    public static class IocExtensions {
+    public static class IocConfigure {
         /// <summary>
         /// 注册指定程序集中的服务
         /// </summary>

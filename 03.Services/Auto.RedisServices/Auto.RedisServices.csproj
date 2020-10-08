@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\02.Infrastructure\Auto.Commons\Auto.Commons.csproj" />
+    <ProjectReference Include="..\..\02.Infrastructure\Auto.Dto\Auto.Dto.csproj" />
   </ItemGroup>
 
 </Project>

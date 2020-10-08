@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Auto.Commons.ApiHandles.Responses {
-    public class Response<TModal> : IResponse<TModal> where TModal : class {
-        public Boolean Code { get; set; } = true;
+    public class Response<TObject> : IResponse<TObject> {
+        public Boolean Code { get; set; }
         public String Message { get; set; }
-        public TModal Data { get; set; }
+        public TObject Data { get; set; }
         public Object Other { get; set; }
     }
 }

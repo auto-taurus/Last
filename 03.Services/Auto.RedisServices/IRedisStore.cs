@@ -7,7 +7,10 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace Auto.Commons.Extensions.Redis {
+namespace Auto.RedisServices {
+    /// <summary>
+    /// Redis客户端，任何地方都可以调用
+    /// </summary>
     public interface IRedisStore : ISingletonInject {
         /// <summary>
         /// 获取前缀
@@ -36,7 +39,7 @@ namespace Auto.Commons.Extensions.Redis {
         /// <returns></returns>
         IServer GetServer(string hostAndPort);
     }
-    public static class IRedisStoreExtensions {
+    public static class IRedisStoreExtension {
 
         #region #region 辅助方法
 
@@ -119,7 +122,7 @@ namespace Auto.Commons.Extensions.Redis {
             using (var md5 = MD5.Create()) {
                 var result = md5.ComputeHash(Encoding.UTF8.GetBytes(input));
                 var strResult = BitConverter.ToString(result);
-                return strResult.Replace("-", "");
+                return strResult.Replace("-", "").ToLower();
             }
         }
 

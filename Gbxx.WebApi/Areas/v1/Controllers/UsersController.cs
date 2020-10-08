@@ -29,7 +29,7 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
         /// <param name="item"></param>
         /// <returns></returns>
         [HttpGet]
-        public async Task<IActionResult> GetUserSearchAsync([FromHeader(Name = "Device-Args")]DeviceArgs deviceArgs,
+        public async Task<IActionResult> GetUserSearchAsync([FromHeader]DeviceArgs deviceArgs,
                                                             [FromHeader]string authorization,
                                                             [FromQuery]UserSearchGet item) {
             var response = new Response<Object>();
@@ -50,7 +50,7 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
         /// <param name="item"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<IActionResult> PostUserSearchAsync([FromHeader(Name = "Device-Args")]string deviceArgs,
+        public async Task<IActionResult> PostUserSearchAsync([FromHeader]string deviceArgs,
                                                              [FromHeader]string authorization,
                                                              [FromBody]UserSearchGet item) {
             var response = new Response<Object>();

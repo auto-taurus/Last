@@ -33,7 +33,7 @@ namespace Gbxx.WebApi {
 
             services.BatchServices();
             services.InitElasticSearch(Configuration);
-            SwaggerConfigure.Configure(services);
+            services.InitSwaggerGen();
 
             services.AddMvc()
                     .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)

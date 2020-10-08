@@ -3,12 +3,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Nest;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace Gbxx.WebApi.Configure {
-    public static class ElasticSearchExtensions {
+    public static class ElasticsearchConfigure {
         public static void InitElasticSearch(this IServiceCollection services, IConfiguration configuration) {
 
             var uris = configuration["ElasticConfig:Host"].Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries)

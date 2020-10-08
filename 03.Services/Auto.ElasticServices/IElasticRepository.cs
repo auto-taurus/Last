@@ -1,8 +1,6 @@
-﻿using Elasticsearch.Net;
-using Nest;
+﻿using Nest;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Auto.ElasticServices {
@@ -11,7 +9,10 @@ namespace Auto.ElasticServices {
         /// 索引名称
         /// </summary>
         string IndexName { get; }
-         IElasticClient Client { get; set; }
+        /// <summary>
+        /// ES客户端，已集成，任何地方都可以调用
+        /// </summary>
+        IElasticClient Client { get; set; }
         /// <summary>
         /// 检测索引是否已经存在
         /// </summary>
@@ -47,7 +48,7 @@ namespace Auto.ElasticServices {
         /// <param name="objectDocment">文档内容</param>
         /// <param name="_id">自定义_id</param>
         /// <returns></returns>
-        Task<bool> AddDocumentAsync(TEntity entity, string indexName, string _id = "");
+        Task<bool> AddDocumentAsync(string indexName, string _id, TEntity entity);
         /// <summary>
         /// 批量插入文档
         /// </summary>
@@ -73,7 +74,7 @@ namespace Auto.ElasticServices {
         /// <param name="_id">elasticsearch的id</param>
         /// <param name="objectDocment">单条数据的所有内容</param>
         /// <returns></returns>
-        Task<bool> UpdateDocumentAsync(TEntity entity, string indexName, string _id);
+        Task<bool> UpdateDocumentAsync(string indexName, string _id, TEntity entity);
         /// <summary>
         /// 批量更新文档
         /// </summary>

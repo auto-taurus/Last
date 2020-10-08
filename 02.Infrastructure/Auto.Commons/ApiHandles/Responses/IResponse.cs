@@ -1,9 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Auto.Commons.ApiHandles.Responses {
-    public interface IResponse<TModal> : IResponseBase {
-        TModal Data { get; set; }
+    public interface IResponse<TObject> {
+        Boolean Code { get; set; } 
+        String Message { get; set; }
+        TObject Data { get; set; }
+        Object Other { get; set; }
     }
 }

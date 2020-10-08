@@ -6,8 +6,8 @@ using System.IO;
 using System.Reflection;
 
 namespace Gbxx.WebApi.Configure.Swagger {
-    public class SwaggerConfigure {
-        public static void Configure(IServiceCollection services) {
+    public static class SwaggerConfigure {
+        public static void InitSwaggerGen(this IServiceCollection services) {
             // 注册Swagger服务
             services.AddSwaggerGen(c => {
                 // 添加文档信息

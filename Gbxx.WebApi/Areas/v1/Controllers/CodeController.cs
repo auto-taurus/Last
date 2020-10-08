@@ -1,7 +1,9 @@
 ﻿using Auto.Commons.ApiHandles.Responses;
 using Auto.Dto.ElasticDoc;
+using Auto.ElasticServices.Contracts;
 using Gbxx.WebApi.Areas.v1.Data;
 using Gbxx.WebApi.Areas.v1.Models;
+using Gbxx.WebApi.Areas.v1.Models.Route;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Nest;
@@ -23,42 +25,36 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
         /// <summary>
         /// 
         /// </summary>
-        protected IElasticClient _client;
+        protected IWebNewsElastic _IWebNewsElastic;
         /// <summary>
         /// 
         /// </summary>
         /// <param name="logger"></param>
+        /// <param name="webNewsElastic"></param>
         public CodeController(ILogger<SiteController> logger,
-                              IElasticClient elasticClient) {
+                              IWebNewsElastic  webNewsElastic) {
             this._ILogger = logger;
-            this._client = elasticClient;
+            this._IWebNewsElastic = webNewsElastic;
         }
         /// <summary>
         /// 专栏新闻列表
         /// </summary>
-        /// <param name="args">设备信息</param>
-        /// <param name="mark">站点标识</param>
-        /// <param name="code">专栏代码</param>
-        /// <param name="item">分页信息</param>
+        /// <param name="source"></param>
+        /// <param name="route"></param>
+        /// <param name="item"></param>
         /// <returns></returns>
         [SwaggerResponse(200, "", typeof(List<NewsListResponse>))]
-        [HttpGet("{code}/News")]
-        public async Task<IActionResult> GetCodeNewsAsync([FromHeader(Name = "Device-Args")]string args,
-                                                          string mark,
-                                                          string code,
-                                                          [FromQuery]PageItem item) {
+        [HttpGet("{id}/News")]
+        public async Task<IActionResult> GetCodeNewsAsync([FromHeader]String source,
+                                                          [FromRoute]SiteIdRoute route,
+                                                          [FromQuery]ElasticPage item) {
             var response = new Response<List<NewsListResponse>>();
             try {
-                if (string.IsNullOrEmpty(mark.Trim()))
-                    return BadRequest("请传递站点标识！");
-                if (string.IsNullOrEmpty(code.Trim()))
-                    return BadRequest("请传递专栏代码！");
-
                 var request = new SearchRequest<NewsDoc>("gbxx-news") {
                     TrackTotalHits = true,
                     Query = new TermQuery() {
                         Field = "code",
-                        Value = code
+                        Value = route.id
                     },
                     Source = new Union<bool, ISourceFilter>(new SourceFilter {
                         Excludes = new[] { "contents" }
@@ -69,19 +65,24 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                     },
                     Size = item.PageSize
                 };
-                ISearchResponse<NewsListResponse> result;
                 if (item.PageIndex != null) {
                     request.From = 0;
                     request.SearchAfter = item.PageIndex.Split(",");
                 }
-                result = await this._client.SearchAsync<NewsListResponse>(request);
+               var result = await this._IWebNewsElastic.Client
+                                                       .SearchAsync<NewsListResponse>(request);
                 if (result.ApiCall.Success || result.ApiCall.HttpStatusCode == 200) {
-                    response.Code = true;
-                    response.Data = result.Documents.ToList();
-                    response.Other = string.Join(',', result.Hits.LastOrDefault().Sorts);
+                    if (result.Documents.Count > 0) {
+                        response.Code = true;
+                        response.Data = result.Documents.ToList();
+                        response.Other = string.Join(',', result.Hits.LastOrDefault().Sorts);
+                    }
+                    else {
+                        response.Message = "数据不存在！";
+                    }
                 }
                 else {
-                    response.Message = "获取数据错误！";
+                    response.Message = "获取数据失败！";
                 }
             }
             catch (Exception ex) {

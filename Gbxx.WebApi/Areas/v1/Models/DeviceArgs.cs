@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Gbxx.WebApi.Areas.v1.Models {
     /// <summary>
-    /// 来源设备基础信息
+    /// Header来源设备基础信息
     /// </summary>
     public class DeviceArgs {
         /// <summary>

@@ -1,25 +1,26 @@
-﻿using Auto.Commons.Extensions.Redis;
+﻿using Auto.Dto.RedisDto;
 using Auto.RedisServices.Repositories;
 using StackExchange.Redis;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Auto.RedisServices.Contracts {
+
     /// <summary>
-    /// 总访问Key：PrefixKey:{mark}:news:access:all
-    /// 点击随机数据库Key：PrefixKey:{mark}:news:click
-    /// 每日点击Key：PrefixKey:{mark}:news:click:{day}
-    /// 日点击统计周排行Key：PrefixKey:{mark}:news:click:week:{week} 及时删除
-    /// 日点击统计月排行Key：PrefixKey:{mark}:news:click:month:{month} 及时删除
-    /// 访问随机数据库Key：PrefixKey:{mark}:news:access 
-    /// 每日访问Key：PrefixKey:{mark}:news:access:{day}
-    /// 日访问计周排行Key：PrefixKey:{mark}:news:access:week:{week} 及时删除
-    /// 日访问计月排行Key：PrefixKey:{mark}:news:access:month:{month} 及时删除
+    /// 站点下的分类信息Key：gbxx:{mark}:categories
+    /// 总访问Key：gbxx:{mark}:category:access:all
+    /// 每日点击Key：gbxx:{mark}:category:click:{day}
+    /// 日点击统计周排行Key：gbxx:{mark}:category:click:week:{week} 及时删除
+    /// 日点击统计月排行Key：gbxx:{mark}:category:click:month:{month} 及时删除
+    /// 每日访问Key：gbxx:{mark}:category:access:{day}
+    /// 日访问计周排行Key：gbxx:{mark}:category:access:week:{week} 及时删除
+    /// 日访问计月排行Key：gbxx:{mark}:category:access:month:{month} 及时删除
     /// </summary>
-    public class WebNewsRedis : RedisRepository, IWebNewsRedis {
+    public class WebCategoryRedis : RedisRepository, IWebCategoryRedis {
         private IRedisStore _IRedisStore;
 
-        public WebNewsRedis(IRedisStore redisStore) {
+        public WebCategoryRedis(IRedisStore redisStore) {
             this._IRedisStore = redisStore;
         }
 
@@ -28,7 +29,7 @@ namespace Auto.RedisServices.Contracts {
 
             var day = System.DateTime.Now.ToString("yyyyMMdd");// 当前日期
 
-            var key = $"{_IRedisStore.PrefixKey}:{mark}:news:click";
+            var key = $"{_IRedisStore.PrefixKey}:{mark}:category:click";
             var number = _IRedisStore.GetRandomNumber(key);
             // 日点击key
             var daykey = $"{key}:{day}";
@@ -43,8 +44,8 @@ namespace Auto.RedisServices.Contracts {
             ///当前日期
             var day = System.DateTime.Now.ToString("yyyyMMdd");
 
-            var accessKey = $"{_IRedisStore.PrefixKey}:{mark}:news:access";
-            var countKey = $"{_IRedisStore.PrefixKey}:{mark}:news:access:all";
+            var accessKey = $"{_IRedisStore.PrefixKey}:{mark}:category:access";
+            var countKey = $"{_IRedisStore.PrefixKey}:{mark}:category:access:all";
 
             var accessNumber = _IRedisStore.GetRandomNumber(accessKey);
             var countNumber = _IRedisStore.GetRandomNumber(countKey);
@@ -57,7 +58,7 @@ namespace Auto.RedisServices.Contracts {
             return new Tuple<bool, bool>(dayResult > 0, allResult > 0);
         }
         public async Task<int> GetAccessCount(string mark, string id) {
-            var countKey = $"{_IRedisStore.PrefixKey}:{mark}:news:access:all";
+            var countKey = $"{_IRedisStore.PrefixKey}:{mark}:category:access:all";
             var countNumber = _IRedisStore.GetRandomNumber(countKey);
             var count = await _IRedisStore.Do(db => db.SortedSetScoreAsync(countKey, id), countNumber);
             if (!count.HasValue)
@@ -67,42 +68,67 @@ namespace Auto.RedisServices.Contracts {
 
         public async Task<SortedSetEntry[]> GetClickDays(string mark, DateTime? dt, int? pageIndex, int? pageSize) {
             var p = GetDayAndPage(dt, pageIndex, pageSize);
-            var key = $"{_IRedisStore.PrefixKey}:{mark}:news:click";
+            var key = $"{_IRedisStore.PrefixKey}:{mark}:category:click";
 
             return await GetDays(key, p);
         }
         public async Task<SortedSetEntry[]> GetClickWeeks(string mark, DateTime? dt, int? pageIndex, int? pageSize) {
             var p = GetDayAndPage(dt, pageIndex, pageSize);
-            var key = $"{_IRedisStore.PrefixKey}:{mark}:news:click";
+            var key = $"{_IRedisStore.PrefixKey}:{mark}:category:click";
 
             return await GetWeeks(key, p);
         }
         public async Task<SortedSetEntry[]> GetClickMonths(string mark, DateTime? dt, int? pageIndex, int? pageSize) {
             var p = GetDayAndPage(dt, pageIndex, pageSize);
-            var key = $"{_IRedisStore.PrefixKey}:{mark}:news:click";
+            var key = $"{_IRedisStore.PrefixKey}:{mark}:category:click";
 
             return await GetMonths(key, p);
         }
 
         public async Task<SortedSetEntry[]> GetAccessDays(string mark, DateTime? dt, int? pageIndex, int? pageSize) {
             var p = GetDayAndPage(dt, pageIndex, pageSize);
-            var key = $"{_IRedisStore.PrefixKey}:{mark}:news:access";
+            var key = $"{_IRedisStore.PrefixKey}:{mark}:category:access";
 
             return await GetDays(key, p);
         }
         public async Task<SortedSetEntry[]> GetAccessWeeks(string mark, DateTime? dt, int? pageIndex, int? pageSize) {
             var p = GetDayAndPage(dt, pageIndex, pageSize);
-            var key = $"{_IRedisStore.PrefixKey}:{mark}:news:access";
+            var key = $"{_IRedisStore.PrefixKey}:{mark}:category:access";
 
             return await GetWeeks(key, p);
         }
         public async Task<SortedSetEntry[]> GetAccessMonths(string mark, DateTime? dt, int? pageIndex, int? pageSize) {
             var p = GetDayAndPage(dt, pageIndex, pageSize);
-            var key = $"{_IRedisStore.PrefixKey}:{mark}:news:access";
+            var key = $"{_IRedisStore.PrefixKey}:{mark}:category:access";
 
             return await GetMonths(key, p);
 
         }
-    }
 
+        /// <summary>
+        /// 获取分类信息
+        /// </summary>
+        /// <param name="mark"></param>
+        /// <returns></returns>
+        public async Task<List<CategoryDto>> GetAsync(string mark) {
+            var key = $"{_IRedisStore.PrefixKey}:{mark}:categories";
+            var number = _IRedisStore.GetRandomNumber(key);
+            var result = await this._IRedisStore.Do(db => db.StringGetAsync(key), number);
+            if (!result.HasValue)
+                return new List<CategoryDto>();
+            return _IRedisStore.RedisValueToObject<List<CategoryDto>>(result);
+        }
+        /// <summary>
+        /// 添加分类信息
+        /// </summary>
+        /// <param name="mark"></param>
+        /// <returns></returns>
+        public async Task<bool> AddAsync(string mark, List<CategoryDto> items) {
+            var key = $"{_IRedisStore.PrefixKey}:{mark}:categories";
+            var number = _IRedisStore.GetRandomNumber(key);
+
+            var json = _IRedisStore.ObjectToString(items);
+            return await this._IRedisStore.Do(db => db.StringSetAsync(key, json), number);
+        }
+    }
 }

@@ -1,10 +1,7 @@
 ﻿using Elasticsearch.Net;
-using Elasticsearch.Net.Specification.IndicesApi;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
 using Nest;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,17 +11,17 @@ namespace Auto.ElasticServices {
     /// <summary>
     /// 
     /// </summary>
-    public class ElasticRepository<TEntity> : ElasticClient where TEntity : class {
+    public class ElasticRepository<TEntity> where TEntity : class {
         /// <summary>
         /// Linq查询的官方Client
         /// </summary>
         public IElasticClient Client { get; set; }
-        public string Prefix { get; set; }
+        protected readonly String Prefix;
         private IMemoryCache _IMemoryCache { get; set; }
-        public ElasticRepository(IElasticClient elasticClient, IMemoryCache memoryCache, IConfiguration configuration) {
-            this._IMemoryCache = memoryCache;
+        public ElasticRepository(IElasticClient elasticClient, IConfiguration configuration, IMemoryCache memoryCache) {
             this.Client = elasticClient;
             this.Prefix = configuration["ElasticConfig:Prefix"];
+            this._IMemoryCache = memoryCache;
         }
         /// <summary>
         /// 检测索引是否已经存在
@@ -39,7 +36,7 @@ namespace Auto.ElasticServices {
                     flag = true;
                 }
             }
-            catch (Exception ex) {
+            catch (Exception) {
 
             }
             return flag;
@@ -120,7 +117,7 @@ namespace Auto.ElasticServices {
                 }
 
             }
-            catch (Exception ex) {
+            catch (Exception) {
             }
             return flag;
         }
@@ -131,7 +128,7 @@ namespace Auto.ElasticServices {
         /// <param name="indexName">索引名称</param>
         /// <param name="_id">自定义编号</param>
         /// <returns></returns>
-        public async Task<bool> AddDocumentAsync(TEntity entity, string indexName, string _id = "") {
+        public async Task<bool> AddDocumentAsync(string indexName, string _id, TEntity entity) {
             var response = new IndexResponse();
             if (_id.Length > 0)
                 response = await Client.IndexAsync(entity, x => x.Index(indexName.ToLower()).Id(_id));
@@ -183,7 +180,7 @@ namespace Auto.ElasticServices {
                 return response.Shards.Successful > 0 || response.Shards.Total == 0;
 
             }
-            catch (Exception ex) {
+            catch (Exception) {
 
             }
             return false;
@@ -195,7 +192,7 @@ namespace Auto.ElasticServices {
         /// <param name="indexName">索引名称</param>
         /// <param name="_id">elasticsearch的id</param>
         /// <returns></returns>
-        public async Task<bool> UpdateDocumentAsync(TEntity entity, string indexName, string _id) {
+        public async Task<bool> UpdateDocumentAsync(string indexName, string _id, TEntity entity) {
             try {
                 var response = await Client.UpdateAsync<TEntity>(_id, x => x.Index(indexName).Doc(entity));
                 return response.Shards.Successful > 0;

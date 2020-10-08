@@ -1,8 +1,11 @@
 ﻿using Auto.Commons.ApiHandles.Responses;
 using Auto.Dto.ElasticDoc;
+using Auto.Dto.RedisDto;
 using Auto.ElasticServices.Contracts;
+using Auto.RedisServices.Repositories;
 using Gbxx.WebApi.Areas.v1.Data;
 using Gbxx.WebApi.Areas.v1.Models;
+using Gbxx.WebApi.Areas.v1.Models.Route;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Nest;
@@ -28,56 +31,41 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
         /// <summary>
         /// 
         /// </summary>
-        protected IElasticClient _client;
+        protected IWebCategoryRedis _IWebCategoryRedis;
         /// <summary>
         /// 
         /// </summary>
         /// <param name="logger"></param>
         /// <param name="webNewsElastic"></param>
         /// <param name="elasticClient"></param>
+        /// <param name="webCategoryRedis"></param>
         public CategoryController(
-            ILogger<SiteController> logger,
-            IWebNewsElastic webNewsElastic,
-            IElasticClient elasticClient) {
+                              ILogger<SiteController> logger,
+                              IWebNewsElastic webNewsElastic,
+                              IWebCategoryRedis webCategoryRedis) {
             this._ILogger = logger;
             this._IWebNewsElastic = webNewsElastic;
-            this._client = elasticClient;
+            this._IWebCategoryRedis = webCategoryRedis;
         }
         /// <summary>
         /// 分类列表
         /// </summary>
-        /// <param name="args">设备信息</param>
-        /// <param name="mark">站点标识</param>
+        /// <param name="source"></param>
+        /// <param name="route"></param>
         /// <returns></returns>
-        [SwaggerResponse(200, "", typeof(List<CategoryResponse>))]
+        [SwaggerResponse(200, "", typeof(List<CategoryDto>))]
         [HttpGet]
-        public async Task<IActionResult> GetCategoriesAsync([FromHeader(Name = "Device-Args")]String args,
-                                                            string mark) {
-            var response = new Response<List<CategoryResponse>>();
+        public async Task<IActionResult> GetCategoriesAsync([FromHeader]String source,
+                                                            [FromRoute]SiteRoute route) {
+            var response = new Response<List<CategoryDto>>();
             try {
-
-            }
-            catch (Exception ex) {
-                response.SetError(ex, this._ILogger);
-            }
-            return response.ToHttpResponse();
-        }
-        /// <summary>
-        /// 分类信息
-        /// </summary>
-        /// <param name="args">设备信息</param>
-        /// <param name="mark">站点标识</param>
-        /// <param name="id">分类编号</param>
-        /// <returns></returns>
-        [SwaggerResponse(200, "", typeof(CategoryResponse))]
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetCategoryAsync([FromHeader(Name = "Device-Args")]String args,
-                                                          string mark,
-                                                          string id) {
-            var response = new Response<CategoryResponse>();
-            try {
-
-
+                var result = await this._IWebCategoryRedis.GetAsync(route.mark);
+                if (result.Count > 0) {
+                    response.Code = true;
+                    response.Data = result;
+                }
+                else
+                    response.Message = "数据不存在！";
             }
             catch (Exception ex) {
                 response.SetError(ex, this._ILogger);
@@ -87,29 +75,22 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
         /// <summary>
         /// 分类新闻列表
         /// </summary>
-        /// <param name="args">设备信息</param>
-        /// <param name="mark">站点标识</param>
-        /// <param name="id">分类编号</param>
-        /// <param name="item">分页信息</param>
+        /// <param name="source"></param>
+        /// <param name="route"></param>
+        /// <param name="item"></param>
         /// <returns></returns>
         [SwaggerResponse(200, "", typeof(List<NewsListResponse>))]
         [HttpGet("{id}/News")]
-        public async Task<IActionResult> GetCategoryNewsAsync([FromHeader(Name = "Device-Args")]String args,
-                                                              string mark,
-                                                              string id,
-                                                              [FromQuery]PageItem item) {
+        public async Task<IActionResult> GetCategoryNewsAsync([FromHeader]String source,
+                                                              [FromRoute]SiteIdRoute route,
+                                                              [FromQuery]ElasticPage item) {
             var response = new Response<List<NewsListResponse>>();
             try {
-                if (string.IsNullOrEmpty(mark.Trim()))
-                    return BadRequest("请传递站点标识！");
-                if (string.IsNullOrEmpty(id.Trim()))
-                    return BadRequest("请传递新闻编号！");
-
                 var request = new SearchRequest<NewsDoc>(_IWebNewsElastic.IndexName) {
                     TrackTotalHits = true,
                     Query = new TermQuery() {
                         Field = "categoryId",
-                        Value = id
+                        Value = route.id
                     },
                     Source = new Union<bool, ISourceFilter>(new SourceFilter {
                         Excludes = new[] { "contents" }
@@ -120,19 +101,23 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                     },
                     Size = item.PageSize
                 };
-                ISearchResponse<NewsListResponse> result;
                 if (item.PageIndex != null) {
                     request.From = 0;
                     request.SearchAfter = item.PageIndex.Split(",");
                 }
-                result = await this._client.SearchAsync<NewsListResponse>(request);
+                var result = await this._IWebNewsElastic.Client
+                                                        .SearchAsync<NewsListResponse>(request);
                 if (result.ApiCall.Success || result.ApiCall.HttpStatusCode == 200) {
-                    response.Code = true;
-                    response.Data = result.Documents.ToList();
-                    response.Other = string.Join(',', result.Hits.LastOrDefault().Sorts);
+                    if (result.Documents.Count > 0) {
+                        response.Code = true;
+                        response.Data = result.Documents.ToList();
+                        response.Other = string.Join(',', result.Hits.LastOrDefault().Sorts);
+                    }
+                    else
+                        response.Message = "数据不存在！";
                 }
                 else {
-                    response.Message = "获取数据错误！";
+                    response.Message = "获取数据失败！";
                 }
             }
             catch (Exception ex) {
@@ -143,17 +128,16 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
         /// <summary>
         /// 分类访问统计
         /// </summary>
-        /// <param name="args">设备信息</param>
-        /// <param name="mark">站点标识</param>
-        /// <param name="id">分类编号</param>
+        /// <param name="source"></param>
+        /// <param name="route"></param>
         /// <returns></returns>
         [HttpGet("{id}/Access")]
-        public async Task<IActionResult> GetCategoryAccessAsync([FromHeader(Name = "Device-Args")]String args,
-                                                                string mark,
-                                                                string id) {
+        public async Task<IActionResult> GetCategoryAccessAsync([FromHeader]String source,
+                                                                [FromRoute]SiteIdRoute route) {
             var response = new Response<Object>();
             try {
-
+                await this._IWebCategoryRedis.AddAccessCount(route.mark, route.id);
+                response.Code = true;
             }
             catch (Exception ex) {
                 response.SetError(ex, this._ILogger);
@@ -163,18 +147,18 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
         /// <summary>
         /// 分类点击统计
         /// </summary>
-        /// <param name="args">设备信息</param>
-        /// <param name="mark">站点标识</param>
-        /// <param name="id">分类编号</param>
+        /// <param name="source"></param>
+        /// <param name="route"></param>
         /// <returns></returns>
         [HttpGet("{id}/Click")]
-        public async Task<IActionResult> GetCategoryClickAsync([FromHeader(Name = "Device-Args")]String args,
-                                                               string mark,
-                                                               string id) {
+        public async Task<IActionResult> GetCategoryClickAsync([FromHeader]String source,
+                                                               [FromRoute]SiteIdRoute route) {
             var response = new Response<Object>();
             try {
-
-
+                var result = await this._IWebCategoryRedis.AddClickCount(route.mark, route.id);
+                if (!result)
+                    response.Message = "分类点击统计失败！";
+                response.Code = result;
             }
             catch (Exception ex) {
                 response.SetError(ex, this._ILogger);

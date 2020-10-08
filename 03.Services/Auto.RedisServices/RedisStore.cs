@@ -1,14 +1,9 @@
 ﻿using Microsoft.Extensions.Configuration;
-using Newtonsoft.Json;
 using StackExchange.Redis;
 using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
 
-namespace Auto.Commons.Extensions.Redis {
+namespace Auto.RedisServices {
     public class RedisStore : IRedisStore {
         private readonly object Locker = new object();
         private readonly IConfiguration _IConfiguration;

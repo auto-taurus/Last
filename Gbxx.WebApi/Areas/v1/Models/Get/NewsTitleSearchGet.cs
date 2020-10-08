@@ -9,19 +9,11 @@ namespace Gbxx.WebApi.Requests.Query {
     /// <summary>
     /// 新闻标题检索
     /// </summary>
-    public class NewsTitleSearchGet : IPageItem {
+    public class NewsTitleSearchGet : ElasticPage {
         /// <summary>
         /// 标题
         /// </summary>
         public string Title { get; set; }
-        /// <summary>
-        /// 
-        /// </summary>
-        public string PageIndex { get; set; }
-        /// <summary>
-        /// 
-        /// </summary>
-        public int? PageSize { get; set; }
     }
     /// <summary>
     /// 

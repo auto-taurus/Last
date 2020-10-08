@@ -1,7 +1,10 @@
 ﻿using Auto.Commons.ApiHandles.Responses;
 using Auto.Dto.ElasticDoc;
+using Auto.ElasticServices.Contracts;
+using Auto.RedisServices.Repositories;
 using Gbxx.WebApi.Areas.v1.Data;
 using Gbxx.WebApi.Areas.v1.Models;
+using Gbxx.WebApi.Areas.v1.Models.Route;
 using Gbxx.WebApi.Requests.Query;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -24,40 +27,52 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
         /// <summary>
         /// 
         /// </summary>
-        protected IElasticClient _client;
+        protected IWebNewsElastic _IWebNewsElastic;
+        /// <summary>
+        /// 
+        /// </summary>
+        protected IWebNewsRedis _IWebNewsRedis;
         /// <summary>
         /// 
         /// </summary>
         /// <param name="logger"></param>
-        /// <param name="elasticClient"></param>
+        /// <param name="webNewsElastic"></param>
+        /// <param name="webNewsRedis"></param>
         public NewsController(ILogger<SiteController> logger,
-            IElasticClient elasticClient) {
+                              IWebNewsElastic webNewsElastic,
+                              IWebNewsRedis webNewsRedis) {
             this._ILogger = logger;
-            this._client = elasticClient;
+            this._IWebNewsElastic = webNewsElastic;
+            this._IWebNewsRedis = webNewsRedis;
         }
         /// <summary>
         /// 新闻信息
         /// </summary>
-        /// <param name="args"></param>
-        /// <param name="mark"></param>
-        /// <param name="id">新闻编号</param>
+        /// <param name="source"></param>
+        /// <param name="route"></param>
         /// <returns></returns>
         [HttpGet("{id}")]
         [SwaggerResponse(200, "", typeof(NewsResponse))]
-        public async Task<IActionResult> GetNewsAsync([FromHeader(Name = "Device-Args")]string args,
-                                                      string mark,
-                                                      string id) {
+        public async Task<IActionResult> GetNewsAsync([FromHeader]String source,
+                                                      [FromRoute]SiteIdRoute route) {
             var response = new Response<NewsResponse>();
             try {
-                var request = new GetDescriptor<NewsDoc>("gbxx-news", id);
+                var request = new GetDescriptor<NewsDoc>(_IWebNewsElastic.IndexName, route.id);
+                // 排除返回字段
                 request.SourceExcludes(a => new { a.Img, a.ImagePath, a.DisplayType });
-                var result = await this._client.SourceAsync<NewsResponse>(id, a => a.Index("gbxx-news"));
+                // 只获取元数据
+                var result = await this._IWebNewsElastic.Client
+                                                        .GetAsync<NewsResponse>(request);
                 if (result.ApiCall.Success && result.ApiCall.HttpStatusCode == 200) {
-                    response.Code = true;
-                    response.Data = result.Body;
+                    if (result.Source.NewsId.HasValue) {
+                        response.Code = true;
+                        response.Data = result.Source;
+                    }
+                    else
+                        response.Message = "数据不存在！";
                 }
                 else {
-                    response.Message = "获取数据错误！";
+                    response.Message = "获取数据失败！";
                 }
             }
             catch (Exception ex) {
@@ -68,18 +83,18 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
         /// <summary>
         /// 新闻首页轮播列表
         /// </summary>
-        /// <param name="args"></param>
-        /// <param name="mark"></param>
-        /// <param name="item">分页信息</param>
+        /// <param name="source"></param>
+        /// <param name="route"></param>
+        /// <param name="item"></param>
         /// <returns></returns>
         [HttpGet("Carousel")]
         [SwaggerResponse(200, "", typeof(List<NewsListResponse>))]
-        public async Task<IActionResult> GetNewsCarouselAsync([FromHeader(Name = "Device-Args")]string args,
-                                                              string mark,
-                                                              [FromQuery]PageItem item) {
+        public async Task<IActionResult> GetNewsCarouselAsync([FromHeader]String source,
+                                                              [FromRoute]SiteRoute route,
+                                                              [FromQuery]ElasticPage item) {
             var response = new Response<List<NewsListResponse>>();
             try {
-                var request = new SearchRequest<NewsDoc>("gbxx-news") {
+                var request = new SearchRequest<NewsDoc>(_IWebNewsElastic.IndexName) {
                     TrackTotalHits = true,
                     Query = new TermQuery() {
                         Field = "displayType",
@@ -94,14 +109,18 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                     },
                     Size = item.PageSize
                 };
-                ISearchResponse<NewsListResponse> result;
-                result = await this._client.SearchAsync<NewsListResponse>(request);
+                var result = await this._IWebNewsElastic.Client
+                                                        .SearchAsync<NewsListResponse>(request);
                 if (result.ApiCall.Success && result.ApiCall.HttpStatusCode == 200) {
-                    response.Code = true;
-                    response.Data = result.Documents.ToList();
+                    if (result.Documents.Count > 0) {
+                        response.Code = true;
+                        response.Data = result.Documents.ToList();
+                    }
+                    else
+                        response.Message = "数据不存在！";
                 }
                 else {
-                    response.Message = "获取数据错误！";
+                    response.Message = "获取数据失败！";
                 }
             }
             catch (Exception ex) {
@@ -112,16 +131,16 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
         /// <summary>
         /// 新闻首页大标信息
         /// </summary>
-        /// <param name="mark"></param>
-        /// <param name="args"></param>
+        /// <param name="source"></param>
+        /// <param name="route"></param>
         /// <returns></returns>
         [HttpGet("Big")]
         [SwaggerResponse(200, "", typeof(NewsListResponse))]
-        public async Task<IActionResult> GetNewsBigAsync([FromHeader(Name = "Device-Args")]string args,
-                                                         string mark) {
+        public async Task<IActionResult> GetNewsBigAsync([FromHeader]String source,
+                                                         [FromRoute]SiteRoute route) {
             var response = new Response<NewsListResponse>();
             try {
-                var request = new SearchRequest<NewsDoc>("gbxx-news") {
+                var request = new SearchRequest<NewsDoc>(_IWebNewsElastic.IndexName) {
                     TrackTotalHits = true,
                     Query = new TermQuery() {
                         Field = "displayType",
@@ -136,15 +155,18 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                     },
                     Size = 1
                 };
-                ISearchResponse<NewsListResponse> result;
-                result = await this._client.SearchAsync<NewsListResponse>(request);
+                var result = await this._IWebNewsElastic.Client
+                                                        .SearchAsync<NewsListResponse>(request);
 
                 if (result.ApiCall.Success && result.ApiCall.HttpStatusCode == 200) {
-                    response.Code = true;
-                    response.Data = result.Documents.SingleOrDefault();
+                    if (result.Documents.SingleOrDefault() != null) {
+                        response.Code = true;
+                        response.Data = result.Documents.SingleOrDefault();
+                    }
+                    response.Message = "数据不存在！";
                 }
                 else {
-                    response.Message = "获取数据错误！";
+                    response.Message = "获取数据失败！";
                 }
             }
             catch (Exception ex) {
@@ -155,16 +177,15 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
         /// <summary>
         /// 新闻访问统计
         /// </summary>
-        /// <param name="args"></param>
-        /// <param name="mark"></param>
-        /// <param name="id">新闻编号</param>
+        /// <param name="source"></param>
+        /// <param name="route"></param>
         /// <returns></returns>
         [HttpGet("{id}/Access")]
-        public async Task<IActionResult> GetNewsAccessAsync([FromHeader(Name = "Device-Args")]string args,
-                                                            string mark,
-                                                            string id) {
+        public async Task<IActionResult> GetNewsAccessAsync([FromHeader]String source,
+                                                            [FromRoute]SiteIdRoute route) {
             var response = new Response<Object>();
             try {
+                var result = await this._IWebNewsRedis.AddAccessCount(route.mark, route.id);
                 response.Code = true;
             }
             catch (Exception ex) {
@@ -176,17 +197,18 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
         /// <summary>
         /// 新闻点击统计
         /// </summary>
-        /// <param name="args"></param>
-        /// <param name="mark"></param>
-        /// <param name="id">新闻编号</param>
+        /// <param name="source"></param>
+        /// <param name="route"></param>
         /// <returns></returns>
         [HttpGet("{id}/Click")]
-        public async Task<IActionResult> GetNewsClickAsync([FromHeader(Name = "Device-Args")]string args,
-                                                           string mark,
-                                                           string id) {
+        public async Task<IActionResult> GetNewsClickAsync([FromHeader]String source,
+                                                           [FromRoute]SiteIdRoute route) {
             var response = new Response<Object>();
             try {
-                response.Code = true;
+                var result = await this._IWebNewsRedis.AddClickCount(route.mark, route.id);
+                if (!result)
+                    response.Message = "新闻点击统计失败！";
+                response.Code = result;
             }
             catch (Exception ex) {
                 response.SetError(ex, this._ILogger);
@@ -196,18 +218,18 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
         /// <summary>
         /// 新闻标题检索
         /// </summary>
-        /// <param name="args"></param>
-        /// <param name="mark"></param>
-        /// <param name="item">标题查询分页</param>
+        /// <param name="source"></param>
+        /// <param name="route"></param>
+        /// <param name="item"></param>
         /// <returns></returns>
         [SwaggerResponse(200, "", typeof(List<NewsListResponse>))]
         [HttpGet("Tag")]
-        public async Task<IActionResult> GetNewsSearchAsync([FromHeader(Name = "Device-Args")]string args,
-                                                            string mark,
+        public async Task<IActionResult> GetNewsSearchAsync([FromHeader]String source,
+                                                            [FromRoute]SiteRoute route,
                                                             [FromQuery]NewsTitleSearchGet item) {
             var response = new Response<Object>();
             try {
-                var request = new SearchRequest<NewsDoc>("gbxx-news") {
+                var request = new SearchRequest<NewsDoc>(_IWebNewsElastic.IndexName) {
                     TrackTotalHits = true,
                     Query = new MatchQuery() {
                         Query = item.Title,
@@ -227,26 +249,31 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                     },
                     Size = item.PageSize
                 };
-                ISearchResponse<NewsListResponse> result;
                 if (item.PageIndex != null) {
                     request.From = 0;
                     request.SearchAfter = item.PageIndex.Split(",");
                 }
-                result = await this._client.SearchAsync<NewsListResponse>(request);
+                var result = await this._IWebNewsElastic.Client
+                                                        .SearchAsync<NewsListResponse>(request);
                 if (result.ApiCall.Success && result.ApiCall.HttpStatusCode == 200) {
-                    response.Code = true;
-                    var data = new List<Dictionary<string, Object>>();
-                    foreach (var hit in result.Hits) {
-                        var entity = new Dictionary<string, Object>();
-                        entity.Add("highlight", hit.Highlight);
-                        entity.Add("entities", hit.Source);
-                        data.Add(entity);
+                    if (result.Hits.Count > 0) {
+                        response.Code = true;
+                        var data = new List<Dictionary<string, Object>>();
+                        foreach (var hit in result.Hits) {
+                            var entity = new Dictionary<string, Object>();
+                            entity.Add("highlight", hit.Highlight);
+                            entity.Add("entities", hit.Source);
+                            data.Add(entity);
+                        }
+                        response.Data = data;
+                        response.Other = string.Join(',', result.Hits.LastOrDefault().Sorts);
                     }
-                    response.Data = data;
-                    response.Other = string.Join(',', result.Hits.LastOrDefault().Sorts);
+                    else {
+                        response.Message = "数据不存在！";
+                    }
                 }
                 else {
-                    response.Message = "获取数据错误！";
+                    response.Message = "获取数据失败！";
                 }
             }
             catch (Exception ex) {
@@ -255,21 +282,25 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
             return response.ToHttpResponse();
         }
         /// <summary>
-        /// 文章热门访问
+        /// 24小时热文
         /// </summary>
-        /// <param name="args"></param>
-        /// <param name="mark"></param>
-        /// <param name="item">分页信息</param>
+        /// <param name="source"></param>
+        /// <param name="route"></param>
+        /// <param name="item"></param>
         /// <returns></returns>
         [SwaggerResponse(200, "", typeof(List<NewsListResponse>))]
         [HttpGet("Hot")]
-        public async Task<IActionResult> GetNewsHotAsync([FromHeader(Name = "Device-Args")]string args,
-                                                         string mark,
-                                                         [FromQuery]PageItem item) {
+        public async Task<IActionResult> GetNewsHotAsync([FromHeader]String source,
+                                                         [FromRoute]SiteRoute route,
+                                                         [FromQuery]ElasticPage item) {
             var response = new Response<List<NewsListResponse>>();
             try {
-                var request = new SearchRequest<NewsDoc>("gbxx-news") {
+                var request = new SearchRequest<NewsDoc>(_IWebNewsElastic.IndexName) {
                     TrackTotalHits = true,
+                    Query = new TermQuery() {
+                        Field = "pushTime",
+                        Value = System.DateTime.Now.ToString("yyyy-MM-dd")
+                    },
                     Source = new Union<bool, ISourceFilter>(new SourceFilter {
                         Excludes = new[] { "contents" }
                     }),
@@ -279,19 +310,24 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                     },
                     Size = item.PageSize
                 };
-                ISearchResponse<NewsListResponse> result;
                 if (item.PageIndex != null) {
                     request.From = 0;
-                    request.SearchAfter = args.Split(",");
+                    request.SearchAfter = source.Split(",");
                 }
-                result = await this._client.SearchAsync<NewsListResponse>(request);
+                var result = await this._IWebNewsElastic.Client
+                                                        .SearchAsync<NewsListResponse>(request);
                 if (result.ApiCall.Success && result.ApiCall.HttpStatusCode == 200) {
-                    response.Code = true;
-                    response.Data = result.Documents.ToList();
-                    response.Other = string.Join(',', result.Hits.LastOrDefault().Sorts);
+                    if (result.Documents.Count > 0) {
+                        response.Code = true;
+                        response.Data = result.Documents.ToList();
+                        response.Other = string.Join(',', result.Hits.LastOrDefault().Sorts);
+                    }
+                    else {
+                        response.Message = "数据不存在！";
+                    }
                 }
                 else {
-                    response.Message = "获取数据错误！";
+                    response.Message = "获取数据失败！";
                 }
             }
             catch (Exception ex) {
