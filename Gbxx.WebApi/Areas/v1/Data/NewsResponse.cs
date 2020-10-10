@@ -12,7 +12,7 @@ namespace Gbxx.WebApi.Areas.v1.Data {
         /// 新闻编号
         /// </summary>
         /// <value></value>
-        public int? NewsId { get; set; }
+        public string NewsId { get; set; }
         /// <summary>
         /// 分类编号
         /// </summary>

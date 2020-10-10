@@ -1,5 +1,4 @@
-﻿using Auto.Commons.Extensions.Redis;
-using Auto.Dto.RedisDto;
+﻿using  Auto.CacheEntities.RedisValues;
 using Auto.RedisServices.Repositories;
 using StackExchange.Redis;
 using System;
@@ -21,7 +20,7 @@ namespace Auto.RedisServices.Contracts {
             this._IRedisStore = redisStore;
         }
 
-        public async Task<Tuple<bool, bool>> AddAccessCount(string mark) {
+        public async Task<Tuple<bool, bool>> AddAccessCount(int mark) {
             ///当前日期
             var day = System.DateTime.Now.ToString("yyyyMMdd");
 
@@ -39,7 +38,7 @@ namespace Auto.RedisServices.Contracts {
 
             return new Tuple<bool, bool>(dayResult > 0, allResult > 0);
         }
-        public async Task<int> GetAccessCount(string mark) {
+        public async Task<int> GetAccessCount(int mark) {
             var countKey = $"{_customPrefix}:access:all";
             var countNumber = _IRedisStore.GetRandomNumber(countKey);
             var count = await _IRedisStore.Do(db => db.SortedSetScoreAsync(countKey, mark), countNumber);
@@ -48,20 +47,20 @@ namespace Auto.RedisServices.Contracts {
             return (int)count;
         }
 
-        public async Task<SortedSetEntry[]> GetAccessDays(string mark, DateTime? dt, int? pageIndex, int? pageSize) {
+        public async Task<SortedSetEntry[]> GetAccessDays(int mark, DateTime? dt, int? pageIndex, int? pageSize) {
             var p = GetDayAndPage(dt, pageIndex, pageSize);
             var key = $"{_customPrefix}:access";
 
             return await GetDays(key, p);
         }
-        public async Task<SortedSetEntry[]> GetAccessWeeks(string mark, DateTime? dt, int? pageIndex, int? pageSize) {
+        public async Task<SortedSetEntry[]> GetAccessWeeks(int mark, DateTime? dt, int? pageIndex, int? pageSize) {
             var p = GetDayAndPage(dt, pageIndex, pageSize);
             var key = $"{_customPrefix}:access";
 
             return await GetWeeks(key, p);
 
         }
-        public async Task<SortedSetEntry[]> GetAccessMonths(string mark, DateTime? dt, int? pageIndex, int? pageSize) {
+        public async Task<SortedSetEntry[]> GetAccessMonths(int mark, DateTime? dt, int? pageIndex, int? pageSize) {
             var p = GetDayAndPage(dt, pageIndex, pageSize);
             var key = $"{_customPrefix}:access";
 
@@ -73,20 +72,20 @@ namespace Auto.RedisServices.Contracts {
         /// </summary>
         /// <param name="mark"></param>
         /// <returns></returns>
-        public async Task<SiteDto> GetAsync(string mark) {
+        public async Task<WebSiteValue> GetAsync(int mark) {
             var key = $"{_customPrefix}:{mark}";
             var number = _IRedisStore.GetRandomNumber(key);
             var result = await this._IRedisStore.Do(db => db.StringGetAsync(key), number);
             if (!result.HasValue)
-                return default(SiteDto);
-            return _IRedisStore.RedisValueToObject<SiteDto>(result);
+                return default(WebSiteValue);
+            return _IRedisStore.RedisValueToObject<WebSiteValue>(result);
         }
         /// <summary>
         /// 添加站点信息
         /// </summary>
         /// <param name="mark"></param>
         /// <returns></returns>
-        public async Task<bool> AddAsync(string mark, SiteDto items) {
+        public async Task<bool> AddAsync(int mark, WebSiteValue items) {
             var key = $"{_customPrefix}:{mark}";
             var number = _IRedisStore.GetRandomNumber(key);
 

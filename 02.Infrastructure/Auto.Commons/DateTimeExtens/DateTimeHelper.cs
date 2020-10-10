@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace Auto.Commons {
+namespace Auto.Commons.DateTimeExtens {
     public static class DateTimeHelper {
-       
+
         /// <summary>
         /// 获取今天距离周一有多少天
         /// </summary>

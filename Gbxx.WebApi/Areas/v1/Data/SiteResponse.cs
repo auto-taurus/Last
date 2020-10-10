@@ -12,10 +12,6 @@ namespace Gbxx.WebApi.Areas.v1.Data {
         /// 站点编号
         /// </summary>
         public int? SiteId { get; set; }
-        ///<summary>
-        /// 站点标识
-        ///</summary>
-        public int? SiteMark { get; set; }
         /// <summary>
         /// 站点名称
         /// </summary>

@@ -1,4 +1,5 @@
-﻿using Auto.EFCore;
+﻿using Auto.Commons.Extensions.Predicate;
+using Auto.EFCore;
 using EFCore.BulkExtensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
@@ -51,8 +52,8 @@ namespace Auto.DataServices {
         /// </summary>
         /// <param name="predicate"></param>
         /// <returns></returns>
-        public virtual async Task<IList<TEntity>> Query(Expression<Func<TEntity, bool>> predicate)
-            => await _BaseDb.Set<TEntity>().AsNoTracking().Where(predicate).ToListAsync();
+        public virtual IQueryable<TEntity> Query(Expression<Func<TEntity, bool>> predicate)
+            => this.Query().Where(predicate);
         /// <summary>
         /// 根据过滤条件获取列表,并进行排序
         /// </summary>
@@ -60,13 +61,13 @@ namespace Auto.DataServices {
         /// <param name="expression"></param>
         /// <param name="isDesc"></param>
         /// <returns></returns>
-        public virtual async Task<IList<TEntity>> Query<TSort>(Expression<Func<TEntity, bool>> predicate, Expression<Func<TEntity, TSort>> expression, bool isDesc = false) where TSort : class {
+        public virtual IQueryable<TEntity> Query<TSort>(Expression<Func<TEntity, bool>> predicate, Expression<Func<TEntity, TSort>> expression, bool isDesc = false) {
             var query = this.Query().Where(predicate);
             if (isDesc)
                 query = query.OrderByDescending<TEntity, TSort>(expression);
             else
                 query = query.OrderBy<TEntity, TSort>(expression);
-            return await query.ToListAsync();
+            return query;
         }
         /// <summary>
         /// 查询分页排序

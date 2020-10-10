@@ -14,7 +14,7 @@ namespace Auto.EFCore.Entities {
         #region Generated Properties
         public int MenuId { get; set; }
 
-        public int? SiteNo { get; set; }
+        public int? SiteId { get; set; }
 
         public string MenuIcon { get; set; }
 

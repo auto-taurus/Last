@@ -9,6 +9,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Areas\v1\Controllers\UsersController.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="Areas\v1\Models\Put\" />
     <Folder Include="Areas\v1\Models\Delete\" />
   </ItemGroup>
@@ -26,7 +30,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\02.Infrastructure\Auto.Commons\Auto.Commons.csproj" />
-    <ProjectReference Include="..\02.Infrastructure\Auto.Dto\Auto.Dto.csproj" />
+    <ProjectReference Include="..\02.Infrastructure\Auto.Dto\Auto.CacheEntities.csproj" />
+    <ProjectReference Include="..\03.Services\Auto.DataServices\Auto.DataServices.csproj" />
     <ProjectReference Include="..\03.Services\Auto.ElasticServices\Auto.ElasticServices.csproj" />
     <ProjectReference Include="..\03.Services\Auto.RedisServices\Auto.RedisServices.csproj" />
   </ItemGroup>

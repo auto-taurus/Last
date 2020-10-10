@@ -19,62 +19,56 @@
             
             </summary>
         </member>
-        <member name="F:Gbxx.WebApi.Areas.v1.Controllers.CategoryController._client">
+        <member name="F:Gbxx.WebApi.Areas.v1.Controllers.CategoryController._IWebCategoryRedis">
             <summary>
             
             </summary>
         </member>
-        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.CategoryController.#ctor(Microsoft.Extensions.Logging.ILogger{Gbxx.WebApi.Areas.v1.Controllers.SiteController},Auto.ElasticServices.Contracts.IWebNewsElastic,Nest.IElasticClient)">
+        <member name="F:Gbxx.WebApi.Areas.v1.Controllers.CategoryController._IWebCategoryRepository">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.CategoryController.#ctor(Microsoft.Extensions.Logging.ILogger{Gbxx.WebApi.Areas.v1.Controllers.SiteController},Auto.ElasticServices.Contracts.IWebNewsElastic,Auto.RedisServices.Repositories.IWebCategoryRedis,Auto.DataServices.Contracts.IWebCategoryRepository)">
             <summary>
             
             </summary>
             <param name="logger"></param>
             <param name="webNewsElastic"></param>
-            <param name="elasticClient"></param>
+            <param name="webCategoryRedis"></param>
+            <param name="webCategoryRepository"></param>
         </member>
-        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.CategoryController.GetCategoriesAsync(System.String,System.String)">
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.CategoryController.GetCategoriesAsync(System.String,Gbxx.WebApi.Areas.v1.Models.Route.SiteRoute)">
             <summary>
             分类列表
             </summary>
-            <param name="args">设备信息</param>
-            <param name="mark">站点标识</param>
+            <param name="source"></param>
+            <param name="route"></param>
             <returns></returns>
         </member>
-        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.CategoryController.GetCategoryAsync(System.String,System.String,System.String)">
-            <summary>
-            分类信息
-            </summary>
-            <param name="args">设备信息</param>
-            <param name="mark">站点标识</param>
-            <param name="id">分类编号</param>
-            <returns></returns>
-        </member>
-        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.CategoryController.GetCategoryNewsAsync(System.String,System.String,System.String,Gbxx.WebApi.Areas.v1.Models.PageItem)">
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.CategoryController.GetCategoryNewsAsync(System.String,Gbxx.WebApi.Areas.v1.Models.Route.SiteIdRoute,Gbxx.WebApi.Areas.v1.Models.ElasticPage)">
             <summary>
             分类新闻列表
             </summary>
-            <param name="args">设备信息</param>
-            <param name="mark">站点标识</param>
-            <param name="id">分类编号</param>
-            <param name="item">分页信息</param>
+            <param name="source"></param>
+            <param name="route"></param>
+            <param name="item"></param>
             <returns></returns>
         </member>
-        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.CategoryController.GetCategoryAccessAsync(System.String,System.String,System.String)">
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.CategoryController.GetCategoryAccessAsync(System.String,Gbxx.WebApi.Areas.v1.Models.Route.SiteIdRoute)">
             <summary>
             分类访问统计
             </summary>
-            <param name="args">设备信息</param>
-            <param name="mark">站点标识</param>
-            <param name="id">分类编号</param>
+            <param name="source"></param>
+            <param name="route"></param>
             <returns></returns>
         </member>
-        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.CategoryController.GetCategoryClickAsync(System.String,System.String,System.String)">
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.CategoryController.GetCategoryClickAsync(System.String,Gbxx.WebApi.Areas.v1.Models.Route.SiteIdRoute)">
             <summary>
             分类点击统计
             </summary>
-            <param name="args">设备信息</param>
-            <param name="mark">站点标识</param>
-            <param name="id">分类编号</param>
+            <param name="source"></param>
+            <param name="route"></param>
             <returns></returns>
         </member>
         <member name="T:Gbxx.WebApi.Areas.v1.Controllers.CodeController">
@@ -87,25 +81,25 @@
             
             </summary>
         </member>
-        <member name="F:Gbxx.WebApi.Areas.v1.Controllers.CodeController._client">
+        <member name="F:Gbxx.WebApi.Areas.v1.Controllers.CodeController._IWebNewsElastic">
             <summary>
             
             </summary>
         </member>
-        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.CodeController.#ctor(Microsoft.Extensions.Logging.ILogger{Gbxx.WebApi.Areas.v1.Controllers.SiteController},Nest.IElasticClient)">
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.CodeController.#ctor(Microsoft.Extensions.Logging.ILogger{Gbxx.WebApi.Areas.v1.Controllers.SiteController},Auto.ElasticServices.Contracts.IWebNewsElastic)">
             <summary>
             
             </summary>
             <param name="logger"></param>
+            <param name="webNewsElastic"></param>
         </member>
-        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.CodeController.GetCodeNewsAsync(System.String,System.String,System.String,Gbxx.WebApi.Areas.v1.Models.PageItem)">
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.CodeController.GetCodeNewsAsync(System.String,Gbxx.WebApi.Areas.v1.Models.Route.SiteIdRoute,Gbxx.WebApi.Areas.v1.Models.ElasticPage)">
             <summary>
             专栏新闻列表
             </summary>
-            <param name="args">设备信息</param>
-            <param name="mark">站点标识</param>
-            <param name="code">专栏代码</param>
-            <param name="item">分页信息</param>
+            <param name="source"></param>
+            <param name="route"></param>
+            <param name="item"></param>
             <returns></returns>
         </member>
         <member name="T:Gbxx.WebApi.Areas.v1.Controllers.DefaultController">
@@ -123,78 +117,64 @@
             
             </summary>
         </member>
-        <member name="F:Gbxx.WebApi.Areas.v1.Controllers.NewsController._client">
+        <member name="F:Gbxx.WebApi.Areas.v1.Controllers.NewsController._IWebNewsElastic">
             <summary>
             
             </summary>
         </member>
-        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.NewsController.#ctor(Microsoft.Extensions.Logging.ILogger{Gbxx.WebApi.Areas.v1.Controllers.SiteController},Nest.IElasticClient)">
+        <member name="F:Gbxx.WebApi.Areas.v1.Controllers.NewsController._IWebNewsRedis">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.NewsController.#ctor(Microsoft.Extensions.Logging.ILogger{Gbxx.WebApi.Areas.v1.Controllers.SiteController},Auto.ElasticServices.Contracts.IWebNewsElastic,Auto.RedisServices.Repositories.IWebNewsRedis)">
             <summary>
             
             </summary>
             <param name="logger"></param>
-            <param name="elasticClient"></param>
+            <param name="webNewsElastic"></param>
+            <param name="webNewsRedis"></param>
         </member>
-        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.NewsController.GetNewsAsync(System.String,System.String,System.String)">
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.NewsController.GetNewsAsync(System.String,Gbxx.WebApi.Areas.v1.Models.Route.SiteIdRoute)">
             <summary>
             新闻信息
             </summary>
-            <param name="args"></param>
-            <param name="mark"></param>
-            <param name="id">新闻编号</param>
+            <param name="source"></param>
+            <param name="route"></param>
             <returns></returns>
         </member>
-        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.NewsController.GetNewsCarouselAsync(System.String,System.String,Gbxx.WebApi.Areas.v1.Models.PageItem)">
-            <summary>
-            新闻首页轮播列表
-            </summary>
-            <param name="args"></param>
-            <param name="mark"></param>
-            <param name="item">分页信息</param>
-            <returns></returns>
-        </member>
-        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.NewsController.GetNewsBigAsync(System.String,System.String)">
-            <summary>
-            新闻首页大标信息
-            </summary>
-            <param name="mark"></param>
-            <param name="args"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.NewsController.GetNewsAccessAsync(System.String,System.String,System.String)">
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.NewsController.GetNewsAccessAsync(System.String,Gbxx.WebApi.Areas.v1.Models.Route.SiteIdRoute)">
             <summary>
             新闻访问统计
             </summary>
-            <param name="args"></param>
-            <param name="mark"></param>
-            <param name="id">新闻编号</param>
+            <param name="source"></param>
+            <param name="route"></param>
             <returns></returns>
         </member>
-        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.NewsController.GetNewsClickAsync(System.String,System.String,System.String)">
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.NewsController.GetNewsClickAsync(System.String,Gbxx.WebApi.Areas.v1.Models.Route.SiteIdRoute)">
             <summary>
             新闻点击统计
             </summary>
-            <param name="args"></param>
-            <param name="mark"></param>
-            <param name="id">新闻编号</param>
+            <param name="source"></param>
+            <param name="route"></param>
             <returns></returns>
         </member>
-        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.NewsController.GetNewsSearchAsync(System.String,System.String,Gbxx.WebApi.Requests.Query.NewsTitleSearchGet)">
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.NewsController.GetNewsSearchAsync(System.String,Gbxx.WebApi.Areas.v1.Models.Route.SiteRoute,Gbxx.WebApi.Requests.Query.NewsTitleSearchGet)">
             <summary>
             新闻标题检索
             </summary>
-            <param name="args"></param>
-            <param name="mark"></param>
-            <param name="item">标题查询分页</param>
+            <param name="source"></param>
+            <param name="route"></param>
+            <param name="item"></param>
             <returns></returns>
         </member>
-        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.NewsController.GetNewsHotAsync(System.String,System.String,Gbxx.WebApi.Areas.v1.Models.PageItem)">
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.NewsController.GetNewsHotAsync(System.String,Gbxx.WebApi.Areas.v1.Models.Route.SiteRoute,Gbxx.WebApi.Areas.v1.Models.ElasticPage)">
             <summary>
-            文章热门访问
+            24小时热文
             </summary>
-            <param name="args"></param>
-            <param name="mark"></param>
-            <param name="item">分页信息</param>
+            <param name="source"></param>
+            <param name="route"></param>
+            <param name="item"></param>
             <returns></returns>
         </member>
         <member name="T:Gbxx.WebApi.Areas.v1.Controllers.SiteController">
@@ -207,55 +187,98 @@
             
             </summary>
         </member>
-        <member name="F:Gbxx.WebApi.Areas.v1.Controllers.SiteController._IMySqlRepository">
+        <member name="F:Gbxx.WebApi.Areas.v1.Controllers.SiteController._IWebSiteRedis">
             <summary>
             
             </summary>
         </member>
-        <member name="F:Gbxx.WebApi.Areas.v1.Controllers.SiteController._IWebNewsElastic">
+        <member name="F:Gbxx.WebApi.Areas.v1.Controllers.SiteController._IWebChannelRedis">
             <summary>
             
             </summary>
         </member>
-        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.SiteController.#ctor(Microsoft.Extensions.Logging.ILogger{Gbxx.WebApi.Areas.v1.Controllers.SiteController},Auto.Commons.Extensions.Redis.IRedisStore)">
+        <member name="F:Gbxx.WebApi.Areas.v1.Controllers.SiteController._IWebSiteRepository">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.SiteController.#ctor(Microsoft.Extensions.Logging.ILogger{Gbxx.WebApi.Areas.v1.Controllers.SiteController},Auto.RedisServices.Repositories.IWebSiteRedis,Auto.RedisServices.Repositories.IWebChannelRedis,Auto.DataServices.Contracts.IWebSiteRepository)">
+            <summary>
+            
+            </summary>
+            <param name="logger"></param>
+            <param name="webSiteRedis"></param>
+            <param name="webChannelRedis"></param>
+            <param name="webSiteRepository"></param>
+        </member>
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.SiteController.GetWebSiteAsync(System.String,Gbxx.WebApi.Areas.v1.Models.Route.SiteRoute)">
+            <summary>
+            获取站点信息
+            </summary>
+            <param name="source"></param>
+            <param name="route"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.SiteController.GetSiteAccessAsync(System.String,Gbxx.WebApi.Areas.v1.Models.Route.SiteRoute,Gbxx.WebApi.Requests.Query.SiteAccessGet)">
+            <summary>
+            站点访问信息统计
+            </summary>
+            <param name="source"> Source : {"Ip": "127.0.0.1","Device": "ios","DeviceVers": "14.0.23","SystemVers": "1.0.0"} </param>
+            <param name="route"></param>
+            <param name="item"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Gbxx.WebApi.Areas.v1.Controllers.TestDataController">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:Gbxx.WebApi.Areas.v1.Controllers.TestDataController._ILogger">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:Gbxx.WebApi.Areas.v1.Controllers.TestDataController._IMySqlRepository">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:Gbxx.WebApi.Areas.v1.Controllers.TestDataController._IWebNewsElastic">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:Gbxx.WebApi.Areas.v1.Controllers.TestDataController._IRedisStore">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:Gbxx.WebApi.Areas.v1.Controllers.TestDataController._IWebNewsRepository">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:Gbxx.WebApi.Areas.v1.Controllers.TestDataController._IWebCategoryRepository">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.TestDataController.#ctor(Microsoft.Extensions.Logging.ILogger{Gbxx.WebApi.Areas.v1.Controllers.TestDataController},Auto.ElasticServices.Contracts.IWebNewsElastic,Gbxx.WebApi.Utils.IMySqlRepository,Auto.DataServices.Contracts.IWebNewsRepository,Auto.DataServices.Contracts.IWebCategoryRepository)">
             <summary>
             
             </summary>
             <param name="logger"></param>
             <param name="webNewsElastic"></param>
             <param name="mySqlRepository"></param>
+            <param name="webNewsRepository"></param>
+            <param name="webCategoryRepository"></param>
         </member>
-        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.SiteController.GetWebSiteAsync(System.String,System.String)">
-            <summary>
-            获取站点信息
-            </summary>
-            <param name="args"></param>
-            <param name="mark"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.SiteController.GetSiteAccessAsync(System.String,Gbxx.WebApi.Requests.Query.SiteAccessGet)">
-            <summary>
-            站点访问信息统计
-            </summary>
-            <param name="args"></param>
-            <param name="item"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.UsersController.GetUserSearchAsync(Gbxx.WebApi.Areas.v1.Models.DeviceArgs,System.String,Gbxx.WebApi.Areas.v1.Models.Get.UserSearchGet)">
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.TestDataController.PostNewsDocAsync(System.String,Gbxx.WebApi.Areas.v1.Models.Route.SiteRoute,System.String)">
             <summary>
             
             </summary>
-            <param name="authorization"></param>
-            <param name="deviceArgs"></param>
-            <param name="item"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.UsersController.PostUserSearchAsync(System.String,System.String,Gbxx.WebApi.Areas.v1.Models.Get.UserSearchGet)">
-            <summary>
-            
-            </summary>
-            <param name="deviceArgs"></param>
-            <param name="authorization"></param>
+            <param name="source"></param>
+            <param name="route"></param>
             <param name="item"></param>
             <returns></returns>
         </member>
@@ -366,6 +389,12 @@
             </summary>
             <value></value>
         </member>
+        <member name="P:Gbxx.WebApi.Areas.v1.Data.NewsListResponse.DisplayType">
+            <summary>
+            显示类型，前台独立位置显示
+            </summary>
+            <value>0默认值，1置顶</value>
+        </member>
         <member name="P:Gbxx.WebApi.Areas.v1.Data.NewsListResponse.IsHot">
             <summary>
             是否热门（只是站点热门标识，不参与排序、或特定页显示靠前）
@@ -468,11 +497,6 @@
             站点编号
             </summary>
         </member>
-        <member name="P:Gbxx.WebApi.Areas.v1.Data.SiteResponse.SiteMark">
-            <summary>
-             站点标识
-            </summary>
-        </member>
         <member name="P:Gbxx.WebApi.Areas.v1.Data.SiteResponse.SiteName">
             <summary>
             站点名称
@@ -503,78 +527,33 @@
             网页描述
             </summary>
         </member>
-        <member name="T:Gbxx.WebApi.Areas.v1.Models.DeviceArgs">
+        <member name="T:Gbxx.WebApi.Areas.v1.Models.ElasticPage">
             <summary>
-            来源设备基础信息
+            ES分页查询
             </summary>
         </member>
-        <member name="P:Gbxx.WebApi.Areas.v1.Models.DeviceArgs.Ip">
-            <summary>
-            来源ip
-            </summary>
-        </member>
-        <member name="P:Gbxx.WebApi.Areas.v1.Models.DeviceArgs.Device">
-            <summary>
-            设备信息
-            </summary>
-        </member>
-        <member name="P:Gbxx.WebApi.Areas.v1.Models.DeviceArgs.Version">
-            <summary>
-            版本号
-            </summary>
-        </member>
-        <member name="T:Gbxx.WebApi.Areas.v1.Models.DeviceArgsValidator">
-            <summary>
-            来源设备基础信息 验证
-            </summary>
-        </member>
-        <member name="M:Gbxx.WebApi.Areas.v1.Models.DeviceArgsValidator.#ctor">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="T:Gbxx.WebApi.Areas.v1.Models.IPageItem">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="P:Gbxx.WebApi.Areas.v1.Models.IPageItem.PageIndex">
-            <summary>
-            当前页
-            </summary>
-        </member>
-        <member name="P:Gbxx.WebApi.Areas.v1.Models.IPageItem.PageSize">
-            <summary>
-            页大小
-            </summary>
-        </member>
-        <member name="T:Gbxx.WebApi.Areas.v1.Models.PageItem">
-            <summary>
-            分页查询
-            </summary>
-        </member>
-        <member name="M:Gbxx.WebApi.Areas.v1.Models.PageItem.#ctor">
+        <member name="M:Gbxx.WebApi.Areas.v1.Models.ElasticPage.#ctor">
             <summary>
             查询分页
             </summary>
         </member>
-        <member name="P:Gbxx.WebApi.Areas.v1.Models.PageItem.PageIndex">
+        <member name="P:Gbxx.WebApi.Areas.v1.Models.ElasticPage.PageIndex">
             <summary>
             当前页
             格式：value,value,value...
             </summary>
         </member>
-        <member name="P:Gbxx.WebApi.Areas.v1.Models.PageItem.PageSize">
+        <member name="P:Gbxx.WebApi.Areas.v1.Models.ElasticPage.PageSize">
             <summary>
             页大小
             </summary>
         </member>
-        <member name="T:Gbxx.WebApi.Areas.v1.Models.PageItemValidator">
+        <member name="T:Gbxx.WebApi.Areas.v1.Models.ElasticPageValidator">
             <summary>
             
             </summary>
         </member>
-        <member name="M:Gbxx.WebApi.Areas.v1.Models.PageItemValidator.#ctor">
+        <member name="M:Gbxx.WebApi.Areas.v1.Models.ElasticPageValidator.#ctor">
             <summary>
             
             </summary>
@@ -599,6 +578,41 @@
             
             </summary>
         </member>
+        <member name="T:Gbxx.WebApi.Areas.v1.Models.Route.SiteIdRoute">
+            <summary>
+            新闻资讯路由参数
+            </summary>
+        </member>
+        <member name="P:Gbxx.WebApi.Areas.v1.Models.Route.SiteIdRoute.id">
+            <summary>
+            主要信息编号，专栏code等
+            </summary>
+        </member>
+        <member name="T:Gbxx.WebApi.Areas.v1.Models.Route.WebRouteValidator">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Gbxx.WebApi.Areas.v1.Models.Route.WebRouteValidator.#ctor">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Gbxx.WebApi.Areas.v1.Models.Route.SiteRoute.mark">
+            <summary>
+            站点标识
+            </summary>
+        </member>
+        <member name="T:Gbxx.WebApi.Areas.v1.Models.Route.SiteRouteValidator">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Gbxx.WebApi.Areas.v1.Models.Route.SiteRouteValidator.#ctor">
+            <summary>
+            
+            </summary>
+        </member>
         <member name="T:Gbxx.WebApi.Requests.Query.NewsTitleSearchGet">
             <summary>
             新闻标题检索
@@ -607,16 +621,6 @@
         <member name="P:Gbxx.WebApi.Requests.Query.NewsTitleSearchGet.Title">
             <summary>
             标题
-            </summary>
-        </member>
-        <member name="P:Gbxx.WebApi.Requests.Query.NewsTitleSearchGet.PageIndex">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="P:Gbxx.WebApi.Requests.Query.NewsTitleSearchGet.PageSize">
-            <summary>
-            
             </summary>
         </member>
         <member name="T:Gbxx.WebApi.Requests.Query.NewsTitleSearchGetValidator">
@@ -641,7 +645,12 @@
         </member>
         <member name="P:Gbxx.WebApi.Requests.Query.SiteAccessGet.Unique">
             <summary>
-            站点唯一标识
+            访问唯一标识（后期处理访问限制，IP、时间戳、设备等混合生成的标识）
+            </summary>
+        </member>
+        <member name="P:Gbxx.WebApi.Requests.Query.SiteAccessGet.From">
+            <summary>
+            渠道
             </summary>
         </member>
         <member name="T:Gbxx.WebApi.Requests.Query.SiteAccessGetValidator">
@@ -653,6 +662,52 @@
             <summary>
             
             </summary>
+        </member>
+        <member name="T:Gbxx.WebApi.Filters.HeaderSource">
+            <summary>
+            请求头Header来源Source信息
+            </summary>
+        </member>
+        <member name="P:Gbxx.WebApi.Filters.HeaderSource.Ip">
+            <summary>
+            来源IP
+            </summary>
+        </member>
+        <member name="P:Gbxx.WebApi.Filters.HeaderSource.Device">
+            <summary>
+            来源设备
+            </summary>
+        </member>
+        <member name="P:Gbxx.WebApi.Filters.HeaderSource.DeviceVers">
+            <summary>
+            设备版本
+            </summary>
+        </member>
+        <member name="P:Gbxx.WebApi.Filters.HeaderSource.SystemVers">
+            <summary>
+            系统版本
+            </summary>
+        </member>
+        <member name="T:Gbxx.WebApi.Filters.HeaderSourceValidator">
+            <summary>
+            来源设备基础信息 验证
+            </summary>
+        </member>
+        <member name="M:Gbxx.WebApi.Filters.HeaderSourceValidator.#ctor">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:Gbxx.WebApi.Filters.HeaderSourceAttribute">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Gbxx.WebApi.Filters.HeaderSourceAttribute.OnActionExecuting(Microsoft.AspNetCore.Mvc.Filters.ActionExecutingContext)">
+            <summary>
+            
+            </summary>
+            <param name="context"></param>
         </member>
         <member name="M:Gbxx.WebApi.Utils.MysqlDbContext.OnConfiguring(Microsoft.EntityFrameworkCore.DbContextOptionsBuilder)">
             <summary>
@@ -666,7 +721,7 @@
             </summary>
             <param name="modelBuilder"></param>
         </member>
-        <member name="T:Gbxx.BackStage.Configure.Ioc.IocExtensions">
+        <member name="T:Gbxx.BackStage.Configure.Ioc.IocConfigure">
             <summary>
             AddSingleton的生命周期：
             项目启动-项目关闭 相当于静态类  只会有一个
@@ -676,7 +731,7 @@
             请求获取-（GC回收-主动释放） 每一次获取的对象都不是同一个
             </summary>
         </member>
-        <member name="M:Gbxx.BackStage.Configure.Ioc.IocExtensions.BatchServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+        <member name="M:Gbxx.BackStage.Configure.Ioc.IocConfigure.BatchServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
             <summary>
             注册指定程序集中的服务
             </summary>

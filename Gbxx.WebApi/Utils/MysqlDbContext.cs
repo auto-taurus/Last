@@ -1,4 +1,5 @@
-﻿using Auto.Dto.ElasticDoc;
+﻿using Auto.CacheEntities.ElasticDoc;
+using Auto.EFCore.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace Gbxx.WebApi.Utils {
@@ -18,10 +19,10 @@ namespace Gbxx.WebApi.Utils {
         /// <param name="modelBuilder"></param>
         protected override void OnModelCreating(ModelBuilder modelBuilder) {
             #region Generated Configuration
-            //modelBuilder.Query<NewsDoc>().ToView("NewsDoc");
-            modelBuilder.Entity<NewsDoc>().HasKey(e => e.NewsId);
+            modelBuilder.Query<WebNews>().ToView("WebNews");
+
+
             #endregion
         }
-        public DbSet<NewsDoc> NewsDoc { get; set; }
     }
 }

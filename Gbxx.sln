@@ -33,7 +33,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Auto.DataServices", "03.Ser
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Auto.Commons", "02.Infrastructure\Auto.Commons\Auto.Commons.csproj", "{2379E8C3-41A1-4566-B4BA-ED752F96B29B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Auto.Dto", "02.Infrastructure\Auto.Dto\Auto.Dto.csproj", "{CF355AFF-AE9B-4431-B03D-CED256EBC09C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Auto.CacheEntities", "02.Infrastructure\Auto.Dto\Auto.CacheEntities.csproj", "{CF355AFF-AE9B-4431-B03D-CED256EBC09C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

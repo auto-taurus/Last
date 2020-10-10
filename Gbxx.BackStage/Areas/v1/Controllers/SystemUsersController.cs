@@ -38,7 +38,7 @@ namespace Gbxx.BackStage.Areas.v1.Controllers {
         /// <returns></returns>
         [HttpGet]
         public async Task<IActionResult> GetSystemUsersAsync([FromQuery]SystemUsersQuery args) {
-            var response = new ResponsePages<SystemUsers>();
+            var response = new Response<SystemUsers>();
             try {
                 var p = Predicate.Begin<SystemUsers>(true);
                 if (!string.IsNullOrEmpty(args.UserName))
@@ -50,12 +50,12 @@ namespace Gbxx.BackStage.Areas.v1.Controllers {
                 if (args.IsEnable.HasValue)
                     p = p.And(e => e.IsEnable == args.IsEnable);
 
-                var result = await this._ISystemUsersRepository.QueryPager(p, e => e.LoginTime, true, args.PageIndex.Value, args.PageSize.Value);
+                //var result = await this._ISystemUsersRepository.QueryPager(p, e => e.LoginTime, true, args.PageIndex.Value, args.PageSize.Value);
 
 
                 response.Code = true;
-                response.Data.Entities = result.Item2;
-                response.Data.PageCount = result.Item1;
+                //response.Data.Entities = result.Item2;
+                //response.Data.PageCount = result.Item1;
 
             }
             catch (Exception ex) {

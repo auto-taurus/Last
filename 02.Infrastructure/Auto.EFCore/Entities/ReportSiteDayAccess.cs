@@ -14,7 +14,7 @@ namespace Auto.EFCore.Entities
         #region Generated Properties
         public int SiteAccessId { get; set; }
 
-        public string SiteNo { get; set; }
+        public string SiteId { get; set; }
 
         public int? Count { get; set; }
 

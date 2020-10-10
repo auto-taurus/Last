@@ -1,5 +1,5 @@
-﻿using Auto.Commons.ApiHandles.Responses;
-using Auto.Dto.ElasticDoc;
+﻿using Auto.CacheEntities.ElasticDoc;
+using Auto.Commons.ApiHandles.Responses;
 using Auto.ElasticServices.Contracts;
 using Gbxx.WebApi.Areas.v1.Data;
 using Gbxx.WebApi.Areas.v1.Models;
@@ -32,7 +32,7 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
         /// <param name="logger"></param>
         /// <param name="webNewsElastic"></param>
         public CodeController(ILogger<SiteController> logger,
-                              IWebNewsElastic  webNewsElastic) {
+                              IWebNewsElastic webNewsElastic) {
             this._ILogger = logger;
             this._IWebNewsElastic = webNewsElastic;
         }
@@ -50,18 +50,26 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                                                           [FromQuery]ElasticPage item) {
             var response = new Response<List<NewsListResponse>>();
             try {
-                var request = new SearchRequest<NewsDoc>("gbxx-news") {
+                var request = new SearchRequest<WebNewsDoc>(_IWebNewsElastic.IndexName) {
                     TrackTotalHits = true,
-                    Query = new TermQuery() {
-                        Field = "code",
-                        Value = route.id
+                    Query = new BoolQuery() {
+                        Must = new QueryContainer[] {
+                            new TermQuery() {
+                                Field = "siteId",
+                                Value = route.mark
+                            }
+                            && new TermQuery() {
+                                Field = "specialCode",
+                                Value = route.id
+                            }
+                        }
                     },
                     Source = new Union<bool, ISourceFilter>(new SourceFilter {
                         Excludes = new[] { "contents" }
                     }),
                     Sort = new List<ISort>() {
-                        new FieldSort (){ Field = "pushTime", Order = SortOrder.Descending },
-                        new FieldSort() { Field ="newsId", Order = SortOrder.Descending }
+                        new FieldSort (){ Field = "specialSort", Order = SortOrder.Ascending },
+                        new FieldSort() { Field ="pushTime", Order = SortOrder.Descending }
                     },
                     Size = item.PageSize
                 };
@@ -69,20 +77,20 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                     request.From = 0;
                     request.SearchAfter = item.PageIndex.Split(",");
                 }
-               var result = await this._IWebNewsElastic.Client
-                                                       .SearchAsync<NewsListResponse>(request);
-                if (result.ApiCall.Success || result.ApiCall.HttpStatusCode == 200) {
+                var result = await this._IWebNewsElastic.Client
+                                                        .SearchAsync<NewsListResponse>(request);
+                if (result.ApiCall.Success && result.ApiCall.HttpStatusCode == 200) {
                     if (result.Documents.Count > 0) {
                         response.Code = true;
                         response.Data = result.Documents.ToList();
                         response.Other = string.Join(',', result.Hits.LastOrDefault().Sorts);
                     }
                     else {
-                        response.Message = "数据不存在！";
+                        return NoContent();
                     }
                 }
                 else {
-                    response.Message = "获取数据失败！";
+                    return NoContent();
                 }
             }
             catch (Exception ex) {

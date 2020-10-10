@@ -16,7 +16,7 @@ namespace Auto.EFCore.Entities
         #region Generated Properties
         public int CategoryId { get; set; }
 
-        public int? SiteNo { get; set; }
+        public int? SiteId { get; set; }
 
         public string CategoryName { get; set; }
 
@@ -31,8 +31,6 @@ namespace Auto.EFCore.Entities
         public string Urls { get; set; }
 
         public int? DocumentNumber { get; set; }
-
-        public int? VirtualAccessNumber { get; set; }
 
         public int? AccessNumber { get; set; }
 

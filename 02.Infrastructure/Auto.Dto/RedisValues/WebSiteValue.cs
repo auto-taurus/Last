@@ -2,19 +2,15 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Auto.Dto.RedisDto {
+namespace Auto.CacheEntities.RedisValues {
     /// <summary>
     /// 
     /// </summary>
-    public class SiteDto {
+    public class WebSiteValue {
         /// <summary>
         /// 站点编号
         /// </summary>
         public int? SiteId { get; set; }
-        ///<summary>
-        /// 站点标识
-        ///</summary>
-        public int? Mark { get; set; }
         /// <summary>
         /// 站点名称
         /// </summary>

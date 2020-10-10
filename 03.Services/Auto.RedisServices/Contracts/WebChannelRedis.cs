@@ -20,7 +20,7 @@ namespace Auto.RedisServices.Contracts {
             this._IRedisStore = redisStore;
         }
 
-        public async Task<Tuple<bool, bool>> AddAccessCount(string mark, string id) {
+        public async Task<Tuple<bool, bool>> AddAccessCount(int mark, string id) {
             ///当前日期
             var day = System.DateTime.Now.ToString("yyyyMMdd");
 
@@ -37,7 +37,7 @@ namespace Auto.RedisServices.Contracts {
 
             return new Tuple<bool, bool>(dayResult > 0, allResult > 0);
         }
-        public async Task<int> GetAccessCount(string mark, string id) {
+        public async Task<int> GetAccessCount(int mark, string id) {
             var countKey = $"{_IRedisStore.PrefixKey}:{mark}:channel:access:all";
             var countNumber = _IRedisStore.GetRandomNumber(countKey);
             var count = await _IRedisStore.Do(db => db.SortedSetScoreAsync(countKey, id), countNumber);
@@ -46,7 +46,7 @@ namespace Auto.RedisServices.Contracts {
             return (int)count;
         }
 
-        public async Task<int> GetAccessDays(string mark, string id, DateTime? dt) {
+        public async Task<int> GetAccessDays(int mark, string id, DateTime? dt) {
             var p = GetDayAndPage(dt, 0, 0);
 
             var key = $"{_IRedisStore.PrefixKey}:{mark}:channel:access";
@@ -59,7 +59,7 @@ namespace Auto.RedisServices.Contracts {
                 result = 0;
             return (int)result;
         }
-        public async Task<int> GetAccessWeeks(string mark, string id, DateTime? dt) {
+        public async Task<int> GetAccessWeeks(int mark, string id, DateTime? dt) {
             var p = GetDayAndPage(dt, 0, 0);
 
             var key = $"{_IRedisStore.PrefixKey}:{mark}:channel:access";
@@ -82,7 +82,7 @@ namespace Auto.RedisServices.Contracts {
                 result = 0;
             return (int)result;
         }
-        public async Task<int> GetAccessMonths(string mark, string id, DateTime? dt) {
+        public async Task<int> GetAccessMonths(int mark, string id, DateTime? dt) {
             var p = GetDayAndPage(dt, 0, 0);
 
             var key = $"{_IRedisStore.PrefixKey}:{mark}:channel:access";
@@ -106,19 +106,19 @@ namespace Auto.RedisServices.Contracts {
             return (int)result;
         }
 
-        public async Task<SortedSetEntry[]> GetAccessDays(string mark, DateTime? dt, int? pageIndex, int? pageSize) {
+        public async Task<SortedSetEntry[]> GetAccessDays(int mark, DateTime? dt, int? pageIndex, int? pageSize) {
             var p = GetDayAndPage(dt, pageIndex, pageSize);
             var key = $"{_IRedisStore.PrefixKey}:{mark}:channel:access";
 
             return await GetDays(key, p);
         }
-        public async Task<SortedSetEntry[]> GetAccessWeeks(string mark, DateTime? dt, int? pageIndex, int? pageSize) {
+        public async Task<SortedSetEntry[]> GetAccessWeeks(int mark, DateTime? dt, int? pageIndex, int? pageSize) {
             var p = GetDayAndPage(dt, pageIndex, pageSize);
             var key = $"{_IRedisStore.PrefixKey}:{mark}:channel:access";
 
             return await GetWeeks(key, p);
         }
-        public async Task<SortedSetEntry[]> GetAccessMonths(string mark, DateTime? dt, int? pageIndex, int? pageSize) {
+        public async Task<SortedSetEntry[]> GetAccessMonths(int mark, DateTime? dt, int? pageIndex, int? pageSize) {
             var p = GetDayAndPage(dt, pageIndex, pageSize);
             var key = $"{_IRedisStore.PrefixKey}:{mark}:channel:access";
 

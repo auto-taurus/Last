@@ -14,7 +14,7 @@ namespace Auto.EFCore.Entities
         #region Generated Properties
         public int NewsOperateId { get; set; }
 
-        public int? NewsId { get; set; }
+        public string NewsId { get; set; }
 
         public string OperateType { get; set; }
 

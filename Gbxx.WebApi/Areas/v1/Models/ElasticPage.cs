@@ -30,7 +30,8 @@ namespace Gbxx.WebApi.Areas.v1.Models {
         /// 
         /// </summary>
         public ElasticPageValidator() {
-            RuleFor(a => a.PageSize).NotNull().WithMessage("请传递页大小！");
+            RuleFor(a => a.PageSize).GreaterThan(0).WithMessage("页大小需大于0！")
+                                    .NotEmpty().WithMessage("请传递页大小！");
         }
     }
 }

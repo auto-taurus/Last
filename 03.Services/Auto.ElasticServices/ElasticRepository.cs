@@ -149,23 +149,29 @@ namespace Auto.ElasticServices {
         public async Task<bool> BatchAddDocumentAsync(string indexName, List<TEntity> entities) {
             var isRefresh = await SetIndexRar(indexName.ToLower());
             if (isRefresh) {
-                var response = Client.BulkAll(entities, b => b.Index(indexName)
-                                                              .BackOffTime("30s")
-                                                              .BackOffRetries(2)
-                                                              .RefreshOnCompleted()
-                                                              .MaxDegreeOfParallelism(Environment.ProcessorCount)
-                                                              .Size(10000)
-                                                            )
-                                                            .Wait(TimeSpan.FromMinutes(15), next => {
-                                                                var d = next;
+                try {
+                    var response = Client.BulkAll(entities, b => b.Index(indexName)
+                                                                  .BackOffTime("30s")
+                                                                  .BackOffRetries(2)
+                                                                  .RefreshOnCompleted()
+                                                                  .MaxDegreeOfParallelism(Environment.ProcessorCount)
+                                                                  .Size(10000)
+                                                                )
+                                                                .Wait(TimeSpan.FromMinutes(15), next => {
+                                                                    var d = next;
                                                                 // do something e.g. write number of pages to console
                                                             });
-                //var response = await Client.BulkAsync(x => x.Index(indexName).IndexMany(entities));
-                if (response.TotalNumberOfFailedBuffers <= 0 || response.TotalNumberOfRetries <= 0) {
+                    //var response = await Client.BulkAsync(x => x.Index(indexName).IndexMany(entities));
+                    if (response.TotalNumberOfFailedBuffers <= 0 || response.TotalNumberOfRetries <= 0) {
+                        _IMemoryCache.Set("isRar", false);
+                        return true;
+                    }
+                }
+                catch (Exception ex) {
                     _IMemoryCache.Set("isRar", false);
-                    return true;
                 }
             }
+
             return false;
         }
         /// <summary>

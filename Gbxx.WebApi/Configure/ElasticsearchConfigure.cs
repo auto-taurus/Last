@@ -6,7 +6,7 @@ using System;
 using System.Linq;
 
 namespace Gbxx.WebApi.Configure {
-    public static class ElasticsearchConfigure {
+    public static class ElasticsearchConfigure  {
         public static void InitElasticSearch(this IServiceCollection services, IConfiguration configuration) {
 
             var uris = configuration["ElasticConfig:Host"].Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries)

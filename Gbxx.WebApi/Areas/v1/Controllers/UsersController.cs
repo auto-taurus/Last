@@ -7,6 +7,7 @@ using Auto.Commons.Extensions.Redis;
 using Auto.RedisServices.Repositories;
 using Gbxx.WebApi.Areas.v1.Models;
 using Gbxx.WebApi.Areas.v1.Models.Get;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -14,6 +15,7 @@ using Microsoft.Extensions.Logging;
 namespace Gbxx.WebApi.Areas.v1.Controllers {
     [Route("V1/[controller]")]
     [ApiController]
+    [Authorize]
     public class UsersController : ControllerBase {
 
         protected readonly ILogger _ILogger;
@@ -34,7 +36,7 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                                                             [FromQuery]UserSearchGet item) {
             var response = new Response<Object>();
             try {
-                var dd = this._IWebNewsRedis.GetClickMonths("1", System.DateTime.Now, 1, 10);
+                var dd = this._IWebNewsRedis.GetClickMonths(1, System.DateTime.Now, 1, 10);
                 response.Code = true;
             }
             catch (Exception ex) {

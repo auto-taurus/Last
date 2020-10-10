@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Auto.Dto.RedisDto {
-    public class CategoryDto {
+namespace Auto.CacheEntities.RedisValues {
+    public class WebCategoryValue {
         ///<summary>
         /// 栏目编号
         ///</summary>

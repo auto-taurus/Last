@@ -12,7 +12,7 @@ namespace Gbxx.WebApi.Areas.v1.Data {
         /// 新闻编号
         /// </summary>
         /// <value></value>
-        public int? NewsId { get; set; }
+        public string NewsId { get; set; }
         /// <summary>
         /// 分类编号
         /// </summary>
@@ -51,6 +51,11 @@ namespace Gbxx.WebApi.Areas.v1.Data {
         /// </summary>
         /// <value></value>
         public string ImagePath { get; set; }
+        /// <summary>
+        /// 显示类型，前台独立位置显示
+        /// </summary>
+        /// <value>0默认值，1置顶</value>
+        public int? DisplayType { get; set; }
         /// <summary>
         /// 是否热门（只是站点热门标识，不参与排序、或特定页显示靠前）
         /// </summary>

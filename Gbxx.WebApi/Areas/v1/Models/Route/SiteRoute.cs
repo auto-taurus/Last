@@ -6,11 +6,10 @@ using System.Threading.Tasks;
 
 namespace Gbxx.WebApi.Areas.v1.Models.Route {
     public class SiteRoute {
-
         /// <summary>
         /// 站点标识
         /// </summary>
-        public string mark { get; set; }
+        public int mark { get; set; }
     }
     /// <summary>
     /// 

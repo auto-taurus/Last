@@ -1,4 +1,4 @@
-﻿using Auto.Dto.RedisDto;
+﻿using  Auto.CacheEntities.RedisValues;
 using Auto.RedisServices.Repositories;
 using StackExchange.Redis;
 using System;
@@ -24,7 +24,7 @@ namespace Auto.RedisServices.Contracts {
             this._IRedisStore = redisStore;
         }
 
-        public async Task<bool> AddClickCount(string mark, string id) {
+        public async Task<bool> AddClickCount(int mark, string id) {
             var flag = false;
 
             var day = System.DateTime.Now.ToString("yyyyMMdd");// 当前日期
@@ -40,7 +40,7 @@ namespace Auto.RedisServices.Contracts {
             return flag;
 
         }
-        public async Task<Tuple<bool, bool>> AddAccessCount(string mark, string id) {
+        public async Task<Tuple<bool, bool>> AddAccessCount(int mark, string id) {
             ///当前日期
             var day = System.DateTime.Now.ToString("yyyyMMdd");
 
@@ -57,7 +57,7 @@ namespace Auto.RedisServices.Contracts {
 
             return new Tuple<bool, bool>(dayResult > 0, allResult > 0);
         }
-        public async Task<int> GetAccessCount(string mark, string id) {
+        public async Task<int> GetAccessCount(int mark, string id) {
             var countKey = $"{_IRedisStore.PrefixKey}:{mark}:category:access:all";
             var countNumber = _IRedisStore.GetRandomNumber(countKey);
             var count = await _IRedisStore.Do(db => db.SortedSetScoreAsync(countKey, id), countNumber);
@@ -66,38 +66,38 @@ namespace Auto.RedisServices.Contracts {
             return (int)count;
         }
 
-        public async Task<SortedSetEntry[]> GetClickDays(string mark, DateTime? dt, int? pageIndex, int? pageSize) {
+        public async Task<SortedSetEntry[]> GetClickDays(int mark, DateTime? dt, int? pageIndex, int? pageSize) {
             var p = GetDayAndPage(dt, pageIndex, pageSize);
             var key = $"{_IRedisStore.PrefixKey}:{mark}:category:click";
 
             return await GetDays(key, p);
         }
-        public async Task<SortedSetEntry[]> GetClickWeeks(string mark, DateTime? dt, int? pageIndex, int? pageSize) {
+        public async Task<SortedSetEntry[]> GetClickWeeks(int mark, DateTime? dt, int? pageIndex, int? pageSize) {
             var p = GetDayAndPage(dt, pageIndex, pageSize);
             var key = $"{_IRedisStore.PrefixKey}:{mark}:category:click";
 
             return await GetWeeks(key, p);
         }
-        public async Task<SortedSetEntry[]> GetClickMonths(string mark, DateTime? dt, int? pageIndex, int? pageSize) {
+        public async Task<SortedSetEntry[]> GetClickMonths(int mark, DateTime? dt, int? pageIndex, int? pageSize) {
             var p = GetDayAndPage(dt, pageIndex, pageSize);
             var key = $"{_IRedisStore.PrefixKey}:{mark}:category:click";
 
             return await GetMonths(key, p);
         }
 
-        public async Task<SortedSetEntry[]> GetAccessDays(string mark, DateTime? dt, int? pageIndex, int? pageSize) {
+        public async Task<SortedSetEntry[]> GetAccessDays(int mark, DateTime? dt, int? pageIndex, int? pageSize) {
             var p = GetDayAndPage(dt, pageIndex, pageSize);
             var key = $"{_IRedisStore.PrefixKey}:{mark}:category:access";
 
             return await GetDays(key, p);
         }
-        public async Task<SortedSetEntry[]> GetAccessWeeks(string mark, DateTime? dt, int? pageIndex, int? pageSize) {
+        public async Task<SortedSetEntry[]> GetAccessWeeks(int mark, DateTime? dt, int? pageIndex, int? pageSize) {
             var p = GetDayAndPage(dt, pageIndex, pageSize);
             var key = $"{_IRedisStore.PrefixKey}:{mark}:category:access";
 
             return await GetWeeks(key, p);
         }
-        public async Task<SortedSetEntry[]> GetAccessMonths(string mark, DateTime? dt, int? pageIndex, int? pageSize) {
+        public async Task<SortedSetEntry[]> GetAccessMonths(int mark, DateTime? dt, int? pageIndex, int? pageSize) {
             var p = GetDayAndPage(dt, pageIndex, pageSize);
             var key = $"{_IRedisStore.PrefixKey}:{mark}:category:access";
 
@@ -110,20 +110,20 @@ namespace Auto.RedisServices.Contracts {
         /// </summary>
         /// <param name="mark"></param>
         /// <returns></returns>
-        public async Task<List<CategoryDto>> GetAsync(string mark) {
+        public async Task<List<WebCategoryValue>> GetAsync(int mark) {
             var key = $"{_IRedisStore.PrefixKey}:{mark}:categories";
             var number = _IRedisStore.GetRandomNumber(key);
             var result = await this._IRedisStore.Do(db => db.StringGetAsync(key), number);
             if (!result.HasValue)
-                return new List<CategoryDto>();
-            return _IRedisStore.RedisValueToObject<List<CategoryDto>>(result);
+                return new List<WebCategoryValue>();
+            return _IRedisStore.RedisValueToObject<List<WebCategoryValue>>(result);
         }
         /// <summary>
         /// 添加分类信息
         /// </summary>
         /// <param name="mark"></param>
         /// <returns></returns>
-        public async Task<bool> AddAsync(string mark, List<CategoryDto> items) {
+        public async Task<bool> AddAsync(int mark, List<WebCategoryValue> items) {
             var key = $"{_IRedisStore.PrefixKey}:{mark}:categories";
             var number = _IRedisStore.GetRandomNumber(key);
 

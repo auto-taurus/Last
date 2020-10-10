@@ -8,7 +8,7 @@ namespace Gbxx.BackStage.Requests.Items {
     public class WebSpecialRequest {
         public int SpecialId { get; set; }
 
-        public int? SiteNo { get; set; }
+        public int? SiteId { get; set; }
 
         public string SpecialCode { get; set; }
 

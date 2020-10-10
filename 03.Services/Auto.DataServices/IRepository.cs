@@ -33,7 +33,7 @@ namespace Auto.DataServices {
         /// </summary>
         /// <param name="predicate"></param>
         /// <returns></returns>
-        Task<IList<TEntity>> Query(Expression<Func<TEntity, bool>> predicate);
+        IQueryable<TEntity> Query(Expression<Func<TEntity, bool>> predicate);
         /// <summary>
         /// 根据过滤条件获取列表,并进行排序
         /// </summary>
@@ -42,7 +42,7 @@ namespace Auto.DataServices {
         /// <param name="expression"></param>
         /// <param name="isDesc"></param>
         /// <returns></returns>
-        Task<IList<TEntity>> Query<TSort>(Expression<Func<TEntity, bool>> predicate, Expression<Func<TEntity, TSort>> expression, bool isDesc = false) where TSort : class;
+        IQueryable<TEntity> Query<TSort>(Expression<Func<TEntity, bool>> predicate, Expression<Func<TEntity, TSort>> expression, bool isDesc = false);
         /// <summary>
         /// 查询分页排序
         /// </summary>

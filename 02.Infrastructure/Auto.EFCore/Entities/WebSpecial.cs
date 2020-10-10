@@ -15,7 +15,7 @@ namespace Auto.EFCore.Entities
         #region Generated Properties
         public int SpecialId { get; set; }
 
-        public int? SiteNo { get; set; }
+        public int? SiteId { get; set; }
 
         public string SpecialCode { get; set; }
 

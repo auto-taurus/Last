@@ -1,5 +1,5 @@
 ﻿using Auto.Commons.Ioc.IContract;
-using Auto.Dto.RedisDto;
+using  Auto.CacheEntities.RedisValues;
 using StackExchange.Redis;
 using System;
 using System.Threading.Tasks;
@@ -7,14 +7,14 @@ using System.Threading.Tasks;
 namespace Auto.RedisServices.Repositories {
     public interface IWebSiteRedis : ISingletonInject {
 
-        Task<Tuple<bool, bool>> AddAccessCount(string mark);
-        Task<int> GetAccessCount(string mark);
+        Task<Tuple<bool, bool>> AddAccessCount(int mark);
+        Task<int> GetAccessCount(int mark);
 
-        Task<SortedSetEntry[]> GetAccessDays(string mark, DateTime? dt, int? pageIndex, int? pageSize);
-        Task<SortedSetEntry[]> GetAccessWeeks(string mark, DateTime? dt, int? pageIndex, int? pageSize);
-        Task<SortedSetEntry[]> GetAccessMonths(string mark, DateTime? dt, int? pageIndex, int? pageSize);
+        Task<SortedSetEntry[]> GetAccessDays(int mark, DateTime? dt, int? pageIndex, int? pageSize);
+        Task<SortedSetEntry[]> GetAccessWeeks(int mark, DateTime? dt, int? pageIndex, int? pageSize);
+        Task<SortedSetEntry[]> GetAccessMonths(int mark, DateTime? dt, int? pageIndex, int? pageSize);
 
-        Task<SiteDto> GetAsync(string mark);
-        Task<bool> AddAsync(string mark, SiteDto item);
+        Task<WebSiteValue> GetAsync(int mark);
+        Task<bool> AddAsync(int mark, WebSiteValue item);
     }
 }

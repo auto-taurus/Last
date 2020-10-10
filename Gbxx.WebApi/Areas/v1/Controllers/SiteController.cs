@@ -1,12 +1,15 @@
-﻿using Auto.Commons.ApiHandles.Responses;
-using Auto.Dto.RedisDto;
+﻿using Auto.CacheEntities.RedisValues;
+using Auto.Commons.ApiHandles.Responses;
+using Auto.DataServices.Contracts;
 using Auto.RedisServices.Repositories;
 using Gbxx.WebApi.Areas.v1.Models.Route;
 using Gbxx.WebApi.Requests.Query;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using Swashbuckle.AspNetCore.Annotations;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Gbxx.WebApi.Areas.v1.Controllers {
@@ -32,16 +35,23 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
         /// <summary>
         /// 
         /// </summary>
+        protected IWebSiteRepository _IWebSiteRepository;
+        /// <summary>
+        /// 
+        /// </summary>
         /// <param name="logger"></param>
         /// <param name="webSiteRedis"></param>
         /// <param name="webChannelRedis"></param>
+        /// <param name="webSiteRepository"></param>
         public SiteController(
             ILogger<SiteController> logger,
             IWebSiteRedis webSiteRedis,
-            IWebChannelRedis webChannelRedis) {
+            IWebChannelRedis webChannelRedis,
+            IWebSiteRepository webSiteRepository) {
             this._ILogger = logger;
             this._IWebSiteRedis = webSiteRedis;
             this._IWebChannelRedis = webChannelRedis;
+            this._IWebSiteRepository = webSiteRepository;
         }
         /// <summary>
         /// 获取站点信息
@@ -50,19 +60,40 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
         /// <param name="route"></param>
         /// <returns></returns>
         [HttpGet("{mark}")]
-        [SwaggerResponse(200, "", typeof(SiteDto))]
+        //[SwaggerResponse(200, "", typeof(WebSiteValue))]
+        [ProducesResponseType(typeof(WebSiteValue), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetWebSiteAsync(
                                          [FromHeader]String source,
                                          [FromRoute]SiteRoute route) {
-            var response = new Response<SiteDto>();
+            var response = new Response<WebSiteValue>();
             try {
                 var entity = await _IWebSiteRedis.GetAsync(route.mark);
                 if (entity != null) {
                     response.Code = true;
                     response.Data = entity;
                 }
-                else
-                    response.Message = "数据不存在！";
+                else {
+                    var result = await _IWebSiteRepository.Query(a => a.SiteId == route.mark)
+                                                          .Select(a => new WebSiteValue() {
+                                                              SiteId = a.SiteId,
+                                                              SiteName = a.SiteName,
+                                                              SiteUrls = a.SiteUrls,
+                                                              LogoUrls = a.LogoUrls,
+                                                              Title = a.Title,
+                                                              Keywords = a.Keywords,
+                                                              Description = a.Description
+                                                          })
+                                                          .SingleOrDefaultAsync();
+                    if (result != null) {
+                        await _IWebSiteRedis.AddAsync(route.mark, result);
+                        response.Code = true;
+                        response.Data = result;
+                    }
+                    else
+                        return NotFound("数据不存在或未定义！");
+                }
 
             }
             catch (Exception ex) {
@@ -73,11 +104,13 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
         /// <summary>
         /// 站点访问信息统计
         /// </summary>
-        /// <param name="source"></param>
+        /// <param name="source"> Source : {"Ip": "127.0.0.1","Device": "ios","DeviceVers": "14.0.23","SystemVers": "1.0.0"} </param>
         /// <param name="route"></param>
         /// <param name="item"></param>
         /// <returns></returns>
         [HttpGet("{mark}/Access")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetSiteAccessAsync(
                                          [FromHeader]String source,
                                          [FromRoute]SiteRoute route,
@@ -95,6 +128,7 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
             }
             catch (Exception ex) {
                 response.SetError(ex, this._ILogger);
+
             }
             return response.ToHttpResponse();
         }

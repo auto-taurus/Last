@@ -14,6 +14,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="Dto\RedisValues\WebCategoryValue.cs" />
+    <Compile Remove="Dto\RedisValues\WebSiteValue.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="FluentValidation" Version="9.3.0-preview2" />
     <PackageReference Include="Microsoft.Composition" Version="1.0.31" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.1.14" />
@@ -21,7 +26,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Auto.Dto\Auto.Dto.csproj" />
+    <ProjectReference Include="..\Auto.Dto\Auto.CacheEntities.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Dto\ElasticDocs\" />
+    <Folder Include="Dto\RedisValues\" />
   </ItemGroup>
 
 </Project>

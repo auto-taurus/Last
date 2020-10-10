@@ -23,9 +23,9 @@ namespace Gbxx.WebApi.Requests.Query {
         /// 
         /// </summary>
         public NewsTitleSearchGetValidator() {
-            RuleFor(a => a.Title).Null().WithMessage("请传搜索关键字！");
-            RuleFor(a => a.PageIndex).Null().WithMessage("请传递当前页！");
-            RuleFor(a => a.PageSize).Null().WithMessage("请传递页大小！");
+            RuleFor(a => a.Title).NotEmpty().WithMessage("请传搜索关键字！");
+            RuleFor(a => a.PageSize).GreaterThan(0).WithMessage("页大小需大于0！")
+                                    .NotEmpty().WithMessage("请传递页大小！");
         }
     }
 }

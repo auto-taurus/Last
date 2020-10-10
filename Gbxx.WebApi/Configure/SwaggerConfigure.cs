@@ -1,8 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
 using System;
-using System.IO;
 using System.Reflection;
 
 namespace Gbxx.WebApi.Configure.Swagger {
@@ -16,9 +14,15 @@ namespace Gbxx.WebApi.Configure.Swagger {
                         Title = "Wap、Web、M端资讯接口",
                         Version = "v1",
                         Description = "接口调用说明：<br/>" +
-                        "<p>Header头部设备参数(参数不区分大小写/不可包含中文)-> <label style='color:red;'>Device-Args : {\"Ip\": \"127.0.0.1\",\"Device\": \"ios14.0.23\",\"Version\": \"1.0.0\"}</label></p>" +
+                        "<p>Header头部设备参数(参数不区分大小写/不可包含中文)-> <label style='color:red;'>Source : {\"Ip\": \"127.0.0.1\",\"Device\": \"ios\",\"DeviceVers\": \"1.0.0\",\"SystemVers\": \"1.0.0\"}，Device和SystemVers为必传，PC、H5传递浏览器信息</label></p>" +
                         "<p>Header头部权限参数(参数不区分大小写/不可包含中文)-> <label style='color:red;'>Authorization : asdlfqpwerup9qwe;oadfjg'jzjxpvhaiprhtiqwr;oqwje</label></p>" +
-                        "<label style='color:red;'>URL地中带{value}的不需要在header，from，body等其他地方再进行传递</label>"
+                        "<p>URL地址-> <label style='color:red;'>带{value}的不需要在header，from，body等其他地方再进行传递</label></p>" +
+                        "<p>返回状态-> 200成功（包含其他规则验证），204请求成功没有数据（一般针对列表），400请求参数验证错误，404资源不存在或未定义（一般针对单个对象），500内部错误，权限验证状态码待添加</p>" +
+                        "<p>200返回格式 -> <label>{\"code\":bool,\"message\":string,\"data\":object,\"other\":objecte}</label></p>"
+                        +
+                        "<p>其他状态返回错误或提示文本<p>"
+
+
                     });
                 c.ExampleFilters();
                 //添加xml文件
