@@ -4,6 +4,33 @@
         <name>Gbxx.WebApi</name>
     </assembly>
     <members>
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.AccountController.GetLoginTokenAsync(System.String,System.String,Gbxx.WebApi.Areas.v1.Models.Post.LoginPost)">
+            <summary>
+            
+            </summary>
+            <param name="deviceArgs"></param>
+            <param name="authorization"></param>
+            <param name="item"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.AccountController.PostUserLoginAsync(System.String,System.String,Gbxx.WebApi.Areas.v1.Models.Post.LoginPost)">
+            <summary>
+            
+            </summary>
+            <param name="deviceArgs"></param>
+            <param name="authorization"></param>
+            <param name="item"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.AccountController.PostUserLoginOutAsync(System.String,System.String,Gbxx.WebApi.Areas.v1.Models.Post.LoginPost)">
+            <summary>
+            
+            </summary>
+            <param name="deviceArgs"></param>
+            <param name="authorization"></param>
+            <param name="item"></param>
+            <returns></returns>
+        </member>
         <member name="T:Gbxx.WebApi.Areas.v1.Controllers.CategoryController">
             <summary>
             分类管理
@@ -565,10 +592,25 @@
         </member>
         <member name="P:Gbxx.WebApi.Areas.v1.Models.Post.LoginPost.LoginName">
             <summary>
-            
+            登录名
             </summary>
         </member>
         <member name="P:Gbxx.WebApi.Areas.v1.Models.Post.LoginPost.Password">
+            <summary>
+            登录密码
+            </summary>
+        </member>
+        <member name="P:Gbxx.WebApi.Areas.v1.Models.Post.LoginPost.LoginMethods">
+            <summary>
+            登录方式（0手机登录，1微信登录）
+            </summary>
+        </member>
+        <member name="T:Gbxx.WebApi.Areas.v1.Models.Post.LoginPostValidator">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Gbxx.WebApi.Areas.v1.Models.Post.LoginPostValidator.#ctor">
             <summary>
             
             </summary>

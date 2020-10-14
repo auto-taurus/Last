@@ -81,24 +81,27 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                                                           [FromRoute]SiteRoute route,
                                                           string newsId = "10000000") {
             var response = new Response<Object>();
-            var ca="";
+            var ca = "";
             try {
                 var categories = await _IWebCategoryRepository.Query(a => a.SiteId == route.mark && a.IsEnable == 1,
                                                                        a => a.Sequence).ToListAsync();
 
-                for (int pageIndex = 1; pageIndex <= 10; pageIndex++) {
+                for (int pageIndex = 1; pageIndex <= 2; pageIndex++) {
                     var news = new List<WebNews>();
-                    news = _IMySqlRepository.GetList(1, pageIndex, 50000, Convert.ToInt32(newsId));
-                    newsId = news.LastOrDefault().NewsId;
-                    var docs = new List<WebNewsDoc>();
-                    news.ForEach(x => {
-                        ca = x.NewsId;
-                        var category = categories.SingleOrDefault(a => a.CategoryName == x.CategoryName);
-                        SetWebNews(x, category);
-                        docs.Add(GetWebNewsDoc(x));
-                    });
-                    await _IWebNewsRepository.BatchAddAsync(news);
-                    await _IWebNewsElastic.BatchAddDocumentAsync(_IWebNewsElastic.IndexName, docs);
+                    news = _IMySqlRepository.GetList(1, pageIndex, 10000, Convert.ToInt32(newsId));
+                    var lastNews = news.LastOrDefault();
+                    if (lastNews != null) {
+                        newsId = news.LastOrDefault().NewsId;
+                        var docs = new List<WebNewsDoc>();
+                        news.ForEach(x => {
+                            ca = x.NewsId;
+                            var category = categories.SingleOrDefault(a => a.CategoryName == x.CategoryName);
+                            SetWebNews(x, category);
+                            docs.Add(GetWebNewsDoc(x));
+                        });
+                        await _IWebNewsRepository.BatchAddAsync(news);
+                        await _IWebNewsElastic.BatchAddDocumentAsync(_IWebNewsElastic.IndexName, docs);
+                    }
                 }
                 response.Code = true;
             }

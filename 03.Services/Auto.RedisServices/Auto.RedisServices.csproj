@@ -5,6 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="JWT" Version="7.2.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="2.1.1" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.8.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\02.Infrastructure\Auto.Commons\Auto.Commons.csproj" />
     <ProjectReference Include="..\..\02.Infrastructure\Auto.Dto\Auto.CacheEntities.csproj" />
   </ItemGroup>
