@@ -17,6 +17,7 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
     /// <summary>
     /// 专栏管理
     /// </summary>
+    [Route("v1/{mark}/[controller]")]
     public class CodeController : DefaultController {
         /// <summary>
         /// 

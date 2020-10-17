@@ -19,6 +19,7 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
     /// <summary>
     /// 新闻管理
     /// </summary>
+    [Route("v1/{mark}/[controller]")]
     public class NewsController : DefaultController {
         /// <summary>
         /// 
@@ -353,6 +354,49 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                 else {
                     return NoContent();
                 }
+            }
+            catch (Exception ex) {
+                response.SetError(ex, this._ILogger);
+            }
+            return response.ToHttpResponse();
+        }
+
+        /// <summary>
+        /// 内容阅读每30秒调用一次，并统计绿豆
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="route"></param>
+        /// <returns></returns>
+        [HttpGet("{id}/Integral")]
+        public async Task<IActionResult> GetNewsIntegralAsync([FromHeader]String source,
+                                                              [FromRoute]SiteIdRoute route) {
+            var response = new Response<Object>();
+            try {
+                var result = await this._IWebNewsRedis.AddClickCount(route.mark, route.id);
+                if (!result)
+                    return BadRequest("新闻点击统计失败！");
+                response.Code = true;
+            }
+            catch (Exception ex) {
+                response.SetError(ex, this._ILogger);
+            }
+            return response.ToHttpResponse();
+        }
+        /// <summary>
+        /// 内容评论
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="route"></param>
+        /// <returns></returns>
+        [HttpPost("{id}/Comment")]
+        public async Task<IActionResult> PostNewsCommentAsync([FromHeader]String source,
+                                                           [FromRoute]SiteIdRoute route) {
+            var response = new Response<Object>();
+            try {
+                var result = await this._IWebNewsRedis.AddClickCount(route.mark, route.id);
+                if (!result)
+                    return BadRequest("新闻点击统计失败！");
+                response.Code = true;
             }
             catch (Exception ex) {
                 response.SetError(ex, this._ILogger);

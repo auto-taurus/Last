@@ -20,10 +20,8 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
     /// <summary>
     /// 
     /// </summary>
-    [Route("v1/[controller]")]
-    [ApiController]
-    [Produces("application/json")]
-    public class TestDataController : ControllerBase {
+    [Route("v1/[controller]", Order = 0)]
+    public class TestDataController : DefaultController {
         /// <summary>
         /// 
         /// </summary>

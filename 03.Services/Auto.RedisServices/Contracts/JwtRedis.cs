@@ -3,7 +3,6 @@ using Auto.RedisServices.Repositories;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Primitives;
 using Microsoft.IdentityModel.Tokens;
@@ -26,7 +25,7 @@ namespace Auto.RedisServices.Contracts {
         /// <summary>
         /// 分布式缓存
         /// </summary>
-        private readonly IDistributedCache _cache;
+        private readonly IRedisStore _IRedisStore;
         /// <summary>
         /// 配置信息
         /// </summary>
@@ -35,6 +34,10 @@ namespace Auto.RedisServices.Contracts {
         /// 获取 HTTP 请求上下文
         /// </summary>
         private readonly IHttpContextAccessor _httpContextAccessor;
+        /// <summary>
+        /// 
+        /// </summary>
+        private readonly String _customPrefix = "token";
 
         /// <summary>
         /// ctor
@@ -42,8 +45,8 @@ namespace Auto.RedisServices.Contracts {
         /// <param name="cache"></param>
         /// <param name="httpContextAccessor"></param>
         /// <param name="configuration"></param>
-        public JwtRedis(IDistributedCache cache, IHttpContextAccessor httpContextAccessor, IConfiguration configuration) {
-            _cache = cache;
+        public JwtRedis(IRedisStore redisStore, IHttpContextAccessor httpContextAccessor, IConfiguration configuration) {
+            _IRedisStore = redisStore;
             _httpContextAccessor = httpContextAccessor;
             _configuration = configuration;
         }
@@ -62,15 +65,15 @@ namespace Auto.RedisServices.Contracts {
             SymmetricSecurityKey key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Authentication:JwtBearer:SecurityKey"]));
 
             DateTime authTime = DateTime.UtcNow;
-            DateTime expiresAt = authTime.AddMinutes(Convert.ToDouble(_configuration["Authentication:JwtBearer:Minutes"]));
+            DateTime expiresAt = authTime.AddMinutes(Convert.ToDouble(_configuration["Authentication:JwtBearer:TokenMinutes"]));
 
             //将用户信息添加到 Claim 中
             var identity = new ClaimsIdentity(JwtBearerDefaults.AuthenticationScheme);
 
             IEnumerable<Claim> claims = new Claim[] {
-                new Claim(ClaimTypes.Name,dto.UserName),
-                new Claim(ClaimTypes.Role,dto.Role.ToString()),
-                new Claim(ClaimTypes.Email,dto.Email),
+                new Claim(ClaimTypes.Name,dto.Phone),
+                //new Claim(ClaimTypes.Role,dto.Role.ToString()),
+                //new Claim(ClaimTypes.Email,dto.Email),
                 new Claim(ClaimTypes.Expiration,expiresAt.ToString())
             };
             identity.AddClaims(claims);
@@ -90,7 +93,7 @@ namespace Auto.RedisServices.Contracts {
 
             //存储 Token 信息
             var jwt = new JwtAuthorValue {
-                MemberId = dto.Id,
+                MemberId = dto.MemberId,
                 Token = tokenHandler.WriteToken(token),
                 Auths = new DateTimeOffset(authTime).ToUnixTimeSeconds(),
                 Expires = new DateTimeOffset(expiresAt).ToUnixTimeSeconds(),
@@ -107,18 +110,20 @@ namespace Auto.RedisServices.Contracts {
         /// </summary>
         /// <param name="token">Token</param>
         /// <returns></returns>
-        public async Task DeactivateAsync(string token)
-        => await _cache.SetStringAsync(GetKey(token),
-                " ", new DistributedCacheEntryOptions {
-                    AbsoluteExpirationRelativeToNow =
-                        TimeSpan.FromMinutes(Convert.ToDouble(_configuration["Authentication:JwtBearer:Minutes"]))
-                });
+        public async Task<bool> DeactivateAsync(string token) {
+            var tokenKey = GetKey(token);
+            var number = _IRedisStore.GetRandomNumber(tokenKey);
+            return await _IRedisStore.Do(db => db.StringSetAsync(tokenKey,
+                                                                 token,
+                                                                 TimeSpan.FromMinutes(Convert.ToDouble(_configuration["Authentication:JwtBearer:Minutes"]))
+                                                                 ), number);
+        }
 
         /// <summary>
         /// 停用当前 Token
         /// </summary>
         /// <returns></returns>
-        public async Task DeactivateCurrentAsync()
+        public async Task<bool> DeactivateCurrentAsync()
         => await DeactivateAsync(GetCurrentAsync());
 
         /// <summary>
@@ -126,8 +131,11 @@ namespace Auto.RedisServices.Contracts {
         /// </summary>
         /// <param name="token">Token</param>
         /// <returns></returns>
-        public async Task<bool> IsActiveAsync(string token)
-        => await _cache.GetStringAsync(GetKey(token)) == null;
+        public async Task<bool> IsActiveAsync(string token) {
+            var tokenKey = GetKey(token);
+            var number = _IRedisStore.GetRandomNumber(tokenKey);
+            return await _IRedisStore.Do(db => db.KeyExistsAsync(tokenKey), number);
+        }
 
         /// <summary>
         /// 判断当前 Token 是否有效
@@ -165,8 +173,8 @@ namespace Auto.RedisServices.Contracts {
         /// </summary>
         /// <param name="token">Token</param>
         /// <returns></returns>
-        private static string GetKey(string token)
-            => $"deactivated token:{token}";
+        private string GetKey(string token)
+            => $"{_customPrefix}:{token}";
 
         /// <summary>
         /// 获取 HTTP 请求的 Token 值

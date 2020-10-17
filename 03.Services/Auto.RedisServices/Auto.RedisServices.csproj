@@ -15,4 +15,10 @@
     <ProjectReference Include="..\..\02.Infrastructure\Auto.Dto\Auto.CacheEntities.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="System.IdentityModel.Tokens.Jwt">
+      <HintPath>C:\Program Files\dotnet\sdk\NuGetFallbackFolder\system.identitymodel.tokens.jwt\5.2.0\lib\netstandard1.4\System.IdentityModel.Tokens.Jwt.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>

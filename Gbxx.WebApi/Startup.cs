@@ -9,6 +9,7 @@ using Gbxx.WebApi.Filters;
 using Gbxx.WebApi.Utils;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -50,7 +51,7 @@ namespace Gbxx.WebApi {
             services.BatchServices();
             services.InitElasticSearch(Configuration);
             services.InitSwaggerGen();
-
+            services.InitJwt(Configuration);
             services.AddMvc(options => {
                 //全局拦截器
                 options.Filters.Add<HeaderSourceAttribute>();
@@ -100,6 +101,7 @@ namespace Gbxx.WebApi {
             else {
                 app.UseHsts();
             }
+            app.UseAuthentication();
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             // 启用Swagger中间件
@@ -109,17 +111,18 @@ namespace Gbxx.WebApi {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
                 c.RoutePrefix = string.Empty;
             });
-            app.UseMvc();
-            //app.UseMvc(routes => {
-            //    routes.MapRoute(
-            //      name: "areas",
-            //      template: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
-            //    );
-            //    routes.MapRoute(
-            //      name: "default",
-            //      template: "{controller=Home}/{action=Index}/{id?}"
-            //    );
-            //});
+            app.UsePathBase(new PathString("/v2"));
+            //app.UseMvc(routes => { });
+            app.UseMvc(routes => {
+                routes.MapRoute(
+                  name: "areas",
+                  template: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
+                );
+                //routes.MapRoute(
+                //  name: "default",
+                //  template: "{controller=Home}/{action=Index}/{id?}"
+                //);
+            });
         }
     }
 }

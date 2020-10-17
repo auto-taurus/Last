@@ -1,7 +1,11 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Swashbuckle.AspNetCore.Filters;
 using System;
+using System.Collections.Generic;
 using System.Reflection;
+using Microsoft.AspNetCore.Mvc.ApiExplorer;
+using Microsoft.AspNetCore.Mvc.Cors.Internal;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace Gbxx.WebApi.Configure.Swagger {
     public static class SwaggerConfigure {
@@ -31,6 +35,19 @@ namespace Gbxx.WebApi.Configure.Swagger {
                 var xmlPath = System.IO.Path.Combine(AppContext.BaseDirectory, xmlFile);
                 // 启用xml注释
                 c.IncludeXmlComments(xmlPath);
+
+                ////Add Jwt Authorize to http header
+                //c.AddSecurityDefinition("Bearer", new ApiKeyScheme {
+                //    Description = "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
+                //    Name = "Authorization",//Jwt default param name
+                //    In = "header",//Jwt store address
+                //    Type = "apiKey"//Security scheme type
+                //});
+                ////Add authentication type
+                //c.AddSecurityRequirement(new Dictionary<string, IEnumerable<string>>
+                //{
+                //    { "Bearer", new string[] { } }
+                //});
             });
 
             //services.AddSwaggerGen(c => {

@@ -1,11 +1,9 @@
 ﻿using Auto.CacheEntities.RedisValues;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using Auto.Commons.Ioc.IContract;
 using System.Threading.Tasks;
 
 namespace Auto.RedisServices.Repositories {
-    public interface IJwtRedis {
+    public interface IJwtRedis : ISingletonInject {
         /// <summary>
         /// 新增 Jwt token
         /// </summary>
@@ -28,7 +26,7 @@ namespace Auto.RedisServices.Repositories {
         /// 停用当前 Token
         /// </summary>
         /// <returns></returns>
-        Task DeactivateCurrentAsync();
+        Task<bool> DeactivateCurrentAsync();
         /// <summary>
         /// 判断 Token 是否有效
         /// </summary>
@@ -39,6 +37,6 @@ namespace Auto.RedisServices.Repositories {
         /// 停用 Token
         /// </summary>
         /// <returns></returns>
-        Task DeactivateAsync(string token);
+        Task<bool> DeactivateAsync(string token);
     }
 }

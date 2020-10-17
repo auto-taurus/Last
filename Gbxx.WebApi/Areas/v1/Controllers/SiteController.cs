@@ -17,9 +17,7 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
     /// 站点管理
     /// </summary>
     [Route("v1/[controller]")]
-    [ApiController]
-    [Produces("application/json")]
-    public class SiteController : ControllerBase {
+    public class SiteController : DefaultController {
         /// <summary>
         /// 
         /// </summary>

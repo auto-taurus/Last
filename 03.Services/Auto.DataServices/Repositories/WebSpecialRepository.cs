@@ -8,6 +8,7 @@ using System.Text;
 namespace Auto.DataServices.Repositories {
     public class WebSpecialRepository : Repository<WebSpecial>, IWebSpecialRepository {
         public WebSpecialRepository(AutoNewsContext AutoNewsContext) : base(AutoNewsContext) {
+
         }
 
     }
