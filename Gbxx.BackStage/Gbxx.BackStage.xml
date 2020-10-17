@@ -14,6 +14,13 @@
             系统用户管理
             </summary>
         </member>
+        <member name="M:Gbxx.BackStage.Areas.v1.Controllers.SystemUsersController.#ctor(Auto.DataServices.Contracts.ISystemUsersRepository,Microsoft.Extensions.Logging.ILogger{Gbxx.BackStage.Areas.v1.Controllers.SystemUsersController})">
+            <summary>
+            系统用户信息
+            </summary>
+            <param name="systemUsersRepository"></param>
+            <param name="logger"></param>
+        </member>
         <member name="M:Gbxx.BackStage.Areas.v1.Controllers.SystemUsersController.GetSystemUsersAsync(Gbxx.BackStage.Requests.Query.SystemUsersQuery)">
             <summary>
             用户列表分页查询

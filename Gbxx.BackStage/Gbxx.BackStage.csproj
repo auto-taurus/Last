@@ -25,7 +25,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\02.Infrastructure\Auto.Commons\Auto.Commons.csproj" />
-    <ProjectReference Include="..\02.Infrastructure\Auto.EFCore\Auto.EFCore.csproj" />
+    <ProjectReference Include="..\02.Infrastructure\Auto.Configurations\Auto.Configurations.csproj" />
+    <ProjectReference Include="..\02.Infrastructure\Auto.Entities\Auto.Entities.csproj" />
     <ProjectReference Include="..\03.Services\Auto.DataServices\Auto.DataServices.csproj" />
     <ProjectReference Include="..\03.Services\Auto.ElasticServices\Auto.ElasticServices.csproj" />
     <ProjectReference Include="..\03.Services\Auto.RedisServices\Auto.RedisServices.csproj" />

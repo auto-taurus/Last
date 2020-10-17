@@ -1,4 +1,4 @@
-﻿using Auto.CacheEntities.RedisValues;
+﻿using Auto.RedisServices.Entities;
 using Auto.Commons.ApiHandles.Responses;
 using Auto.DataServices.Contracts;
 using Auto.RedisServices.Repositories;
@@ -11,6 +11,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Gbxx.WebApi.Controllers;
 
 namespace Gbxx.WebApi.Areas.v1.Controllers {
     /// <summary>

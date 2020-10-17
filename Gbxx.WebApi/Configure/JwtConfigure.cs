@@ -13,7 +13,15 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Gbxx.WebApi.Configure {
+    /// <summary>
+    /// 
+    /// </summary>
     public static class JwtConfigure {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="services"></param>
+        /// <param name="configuration"></param>
         public static void InitJwt(this IServiceCollection services, IConfiguration configuration) {
             if (bool.Parse(configuration["Authentication:JwtBearer:IsEnabled"])) {
 

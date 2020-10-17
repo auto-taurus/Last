@@ -1,4 +1,4 @@
-﻿using  Auto.CacheEntities.ElasticDoc;
+﻿using  Auto.ElasticServices.Entities;
 using Auto.ElasticServices.Contracts;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;

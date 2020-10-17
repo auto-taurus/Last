@@ -1,5 +1,6 @@
 ﻿using Auto.Commons.ApiHandles.Responses;
 using Gbxx.WebApi.Areas.v1.Data;
+using Gbxx.WebApi.Controllers;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 using System;

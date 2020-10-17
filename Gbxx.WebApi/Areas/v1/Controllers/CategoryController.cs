@@ -1,5 +1,5 @@
-﻿using Auto.CacheEntities.ElasticDoc;
-using Auto.CacheEntities.RedisValues;
+﻿using Auto.ElasticServices.Entities;
+using Auto.RedisServices.Entities;
 using Auto.Commons.ApiHandles.Responses;
 using Auto.DataServices.Contracts;
 using Auto.ElasticServices.Contracts;
@@ -16,6 +16,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Gbxx.WebApi.Controllers;
 
 namespace Gbxx.WebApi.Areas.v1.Controllers {
     /// <summary>

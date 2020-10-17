@@ -1,5 +1,5 @@
-﻿using Auto.CacheEntities.ElasticDoc;
-using Auto.EFCore.Entities;
+﻿using Auto.ElasticServices.Entities;
+using Auto.Entities.Datas;
 using Microsoft.EntityFrameworkCore;
 
 namespace Gbxx.WebApi.Utils {

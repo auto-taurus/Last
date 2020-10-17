@@ -1,17 +1,15 @@
-﻿using System;
+﻿using Auto.Commons.ApiHandles.Responses;
+using Auto.Commons.Linq;
+using Auto.DataServices.Contracts;
+using Auto.Entities.Datas;
+using Gbxx.BackStage.Requests.Items;
+using Gbxx.BackStage.Requests.Query;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Auto.Commons.ApiHandles.Responses;
-using Auto.Commons.Extensions.Predicate;
-using Auto.DataServices.Contracts;
-using Auto.EFCore.Dto;
-using Auto.EFCore.Entities;
-using Gbxx.BackStage.Requests.Items;
-using Gbxx.BackStage.Requests.Query;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 
 namespace Gbxx.BackStage.Areas.v1.Controllers {
     /// <summary>
@@ -40,7 +38,7 @@ namespace Gbxx.BackStage.Areas.v1.Controllers {
         public async Task<IActionResult> GetSystemUsersAsync([FromQuery]SystemUsersQuery args) {
             var response = new Response<SystemUsers>();
             try {
-                var p = Predicate.Begin<SystemUsers>(true);
+                var p = P.Begin<SystemUsers>(true);
                 if (!string.IsNullOrEmpty(args.UserName))
                     p = p.And(e => e.UsersName.Contains(args.UserName));
                 if (!string.IsNullOrEmpty(args.LoginName))

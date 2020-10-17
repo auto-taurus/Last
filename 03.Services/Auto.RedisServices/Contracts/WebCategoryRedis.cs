@@ -1,4 +1,4 @@
-﻿using  Auto.CacheEntities.RedisValues;
+﻿using  Auto.RedisServices.Entities;
 using Auto.RedisServices.Repositories;
 using StackExchange.Redis;
 using System;

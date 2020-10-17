@@ -1,5 +1,5 @@
 ﻿using Auto.Commons.Ioc.IContract;
-using  Auto.CacheEntities.RedisValues;
+using  Auto.RedisServices.Entities;
 using StackExchange.Redis;
 using System;
 using System.Threading.Tasks;

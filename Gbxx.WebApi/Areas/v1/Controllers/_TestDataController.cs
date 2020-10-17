@@ -1,8 +1,8 @@
-﻿using Auto.CacheEntities.ElasticDoc;
+﻿using Auto.ElasticServices.Entities;
 using Auto.Commons.ApiHandles.Responses;
 using Auto.Commons.Systems;
 using Auto.DataServices.Contracts;
-using Auto.EFCore.Entities;
+using Auto.Entities.Datas;
 using Auto.ElasticServices.Contracts;
 using Auto.RedisServices;
 using Gbxx.WebApi.Areas.v1.Models.Route;

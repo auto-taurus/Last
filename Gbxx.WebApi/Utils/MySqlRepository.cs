@@ -1,6 +1,5 @@
-﻿using Auto.CacheEntities.ElasticDoc;
-using Auto.Commons.Extensions.EfCore;
-using Auto.EFCore.Entities;
+﻿using Auto.Commons.EfCore;
+using Auto.Entities.Datas;
 using System.Collections.Generic;
 
 namespace Gbxx.WebApi.Utils {

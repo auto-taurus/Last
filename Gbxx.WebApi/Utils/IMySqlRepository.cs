@@ -1,5 +1,5 @@
 ﻿using Auto.Commons.Ioc.IContract;
-using Auto.EFCore.Entities;
+using Auto.Entities.Datas;
 using System.Collections.Generic;
 
 namespace Gbxx.WebApi.Utils {

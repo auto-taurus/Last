@@ -2,6 +2,7 @@
 using Auto.DataServices.Contracts;
 using Gbxx.WebApi.Areas.v1.Data;
 using Gbxx.WebApi.Areas.v1.Models.Route;
+using Gbxx.WebApi.Controllers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Swashbuckle.AspNetCore.Annotations;
@@ -21,14 +22,14 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
         /// <summary>
         /// 
         /// </summary>
-        protected IMemberInfoRepository _IMemberInfoRepository;
+        protected IMemberInfosRepository _IMemberInfoRepository;
         /// <summary>
         /// 
         /// </summary>
         /// <param name="logger"></param>
         /// <param name="memberInfoRepository"></param>
         public MemberController(ILogger<SiteController> logger,
-                                IMemberInfoRepository memberInfoRepository) {
+                                IMemberInfosRepository memberInfoRepository) {
             this._ILogger = logger;
             this._IMemberInfoRepository = memberInfoRepository;
 

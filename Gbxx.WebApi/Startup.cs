@@ -1,5 +1,5 @@
-﻿using Auto.EFCore;
-using Auto.EFCore.Configurations.Maps;
+﻿using Auto.Configurations;
+using Auto.Configurations.Maps;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Gbxx.BackStage.Configure.Ioc;

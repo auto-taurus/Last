@@ -1,8 +1,10 @@
-﻿using Auto.CacheEntities.RedisValues;
+﻿using Auto.Entities.Datas;
+using Auto.RedisServices.Entities;
 using Auto.RedisServices.Repositories;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Primitives;
 using Microsoft.IdentityModel.Tokens;
@@ -21,7 +23,7 @@ namespace Auto.RedisServices.Contracts {
         /// <summary>
         /// 已授权的 Token 信息集合
         /// </summary>
-        private static ISet<JwtAuthorValue> _tokens = new HashSet<JwtAuthorValue>();
+        private static ISet<JwtAuthorData> _tokens = new HashSet<JwtAuthorData>();
         /// <summary>
         /// 分布式缓存
         /// </summary>
@@ -60,7 +62,7 @@ namespace Auto.RedisServices.Contracts {
         /// </summary>
         /// <param name="dto">用户信息数据传输对象</param>
         /// <returns></returns>
-        public JwtAuthorValue Create(MemberInfoValue dto) {
+        public JwtAuthorData Create(MemberInfos dto) {
             JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
             SymmetricSecurityKey key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Authentication:JwtBearer:SecurityKey"]));
 
@@ -71,13 +73,16 @@ namespace Auto.RedisServices.Contracts {
             var identity = new ClaimsIdentity(JwtBearerDefaults.AuthenticationScheme);
 
             IEnumerable<Claim> claims = new Claim[] {
-                new Claim(ClaimTypes.Name,dto.Phone),
-                //new Claim(ClaimTypes.Role,dto.Role.ToString()),
-                //new Claim(ClaimTypes.Email,dto.Email),
-                new Claim(ClaimTypes.Expiration,expiresAt.ToString())
+                new Claim(ClaimTypes.NameIdentifier,  dto.MemberId.ToString()),
+                new Claim(ClaimTypes.Name,            dto.Name),
+                new Claim(ClaimTypes.GivenName,       dto.NickName),
+                new Claim(ClaimTypes.MobilePhone,     dto.Phone),
+                new Claim(ClaimTypes.SerialNumber,    dto.Code),
+                new Claim(ClaimTypes.Upn,             dto.Alipay),
+                new Claim(ClaimTypes.Spn,             dto.Wechat),
+                new Claim(ClaimTypes.Expiration,      expiresAt.ToString())
             };
             identity.AddClaims(claims);
-
             //签发一个加密后的用户信息凭证，用来标识用户的身份，并把用户信息添加请求上下文中
             _httpContextAccessor.HttpContext.SignInAsync(JwtBearerDefaults.AuthenticationScheme, new ClaimsPrincipal(identity));
 
@@ -92,16 +97,16 @@ namespace Auto.RedisServices.Contracts {
             var token = tokenHandler.CreateToken(tokenDescriptor);
 
             //存储 Token 信息
-            var jwt = new JwtAuthorValue {
+            var jwt = new JwtAuthorData {
                 MemberId = dto.MemberId,
                 Token = tokenHandler.WriteToken(token),
                 Auths = new DateTimeOffset(authTime).ToUnixTimeSeconds(),
                 Expires = new DateTimeOffset(expiresAt).ToUnixTimeSeconds(),
-                Success = true
             };
 
-            _tokens.Add(jwt);
-
+            if (!_tokens.Add(jwt)) {
+                jwt = default(JwtAuthorData);
+            }
             return jwt;
         }
 
@@ -150,13 +155,10 @@ namespace Auto.RedisServices.Contracts {
         /// <param name="token">Token</param>
         /// <param name="dto">用户信息</param>
         /// <returns></returns>
-        public async Task<JwtAuthorValue> RefreshAsync(string token, MemberInfoValue dto) {
+        public async Task<JwtAuthorData> RefreshAsync(string token, MemberInfos dto) {
             var jwtOld = GetExistenceToken(token);
             if (jwtOld == null) {
-                return new JwtAuthorValue() {
-                    Token = "未获取到当前 Token 信息",
-                    Success = false
-                };
+                return null;
             }
             var jwt = Create(dto);
             //停用修改前的 Token 信息
@@ -196,7 +198,7 @@ namespace Auto.RedisServices.Contracts {
         /// </summary>
         /// <param name="token">Token</param>
         /// <returns></returns>
-        private JwtAuthorValue GetExistenceToken(string token)
+        private JwtAuthorData GetExistenceToken(string token)
             => _tokens.SingleOrDefault(x => x.Token == token);
 
         #endregion

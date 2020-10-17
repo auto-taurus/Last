@@ -14,7 +14,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\02.Infrastructure\Auto.Commons\Auto.Commons.csproj" />
-    <ProjectReference Include="..\..\02.Infrastructure\Auto.Dto\Auto.CacheEntities.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,4 +1,4 @@
-﻿using Auto.CacheEntities.ElasticDoc;
+﻿using Auto.ElasticServices.Entities;
 using Auto.Commons.ApiHandles.Responses;
 using Auto.ElasticServices.Contracts;
 using Gbxx.WebApi.Areas.v1.Data;
@@ -12,6 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Gbxx.WebApi.Controllers;
 
 namespace Gbxx.WebApi.Areas.v1.Controllers {
     /// <summary>

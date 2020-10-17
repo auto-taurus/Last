@@ -1,5 +1,4 @@
-﻿using Auto.Commons.Extensions.Predicate;
-using Auto.EFCore;
+﻿using Auto.Configurations;
 using EFCore.BulkExtensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
@@ -8,7 +7,6 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Auto.DataServices {

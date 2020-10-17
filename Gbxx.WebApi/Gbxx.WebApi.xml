@@ -4,30 +4,6 @@
         <name>Gbxx.WebApi</name>
     </assembly>
     <members>
-        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.AccountController.GetLoginTokenAsync(System.String,Gbxx.WebApi.Areas.v1.Models.Post.LoginPost)">
-            <summary>
-            
-            </summary>
-            <param name="source"></param>
-            <param name="item"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.AccountController.PostUserLoginAsync(System.String,Gbxx.WebApi.Areas.v1.Models.Post.LoginPost)">
-            <summary>
-            
-            </summary>
-            <param name="source"></param>
-            <param name="item"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.AccountController.PostUserLoginOutAsync(System.String,Gbxx.WebApi.Areas.v1.Models.Post.LoginPost)">
-            <summary>
-            
-            </summary>
-            <param name="source"></param>
-            <param name="item"></param>
-            <returns></returns>
-        </member>
         <member name="T:Gbxx.WebApi.Areas.v1.Controllers.CategoryController">
             <summary>
             分类管理
@@ -126,10 +102,67 @@
             <param name="item"></param>
             <returns></returns>
         </member>
-        <member name="T:Gbxx.WebApi.Areas.v1.Controllers.DefaultController">
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.IncomeController.GetMemberIncomesAsync(System.String)">
+            <summary>
+            获取会员收入记录列表
+            </summary>
+            <param name="source"></param>
+            <param name="route"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Gbxx.WebApi.Areas.v1.Controllers.MemberController">
+            <summary>
+            会员中心
+            </summary>
+        </member>
+        <member name="F:Gbxx.WebApi.Areas.v1.Controllers.MemberController._ILogger">
             <summary>
             
             </summary>
+        </member>
+        <member name="F:Gbxx.WebApi.Areas.v1.Controllers.MemberController._IMemberInfoRepository">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.MemberController.#ctor(Microsoft.Extensions.Logging.ILogger{Gbxx.WebApi.Areas.v1.Controllers.SiteController},Auto.DataServices.Contracts.IMemberInfosRepository)">
+            <summary>
+            
+            </summary>
+            <param name="logger"></param>
+            <param name="memberInfoRepository"></param>
+        </member>
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.MemberController.GetMemberInfoAsync(System.String,Gbxx.WebApi.Areas.v1.Models.Route.IdRoute)">
+            <summary>
+            会员信息
+            </summary>
+            <param name="source"></param>
+            <param name="route"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.MemberController.GetFollowAsync(System.String,Gbxx.WebApi.Areas.v1.Models.Route.IdRoute)">
+            <summary>
+            获取会员关注列表
+            </summary>
+            <param name="source"></param>
+            <param name="route"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.MemberController.GetFavoritesAsync(System.String,Gbxx.WebApi.Areas.v1.Models.Route.IdRoute)">
+            <summary>
+            获取会员收藏列表
+            </summary>
+            <param name="source"></param>
+            <param name="route"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.MemberController.GetFootprintAsync(System.String,Gbxx.WebApi.Areas.v1.Models.Route.IdRoute)">
+            <summary>
+            获取会员足迹列表
+            </summary>
+            <param name="source"></param>
+            <param name="route"></param>
+            <returns></returns>
         </member>
         <member name="T:Gbxx.WebApi.Areas.v1.Controllers.NewsController">
             <summary>
@@ -201,6 +234,35 @@
             <param name="item"></param>
             <returns></returns>
         </member>
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.NewsController.GetNewsIntegralAsync(System.String,Gbxx.WebApi.Areas.v1.Models.Route.SiteIdRoute)">
+            <summary>
+            内容阅读每30秒调用一次，并统计绿豆
+            </summary>
+            <param name="source"></param>
+            <param name="route"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.NewsController.PostNewsCommentAsync(System.String,Gbxx.WebApi.Areas.v1.Models.Route.SiteIdRoute)">
+            <summary>
+            内容评论
+            </summary>
+            <param name="source"></param>
+            <param name="route"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.ProblemController.#ctor">
+            <summary>
+            常见问题
+            </summary>
+        </member>
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.ProblemController.GetProblemAsync(System.String)">
+            <summary>
+            获取问题列表
+            </summary>
+            <param name="source"></param>
+            <param name="route"></param>
+            <returns></returns>
+        </member>
         <member name="T:Gbxx.WebApi.Areas.v1.Controllers.SiteController">
             <summary>
             站点管理
@@ -250,6 +312,22 @@
             <param name="source"> Source : {"Ip": "127.0.0.1","Device": "ios","DeviceVers": "14.0.23","SystemVers": "1.0.0"} </param>
             <param name="route"></param>
             <param name="item"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.TaskController.PostTaskAsync(System.String)">
+            <summary>
+            全站任务入口
+            </summary>
+            <param name="source"></param>
+            <param name="route"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.WithdrawController.GetIncomeAsync(System.String)">
+            <summary>
+            获取会员提现记录列表
+            </summary>
+            <param name="source"></param>
+            <param name="route"></param>
             <returns></returns>
         </member>
         <member name="T:Gbxx.WebApi.Areas.v1.Controllers._TestDataController">
@@ -602,6 +680,21 @@
             登录方式（0手机登录，1微信登录）
             </summary>
         </member>
+        <member name="P:Gbxx.WebApi.Areas.v1.Models.Post.LoginPost.NickName">
+            <summary>
+            昵称
+            </summary>
+        </member>
+        <member name="P:Gbxx.WebApi.Areas.v1.Models.Post.LoginPost.Avatar">
+            <summary>
+            头像
+            </summary>
+        </member>
+        <member name="P:Gbxx.WebApi.Areas.v1.Models.Post.LoginPost.Wechat">
+            <summary>
+            微信号
+            </summary>
+        </member>
         <member name="T:Gbxx.WebApi.Areas.v1.Models.Post.LoginPostValidator">
             <summary>
             
@@ -617,6 +710,26 @@
             
             </summary>
         </member>
+        <member name="T:Gbxx.WebApi.Areas.v1.Models.Route.IdRoute">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Gbxx.WebApi.Areas.v1.Models.Route.IdRoute.id">
+            <summary>
+            主要信息唯一标识
+            </summary>
+        </member>
+        <member name="T:Gbxx.WebApi.Areas.v1.Models.Route.IdRouteValidator">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Gbxx.WebApi.Areas.v1.Models.Route.IdRouteValidator.#ctor">
+            <summary>
+            
+            </summary>
+        </member>
         <member name="T:Gbxx.WebApi.Areas.v1.Models.Route.SiteIdRoute">
             <summary>
             新闻资讯路由参数
@@ -627,12 +740,12 @@
             主要信息编号，专栏code等
             </summary>
         </member>
-        <member name="T:Gbxx.WebApi.Areas.v1.Models.Route.WebRouteValidator">
+        <member name="T:Gbxx.WebApi.Areas.v1.Models.Route.SiteIdRouteValidator">
             <summary>
             
             </summary>
         </member>
-        <member name="M:Gbxx.WebApi.Areas.v1.Models.Route.WebRouteValidator.#ctor">
+        <member name="M:Gbxx.WebApi.Areas.v1.Models.Route.SiteIdRouteValidator.#ctor">
             <summary>
             
             </summary>
@@ -702,6 +815,82 @@
             
             </summary>
         </member>
+        <member name="T:Gbxx.WebApi.Configure.JwtConfigure">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Gbxx.WebApi.Configure.JwtConfigure.InitJwt(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            
+            </summary>
+            <param name="services"></param>
+            <param name="configuration"></param>
+        </member>
+        <member name="M:Gbxx.WebApi.Controllers.AccountController.#ctor(Microsoft.Extensions.Logging.ILogger{Gbxx.WebApi.Controllers.AccountController},Auto.RedisServices.Repositories.IWebNewsRedis,Auto.RedisServices.Repositories.IJwtRedis,Auto.DataServices.Contracts.IMemberInfosRepository)">
+            <summary>
+            
+            </summary>
+            <param name="logger"></param>
+            <param name="webNewsRedis"></param>
+            <param name="jwtRedis"></param>
+            <param name="memberInfosRepository"></param>
+        </member>
+        <member name="M:Gbxx.WebApi.Controllers.AccountController.GetRefreshAsync(System.String,System.String)">
+            <summary>
+            刷新Token
+            </summary>
+            <param name="source"></param>
+            <param name="authorization"></param>
+            <param name="item"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Gbxx.WebApi.Controllers.AccountController.PostUserLoginAsync(System.String,Gbxx.WebApi.Areas.v1.Models.Post.LoginPost)">
+            <summary>
+            登录
+            </summary>
+            <param name="source"></param>
+            <param name="item"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Gbxx.WebApi.Controllers.AccountController.PostUserLoginOutAsync(System.String)">
+            <summary>
+            退出
+            </summary>
+            <param name="source"></param>
+            <param name="authorization"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Gbxx.WebApi.Controllers.AuthorizeController">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Gbxx.WebApi.Controllers.AuthorizeController.NickName">
+            <summary>
+            昵称
+            </summary>
+        </member>
+        <member name="P:Gbxx.WebApi.Controllers.AuthorizeController.Phone">
+            <summary>
+            手机号
+            </summary>
+        </member>
+        <member name="P:Gbxx.WebApi.Controllers.AuthorizeController.Code">
+            <summary>
+            邀请码
+            </summary>
+        </member>
+        <member name="P:Gbxx.WebApi.Controllers.AuthorizeController.Alipay">
+            <summary>
+            支付宝
+            </summary>
+        </member>
+        <member name="P:Gbxx.WebApi.Controllers.AuthorizeController.Wechat">
+            <summary>
+            微信
+            </summary>
+        </member>
         <member name="T:Gbxx.WebApi.Filters.HeaderSource">
             <summary>
             请求头Header来源Source信息
@@ -747,6 +936,28 @@
             
             </summary>
             <param name="context"></param>
+        </member>
+        <member name="P:Gbxx.WebApi.Handlers.PolicyHandler._IAuthenticationSchemeProvider">
+            <summary>
+            授权方式（cookie, bearer, oauth, openid）
+            </summary>
+        </member>
+        <member name="F:Gbxx.WebApi.Handlers.PolicyHandler._IJwtRedis">
+            <summary>
+            jwt 服务
+            </summary>
+        </member>
+        <member name="M:Gbxx.WebApi.Handlers.PolicyHandler.#ctor(Microsoft.AspNetCore.Authentication.IAuthenticationSchemeProvider,Auto.RedisServices.Repositories.IJwtRedis)">
+            <summary>
+            ctor
+            </summary>
+            <param name="schemes"></param>
+            <param name="jwtApp"></param>
+        </member>
+        <member name="T:Gbxx.WebApi.Handlers.PolicyHandler.Menu">
+            <summary>
+            测试菜单类
+            </summary>
         </member>
         <member name="M:Gbxx.WebApi.Utils.MysqlDbContext.OnConfiguring(Microsoft.EntityFrameworkCore.DbContextOptionsBuilder)">
             <summary>

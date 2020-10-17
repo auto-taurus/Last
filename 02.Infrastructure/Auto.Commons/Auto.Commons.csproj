@@ -5,7 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="DateTimeExtens\ChineseCalendar.cs" />
+    <Compile Remove="DateTimes\ChineseCalendar.cs" />
+    <Compile Remove="Linq\PagingExtensions.cs" />
   </ItemGroup>
 
   <ItemGroup>
