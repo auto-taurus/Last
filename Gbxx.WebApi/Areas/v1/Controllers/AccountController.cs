@@ -31,14 +31,12 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="deviceArgs"></param>
-        /// <param name="authorization"></param>
+        /// <param name="source"></param>
         /// <param name="item"></param>
         /// <returns></returns>
-        [HttpGet("Token")]
-        public async Task<IActionResult> GetLoginTokenAsync([FromHeader]string source,
-                                                            [FromHeader]string authorization,
-                                                            [FromBody]LoginPost item) {
+        [HttpGet("RefreshToken")]
+        public async Task<IActionResult> GetLoginTokenAsync([FromHeader]String source,
+                                                            [FromQuery]LoginPost item) {
             var response = new Response<Object>();
             try {
 
@@ -52,8 +50,7 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="deviceArgs"></param>
-        /// <param name="authorization"></param>
+        /// <param name="source"></param>
         /// <param name="item"></param>
         /// <returns></returns>
         [HttpPost("Login")]
@@ -93,8 +90,7 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="deviceArgs"></param>
-        /// <param name="authorization"></param>
+        /// <param name="source"></param>
         /// <param name="item"></param>
         /// <returns></returns>
         [HttpPost("LoginOut")]

@@ -25,6 +25,12 @@ namespace Gbxx.WebApi.Configure.Swagger {
                         "<p>200返回格式 -> <label>{\"code\":bool,\"message\":string,\"data\":object,\"other\":objecte}</label></p>"
                         +
                         "<p>其他状态返回错误或提示文本<p>"
+                        +
+                        "<p>IE:9.0及一下请在URL中传递Source，Authorization<p>"
+                        +
+                        "<p>{\"Ip\": \"127.0.0.1\",\"Device\": \"ios\",\"DeviceVers\": \"IE:8.0\",\"SystemVers\": \"1.0.0\"} ,DeviceVers针对IE9及以下，值为IE:9.0,IE:8.0,IE:7.0,IE:6.0,其它保持不变<p>"
+
+
 
 
                     });

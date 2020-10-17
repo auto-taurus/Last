@@ -21,7 +21,9 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
     /// 
     /// </summary>
     [Route("v1/[controller]", Order = 0)]
-    public class TestDataController : DefaultController {
+    [ApiController]
+    [Produces("application/json")]
+    public class _TestDataController : ControllerBase {
         /// <summary>
         /// 
         /// </summary>
@@ -54,8 +56,8 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
         /// <param name="mySqlRepository"></param>
         /// <param name="webNewsRepository"></param>
         /// <param name="webCategoryRepository"></param>
-        public TestDataController(
-            ILogger<TestDataController> logger,
+        public _TestDataController(
+            ILogger<_TestDataController> logger,
             IWebNewsElastic webNewsElastic,
             IMySqlRepository mySqlRepository,
             IWebNewsRepository webNewsRepository,

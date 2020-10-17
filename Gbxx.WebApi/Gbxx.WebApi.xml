@@ -4,30 +4,27 @@
         <name>Gbxx.WebApi</name>
     </assembly>
     <members>
-        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.AccountController.GetLoginTokenAsync(System.String,System.String,Gbxx.WebApi.Areas.v1.Models.Post.LoginPost)">
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.AccountController.GetLoginTokenAsync(System.String,Gbxx.WebApi.Areas.v1.Models.Post.LoginPost)">
             <summary>
             
             </summary>
-            <param name="deviceArgs"></param>
-            <param name="authorization"></param>
+            <param name="source"></param>
             <param name="item"></param>
             <returns></returns>
         </member>
-        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.AccountController.PostUserLoginAsync(System.String,System.String,Gbxx.WebApi.Areas.v1.Models.Post.LoginPost)">
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.AccountController.PostUserLoginAsync(System.String,Gbxx.WebApi.Areas.v1.Models.Post.LoginPost)">
             <summary>
             
             </summary>
-            <param name="deviceArgs"></param>
-            <param name="authorization"></param>
+            <param name="source"></param>
             <param name="item"></param>
             <returns></returns>
         </member>
-        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.AccountController.PostUserLoginOutAsync(System.String,System.String,Gbxx.WebApi.Areas.v1.Models.Post.LoginPost)">
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.AccountController.PostUserLoginOutAsync(System.String,Gbxx.WebApi.Areas.v1.Models.Post.LoginPost)">
             <summary>
             
             </summary>
-            <param name="deviceArgs"></param>
-            <param name="authorization"></param>
+            <param name="source"></param>
             <param name="item"></param>
             <returns></returns>
         </member>
@@ -255,42 +252,42 @@
             <param name="item"></param>
             <returns></returns>
         </member>
-        <member name="T:Gbxx.WebApi.Areas.v1.Controllers.TestDataController">
+        <member name="T:Gbxx.WebApi.Areas.v1.Controllers._TestDataController">
             <summary>
             
             </summary>
         </member>
-        <member name="F:Gbxx.WebApi.Areas.v1.Controllers.TestDataController._ILogger">
+        <member name="F:Gbxx.WebApi.Areas.v1.Controllers._TestDataController._ILogger">
             <summary>
             
             </summary>
         </member>
-        <member name="F:Gbxx.WebApi.Areas.v1.Controllers.TestDataController._IMySqlRepository">
+        <member name="F:Gbxx.WebApi.Areas.v1.Controllers._TestDataController._IMySqlRepository">
             <summary>
             
             </summary>
         </member>
-        <member name="F:Gbxx.WebApi.Areas.v1.Controllers.TestDataController._IWebNewsElastic">
+        <member name="F:Gbxx.WebApi.Areas.v1.Controllers._TestDataController._IWebNewsElastic">
             <summary>
             
             </summary>
         </member>
-        <member name="F:Gbxx.WebApi.Areas.v1.Controllers.TestDataController._IRedisStore">
+        <member name="F:Gbxx.WebApi.Areas.v1.Controllers._TestDataController._IRedisStore">
             <summary>
             
             </summary>
         </member>
-        <member name="F:Gbxx.WebApi.Areas.v1.Controllers.TestDataController._IWebNewsRepository">
+        <member name="F:Gbxx.WebApi.Areas.v1.Controllers._TestDataController._IWebNewsRepository">
             <summary>
             
             </summary>
         </member>
-        <member name="F:Gbxx.WebApi.Areas.v1.Controllers.TestDataController._IWebCategoryRepository">
+        <member name="F:Gbxx.WebApi.Areas.v1.Controllers._TestDataController._IWebCategoryRepository">
             <summary>
             
             </summary>
         </member>
-        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.TestDataController.#ctor(Microsoft.Extensions.Logging.ILogger{Gbxx.WebApi.Areas.v1.Controllers.TestDataController},Auto.ElasticServices.Contracts.IWebNewsElastic,Gbxx.WebApi.Utils.IMySqlRepository,Auto.DataServices.Contracts.IWebNewsRepository,Auto.DataServices.Contracts.IWebCategoryRepository)">
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers._TestDataController.#ctor(Microsoft.Extensions.Logging.ILogger{Gbxx.WebApi.Areas.v1.Controllers._TestDataController},Auto.ElasticServices.Contracts.IWebNewsElastic,Gbxx.WebApi.Utils.IMySqlRepository,Auto.DataServices.Contracts.IWebNewsRepository,Auto.DataServices.Contracts.IWebCategoryRepository)">
             <summary>
             
             </summary>
@@ -300,7 +297,7 @@
             <param name="webNewsRepository"></param>
             <param name="webCategoryRepository"></param>
         </member>
-        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.TestDataController.PostNewsDocAsync(System.String,Gbxx.WebApi.Areas.v1.Models.Route.SiteRoute,System.String)">
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers._TestDataController.PostNewsDocAsync(System.String,Gbxx.WebApi.Areas.v1.Models.Route.SiteRoute,System.String)">
             <summary>
             
             </summary>
