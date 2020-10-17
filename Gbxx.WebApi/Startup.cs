@@ -94,12 +94,12 @@ namespace Gbxx.WebApi {
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env) {
             if (env.IsDevelopment()) {
-                app.UseCors(Any);
                 app.UseDeveloperExceptionPage();
             }
             else {
                 app.UseHsts();
             }
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             // 启用Swagger中间件
@@ -109,6 +109,8 @@ namespace Gbxx.WebApi {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
                 c.RoutePrefix = string.Empty;
             });
+
+            app.UseCors(Any);
             app.UseMvc();
             //app.UseMvc(routes => {
             //    routes.MapRoute(

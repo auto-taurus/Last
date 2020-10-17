@@ -68,10 +68,10 @@ namespace Auto.RedisServices.Contracts {
             var identity = new ClaimsIdentity(JwtBearerDefaults.AuthenticationScheme);
 
             IEnumerable<Claim> claims = new Claim[] {
-                new Claim(ClaimTypes.Name,dto.UserName),
-                new Claim(ClaimTypes.Role,dto.Role.ToString()),
-                new Claim(ClaimTypes.Email,dto.Email),
-                new Claim(ClaimTypes.Expiration,expiresAt.ToString())
+                //new Claim(ClaimTypes.Name,dto.UserName),
+                //new Claim(ClaimTypes.Role,dto.Role.ToString()),
+                //new Claim(ClaimTypes.Email,dto.Email),
+                //new Claim(ClaimTypes.Expiration,expiresAt.ToString())
             };
             identity.AddClaims(claims);
 
@@ -90,7 +90,7 @@ namespace Auto.RedisServices.Contracts {
 
             //存储 Token 信息
             var jwt = new JwtAuthorValue {
-                MemberId = dto.Id,
+                MemberId = dto.MemberId,
                 Token = tokenHandler.WriteToken(token),
                 Auths = new DateTimeOffset(authTime).ToUnixTimeSeconds(),
                 Expires = new DateTimeOffset(expiresAt).ToUnixTimeSeconds(),

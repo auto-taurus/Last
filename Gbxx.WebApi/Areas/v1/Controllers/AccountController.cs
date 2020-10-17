@@ -26,14 +26,12 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="deviceArgs"></param>
-        /// <param name="authorization"></param>
+        /// <param name="source"></param>
         /// <param name="item"></param>
         /// <returns></returns>
-        [HttpGet("Token")]
-        public async Task<IActionResult> GetLoginTokenAsync([FromHeader]string deviceArgs,
-                                                            [FromHeader]string authorization,
-                                                            [FromBody]LoginPost item) {
+        [HttpGet("RefreshToken")]
+        public async Task<IActionResult> GetLoginTokenAsync([FromHeader]String source,
+                                                            [FromQuery]LoginPost item) {
             var response = new Response<Object>();
             try {
 
@@ -47,13 +45,12 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="deviceArgs"></param>
-        /// <param name="authorization"></param>
+        /// <param name="source"></param>
         /// <param name="item"></param>
         /// <returns></returns>
         [HttpPost("Login")]
-        public async Task<IActionResult> PostUserLoginAsync([FromHeader]string deviceArgs,
-                                                            [FromHeader]string authorization,
+        public async Task<IActionResult> PostUserLoginAsync(
+            [FromQuery]String source,
                                                             [FromBody]LoginPost item) {
             var response = new Response<Object>();
             try {
@@ -64,7 +61,7 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                     entity = await _IMemberInfoRepository.SingleAsync(a => a.Wechat == item.LoginName && a.IsEnbale == 1);
                 }
                 if (entity != null) {
-
+                    response.Code = true;
                 }
                 else {
                     return NotFound();
@@ -78,13 +75,11 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="deviceArgs"></param>
-        /// <param name="authorization"></param>
+        /// <param name="source"></param>
         /// <param name="item"></param>
         /// <returns></returns>
         [HttpPost("LoginOut")]
-        public async Task<IActionResult> PostUserLoginOutAsync([FromHeader]string deviceArgs,
-                                                               [FromHeader]string authorization,
+        public async Task<IActionResult> PostUserLoginOutAsync([FromQuery]String source,
                                                                [FromBody]LoginPost item) {
             var response = new Response<Object>();
             try {
