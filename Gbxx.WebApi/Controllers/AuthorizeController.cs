@@ -8,6 +8,15 @@ namespace Gbxx.WebApi.Controllers {
     /// </summary>
     [Authorize]
     public class AuthorizeController : DefaultController {
+
+        /// <summary>
+        /// 用户编号
+        /// </summary>
+        protected String MemberId { get { return User.FindFirst(e => e.Type == ClaimTypes.NameIdentifier).Value; } }
+        /// <summary>
+        /// 用户名称
+        /// </summary>
+        protected String MemberName { get { return User.Identity.Name; } }
         /// <summary>
         /// 昵称
         /// </summary>

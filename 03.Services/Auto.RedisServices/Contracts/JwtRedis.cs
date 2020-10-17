@@ -74,12 +74,11 @@ namespace Auto.RedisServices.Contracts {
 
             IEnumerable<Claim> claims = new Claim[] {
                 new Claim(ClaimTypes.NameIdentifier,  dto.MemberId.ToString()),
-                new Claim(ClaimTypes.Name,            dto.Name),
-                new Claim(ClaimTypes.GivenName,       dto.NickName),
-                new Claim(ClaimTypes.MobilePhone,     dto.Phone),
-                new Claim(ClaimTypes.SerialNumber,    dto.Code),
-                new Claim(ClaimTypes.Upn,             dto.Alipay),
-                new Claim(ClaimTypes.Spn,             dto.Wechat),
+                new Claim(ClaimTypes.Name,            string.IsNullOrEmpty(dto.Name)?"":dto.Name),
+                new Claim(ClaimTypes.MobilePhone,     string.IsNullOrEmpty(dto.Phone)?"":dto.Phone),
+                new Claim(ClaimTypes.SerialNumber,    string.IsNullOrEmpty(dto.Code)?"":dto.Code),
+                new Claim(ClaimTypes.Upn,             string.IsNullOrEmpty(dto.Alipay)?"":dto.Alipay),
+                new Claim(ClaimTypes.Spn,             string.IsNullOrEmpty(dto.Wechat)?"":dto.Wechat),
                 new Claim(ClaimTypes.Expiration,      expiresAt.ToString())
             };
             identity.AddClaims(claims);

@@ -866,6 +866,16 @@
             
             </summary>
         </member>
+        <member name="P:Gbxx.WebApi.Controllers.AuthorizeController.MemberId">
+            <summary>
+            用户编号
+            </summary>
+        </member>
+        <member name="P:Gbxx.WebApi.Controllers.AuthorizeController.MemberName">
+            <summary>
+            用户名称
+            </summary>
+        </member>
         <member name="P:Gbxx.WebApi.Controllers.AuthorizeController.NickName">
             <summary>
             昵称

@@ -1,5 +1,7 @@
 ﻿using Auto.Commons;
 using Auto.Commons.ApiHandles.Responses;
+using Auto.Commons.Strings;
+using Auto.Commons.Systems;
 using Auto.DataServices.Contracts;
 using Auto.Entities.Datas;
 using Auto.RedisServices.Entities;
@@ -80,6 +82,7 @@ namespace Gbxx.WebApi.Controllers {
                                                             [FromBody]LoginPost item) {
             var response = new Response<JwtAuthorData>();
             try {
+
                 var entity = new MemberInfos();
                 if (item.LoginMethods == 0) {
                     item.Password = Tools.Md5(item.Password);
@@ -88,16 +91,20 @@ namespace Gbxx.WebApi.Controllers {
                 else if (item.LoginMethods == 1) {
                     entity = await _IMemberInfosRepository.SingleAsync(a => a.Wechat == item.LoginName && a.IsEnbale == 1);
                     if (entity == null) {
+                        entity = new MemberInfos();
+                        entity.Code = SnowFlake.GetInstance().GetUniqueShortId(8);
                         entity.NickName = item.NickName;
                         entity.Name = item.LoginName;
-                        entity.Password = Tools.Md5("123456");
+                        entity.Avatar = item.Avatar;
                         entity.Wechat = item.Wechat;
+                        entity.Password = Tools.Md5("123456");
                         entity.IsEnbale = 1;
                         entity.LastLoginTime = System.DateTime.Now;
                         entity.CreateTime = System.DateTime.Now;
                         entity.Remarks = "微信首次登录注册。";
 
                         await _IMemberInfosRepository.AddAsync(entity);
+                        await _IMemberInfosRepository.CommitChangesAsync();
                     }
                 }
                 if (entity != null) {
