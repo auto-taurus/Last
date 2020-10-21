@@ -13,7 +13,7 @@ namespace Auto.Configurations {
         });
         private IEntityMapper _IEntityMapper { get; }
         public NewsContext(DbContextOptions<NewsContext> options,
-                               IEntityMapper entityMapper) : base(options) {
+                           IEntityMapper entityMapper) : base(options) {
             _IEntityMapper = entityMapper;
         }
         /// <summary>

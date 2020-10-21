@@ -1,0 +1,93 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Auto.Entities</name>
+    </assembly>
+    <members>
+        <member name="P:Auto.Entities.Dtos.MemberAppDto.MemberId">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Auto.Entities.Dtos.MemberAppDto.Alipay">
+            <summary>
+            支付宝
+            </summary>
+        </member>
+        <member name="P:Auto.Entities.Dtos.MemberAppDto.Wechat">
+            <summary>
+            微信
+            </summary>
+        </member>
+        <member name="P:Auto.Entities.Dtos.MemberAppDto.Avatar">
+            <summary>
+            头像
+            </summary>
+        </member>
+        <member name="P:Auto.Entities.Dtos.MemberAppDto.Beans">
+            <summary>
+            剩余绿豆
+            </summary>
+        </member>
+        <member name="P:Auto.Entities.Dtos.MemberAppDto.BeansTotals">
+            <summary>
+            累计绿豆
+            </summary>
+        </member>
+        <member name="P:Auto.Entities.Dtos.MemberAppDto.IsNew">
+            <summary>
+            是否已完成新手任务
+            </summary>
+        </member>
+        <member name="P:Auto.Entities.Dtos.MemberAppDto.TodayBeans">
+            <summary>
+            今日绿豆
+            </summary>
+        </member>
+        <member name="P:Auto.Entities.Dtos.MemberAppDto.TodayRead">
+            <summary>
+            今日阅读(分钟)
+            </summary>
+        </member>
+        <member name="P:Auto.Entities.Dtos.MemberAppDto.Ratio">
+            <summary>
+            比率
+            </summary>
+        </member>
+        <member name="P:Auto.Entities.Dtos.MemberIncomeAppDto.IncomeId">
+            <summary>
+            收入记录编号
+            </summary>
+        </member>
+        <member name="P:Auto.Entities.Dtos.MemberIncomeAppDto.TaksName">
+            <summary>
+            任务名称
+            </summary>
+        </member>
+        <member name="P:Auto.Entities.Dtos.MemberIncomeAppDto.CategoryDay">
+            <summary>
+            日常任务分类
+            </summary>
+        </member>
+        <member name="P:Auto.Entities.Dtos.MemberIncomeAppDto.CategoryFixed">
+            <summary>
+            每日固定分类
+            </summary>
+        </member>
+        <member name="P:Auto.Entities.Dtos.MemberIncomeAppDto.BeansText">
+            <summary>
+            收入显示文本
+            </summary>
+        </member>
+        <member name="P:Auto.Entities.Dtos.MemberIncomeAppDto.Title">
+            <summary>
+            显示标题
+            </summary>
+        </member>
+        <member name="P:Auto.Entities.Dtos.MemberIncomeAppDto.CreateTime">
+            <summary>
+            收入收入时间
+            </summary>
+        </member>
+    </members>
+</doc>

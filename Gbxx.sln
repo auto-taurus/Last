@@ -31,9 +31,54 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Auto.DataServices", "03.Ser
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Auto.Commons", "02.Infrastructure\Auto.Commons\Auto.Commons.csproj", "{2379E8C3-41A1-4566-B4BA-ED752F96B29B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Auto.Configurations", "02.Infrastructure\Auto.Configurations\Auto.Configurations.csproj", "{44987581-C060-44F3-96AB-F405561503DC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Auto.Configurations", "02.Infrastructure\Auto.Configurations\Auto.Configurations.csproj", "{44987581-C060-44F3-96AB-F405561503DC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Auto.Entities", "02.Infrastructure\Auto.Entities\Auto.Entities.csproj", "{2AEDC90D-3A66-42CE-8BC6-94075D992CA6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Auto.Entities", "02.Infrastructure\Auto.Entities\Auto.Entities.csproj", "{2AEDC90D-3A66-42CE-8BC6-94075D992CA6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01.Rp", "01.Rp", "{1121917A-0360-4AE6-93A7-CBAB17F7C49F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "02.Pdm", "02.Pdm", "{5DF37CD1-8A87-4ACD-B5BE-4748603E6A49}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "03.DB", "03.DB", "{E28477AD-32CE-461D-B9A1-5EEC6445551E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01", "01", "{55C59E4D-8A2D-4F27-BE53-B5C236073CBE}"
+	ProjectSection(SolutionItems) = preProject
+		00.DataBase\01.Rp\01\index.html = 00.DataBase\01.Rp\01\index.html
+		00.DataBase\01.Rp\01\start.html = 00.DataBase\01.Rp\01\start.html
+		00.DataBase\01.Rp\01\start_c_1.html = 00.DataBase\01.Rp\01\start_c_1.html
+		00.DataBase\01.Rp\01\start_with_pages.html = 00.DataBase\01.Rp\01\start_with_pages.html
+		00.DataBase\01.Rp\01\个人信息.html = 00.DataBase\01.Rp\01\个人信息.html
+		00.DataBase\01.Rp\01\个人首页.html = 00.DataBase\01.Rp\01\个人首页.html
+		00.DataBase\01.Rp\01\今日阅读.html = 00.DataBase\01.Rp\01\今日阅读.html
+		00.DataBase\01.Rp\01\今日青豆（同我的青豆）.html = 00.DataBase\01.Rp\01\今日青豆（同我的青豆）.html
+		00.DataBase\01.Rp\01\任务中心.html = 00.DataBase\01.Rp\01\任务中心.html
+		00.DataBase\01.Rp\01\家政服务（后期）.html = 00.DataBase\01.Rp\01\家政服务（后期）.html
+		00.DataBase\01.Rp\01\常见问题.html = 00.DataBase\01.Rp\01\常见问题.html
+		00.DataBase\01.Rp\01\快速赚钱（后期）.html = 00.DataBase\01.Rp\01\快速赚钱（后期）.html
+		00.DataBase\01.Rp\01\我的三下乡（后期）.html = 00.DataBase\01.Rp\01\我的三下乡（后期）.html
+		00.DataBase\01.Rp\01\我的关注.html = 00.DataBase\01.Rp\01\我的关注.html
+		00.DataBase\01.Rp\01\我的收藏.html = 00.DataBase\01.Rp\01\我的收藏.html
+		00.DataBase\01.Rp\01\我的足迹.html = 00.DataBase\01.Rp\01\我的足迹.html
+		00.DataBase\01.Rp\01\我的钱包（同我的青豆）.html = 00.DataBase\01.Rp\01\我的钱包（同我的青豆）.html
+		00.DataBase\01.Rp\01\我的青豆.html = 00.DataBase\01.Rp\01\我的青豆.html
+		00.DataBase\01.Rp\01\提现兑换.html = 00.DataBase\01.Rp\01\提现兑换.html
+		00.DataBase\01.Rp\01\新闻详情页.html = 00.DataBase\01.Rp\01\新闻详情页.html
+		00.DataBase\01.Rp\01\热榜（同24热文）.html = 00.DataBase\01.Rp\01\热榜（同24热文）.html
+		00.DataBase\01.Rp\01\系统设置.html = 00.DataBase\01.Rp\01\系统设置.html
+		00.DataBase\01.Rp\01\视频（无）.html = 00.DataBase\01.Rp\01\视频（无）.html
+		00.DataBase\01.Rp\01\首页.html = 00.DataBase\01.Rp\01\首页.html
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01", "01", "{8D958C98-E201-4281-89EB-EFD91A508663}"
+	ProjectSection(SolutionItems) = preProject
+		00.DataBase\02.Pdm\01\gbxx_new.pdb = 00.DataBase\02.Pdm\01\gbxx_new.pdb
+		00.DataBase\02.Pdm\01\gbxx_new.pdm = 00.DataBase\02.Pdm\01\gbxx_new.pdm
+		00.DataBase\02.Pdm\01\gbxx_user.pdb = 00.DataBase\02.Pdm\01\gbxx_user.pdb
+		00.DataBase\02.Pdm\01\gbxx_user.pdm = 00.DataBase\02.Pdm\01\gbxx_user.pdm
+		00.DataBase\02.Pdm\01\Workspace.sws = 00.DataBase\02.Pdm\01\Workspace.sws
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01", "01", "{D50B8EDC-1E2F-4784-8494-F05C88B98EFA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -97,6 +142,12 @@ Global
 		{2379E8C3-41A1-4566-B4BA-ED752F96B29B} = {875B95E7-D386-48E4-9A41-2FD0CDC3A9EC}
 		{44987581-C060-44F3-96AB-F405561503DC} = {875B95E7-D386-48E4-9A41-2FD0CDC3A9EC}
 		{2AEDC90D-3A66-42CE-8BC6-94075D992CA6} = {875B95E7-D386-48E4-9A41-2FD0CDC3A9EC}
+		{1121917A-0360-4AE6-93A7-CBAB17F7C49F} = {07400EF2-4B3A-45DF-AA1E-3EF45FD4322D}
+		{5DF37CD1-8A87-4ACD-B5BE-4748603E6A49} = {07400EF2-4B3A-45DF-AA1E-3EF45FD4322D}
+		{E28477AD-32CE-461D-B9A1-5EEC6445551E} = {07400EF2-4B3A-45DF-AA1E-3EF45FD4322D}
+		{55C59E4D-8A2D-4F27-BE53-B5C236073CBE} = {1121917A-0360-4AE6-93A7-CBAB17F7C49F}
+		{8D958C98-E201-4281-89EB-EFD91A508663} = {5DF37CD1-8A87-4ACD-B5BE-4748603E6A49}
+		{D50B8EDC-1E2F-4784-8494-F05C88B98EFA} = {E28477AD-32CE-461D-B9A1-5EEC6445551E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {410C7B5D-27A7-4276-BAF0-95468BFF4370}

@@ -1,10 +1,12 @@
-﻿using System;
+﻿using Microsoft.Extensions.Configuration;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace Auto.Entities.Dtos {
-    public class MemberInfoDto {
-        public MemberInfoDto() {
+    public class MemberAppDto {
+
+        public MemberAppDto() {
             this.TodayBeans = 0;
         }
         #region Generated Properties
@@ -25,12 +27,10 @@ namespace Auto.Entities.Dtos {
         /// <summary>
         /// 支付宝
         /// </summary>
-
         public string Alipay { get; set; }
         /// <summary>
         /// 微信
         /// </summary>
-
         public string Wechat { get; set; }
         /// <summary>
         /// 头像
@@ -48,11 +48,22 @@ namespace Auto.Entities.Dtos {
         /// 是否已完成新手任务
         /// </summary>
         public int? IsNew { get; set; }
+
+        #endregion
+
+        #region Calculated Attributes
         /// <summary>
         /// 今日绿豆
         /// </summary>
         public int? TodayBeans { get; set; }
-
+        /// <summary>
+        /// 今日阅读(分钟)
+        /// </summary>
+        public int? TodayRead { get; set; }
+        /// <summary>
+        /// 比率
+        /// </summary>
+        public string Ratio { get; set; }
         #endregion
     }
 }

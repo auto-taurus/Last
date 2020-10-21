@@ -1,10 +1,11 @@
-﻿using Auto.ElasticServices.Entities;
-using Auto.Commons.ApiHandles.Responses;
+﻿using Auto.Commons.ApiHandles.Responses;
 using Auto.ElasticServices.Contracts;
+using Auto.ElasticServices.Entities;
 using Auto.RedisServices.Repositories;
 using Gbxx.WebApi.Areas.v1.Data;
-using Gbxx.WebApi.Areas.v1.Models;
 using Gbxx.WebApi.Areas.v1.Models.Route;
+using Gbxx.WebApi.Controllers;
+using Gbxx.WebApi.Models;
 using Gbxx.WebApi.Requests.Query;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -14,8 +15,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Gbxx.WebApi.Controllers;
-using Gbxx.WebApi.Models;
 
 namespace Gbxx.WebApi.Areas.v1.Controllers {
     /// <summary>

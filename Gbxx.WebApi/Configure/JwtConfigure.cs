@@ -30,8 +30,7 @@ namespace Gbxx.WebApi.Configure {
                 services.AddAuthorization(options => {
                     options.AddPolicy("Permission", policy => policy.AddRequirements(new OperationAuthorizationRequirement()));
                     //1、Definition authorization policy
-                    //options.AddPolicy("Permission",
-                    //   policy => policy.Requirements.Add(new PolicyRequirement()));
+                    //options.AddPolicy("Permission", policy => policy.Requirements.Add(new PolicyRequirement()));
                 }).AddAuthentication(options => {
                     options.DefaultAuthenticateScheme = "JwtBearer";
                     options.DefaultChallengeScheme = "JwtBearer";
@@ -81,7 +80,7 @@ namespace Gbxx.WebApi.Configure {
             }
 
             services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            services.AddSingleton<IAuthorizationHandler, PolicyHandler>();
+            services.AddSingleton<IAuthorizationHandler, PolicyRequirement>();
         }
 
         //private static Task QueryStringTokenResolver(MessageReceivedContext context) {

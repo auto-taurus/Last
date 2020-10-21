@@ -44,5 +44,15 @@
             今日绿豆
             </summary>
         </member>
+        <member name="P:Auto.Entities.Dtos.MemberInfoDto.TodayRead">
+            <summary>
+            今日阅读(分钟)
+            </summary>
+        </member>
+        <member name="P:Auto.Entities.Dtos.MemberInfoDto.Ratio">
+            <summary>
+            比率
+            </summary>
+        </member>
     </members>
 </doc>

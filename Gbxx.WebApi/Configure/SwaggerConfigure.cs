@@ -1,12 +1,9 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Gbxx.WebApi.Handlers;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
 using System;
-using System.Collections.Generic;
 using System.Reflection;
-using Microsoft.AspNetCore.Mvc.ApiExplorer;
-using Microsoft.AspNetCore.Mvc.Cors.Internal;
-using Swashbuckle.AspNetCore.Swagger;
-using Microsoft.OpenApi.Models;
 
 namespace Gbxx.WebApi.Configure.Swagger {
     public static class SwaggerConfigure {
@@ -30,13 +27,9 @@ namespace Gbxx.WebApi.Configure.Swagger {
                         "<p>IE:9.0及一下请在URL中传递Source，Authorization<p>"
                         +
                         "<p>{\"Ip\": \"127.0.0.1\",\"Device\": \"ios\",\"DeviceVers\": \"IE:8.0\",\"SystemVers\": \"1.0.0\"} ,DeviceVers针对IE9及以下，值为IE:9.0,IE:8.0,IE:7.0,IE:6.0,其它保持不变<p>"
-
-
-
-
                     });
                 c.ExampleFilters();
-                //c.OperationFilter<AddHeaderOperationFilter>("correlationId", "Correlation Id for the request", false);
+                //c.OperationFilter<AddHeaderOperationFilter>("source", "{\"Ip\": \"127.0.0.1\",\"Device\": \"ios\",\"DeviceVers\": \"1.0.0\",\"SystemVers\": \"1.0.0\"}", true);
                 //添加xml文件
                 //获取xml注释文件的目录
                 var xmlFile = $"{System.Reflection.Assembly.GetExecutingAssembly().GetName().Name}.xml";
@@ -58,7 +51,7 @@ namespace Gbxx.WebApi.Configure.Swagger {
                     Name = "Authorization",//jwt默认的参数名称
                     In = ParameterLocation.Header,//jwt默认存放Authorization信息的位置(请求头中)
                     Type = SecuritySchemeType.ApiKey
-                }); 
+                });
                 //Add authentication type
                 //c.AddSecurityRequirement(new OpenApiSecurityRequirement {
                 //    {
@@ -71,6 +64,7 @@ namespace Gbxx.WebApi.Configure.Swagger {
                 //        }, Array.Empty<string>()
                 //    }
                 //});
+                c.DocumentFilter<HiddenApiFilter>();
             });
             //services.AddSwaggerGen(c => {
             //    c.SwaggerDoc("v2", new OpenApiInfo { Title = "My API", Version = "v2" });

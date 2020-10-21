@@ -6,6 +6,8 @@
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DocumentationFile>D:\03_项目文件\04_Last\2.1\Gbxx\Gbxx.WebApi\Gbxx.WebApi.xml</DocumentationFile>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+    <NoWarn>1591</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
@@ -47,6 +49,15 @@
     <ProjectReference Include="..\03.Services\Auto.DataServices\Auto.DataServices.csproj" />
     <ProjectReference Include="..\03.Services\Auto.ElasticServices\Auto.ElasticServices.csproj" />
     <ProjectReference Include="..\03.Services\Auto.RedisServices\Auto.RedisServices.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Auto.Entities.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Gbxx.WebApi.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

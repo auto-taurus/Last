@@ -1,4 +1,5 @@
 ﻿using Auto.Commons.ApiHandles.Responses;
+using Auto.Entities.Dtos;
 using Gbxx.WebApi.Areas.v1.Data;
 using Gbxx.WebApi.Controllers;
 using Microsoft.AspNetCore.Mvc;
@@ -19,9 +20,9 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
         /// <param name="route"></param>
         /// <returns></returns>
         [HttpGet("{id}/Category")]
-        [SwaggerResponse(200, "", typeof(MemberData))]
+        [SwaggerResponse(200, "", typeof(MemberAppDto))]
         public async Task<IActionResult> GetIncomeAsync([FromHeader]String source) {
-            var response = new Response<MemberData>();
+            var response = new Response<MemberAppDto>();
             var d = RouteData;
             try {
 
@@ -38,9 +39,9 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
         /// <param name="route"></param>
         /// <returns></returns>
         [HttpPost("{id}")]
-        [SwaggerResponse(200, "", typeof(MemberData))]
+        [SwaggerResponse(200, "", typeof(MemberAppDto))]
         public async Task<IActionResult> PostTaskAsync([FromHeader]String source) {
-            var response = new Response<MemberData>();
+            var response = new Response<MemberAppDto>();
             var d = RouteData;
             try {
 

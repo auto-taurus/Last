@@ -49,7 +49,7 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
         /// <param name="route"></param>
         /// <returns></returns>
         [HttpGet]
-        //[SwaggerResponse(200, "", typeof(MemberData))]
+        //[SwaggerResponse(200, "", typeof(MemberInfoDto))]
         public async Task<IActionResult> GetProblemAsync([FromHeader]String source) {
             var response = new Response<Object>();
             try {

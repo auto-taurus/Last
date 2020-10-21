@@ -1,12 +1,20 @@
-﻿using Auto.Commons.ApiHandles.Responses;
+﻿using Auto.Commons;
+using Auto.Commons.ApiHandles.Responses;
 using Auto.DataServices.Contracts;
+using Auto.Entities.Dtos;
+using Auto.Entities.Modals;
+using Auto.RedisServices.Repositories;
 using Gbxx.WebApi.Areas.v1.Data;
+using Gbxx.WebApi.Areas.v1.Models.Post;
 using Gbxx.WebApi.Areas.v1.Models.Route;
 using Gbxx.WebApi.Controllers;
+using Gbxx.WebApi.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Swashbuckle.AspNetCore.Annotations;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Gbxx.WebApi.Areas.v1.Controllers {
@@ -26,12 +34,25 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
         /// <summary>
         /// 
         /// </summary>
+        protected IMemberIncomeRepository _IMemberIncomeRepository;
+        /// <summary>
+        /// 
+        /// </summary>
+        protected IJwtRedis _IJwtRedis;
+        /// <summary>
+        /// 
+        /// </summary>
         /// <param name="logger"></param>
         /// <param name="memberInfoRepository"></param>
+        /// <param name="memberIncomeRepository"></param>
         public MemberController(ILogger<SiteController> logger,
-                                IMemberInfosRepository memberInfoRepository) {
+                                IMemberInfosRepository memberInfoRepository,
+                                IMemberIncomeRepository memberIncomeRepository,
+                                IJwtRedis jwtRedis) {
             this._ILogger = logger;
             this._IMemberInfoRepository = memberInfoRepository;
+            this._IMemberIncomeRepository = memberIncomeRepository;
+            this._IJwtRedis = jwtRedis;
 
         }
         /// <summary>
@@ -41,18 +62,24 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
         /// <param name="route"></param>
         /// <returns></returns>
         [HttpGet("{id}")]
-        [SwaggerResponse(200, "", typeof(MemberData))]
+        [SwaggerResponse(200, "", typeof(MemberAppDto))]
         public async Task<IActionResult> GetMemberInfoAsync([FromHeader]String source,
-                                                            [FromRoute]IdRoute route) {
-            var response = new Response<MemberData>();
+                                                            [FromRoute]IdIntRoute route) {
+            var response = new Response<MemberAppDto>();
             try {
-                var entity = await _IMemberInfoRepository.SingleAsync(e => e.MemberId == Convert.ToInt32(route.id));
+                var entity = await _IMemberInfoRepository.GetAppInfo(route.id);
                 if (entity != null) {
+                    entity.TodayRead = await _IMemberIncomeRepository.Query(a => a.MemberId == route.id
+                                                                            && a.TaskCode == "T0003"
+                                                                            && a.CreateTime.Value.ToString("yyyy-MM-dd") == System.DateTime.Now.ToString("yyyy-MM-dd")
+                                                                            && a.Status == 0)
+                                                                      .SumAsync(a => a.ReadTime);
+                    entity.TodayBeans = await _IMemberIncomeRepository.Query(a => a.MemberId == route.id
+                                                                             && a.CreateTime.Value.ToString("yyyy-MM-dd") == System.DateTime.Now.ToString("yyyy-MM-dd")
+                                                                             && a.Status == 0)
+                                                                      .SumAsync(a => a.Beans);
                     response.Code = true;
-                    response.Data.MemberId = entity.MemberId;
-                    response.Data.Phone = entity.Phone;
-                    response.Data.NickName = entity.NickName;
-                    response.Data.Name = entity.Name;
+                    response.Data = entity;
                 }
                 else
                     return NotFound();
@@ -67,20 +94,28 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
         /// </summary>
         /// <param name="source"></param>
         /// <param name="route"></param>
+        /// <param name="item"></param>
         /// <returns></returns>
         [HttpPost("{id}")]
-        [SwaggerResponse(200, "", typeof(MemberData))]
-        public async Task<IActionResult> PostMemberInfoAvatarAsync([FromHeader]String source,
-                                                            [FromRoute]IdRoute route) {
-            var response = new Response<MemberData>();
+        public async Task<IActionResult> PostMemberInfoAsync([FromHeader]String source,
+                                                                   [FromRoute]IdIntRoute route,
+                                                                   [FromBody]MemberInfoPost item) {
+            var response = new Response<Object>();
             try {
-                var entity = await _IMemberInfoRepository.SingleAsync(e => e.MemberId == Convert.ToInt32(route.id));
-                if (entity != null) {
-                    response.Code = true;
-                    response.Data.MemberId = entity.MemberId;
-                    response.Data.Phone = entity.Phone;
-                    response.Data.NickName = entity.NickName;
-                    response.Data.Name = entity.Name;
+                var entity = new MemberInfos();
+                if (await _IMemberInfoRepository.IsExistAsync(a => a.MemberId == 1 && a.IsEnable == 1)) {
+                    if (!string.IsNullOrEmpty(item.NickName))
+                        entity.NickName = item.NickName;
+                    if (item.Sex.HasValue)
+                        entity.Sex = item.Sex;
+                    if (!string.IsNullOrEmpty(item.Phone))
+                        entity.Phone = item.Phone;
+                    if (!string.IsNullOrEmpty(item.Alipay))
+                        entity.Alipay = item.Alipay;
+                    if (!string.IsNullOrEmpty(item.Wechat))
+                        entity.Wechat = item.Wechat;
+
+                    response.Code = await _IMemberInfoRepository.BatchUpdateAsync(a => a.MemberId == route.id, u => entity);
                 }
                 else
                     return NotFound();
@@ -91,27 +126,53 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
             return response.ToHttpResponse();
         }
         /// <summary>
-        /// 密码会员修改
+        /// 会员修改密码
         /// </summary>
         /// <param name="source"></param>
         /// <param name="route"></param>
+        /// <param name="item"></param>
         /// <returns></returns>
         [HttpPost("{id}/Password")]
-        [SwaggerResponse(200, "", typeof(MemberData))]
         public async Task<IActionResult> PostMemberInfoPasswordAsync([FromHeader]String source,
-                                                            [FromRoute]IdRoute route) {
-            var response = new Response<MemberData>();
+                                                                     [FromRoute]IdIntRoute route,
+                                                                     [FromBody]PasswordPost item) {
+            var response = new Response<Object>();
             try {
-                var entity = await _IMemberInfoRepository.SingleAsync(e => e.MemberId == Convert.ToInt32(route.id));
-                if (entity != null) {
+                var flag = await _IMemberInfoRepository.BatchUpdateAsync(a => a.MemberId == route.id,
+                    u => new MemberInfos() {
+                        Password = Tools.Md5(item.New)
+                    });
+                if (flag) {
                     response.Code = true;
-                    response.Data.MemberId = entity.MemberId;
-                    response.Data.Phone = entity.Phone;
-                    response.Data.NickName = entity.NickName;
-                    response.Data.Name = entity.Name;
+                    await _IJwtRedis.DeactivateCurrentAsync();
                 }
                 else
-                    return NotFound();
+                    return BadRequest("修改密码失败！");
+            }
+            catch (Exception ex) {
+                response.SetError(ex, this._ILogger);
+            }
+            return response.ToHttpResponse();
+        }
+
+        /// <summary>
+        /// 上传会员头像
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="route"></param>
+        /// <param name="item"></param>
+        /// <returns></returns>
+        [HttpPost("{id}/Avatar")]
+        public async Task<IActionResult> PostMemberInfoAvatarAsync([FromHeader]String source,
+                                                                   [FromRoute]IdIntRoute route,
+                                                                   [FromBody]String avatar) {
+            var response = new Response<Object>();
+            try {
+                if (string.IsNullOrEmpty(avatar))
+                    return BadRequest("请传递头像文件！");
+                else {
+
+                }
             }
             catch (Exception ex) {
                 response.SetError(ex, this._ILogger);

@@ -10,23 +10,21 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace Gbxx.WebApi.Handlers {
-    public class PolicyHandler : AuthorizationHandler<OperationAuthorizationRequirement> {
+    public class PolicyRequirement : AuthorizationHandler<OperationAuthorizationRequirement> {
         /// <summary>
         /// 授权方式（cookie, bearer, oauth, openid）
         /// </summary>
         public IAuthenticationSchemeProvider _IAuthenticationSchemeProvider { get; set; }
-
         /// <summary>
         /// jwt 服务
         /// </summary>
         private readonly IJwtRedis _IJwtRedis;
-
         /// <summary>
         /// ctor
         /// </summary>
         /// <param name="schemes"></param>
         /// <param name="jwtApp"></param>
-        public PolicyHandler(IAuthenticationSchemeProvider  authenticationSchemeProvider, IJwtRedis  jwtRedis) {
+        public PolicyRequirement(IAuthenticationSchemeProvider  authenticationSchemeProvider, IJwtRedis  jwtRedis) {
             _IAuthenticationSchemeProvider = authenticationSchemeProvider;
             _IJwtRedis = jwtRedis;
         }

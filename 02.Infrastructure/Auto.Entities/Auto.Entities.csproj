@@ -5,7 +5,8 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>D:\03_项目文件\04_Last\2.1\Gbxx\02.Infrastructure\Auto.Entities\Auto.Entities.xml</DocumentationFile>
+    <DocumentationFile>../../Gbxx.WebApi/Auto.Entities.xml</DocumentationFile>
+    <NoWarn>1701;1702;1591</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>

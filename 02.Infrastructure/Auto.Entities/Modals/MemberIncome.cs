@@ -1,12 +1,9 @@
 using System;
 using System.Collections.Generic;
 
-namespace Auto.Entities.Modals
-{
-    public partial class MemberIncome
-    {
-        public MemberIncome()
-        {
+namespace Auto.Entities.Modals {
+    public partial class MemberIncome {
+        public MemberIncome() {
             #region Generated Constructor
             #endregion
         }
@@ -20,9 +17,15 @@ namespace Auto.Entities.Modals
 
         public string TaksName { get; set; }
 
+        public int? CategoryDay { get; set; }
+
+        public int? CategoryFixed { get; set; }
+
         public string Title { get; set; }
 
         public int? Beans { get; set; }
+
+        public string BeansText { get; set; }
 
         public DateTime? CreateTime { get; set; }
 
@@ -34,9 +37,9 @@ namespace Auto.Entities.Modals
 
         public string Remarks { get; set; }
 
-        public int? AuditId { get; set; }
+        public int? AuditBy { get; set; }
 
-        public string Audit { get; set; }
+        public string AuditName { get; set; }
 
         public DateTime? AuditTime { get; set; }
 

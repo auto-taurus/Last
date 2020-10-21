@@ -1,6 +1,5 @@
 ﻿using Auto.Commons;
 using Auto.Commons.ApiHandles.Responses;
-using Auto.Commons.Strings;
 using Auto.Commons.Systems;
 using Auto.DataServices.Contracts;
 using Auto.Entities.Modals;
@@ -12,7 +11,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Swashbuckle.AspNetCore.Annotations;
 using System;
-using System.Net;
 using System.Threading.Tasks;
 
 namespace Gbxx.WebApi.Controllers {
@@ -86,19 +84,23 @@ namespace Gbxx.WebApi.Controllers {
                 var entity = new MemberInfos();
                 if (item.LoginMethods == 0) {
                     item.Password = Tools.Md5(item.Password);
-                    entity = await _IMemberInfosRepository.SingleAsync(a => a.Phone == item.LoginName && a.Password == item.Password && a.IsEnbale == 1);
+                    entity = await _IMemberInfosRepository.SingleAsync(a => a.Phone == item.LoginName && a.Password == item.Password && a.IsEnable == 1);
                 }
                 else if (item.LoginMethods == 1) {
-                    entity = await _IMemberInfosRepository.SingleAsync(a => a.Wechat == item.LoginName && a.IsEnbale == 1);
+                    entity = await _IMemberInfosRepository.SingleAsync(a => a.Wechat == item.Wechat && a.IsEnable == 1);
                     if (entity == null) {
                         entity = new MemberInfos();
                         entity.Code = SnowFlake.GetInstance().GetUniqueShortId(8);
                         entity.NickName = item.NickName;
                         entity.Name = item.LoginName;
+                        entity.Sex = 0;
                         entity.Avatar = item.Avatar;
                         entity.Wechat = item.Wechat;
                         entity.Password = Tools.Md5("123456");
-                        entity.IsEnbale = 1;
+                        entity.Beans = 0;
+                        entity.BeansTotals = 0;
+                        entity.IsNew = 0;
+                        entity.IsEnable = 1;
                         entity.LastLoginTime = System.DateTime.Now;
                         entity.CreateTime = System.DateTime.Now;
                         entity.Remarks = "微信首次登录注册。";

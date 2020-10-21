@@ -1,8 +1,9 @@
 ﻿using Auto.Commons.ApiHandles.Responses;
 using Auto.DataServices.Contracts;
-using Gbxx.WebApi.Areas.v1.Data;
+using Auto.Entities.Dtos;
 using Gbxx.WebApi.Areas.v1.Models.Route;
 using Gbxx.WebApi.Controllers;
+using Gbxx.WebApi.Handlers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Swashbuckle.AspNetCore.Annotations;
@@ -10,6 +11,7 @@ using System;
 using System.Threading.Tasks;
 
 namespace Gbxx.WebApi.Areas.v1.Controllers {
+    [HiddenApi]
     [Route("v1")]
     public class FootprintController : AuthorizeController {
         /// <summary>
@@ -38,10 +40,10 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
         /// <param name="route"></param>
         /// <returns></returns>
         [HttpGet("Member/{id}/Footprint")]
-        [SwaggerResponse(200, "", typeof(MemberData))]
+        [SwaggerResponse(200, "", typeof(MemberAppDto))]
         public async Task<IActionResult> GetFootprintAsync([FromHeader]String source,
                                                         [FromRoute]IdRoute route) {
-            var response = new Response<MemberData>();
+            var response = new Response<MemberAppDto>();
             try {
                 var entity = await _IMemberFootprintRepository.SingleAsync(e => e.MemberId == Convert.ToInt32(route.id));
                 if (entity != null) {
@@ -62,10 +64,10 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
         /// <param name="route"></param>
         /// <returns></returns>
         [HttpPost("Member/{id}/Footprint")]
-        [SwaggerResponse(200, "", typeof(MemberData))]
+        [SwaggerResponse(200, "", typeof(MemberAppDto))]
         public async Task<IActionResult> PostMemberFootprintAsync([FromHeader]String source,
                                                         [FromRoute]IdRoute route) {
-            var response = new Response<MemberData>();
+            var response = new Response<MemberAppDto>();
             try {
                 var entity = await _IMemberFootprintRepository.SingleAsync(e => e.MemberId == Convert.ToInt32(route.id));
                 if (entity != null) {

@@ -5,8 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Contracts\" />
-    <Folder Include="Repositories\" />
+    <Folder Include="Contracts\Tasks\" />
+    <Folder Include="Repositories\Tasks\" />
   </ItemGroup>
 
 </Project>

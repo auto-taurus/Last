@@ -1,4 +1,5 @@
 ﻿using Auto.Commons.ApiHandles.Responses;
+using Auto.Entities.Dtos;
 using Gbxx.WebApi.Areas.v1.Data;
 using Gbxx.WebApi.Controllers;
 using Microsoft.AspNetCore.Mvc;
@@ -16,9 +17,9 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
         /// <param name="route"></param>
         /// <returns></returns>
         [HttpGet("Comment/{id}")]
-        [SwaggerResponse(200, "", typeof(MemberData))]
+        [SwaggerResponse(200, "", typeof(MemberAppDto))]
         public async Task<IActionResult> GetCommentAsync([FromHeader]String source) {
-            var response = new Response<MemberData>();
+            var response = new Response<MemberAppDto>();
             try {
 
             }
@@ -34,9 +35,8 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
         /// <param name="route"></param>
         /// <returns></returns>
         [HttpGet("News/{id}/Comment")]
-        [SwaggerResponse(200, "", typeof(MemberData))]
         public async Task<IActionResult> GetMemberCommentAsync([FromHeader]String source) {
-            var response = new Response<MemberData>();
+            var response = new Response<MemberAppDto>();
             try {
 
             }
@@ -52,9 +52,9 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
         /// <param name="route"></param>
         /// <returns></returns>
         [HttpPost("News/{id}/Comment")]
-        [SwaggerResponse(200, "", typeof(MemberData))]
+        [SwaggerResponse(200, "", typeof(MemberAppDto))]
         public async Task<IActionResult> PostMemberCommentAsync([FromHeader]String source) {
-            var response = new Response<MemberData>();
+            var response = new Response<MemberAppDto>();
             try {
 
             }
