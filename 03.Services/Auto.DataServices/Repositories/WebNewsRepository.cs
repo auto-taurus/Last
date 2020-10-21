@@ -1,10 +1,10 @@
 ﻿using Auto.Configurations;
 using Auto.DataServices.Contracts;
-using Auto.Entities.Datas;
+using Auto.Entities.Modals;
 
 namespace Auto.DataServices.Repositories {
     public class WebNewsRepository : Repository<WebNews>, IWebNewsRepository {
-        public WebNewsRepository(AutoNewsContext autoNewsContext) : base(autoNewsContext) {
+        public WebNewsRepository(NewsContext newsContext) : base(newsContext) {
         }
 
     }

@@ -1,145 +1,49 @@
 project:
-  namespace: Company.{Database.Name}
+  namespace: '{Database.Name}'
   directory: .\
 database:
-  provider: SqlServer
-  connectionString: Data Source=.;Initial Catalog=auto_news;Integrated Security=True
   connectionName: ConnectionStrings:Generator
-  userSecretsId: 984ef0cf-2b22-4fd1-876d-e01499da4c1f
-  tableNaming: Singular
-  tables:
-  - Priority
-  - Status
-  - Task
-  - User
-  schemas:
-  - dbo
-  exclude:
-  - exact: dbo.SchemaVersions
-  - regex: dbo\.SchemaVersions$
+  userSecretsId: 7ddcd77f-6332-4c03-ab49-d4dfa8236840
 data:
   context:
     name: '{Database.Name}Context'
     baseClass: DbContext
-    propertyNaming: Plural
     namespace: '{Project.Namespace}.Data'
     directory: '{Project.Directory}\Data'
-    document: false
   entity:
-    baseClass: EntityBase
-    entityNaming: Singular
-    relationshipNaming: Plural
-    prefixWithSchemaName: false
-    namespace: Auto.EFCore.Entities
+    namespace: '{Project.Namespace}.Data.Entities'
     directory: '{Project.Directory}\Data\Entities'
-    document: false
   mapping:
     namespace: '{Project.Namespace}.Data.Mapping'
     directory: '{Project.Directory}\Data\Mapping'
-    document: true
   query:
     generate: true
     indexPrefix: By
     uniquePrefix: GetBy
     namespace: '{Project.Namespace}.Data.Queries'
     directory: '{Project.Directory}\Data\Queries'
-    document: false
 model:
   shared:
     namespace: '{Project.Namespace}.Domain.Models'
     directory: '{Project.Directory}\Domain\Models'
-    include:
-      entities: []
-      properties: []
-    exclude:
-      entities:
-      - regex: EmailDelivery
-      - regex: UserLogin
-      properties:
-      - regex: User\.PasswordHash$
-      - regex: User\.ResetHash$
   read:
     generate: true
     name: '{Entity.Name}ReadModel'
-    baseClass: EntityReadModel
-    include:
-      entities: []
-      properties: []
-    exclude:
-      entities: []
-      properties: []
-    namespace: '{Project.Namespace}.Domain.Models'
-    directory: '{Project.Directory}\Domain\Models'
-    document: false
   create:
     generate: true
     name: '{Entity.Name}CreateModel'
-    baseClass: EntityCreateModel
-    include:
-      entities: []
-      properties: []
-    exclude:
-      entities: []
-      properties: []
-    namespace: '{Project.Namespace}.Domain.Models'
-    directory: '{Project.Directory}\Domain\Models'
-    document: false
   update:
     generate: true
     name: '{Entity.Name}UpdateModel'
-    baseClass: EntityUpdateModel
-    include:
-      entities: []
-      properties: []
-    exclude:
-      entities: []
-      properties: []
-    namespace: '{Project.Namespace}.Domain.Models'
-    directory: '{Project.Directory}\Domain\Models'
-    document: false
   mapper:
-    generate: false
+    generate: true
     name: '{Entity.Name}Profile'
-    baseClass: Profile
+    baseClass: AutoMapper.Profile
     namespace: '{Project.Namespace}.Domain.Mapping'
     directory: '{Project.Directory}\Domain\Mapping'
-    document: false
   validator:
     generate: true
     name: '{Model.Name}Validator'
     baseClass: AbstractValidator<{Model.Name}>
-    namespace: Auto.EFCore.Validator
+    namespace: '{Project.Namespace}.Domain.Validation'
     directory: '{Project.Directory}\Domain\Validation'
-    document: false
-script:
-  context:
-  - templatePath: .\templates\context.csx
-    fileName: ContextScript.cs
-    namespace: '{Project.Namespace}.Domain.Context'
-    baseClass: ContextScriptBase
-    directory: '{Project.Directory}\Domain\Context'
-    overwrite: true
-    parameters: {}
-  entity:
-  - templatePath: .\templates\entity.csx
-    fileName: '{Entity.Name}Script.cs'
-    namespace: '{Project.Namespace}.Domain.Entity'
-    baseClass: EntityScriptBase
-    directory: '{Project.Directory}\Domain\Entity'
-    overwrite: true
-    parameters: {}
-  model:
-  - templatePath: .\templates\model.csx
-    fileName: '{Model.Name}Script.cs'
-    namespace: '{Project.Namespace}.Domain.Models'
-    baseClass: ModelScriptBase
-    directory: '{Project.Directory}\Domain\Models'
-    overwrite: true
-    parameters: {}
-  - templatePath: .\templates\sample.csx
-    fileName: '{Model.Name}Sample.cs'
-    namespace: '{Project.Namespace}.Domain.Models'
-    baseClass: ModelSampleBase
-    directory: '{Project.Directory}\Domain\Models'
-    overwrite: true
-    parameters: {}

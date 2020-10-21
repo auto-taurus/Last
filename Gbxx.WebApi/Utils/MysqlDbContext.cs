@@ -1,5 +1,5 @@
 ﻿using Auto.ElasticServices.Entities;
-using Auto.Entities.Datas;
+using Auto.Entities.Modals;
 using Microsoft.EntityFrameworkCore;
 
 namespace Gbxx.WebApi.Utils {

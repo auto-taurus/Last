@@ -1,7 +1,7 @@
 ﻿using Auto.RedisServices.Entities;
 using Auto.Commons.Ioc.IContract;
 using System.Threading.Tasks;
-using Auto.Entities.Datas;
+using Auto.Entities.Modals;
 
 namespace Auto.RedisServices.Repositories {
     public interface IJwtRedis : ISingletonInject {

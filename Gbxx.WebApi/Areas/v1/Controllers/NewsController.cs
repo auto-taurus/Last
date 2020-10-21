@@ -15,6 +15,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Gbxx.WebApi.Controllers;
+using Gbxx.WebApi.Models;
 
 namespace Gbxx.WebApi.Areas.v1.Controllers {
     /// <summary>
@@ -93,7 +94,7 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
         //[SwaggerResponse(200, "", typeof(List<NewsListResponse>))]
         //public async Task<IActionResult> GetNewsCarouselAsync([FromHeader]String source,
         //                                                      [FromRoute]SiteRoute route,
-        //                                                      [FromQuery]ElasticPage item) {
+        //                                                      [FromQuery]PagerElastic item) {
         //    var response = new Response<List<NewsListResponse>>();
         //    try {
         //        var request = new SearchRequest<WebNewDoc>(_IWebNewsElastic.IndexName) {
@@ -309,7 +310,7 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
         [HttpGet("Hot")]
         public async Task<IActionResult> GetNewsHotAsync([FromHeader]String source,
                                                          [FromRoute]SiteRoute route,
-                                                         [FromQuery]ElasticPage item) {
+                                                         [FromQuery]PagerElastic item) {
             var response = new Response<List<NewsListResponse>>();
             try {
                 var request = new SearchRequest<WebNewsDoc>(_IWebNewsElastic.IndexName) {
@@ -362,47 +363,5 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
             return response.ToHttpResponse();
         }
 
-        /// <summary>
-        /// 内容阅读每30秒调用一次，并统计绿豆
-        /// </summary>
-        /// <param name="source"></param>
-        /// <param name="route"></param>
-        /// <returns></returns>
-        [HttpGet("{id}/Integral")]
-        public async Task<IActionResult> GetNewsIntegralAsync([FromHeader]String source,
-                                                              [FromRoute]SiteIdRoute route) {
-            var response = new Response<Object>();
-            try {
-                var result = await this._IWebNewsRedis.AddClickCount(route.mark, route.id);
-                if (!result)
-                    return BadRequest("新闻点击统计失败！");
-                response.Code = true;
-            }
-            catch (Exception ex) {
-                response.SetError(ex, this._ILogger);
-            }
-            return response.ToHttpResponse();
-        }
-        /// <summary>
-        /// 内容评论
-        /// </summary>
-        /// <param name="source"></param>
-        /// <param name="route"></param>
-        /// <returns></returns>
-        [HttpPost("{id}/Comment")]
-        public async Task<IActionResult> PostNewsCommentAsync([FromHeader]String source,
-                                                           [FromRoute]SiteIdRoute route) {
-            var response = new Response<Object>();
-            try {
-                var result = await this._IWebNewsRedis.AddClickCount(route.mark, route.id);
-                if (!result)
-                    return BadRequest("新闻点击统计失败！");
-                response.Code = true;
-            }
-            catch (Exception ex) {
-                response.SetError(ex, this._ILogger);
-            }
-            return response.ToHttpResponse();
-        }
     }
 }

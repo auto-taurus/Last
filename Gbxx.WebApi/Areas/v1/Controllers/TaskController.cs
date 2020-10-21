@@ -13,6 +13,25 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
 
         }
         /// <summary>
+        /// 获取任务种类信息
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="route"></param>
+        /// <returns></returns>
+        [HttpGet("{id}/Category")]
+        [SwaggerResponse(200, "", typeof(MemberData))]
+        public async Task<IActionResult> GetIncomeAsync([FromHeader]String source) {
+            var response = new Response<MemberData>();
+            var d = RouteData;
+            try {
+
+            }
+            catch (Exception) {
+                //response.SetError(ex, this._ILogger);
+            }
+            return response.ToHttpResponse();
+        }
+        /// <summary>
         /// 全站任务入口
         /// </summary>
         /// <param name="source"></param>

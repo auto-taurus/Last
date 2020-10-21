@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Auto.DataServices.Contracts;
-using Auto.Entities.Datas;
+using Auto.Entities.Modals;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Gbxx.BackStage.Controllers {

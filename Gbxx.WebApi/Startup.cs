@@ -1,5 +1,4 @@
 ﻿using Auto.Configurations;
-using Auto.Configurations.Maps;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Gbxx.BackStage.Configure.Ioc;
@@ -9,7 +8,6 @@ using Gbxx.WebApi.Filters;
 using Gbxx.WebApi.Utils;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -37,21 +35,21 @@ namespace Gbxx.WebApi {
             .AddOptions();
 
             // 配置EF连接字符串
-            services.AddDbContextPool<AutoNewsContext>(x => {
+            services.AddDbContextPool<NewsContext>(x => {
                 x.UseSqlServer(Configuration.GetConnectionString("GbxxNews"),
                     y => {
                         y.MaxBatchSize(10).UseRowNumberForPaging();
                     });
             })
-            .AddSingleton<AutoNewsContext>()
+            .AddSingleton<NewsContext>()
             .AddOptions();
 
-            services.AddSingleton<IEntityMapper, AutoNewsEntityMapper>();
-
+            services.AddSingleton<IEntityMapper, EntityMapper>();
             services.BatchServices();
             services.InitElasticSearch(Configuration);
             services.InitSwaggerGen();
             services.InitJwt(Configuration);
+
             services.AddMvc(options => {
                 //全局拦截器
                 options.Filters.Add<HeaderSourceAttribute>();
@@ -100,7 +98,11 @@ namespace Gbxx.WebApi {
             else {
                 app.UseHsts();
             }
+            //开启认证
             app.UseAuthentication();
+            //授权中间件
+            //app.UseAuthorization();
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             // 启用Swagger中间件
@@ -110,7 +112,6 @@ namespace Gbxx.WebApi {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
                 c.RoutePrefix = string.Empty;
             });
-            app.UsePathBase(new PathString("/v2"));
             //app.UseMvc(routes => { });
             app.UseMvc(routes => {
                 routes.MapRoute(

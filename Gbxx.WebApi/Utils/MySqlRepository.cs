@@ -1,5 +1,5 @@
 ﻿using Auto.Commons.EfCore;
-using Auto.Entities.Datas;
+using Auto.Entities.Modals;
 using System.Collections.Generic;
 
 namespace Gbxx.WebApi.Utils {

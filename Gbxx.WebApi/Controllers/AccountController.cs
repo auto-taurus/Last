@@ -3,7 +3,7 @@ using Auto.Commons.ApiHandles.Responses;
 using Auto.Commons.Strings;
 using Auto.Commons.Systems;
 using Auto.DataServices.Contracts;
-using Auto.Entities.Datas;
+using Auto.Entities.Modals;
 using Auto.RedisServices.Entities;
 using Auto.RedisServices.Repositories;
 using Gbxx.WebApi.Areas.v1.Models.Post;
@@ -41,7 +41,7 @@ namespace Gbxx.WebApi.Controllers {
         }
 
         /// <summary>
-        /// 刷新Token
+        /// 刷新Token（暂时可以不做，Token默认7天失效）
         /// </summary>
         /// <param name="source"></param>
         /// <param name="authorization"></param>
@@ -132,15 +132,11 @@ namespace Gbxx.WebApi.Controllers {
         /// <param name="authorization"></param>
         /// <returns></returns>
         [HttpPost("Exit")]
-        public async Task<IActionResult> PostUserLoginOutAsync([FromHeader]String source) {
+        public async Task<IActionResult> PostUserLoginOutAsync([FromHeader]String source,
+            [FromHeader]String authorization) {
             var response = new Response<Object>();
             try {
-                if (await _IJwtRedis.IsCurrentActiveTokenAsync()) {
-                    response.Code = await _IJwtRedis.DeactivateCurrentAsync();
-                }
-                else {
-                    return BadRequest("Authorization无效！");
-                }
+                response.Code = await _IJwtRedis.DeactivateCurrentAsync();
             }
             catch (Exception ex) {
                 response.SetError(ex, this._ILogger);

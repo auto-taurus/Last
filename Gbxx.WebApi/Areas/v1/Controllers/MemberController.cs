@@ -35,7 +35,7 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
 
         }
         /// <summary>
-        /// 会员信息
+        /// 获取会员信息
         /// </summary>
         /// <param name="source"></param>
         /// <param name="route"></param>
@@ -63,15 +63,15 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
             return response.ToHttpResponse();
         }
         /// <summary>
-        /// 获取会员关注列表
+        /// 修改会员信息
         /// </summary>
         /// <param name="source"></param>
         /// <param name="route"></param>
         /// <returns></returns>
-        [HttpGet("{id}/Follow")]
+        [HttpPost("{id}")]
         [SwaggerResponse(200, "", typeof(MemberData))]
-        public async Task<IActionResult> GetFollowAsync([FromHeader]String source,
-                                                        [FromRoute]IdRoute route) {
+        public async Task<IActionResult> PostMemberInfoAvatarAsync([FromHeader]String source,
+                                                            [FromRoute]IdRoute route) {
             var response = new Response<MemberData>();
             try {
                 var entity = await _IMemberInfoRepository.SingleAsync(e => e.MemberId == Convert.ToInt32(route.id));
@@ -91,43 +91,15 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
             return response.ToHttpResponse();
         }
         /// <summary>
-        /// 获取会员收藏列表
+        /// 密码会员修改
         /// </summary>
         /// <param name="source"></param>
         /// <param name="route"></param>
         /// <returns></returns>
-        [HttpGet("{id}/Favorites")]
+        [HttpPost("{id}/Password")]
         [SwaggerResponse(200, "", typeof(MemberData))]
-        public async Task<IActionResult> GetFavoritesAsync([FromHeader]String source,
-                                                        [FromRoute]IdRoute route) {
-            var response = new Response<MemberData>();
-            try {
-                var entity = await _IMemberInfoRepository.SingleAsync(e => e.MemberId == Convert.ToInt32(route.id));
-                if (entity != null) {
-                    response.Code = true;
-                    response.Data.MemberId = entity.MemberId;
-                    response.Data.Phone = entity.Phone;
-                    response.Data.NickName = entity.NickName;
-                    response.Data.Name = entity.Name;
-                }
-                else
-                    return NotFound();
-            }
-            catch (Exception ex) {
-                response.SetError(ex, this._ILogger);
-            }
-            return response.ToHttpResponse();
-        }
-        /// <summary>
-        /// 获取会员足迹列表
-        /// </summary>
-        /// <param name="source"></param>
-        /// <param name="route"></param>
-        /// <returns></returns>
-        [HttpGet("{id}/Footprint")]
-        [SwaggerResponse(200, "", typeof(MemberData))]
-        public async Task<IActionResult> GetFootprintAsync([FromHeader]String source,
-                                                        [FromRoute]IdRoute route) {
+        public async Task<IActionResult> PostMemberInfoPasswordAsync([FromHeader]String source,
+                                                            [FromRoute]IdRoute route) {
             var response = new Response<MemberData>();
             try {
                 var entity = await _IMemberInfoRepository.SingleAsync(e => e.MemberId == Convert.ToInt32(route.id));

@@ -6,6 +6,7 @@ using System.Reflection;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.AspNetCore.Mvc.Cors.Internal;
 using Swashbuckle.AspNetCore.Swagger;
+using Microsoft.OpenApi.Models;
 
 namespace Gbxx.WebApi.Configure.Swagger {
     public static class SwaggerConfigure {
@@ -35,6 +36,7 @@ namespace Gbxx.WebApi.Configure.Swagger {
 
                     });
                 c.ExampleFilters();
+                //c.OperationFilter<AddHeaderOperationFilter>("correlationId", "Correlation Id for the request", false);
                 //添加xml文件
                 //获取xml注释文件的目录
                 var xmlFile = $"{System.Reflection.Assembly.GetExecutingAssembly().GetName().Name}.xml";
@@ -42,22 +44,36 @@ namespace Gbxx.WebApi.Configure.Swagger {
                 // 启用xml注释
                 c.IncludeXmlComments(xmlPath);
 
-                ////Add Jwt Authorize to http header
-                //c.AddSecurityDefinition("Bearer", new ApiKeyScheme {
-                //    Description = "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
-                //    Name = "Authorization",//Jwt default param name
-                //    In = "header",//Jwt store address
-                //    Type = "apiKey"//Security scheme type
-                //});
-                ////Add authentication type
-                //c.AddSecurityRequirement(new Dictionary<string, IEnumerable<string>>
-                //{
-                //    { "Bearer", new string[] { } }
+                //开启权限小锁
+                c.OperationFilter<AddResponseHeadersFilter>();
+                c.OperationFilter<AppendAuthorizeToSummaryOperationFilter>();
+
+                //在header中添加token，传递到后台
+                c.OperationFilter<SecurityRequirementsOperationFilter>();
+
+                //Add Jwt Authorize to http header
+
+                c.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme {
+                    Description = "JWT授权(数据将在请求头中进行传递)直接在下面框中输入Bearer {token}(注意两者之间是一个空格) \"",
+                    Name = "Authorization",//jwt默认的参数名称
+                    In = ParameterLocation.Header,//jwt默认存放Authorization信息的位置(请求头中)
+                    Type = SecuritySchemeType.ApiKey
+                }); 
+                //Add authentication type
+                //c.AddSecurityRequirement(new OpenApiSecurityRequirement {
+                //    {
+                //        new OpenApiSecurityScheme
+                //        {
+                //             Reference = new OpenApiReference(){
+                //                Id = "Bearer",
+                //                Type = ReferenceType.SecurityScheme
+                //             }
+                //        }, Array.Empty<string>()
+                //    }
                 //});
             });
-
             //services.AddSwaggerGen(c => {
-            //    c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
+            //    c.SwaggerDoc("v2", new OpenApiInfo { Title = "My API", Version = "v2" });
 
             //    // [SwaggerRequestExample] & [SwaggerResponseExample]
             //    // version < 3.0 like this: c.OperationFilter<ExamplesOperationFilter>(); 

@@ -12,9 +12,9 @@ using System.Threading.Tasks;
 namespace Auto.DataServices {
     public class Repository<TEntity> : IDisposable where TEntity : class, new() {
         protected bool Disposed;
-        protected readonly AutoNewsContext _BaseDb;
-        public Repository(AutoNewsContext autoNewsContext) {
-            _BaseDb = autoNewsContext;
+        protected readonly NewsContext _BaseDb;
+        public Repository(NewsContext newsContext) {
+            _BaseDb = newsContext;
         }
         public virtual void Dispose() {
             if (Disposed)
@@ -206,7 +206,7 @@ namespace Auto.DataServices {
         /// </summary>
         /// <param name="predicate">实体过滤条件</param>
         /// <returns></returns>
-        public virtual async Task<bool> BatchRemove(Expression<Func<TEntity, bool>> predicate) {
+        public virtual async Task<bool> BatchRemoveAsync(Expression<Func<TEntity, bool>> predicate) {
             var flag = false;
             try {
                 await this._BaseDb.Set<TEntity>().Where(predicate).BatchDeleteAsync();

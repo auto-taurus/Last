@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Gbxx.WebApi.Controllers;
+using Gbxx.WebApi.Models;
 
 namespace Gbxx.WebApi.Areas.v1.Controllers {
     /// <summary>
@@ -49,7 +50,7 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
         [HttpGet("{id}/News")]
         public async Task<IActionResult> GetCodeNewsAsync([FromHeader]String source,
                                                           [FromRoute]SiteIdRoute route,
-                                                          [FromQuery]ElasticPage item) {
+                                                          [FromQuery]PagerElastic item) {
             var response = new Response<List<NewsListResponse>>();
             try {
                 var request = new SearchRequest<WebNewsDoc>(_IWebNewsElastic.IndexName) {

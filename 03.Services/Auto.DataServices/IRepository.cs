@@ -106,7 +106,7 @@ namespace Auto.DataServices {
         /// </summary>
         /// <param name="predicate"></param>
         /// <returns></returns>
-        Task<bool> BatchRemove(Expression<Func<TEntity, bool>> predicate);
+        Task<bool> BatchRemoveAsync(Expression<Func<TEntity, bool>> predicate);
         int CommitChanges();
         Task<int> CommitChangesAsync();
     }

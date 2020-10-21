@@ -2,7 +2,7 @@
 using Auto.Commons.ApiHandles.Responses;
 using Auto.Commons.Systems;
 using Auto.DataServices.Contracts;
-using Auto.Entities.Datas;
+using Auto.Entities.Modals;
 using Auto.ElasticServices.Contracts;
 using Auto.RedisServices;
 using Gbxx.WebApi.Areas.v1.Models.Route;

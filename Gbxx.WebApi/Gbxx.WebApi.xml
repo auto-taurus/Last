@@ -46,7 +46,7 @@
             <param name="route"></param>
             <returns></returns>
         </member>
-        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.CategoryController.GetCategoryNewsAsync(System.String,Gbxx.WebApi.Areas.v1.Models.Route.SiteIdRoute,Gbxx.WebApi.Areas.v1.Models.ElasticPage)">
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.CategoryController.GetCategoryNewsAsync(System.String,Gbxx.WebApi.Areas.v1.Models.Route.SiteIdRoute,Gbxx.WebApi.Models.PagerElastic)">
             <summary>
             分类新闻列表
             </summary>
@@ -93,13 +93,138 @@
             <param name="logger"></param>
             <param name="webNewsElastic"></param>
         </member>
-        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.CodeController.GetCodeNewsAsync(System.String,Gbxx.WebApi.Areas.v1.Models.Route.SiteIdRoute,Gbxx.WebApi.Areas.v1.Models.ElasticPage)">
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.CodeController.GetCodeNewsAsync(System.String,Gbxx.WebApi.Areas.v1.Models.Route.SiteIdRoute,Gbxx.WebApi.Models.PagerElastic)">
             <summary>
             专栏新闻列表
             </summary>
             <param name="source"></param>
             <param name="route"></param>
             <param name="item"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.CommentController.GetCommentAsync(System.String)">
+            <summary>
+            获取单个评论列表信息
+            </summary>
+            <param name="source"></param>
+            <param name="route"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.CommentController.GetMemberCommentAsync(System.String)">
+            <summary>
+            获取新闻评论信息
+            </summary>
+            <param name="source"></param>
+            <param name="route"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.CommentController.PostMemberCommentAsync(System.String)">
+            <summary>
+            发表新闻评论
+            </summary>
+            <param name="source"></param>
+            <param name="route"></param>
+            <returns></returns>
+        </member>
+        <member name="F:Gbxx.WebApi.Areas.v1.Controllers.FavoritesController._ILogger">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:Gbxx.WebApi.Areas.v1.Controllers.FavoritesController._IMemberFavoritesRepository">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.FavoritesController.#ctor(Microsoft.Extensions.Logging.ILogger{Gbxx.WebApi.Areas.v1.Controllers.SiteController},Auto.DataServices.Contracts.IMemberFavoritesRepository)">
+            <summary>
+            
+            </summary>
+            <param name="logger"></param>
+            <param name="memberInfoRepository"></param>
+        </member>
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.FavoritesController.GetMemberFavoritesAsync(System.String,Gbxx.WebApi.Areas.v1.Models.Route.IdRoute)">
+            <summary>
+            获取会员收藏列表
+            </summary>
+            <param name="source"></param>
+            <param name="route"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.FavoritesController.PostMemberFavoritesAsync(System.String,Gbxx.WebApi.Areas.v1.Models.Route.IdRoute)">
+            <summary>
+            会员收藏提交
+            </summary>
+            <param name="source"></param>
+            <param name="route"></param>
+            <returns></returns>
+        </member>
+        <member name="F:Gbxx.WebApi.Areas.v1.Controllers.FollowController._ILogger">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:Gbxx.WebApi.Areas.v1.Controllers.FollowController._IMemberFollowRepository">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.FollowController.#ctor(Microsoft.Extensions.Logging.ILogger{Gbxx.WebApi.Areas.v1.Controllers.SiteController},Auto.DataServices.Contracts.IMemberFollowRepository)">
+            <summary>
+            
+            </summary>
+            <param name="logger"></param>
+            <param name="memberFollowRepository"></param>
+        </member>
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.FollowController.GetMemberFollowAsync(System.String,Gbxx.WebApi.Models.IdIntRoute,Gbxx.WebApi.Areas.v1.Models.Get.MemberFollowGet)">
+            <summary>
+            获取会员关注列表
+            </summary>
+            <param name="source"></param>
+            <param name="route"></param>
+            <param name="item"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.FollowController.PostMemberFollowAsync(System.String,Gbxx.WebApi.Models.IdIntRoute,Gbxx.WebApi.Areas.v1.Models.Get.MemberFollowPost)">
+            <summary>
+            会员关注
+            </summary>
+            <param name="source"></param>
+            <param name="route"></param>
+            <param name="item"></param>
+            <returns></returns>
+        </member>
+        <member name="F:Gbxx.WebApi.Areas.v1.Controllers.FootprintController._ILogger">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:Gbxx.WebApi.Areas.v1.Controllers.FootprintController._IMemberFootprintRepository">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.FootprintController.#ctor(Microsoft.Extensions.Logging.ILogger{Gbxx.WebApi.Areas.v1.Controllers.SiteController},Auto.DataServices.Contracts.IMemberFootprintRepository)">
+            <summary>
+            
+            </summary>
+            <param name="logger"></param>
+            <param name="memberInfoRepository"></param>
+        </member>
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.FootprintController.GetFootprintAsync(System.String,Gbxx.WebApi.Areas.v1.Models.Route.IdRoute)">
+            <summary>
+            获取会员足迹列表
+            </summary>
+            <param name="source"></param>
+            <param name="route"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.FootprintController.PostMemberFootprintAsync(System.String,Gbxx.WebApi.Areas.v1.Models.Route.IdRoute)">
+            <summary>
+            会员足迹提交
+            </summary>
+            <param name="source"></param>
+            <param name="route"></param>
             <returns></returns>
         </member>
         <member name="M:Gbxx.WebApi.Areas.v1.Controllers.IncomeController.GetMemberIncomesAsync(System.String)">
@@ -134,31 +259,23 @@
         </member>
         <member name="M:Gbxx.WebApi.Areas.v1.Controllers.MemberController.GetMemberInfoAsync(System.String,Gbxx.WebApi.Areas.v1.Models.Route.IdRoute)">
             <summary>
-            会员信息
+            获取会员信息
             </summary>
             <param name="source"></param>
             <param name="route"></param>
             <returns></returns>
         </member>
-        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.MemberController.GetFollowAsync(System.String,Gbxx.WebApi.Areas.v1.Models.Route.IdRoute)">
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.MemberController.PostMemberInfoAvatarAsync(System.String,Gbxx.WebApi.Areas.v1.Models.Route.IdRoute)">
             <summary>
-            获取会员关注列表
+            修改会员信息
             </summary>
             <param name="source"></param>
             <param name="route"></param>
             <returns></returns>
         </member>
-        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.MemberController.GetFavoritesAsync(System.String,Gbxx.WebApi.Areas.v1.Models.Route.IdRoute)">
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.MemberController.PostMemberInfoPasswordAsync(System.String,Gbxx.WebApi.Areas.v1.Models.Route.IdRoute)">
             <summary>
-            获取会员收藏列表
-            </summary>
-            <param name="source"></param>
-            <param name="route"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.MemberController.GetFootprintAsync(System.String,Gbxx.WebApi.Areas.v1.Models.Route.IdRoute)">
-            <summary>
-            获取会员足迹列表
+            密码会员修改
             </summary>
             <param name="source"></param>
             <param name="route"></param>
@@ -225,7 +342,7 @@
             <param name="item"></param>
             <returns></returns>
         </member>
-        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.NewsController.GetNewsHotAsync(System.String,Gbxx.WebApi.Areas.v1.Models.Route.SiteRoute,Gbxx.WebApi.Areas.v1.Models.ElasticPage)">
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.NewsController.GetNewsHotAsync(System.String,Gbxx.WebApi.Areas.v1.Models.Route.SiteRoute,Gbxx.WebApi.Models.PagerElastic)">
             <summary>
             24小时热文
             </summary>
@@ -234,26 +351,33 @@
             <param name="item"></param>
             <returns></returns>
         </member>
-        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.NewsController.GetNewsIntegralAsync(System.String,Gbxx.WebApi.Areas.v1.Models.Route.SiteIdRoute)">
-            <summary>
-            内容阅读每30秒调用一次，并统计绿豆
-            </summary>
-            <param name="source"></param>
-            <param name="route"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.NewsController.PostNewsCommentAsync(System.String,Gbxx.WebApi.Areas.v1.Models.Route.SiteIdRoute)">
-            <summary>
-            内容评论
-            </summary>
-            <param name="source"></param>
-            <param name="route"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.ProblemController.#ctor">
+        <member name="T:Gbxx.WebApi.Areas.v1.Controllers.ProblemController">
             <summary>
             常见问题
             </summary>
+        </member>
+        <member name="F:Gbxx.WebApi.Areas.v1.Controllers.ProblemController._ILogger">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:Gbxx.WebApi.Areas.v1.Controllers.ProblemController._ISystemDictionaryRepository">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:Gbxx.WebApi.Areas.v1.Controllers.ProblemController._IMemberProblemRepository">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.ProblemController.#ctor(Microsoft.Extensions.Logging.ILogger{Gbxx.WebApi.Areas.v1.Controllers.SiteController},Auto.DataServices.Contracts.ISystemDictionaryRepository,Auto.DataServices.Contracts.IMemberProblemRepository)">
+            <summary>
+            
+            </summary>
+            <param name="logger"></param>
+            <param name="webNewsElastic"></param>
+            <param name="webNewsRedis"></param>
         </member>
         <member name="M:Gbxx.WebApi.Areas.v1.Controllers.ProblemController.GetProblemAsync(System.String)">
             <summary>
@@ -314,6 +438,14 @@
             <param name="item"></param>
             <returns></returns>
         </member>
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.TaskController.GetIncomeAsync(System.String)">
+            <summary>
+            获取任务种类信息
+            </summary>
+            <param name="source"></param>
+            <param name="route"></param>
+            <returns></returns>
+        </member>
         <member name="M:Gbxx.WebApi.Areas.v1.Controllers.TaskController.PostTaskAsync(System.String)">
             <summary>
             全站任务入口
@@ -322,9 +454,25 @@
             <param name="route"></param>
             <returns></returns>
         </member>
-        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.WithdrawController.GetIncomeAsync(System.String)">
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.WithdrawConfigController.GetIncomeAsync(System.String)">
+            <summary>
+            获取提现配置
+            </summary>
+            <param name="source"></param>
+            <param name="route"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.WithdrawController.GetMemberWithdrawIncomeAsync(System.String)">
             <summary>
             获取会员提现记录列表
+            </summary>
+            <param name="source"></param>
+            <param name="route"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.WithdrawController.PostMemberWithdrawIncomeAsync(System.String)">
+            <summary>
+            会员提现
             </summary>
             <param name="source"></param>
             <param name="route"></param>
@@ -629,33 +777,17 @@
             网页描述
             </summary>
         </member>
-        <member name="T:Gbxx.WebApi.Areas.v1.Models.ElasticPage">
+        <member name="P:Gbxx.WebApi.Areas.v1.Models.Get.MemberFollowPost.OType">
             <summary>
-            ES分页查询
+            0关注，1取消关注
             </summary>
         </member>
-        <member name="M:Gbxx.WebApi.Areas.v1.Models.ElasticPage.#ctor">
-            <summary>
-            查询分页
-            </summary>
-        </member>
-        <member name="P:Gbxx.WebApi.Areas.v1.Models.ElasticPage.PageIndex">
-            <summary>
-            当前页
-            格式：value,value,value...
-            </summary>
-        </member>
-        <member name="P:Gbxx.WebApi.Areas.v1.Models.ElasticPage.PageSize">
-            <summary>
-            页大小
-            </summary>
-        </member>
-        <member name="T:Gbxx.WebApi.Areas.v1.Models.ElasticPageValidator">
+        <member name="T:Gbxx.WebApi.Areas.v1.Models.Get.MemberFollowPostValidator">
             <summary>
             
             </summary>
         </member>
-        <member name="M:Gbxx.WebApi.Areas.v1.Models.ElasticPageValidator.#ctor">
+        <member name="M:Gbxx.WebApi.Areas.v1.Models.Get.MemberFollowPostValidator.#ctor">
             <summary>
             
             </summary>
@@ -838,7 +970,7 @@
         </member>
         <member name="M:Gbxx.WebApi.Controllers.AccountController.GetRefreshAsync(System.String,System.String)">
             <summary>
-            刷新Token
+            刷新Token（暂时可以不做，Token默认7天失效）
             </summary>
             <param name="source"></param>
             <param name="authorization"></param>
@@ -853,7 +985,7 @@
             <param name="item"></param>
             <returns></returns>
         </member>
-        <member name="M:Gbxx.WebApi.Controllers.AccountController.PostUserLoginOutAsync(System.String)">
+        <member name="M:Gbxx.WebApi.Controllers.AccountController.PostUserLoginOutAsync(System.String,System.String)">
             <summary>
             退出
             </summary>
@@ -967,6 +1099,47 @@
         <member name="T:Gbxx.WebApi.Handlers.PolicyHandler.Menu">
             <summary>
             测试菜单类
+            </summary>
+        </member>
+        <member name="T:Gbxx.WebApi.Models.PagerBaseValidator">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Gbxx.WebApi.Models.PagerBaseValidator.#ctor">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:Gbxx.WebApi.Models.PagerElastic">
+            <summary>
+            ES分页查询
+            </summary>
+        </member>
+        <member name="M:Gbxx.WebApi.Models.PagerElastic.#ctor">
+            <summary>
+            查询分页
+            </summary>
+        </member>
+        <member name="P:Gbxx.WebApi.Models.PagerElastic.PageIndex">
+            <summary>
+            当前页
+            格式：value,value,value...
+            </summary>
+        </member>
+        <member name="P:Gbxx.WebApi.Models.PagerElastic.PageSize">
+            <summary>
+            页大小
+            </summary>
+        </member>
+        <member name="T:Gbxx.WebApi.Models.ElasticPagerValidator">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Gbxx.WebApi.Models.ElasticPagerValidator.#ctor">
+            <summary>
+            
             </summary>
         </member>
         <member name="M:Gbxx.WebApi.Utils.MysqlDbContext.OnConfiguring(Microsoft.EntityFrameworkCore.DbContextOptionsBuilder)">

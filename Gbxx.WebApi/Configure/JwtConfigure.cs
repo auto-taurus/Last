@@ -9,6 +9,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.IdentityModel.Tokens;
 using System;
+using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -46,11 +48,13 @@ namespace Gbxx.WebApi.Configure {
                         // Validate the JWT Issuer (iss) claim
                         ValidateIssuer = true,
                         ValidIssuer = configuration["Authentication:JwtBearer:Issuer"],
-
                         // Validate the JWT Audience (aud) claim
                         ValidateAudience = true,
                         ValidAudience = configuration["Authentication:JwtBearer:Audience"],
-
+                        //AudienceValidator = (m, n, z) =>
+                        //{
+                        //    return m != null && m.FirstOrDefault().Equals(IsConst.ValidAudience);
+                        //},
                         // Validate the token expiry
                         ValidateLifetime = true, //是否验证超时  当设置exp和nbf时有效 同时启用ClockSkew 
                         // If you want to allow a certain amount of clock drift, set that here
@@ -65,7 +69,8 @@ namespace Gbxx.WebApi.Configure {
                             return Task.CompletedTask;
                         },
                         OnMessageReceived = context => {
-                            context.Token = context.Request.Query["access_token"];
+                            //context.Token = context.Request.Query["access_token"];
+                            context.Token = context.Request.Headers["authorization"];
                             return Task.CompletedTask;
                         }
                     };

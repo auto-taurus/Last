@@ -1,7 +1,7 @@
 ﻿using Auto.Commons.ApiHandles.Responses;
 using Auto.Commons.Linq;
 using Auto.DataServices.Contracts;
-using Auto.Entities.Datas;
+using Auto.Entities.Modals;
 using Gbxx.BackStage.Requests.Items;
 using Gbxx.BackStage.Requests.Query;
 using Microsoft.AspNetCore.Mvc;

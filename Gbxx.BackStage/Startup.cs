@@ -45,13 +45,13 @@ namespace Gbxx.BackStage {
                         x.ValidatorOptions.CascadeMode = CascadeMode.Stop;
                     });
             // 配置EF连接字符串
-            services.AddDbContextPool<AutoNewsContext>(x => {
+            services.AddDbContextPool<NewsContext>(x => {
                 x.UseSqlServer(Configuration.GetConnectionString("GbxxNews"),
                     y => {
                         y.MaxBatchSize(10).UseRowNumberForPaging();
                     });
             })
-            .AddSingleton<AutoNewsContext>()
+            .AddSingleton<NewsContext>()
             .AddOptions();
             // 配置信息注入
             services.AddSingleton(Configuration);

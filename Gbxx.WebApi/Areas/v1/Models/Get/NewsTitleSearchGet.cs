@@ -1,15 +1,11 @@
 ﻿using FluentValidation;
-using Gbxx.WebApi.Areas.v1.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Gbxx.WebApi.Models;
 
 namespace Gbxx.WebApi.Requests.Query {
     /// <summary>
     /// 新闻标题检索
     /// </summary>
-    public class NewsTitleSearchGet : ElasticPage {
+    public class NewsTitleSearchGet : PagerElastic {
         /// <summary>
         /// 标题
         /// </summary>

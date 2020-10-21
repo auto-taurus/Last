@@ -1,10 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
+﻿using Auto.Entities.Dtos;
+using Microsoft.EntityFrameworkCore;
+using System.Composition;
 
 namespace Auto.Configurations.Views {
-    public class WebSpecialView : IQueryTypeConfiguration<WebSpecialView> {
-        public void Configure(QueryTypeBuilder<WebSpecialView> builder) {
-            builder.ToView("WebSpecialView");
+    [Export(typeof(IConfigurations))]
+    public class WebSpecialView : IConfigurations {
+        public void Configure(ModelBuilder builder) {
+            builder.Query<WebSpecialDto>().ToView("WebSpecialDto");
         }
     }
 }

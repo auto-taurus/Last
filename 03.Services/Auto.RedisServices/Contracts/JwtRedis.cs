@@ -1,10 +1,11 @@
-﻿using Auto.Entities.Datas;
+﻿using Auto.Entities.Modals;
 using Auto.RedisServices.Entities;
 using Auto.RedisServices.Repositories;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Primitives;
 using Microsoft.IdentityModel.Tokens;
@@ -117,9 +118,13 @@ namespace Auto.RedisServices.Contracts {
         public async Task<bool> DeactivateAsync(string token) {
             var tokenKey = GetKey(token);
             var number = _IRedisStore.GetRandomNumber(tokenKey);
+            //var d = new DistributedCacheEntryOptions {
+            //    AbsoluteExpirationRelativeToNow =
+            //        TimeSpan.FromMinutes(Convert.ToDouble(_configuration["Jwt:ExpireMinutes"]))
+            //};
             return await _IRedisStore.Do(db => db.StringSetAsync(tokenKey,
                                                                  token,
-                                                                 TimeSpan.FromMinutes(Convert.ToDouble(_configuration["Authentication:JwtBearer:Minutes"]))
+                                                                 DateTime.UtcNow.TimeOfDay
                                                                  ), number);
         }
 
