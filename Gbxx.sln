@@ -79,6 +79,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01", "01", "{8D958C98-E201-
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01", "01", "{D50B8EDC-1E2F-4784-8494-F05C88B98EFA}"
+	ProjectSection(SolutionItems) = preProject
+		00.DataBase\03.Db\01\init.sql = 00.DataBase\03.Db\01\init.sql
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
