@@ -2,15 +2,13 @@ using Auto.Commons.EfCore;
 using System;
 using System.Collections.Generic;
 
-namespace Auto.Entities.Modals
-{
+namespace Auto.Entities.Modals {
     public partial class WebCategory
-        : EntityBase
-    {
-        public WebCategory()
-        {
+        : EntityBase {
+        public WebCategory() {
             #region Generated Constructor
             WebNews = new HashSet<WebNews>();
+            WebSources = new HashSet<WebSource>();
             #endregion
         }
 
@@ -51,7 +49,7 @@ namespace Auto.Entities.Modals
 
         #region Generated Relationships
         public virtual ICollection<WebNews> WebNews { get; set; }
-
+        public virtual ICollection<WebSource> WebSources { get; set; }
         #endregion
 
     }

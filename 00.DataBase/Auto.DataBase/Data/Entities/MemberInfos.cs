@@ -53,7 +53,9 @@ namespace AutoNews.Data.Entities
 
         public int? FansNumber { get; set; }
 
-        public int? IsEnbale { get; set; }
+        public int? IsNew { get; set; }
+
+        public int? IsEnable { get; set; }
 
         public string Remarks { get; set; }
 

@@ -30,8 +30,8 @@ namespace AutoNews.Data.Mapping
 
             builder.Property(t => t.Desc)
                 .HasColumnName("Desc")
-                .HasColumnType("nvarchar(255)")
-                .HasMaxLength(255);
+                .HasColumnType("nvarchar(500)")
+                .HasMaxLength(500);
 
             builder.Property(t => t.Type)
                 .HasColumnName("Type")
@@ -39,11 +39,15 @@ namespace AutoNews.Data.Mapping
 
             builder.Property(t => t.Urls)
                 .HasColumnName("Urls")
-                .HasColumnType("nvarchar(255)")
-                .HasMaxLength(255);
+                .HasColumnType("nvarchar(500)")
+                .HasMaxLength(500);
 
             builder.Property(t => t.IsHot)
                 .HasColumnName("IsHot")
+                .HasColumnType("int");
+
+            builder.Property(t => t.Sequence)
+                .HasColumnName("Sequence")
                 .HasColumnType("int");
 
             builder.Property(t => t.IsEnable)

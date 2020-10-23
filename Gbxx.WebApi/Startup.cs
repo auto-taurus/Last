@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json;
 using System.Linq;
 
 namespace Gbxx.WebApi {
@@ -36,6 +37,7 @@ namespace Gbxx.WebApi {
 
             // 配置EF连接字符串
             services.AddDbContextPool<NewsContext>(x => {
+                //.UseLazyLoadingProxies()
                 x.UseSqlServer(Configuration.GetConnectionString("GbxxNews"),
                     y => {
                         y.MaxBatchSize(10).UseRowNumberForPaging();
@@ -60,6 +62,8 @@ namespace Gbxx.WebApi {
                         //options.SerializerSettings.ContractResolver = new DefaultContractResolver();
                         options.SerializerSettings.DateFormatHandling = Newtonsoft.Json.DateFormatHandling.MicrosoftDateFormat;
                         options.SerializerSettings.DateFormatString = "yyyy-MM-dd HH:mm:ss";
+                        //
+                        options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
                     }).AddFluentValidation(x => {
                         x.RegisterValidatorsFromAssemblyContaining<HeaderSourceValidator>();
                         x.RunDefaultMvcValidationAfterFluentValidationExecutes = false;

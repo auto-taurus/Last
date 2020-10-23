@@ -1,4 +1,5 @@
 ﻿using Auto.Commons.ApiHandles.Responses;
+using Auto.Configurations;
 using Auto.DataServices.Contracts;
 using Auto.Entities.Dtos;
 using Gbxx.WebApi.Areas.v1.Data;
@@ -10,6 +11,7 @@ using Microsoft.Extensions.Logging;
 using Swashbuckle.AspNetCore.Annotations;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Gbxx.WebApi.Areas.v1.Controllers {
@@ -43,13 +45,24 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
         /// <param name="item"></param>
         /// <returns></returns>
         [HttpGet("{id}/Incomes")]
-        [SwaggerResponse(200, "", typeof(IList<MemberIncomeAppDto>))]
         public async Task<IActionResult> GetMemberIncomesAsync([FromHeader]String source,
                                                                [FromRoute]IdIntRoute route,
                                                                [FromQuery]PagerBase item) {
-            var response = new Response<IList<MemberIncomeAppDto>>();
+            var response = new Response<Object>();
             try {
-                var result = await _IMemberIncomeRepository.GetAppPagerAsync(a => a.MemberId == route.id, item.PageIndex.Value, item.PageSize.Value);
+                var result = await _IMemberIncomeRepository.Query(a => a.MemberId == route.id && a.Status == 0)
+                                                           .OrderByDescending(a => a.CreateTime)
+                                                           .ToPager(item.PageIndex.Value, item.PageSize.Value)
+                                                           .Select(a => new {
+                                                               a.IncomeId,
+                                                               a.TaksName,
+                                                               a.CategoryDay,
+                                                               a.CategoryFixed,
+                                                               a.BeansText,
+                                                               a.Title,
+                                                               a.CreateTime
+                                                           })
+                                                           .ToListAsync();
                 if (result.Count > 0) {
                     response.Code = true;
                     response.Data = result;

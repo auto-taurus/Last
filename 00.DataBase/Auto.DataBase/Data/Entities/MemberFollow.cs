@@ -20,6 +20,8 @@ namespace AutoNews.Data.Entities
 
         public string SourceTable { get; set; }
 
+        public int? CategoryId { get; set; }
+
         public DateTime? FollowTime { get; set; }
 
         public int? IsEnable { get; set; }

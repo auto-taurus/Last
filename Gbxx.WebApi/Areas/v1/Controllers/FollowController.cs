@@ -87,7 +87,7 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                         FollowTime = System.DateTime.Now,
                         IsEnable = 1
                     });
-                    await _IMemberFollowRepository.CommitChangesAsync();
+                    await _IMemberFollowRepository.SaveChangesAsync();
                 }
             }
             catch (Exception ex) {

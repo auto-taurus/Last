@@ -2,6 +2,7 @@
 using EFCore.BulkExtensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Microsoft.EntityFrameworkCore.Storage;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -88,14 +89,14 @@ namespace Auto.DataServices {
             return new Tuple<int, IList<TEntity>>(count, result);
         }
         /// <summary>
-        /// 单个实体添加，需调用CommitChanges获CommitChangesAsync保存
+        /// 单个实体添加，需调用CommitChanges获SaveChangesAsync保存
         /// </summary>
         /// <param name="entity"></param>
         public virtual EntityEntry<TEntity> Add(TEntity entity) {
             return this._BaseDb.Set<TEntity>().Add(entity);
         }
         /// <summary>
-        /// 单个实体添加，需调用CommitChanges获CommitChangesAsync保存
+        /// 单个实体添加，需调用CommitChanges获SaveChangesAsync保存
         /// </summary>
         /// <param name="entity"></param>
         public virtual async ValueTask<EntityEntry<TEntity>> AddAsync(TEntity entity) {
@@ -120,7 +121,7 @@ namespace Auto.DataServices {
             return flag;
         }
         /// <summary>
-        /// 单个实体更新，需调用CommitChanges获CommitChangesAsync保存
+        /// 单个实体更新，需调用CommitChanges获SaveChangesAsync保存
         /// </summary>
         /// <param name="entity">实体</param>
         public virtual void Update(TEntity entity) {
@@ -166,7 +167,7 @@ namespace Auto.DataServices {
             return flag;
         }
         /// <summary>
-        /// 单个实体删除，需调用CommitChanges获CommitChangesAsync保存
+        /// 单个实体删除，需调用CommitChanges获SaveChangesAsync保存
         /// </summary>
         /// <param name="entity">实体</param>
         public virtual void Remove(TEntity entity) {
@@ -218,18 +219,34 @@ namespace Auto.DataServices {
             }
             return flag;
         }
+        //public IDbContextTransaction Begin() {
+        //    return _BaseDb.Database.BeginTransaction();
+        //}
+
+        //public async Task<IDbContextTransaction> BeginAsync() {
+        //    return await _BaseDb.Database.BeginTransactionAsync();
+        //}
+
+        //public void Commit() {
+        //    _BaseDb.Database.CommitTransaction();
+        //}
+
+        //public void Rollback() {
+        //    _BaseDb.Database.RollbackTransaction();
+        //}
+
         /// <summary>
         /// 同步提交
         /// </summary>
         /// <returns></returns>
-        public int CommitChanges() {
+        public int SaveChanges() {
             return _BaseDb.SaveChanges();
         }
         /// <summary>
         /// 异步提交
         /// </summary>
         /// <returns></returns>
-        public async Task<int> CommitChangesAsync() {
+        public async Task<int> SaveChangesAsync() {
             return await _BaseDb.SaveChangesAsync();
         }
     }

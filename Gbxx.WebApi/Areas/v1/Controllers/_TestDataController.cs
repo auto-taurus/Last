@@ -74,7 +74,7 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
         /// </summary>
         /// <param name="source"></param>
         /// <param name="route"></param>
-        /// <param name="item"></param>
+        /// <param name="newsId"></param>
         /// <returns></returns>
         [HttpGet("{mark}/NewsDoc")]
         public async Task<IActionResult> PostNewsDocAsync([FromHeader]String source,
@@ -84,7 +84,7 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
             var ca = "";
             try {
                 var categories = await _IWebCategoryRepository.Query(a => a.SiteId == route.mark && a.IsEnable == 1,
-                                                                       a => a.Sequence).ToListAsync();
+                                                                          a => a.Sequence).ToListAsync();
 
                 for (int pageIndex = 1; pageIndex <= 2; pageIndex++) {
                     var news = new List<WebNews>();

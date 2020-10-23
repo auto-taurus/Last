@@ -8,6 +8,7 @@ namespace AutoNews.Data.Entities
         public MemberComment()
         {
             #region Generated Constructor
+            MemberCommentUps = new HashSet<MemberCommentUp>();
             #endregion
         }
 
@@ -18,17 +19,11 @@ namespace AutoNews.Data.Entities
 
         public int? ParentId { get; set; }
 
-        public int? OCommentId { get; set; }
+        public int? MemberId { get; set; }
 
-        public string OCommentName { get; set; }
+        public string MemberName { get; set; }
 
-        public string OCommentBody { get; set; }
-
-        public int? TCommentId { get; set; }
-
-        public string TCommentName { get; set; }
-
-        public string TCommentBody { get; set; }
+        public string CommentBody { get; set; }
 
         public DateTime? CommentTime { get; set; }
 
@@ -45,6 +40,8 @@ namespace AutoNews.Data.Entities
         #endregion
 
         #region Generated Relationships
+        public virtual ICollection<MemberCommentUp> MemberCommentUps { get; set; }
+
         public virtual WebNews WebNews { get; set; }
 
         #endregion

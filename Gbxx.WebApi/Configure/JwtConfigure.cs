@@ -9,8 +9,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.IdentityModel.Tokens;
 using System;
-using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -80,7 +78,7 @@ namespace Gbxx.WebApi.Configure {
             }
 
             services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            services.AddSingleton<IAuthorizationHandler, PolicyRequirement>();
+            services.AddSingleton<IAuthorizationHandler, PolicyHandler>();
         }
 
         //private static Task QueryStringTokenResolver(MessageReceivedContext context) {

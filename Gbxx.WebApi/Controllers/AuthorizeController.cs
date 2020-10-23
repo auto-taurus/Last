@@ -12,7 +12,7 @@ namespace Gbxx.WebApi.Controllers {
         /// <summary>
         /// 用户编号
         /// </summary>
-        protected String MemberId { get { return User.FindFirst(e => e.Type == ClaimTypes.NameIdentifier).Value; } }
+        protected int MemberId { get { return int.Parse(User.FindFirst(e => e.Type == ClaimTypes.NameIdentifier).Value); } }
         /// <summary>
         /// 用户名称
         /// </summary>
@@ -36,6 +36,6 @@ namespace Gbxx.WebApi.Controllers {
         /// <summary>
         /// 微信
         /// </summary>
-        protected String Wechat { get { return User.FindFirst(e => e.Type == ClaimTypes.Spn).Value; } }
+        protected String OpenId { get { return User.FindFirst(e => e.Type == ClaimTypes.Spn).Value; } }
     }
 }

@@ -10,7 +10,19 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace Gbxx.WebApi.Handlers {
-    public class PolicyRequirement : AuthorizationHandler<OperationAuthorizationRequirement> {
+    public class PolicyRequirement : IAuthorizationRequirement {
+
+    }
+    /// <summary>
+    /// 测试菜单类
+    /// </summary>
+    public class Menu {
+        public string Role { get; set; }
+
+        public string Url { get; set; }
+    }
+
+    public class PolicyHandler : AuthorizationHandler<PolicyRequirement> {
         /// <summary>
         /// 授权方式（cookie, bearer, oauth, openid）
         /// </summary>
@@ -20,17 +32,16 @@ namespace Gbxx.WebApi.Handlers {
         /// </summary>
         private readonly IJwtRedis _IJwtRedis;
         /// <summary>
-        /// ctor
+        /// 
         /// </summary>
-        /// <param name="schemes"></param>
-        /// <param name="jwtApp"></param>
-        public PolicyRequirement(IAuthenticationSchemeProvider  authenticationSchemeProvider, IJwtRedis  jwtRedis) {
+        /// <param name="authenticationSchemeProvider"></param>
+        /// <param name="jwtRedis"></param>
+        public PolicyHandler(IAuthenticationSchemeProvider authenticationSchemeProvider, IJwtRedis jwtRedis) {
             _IAuthenticationSchemeProvider = authenticationSchemeProvider;
             _IJwtRedis = jwtRedis;
         }
-
         //授权处理
-        protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context, OperationAuthorizationRequirement requirement) {
+        protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context, PolicyRequirement requirement) {
             //Todo：获取角色、Url 对应关系
             List<Menu> list = new List<Menu> {
                 new Menu
@@ -83,14 +94,6 @@ namespace Gbxx.WebApi.Handlers {
                 }
             }
             context.Fail();
-        }
-        /// <summary>
-        /// 测试菜单类
-        /// </summary>
-        public class Menu {
-            public string Role { get; set; }
-
-            public string Url { get; set; }
         }
     }
 }

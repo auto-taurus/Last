@@ -9,7 +9,7 @@ namespace Gbxx.WebApi.Handlers {
     /// <summary>
     /// 隐藏接口，不生成到swagger文档展示
     /// </summary>
-    [AttributeUsage(AttributeTargets.Method | AttributeTargets.Class)] //此特性可以在方法上和类上使用
+    [AttributeUsage(AttributeTargets.Method | AttributeTargets.Class)]
 
     public partial class HiddenApiAttribute : Attribute {
     }

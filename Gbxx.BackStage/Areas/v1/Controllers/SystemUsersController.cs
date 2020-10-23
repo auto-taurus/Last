@@ -94,7 +94,7 @@ namespace Gbxx.BackStage.Areas.v1.Controllers {
                 if (requestModel.UsersId <= 0) {
                     var entity = requestModel.ToEntity();
                     this._ISystemUsersRepository.Add(entity);
-                    await this._ISystemUsersRepository.CommitChangesAsync();
+                    await this._ISystemUsersRepository.SaveChangesAsync();
                 }
                 else {
                     var entity = await this._ISystemUsersRepository.SingleAsync(e => e.UsersId == requestModel.UsersId);
@@ -110,7 +110,7 @@ namespace Gbxx.BackStage.Areas.v1.Controllers {
                         entity.Remarks = requestModel.Remarks;
 
                         this._ISystemUsersRepository.Update(entity);
-                        await _ISystemUsersRepository.CommitChangesAsync();
+                        await _ISystemUsersRepository.SaveChangesAsync();
                     }
                 }
             }
@@ -140,7 +140,7 @@ namespace Gbxx.BackStage.Areas.v1.Controllers {
                 menuIds.ForEach(x => {
                     entity.SystemMenus.Add(new SystemUsersInMenu() { UserId = id, MenuId = x });
                 });
-                await _ISystemUsersRepository.CommitChangesAsync();
+                await _ISystemUsersRepository.SaveChangesAsync();
             }
             catch (Exception ex) {
                 response.SetError(ex, _ILogger);
@@ -169,7 +169,7 @@ namespace Gbxx.BackStage.Areas.v1.Controllers {
                 roleIds.ForEach(x => {
                     entity.SystemRoles.Add(new SystemUsersInRole() { UsersId = id, RoleId = x });
                 });
-                await _ISystemUsersRepository.CommitChangesAsync();
+                await _ISystemUsersRepository.SaveChangesAsync();
             }
             catch (Exception ex) {
                 response.SetError(ex, _ILogger);

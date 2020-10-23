@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Auto.Commons.ApiHandles.Responses;
+﻿using Auto.Commons.ApiHandles.Responses;
 using Auto.Entities.Dtos;
-using Gbxx.WebApi.Areas.v1.Data;
 using Gbxx.WebApi.Controllers;
 using Gbxx.WebApi.Handlers;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
+using System;
+using System.Threading.Tasks;
 
 namespace Gbxx.WebApi.Areas.v1.Controllers {
     [HiddenApi]

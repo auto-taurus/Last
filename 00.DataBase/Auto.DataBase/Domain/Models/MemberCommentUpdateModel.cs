@@ -12,17 +12,11 @@ namespace AutoNews.Domain.Models
 
         public int? ParentId { get; set; }
 
-        public int? OCommentId { get; set; }
+        public int? MemberId { get; set; }
 
-        public string OCommentName { get; set; }
+        public string MemberName { get; set; }
 
-        public string OCommentBody { get; set; }
-
-        public int? TCommentId { get; set; }
-
-        public string TCommentName { get; set; }
-
-        public string TCommentBody { get; set; }
+        public string CommentBody { get; set; }
 
         public DateTime? CommentTime { get; set; }
 

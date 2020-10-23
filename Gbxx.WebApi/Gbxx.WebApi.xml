@@ -102,28 +102,54 @@
             <param name="item"></param>
             <returns></returns>
         </member>
-        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.CommentController.GetCommentAsync(System.String)">
+        <member name="F:Gbxx.WebApi.Areas.v1.Controllers.CommentController._ILogger">
             <summary>
-            获取单个评论列表信息
+            
+            </summary>
+        </member>
+        <member name="F:Gbxx.WebApi.Areas.v1.Controllers.CommentController._IMemberCommentRepository">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:Gbxx.WebApi.Areas.v1.Controllers.CommentController._IMemberCommentUpRepository">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.CommentController.GetCommentAsync(System.String,Gbxx.WebApi.Models.IdIntRoute,Gbxx.WebApi.Models.PagerBase)">
+            <summary>
+            获取单个评论列表信息（二级评论）
+            </summary>
+            <param name="source"></param>
+            <param name="route"></param>
+            <param name="item"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.CommentController.PostCommentUpAsync(System.String,Gbxx.WebApi.Models.IdIntRoute)">
+            <summary>
+            评论点赞
             </summary>
             <param name="source"></param>
             <param name="route"></param>
             <returns></returns>
         </member>
-        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.CommentController.GetMemberCommentAsync(System.String)">
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.CommentController.GetMemberCommentAsync(System.String,Gbxx.WebApi.Models.IdStringRoute,Gbxx.WebApi.Models.PagerBase)">
             <summary>
-            获取新闻评论信息
+            获取新闻评论信息(一级评论)
             </summary>
             <param name="source"></param>
             <param name="route"></param>
+            <param name="item"></param>
             <returns></returns>
         </member>
-        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.CommentController.PostMemberCommentAsync(System.String)">
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.CommentController.PostMemberCommentAsync(System.String,Gbxx.WebApi.Models.IdStringRoute,Gbxx.WebApi.Areas.v1.Models.Post.CommentPost)">
             <summary>
             发表新闻评论
             </summary>
             <param name="source"></param>
             <param name="route"></param>
+            <param name="item"></param>
             <returns></returns>
         </member>
         <member name="F:Gbxx.WebApi.Areas.v1.Controllers.FavoritesController._ILogger">
@@ -583,7 +609,7 @@
             </summary>
             <param name="source"></param>
             <param name="route"></param>
-            <param name="item"></param>
+            <param name="newsId"></param>
             <returns></returns>
         </member>
         <member name="T:Gbxx.WebApi.Areas.v1.Data.CategoryResponse">
@@ -846,6 +872,16 @@
             
             </summary>
         </member>
+        <member name="T:Gbxx.WebApi.Areas.v1.Models.Post.CommentPostValidator">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Gbxx.WebApi.Areas.v1.Models.Post.CommentPostValidator.#ctor">
+            <summary>
+            
+            </summary>
+        </member>
         <member name="T:Gbxx.WebApi.Areas.v1.Models.Post.LoginPost">
             <summary>
             
@@ -853,32 +889,12 @@
         </member>
         <member name="P:Gbxx.WebApi.Areas.v1.Models.Post.LoginPost.LoginName">
             <summary>
-            登录名
+            登录名（手机号）
             </summary>
         </member>
         <member name="P:Gbxx.WebApi.Areas.v1.Models.Post.LoginPost.Password">
             <summary>
             登录密码
-            </summary>
-        </member>
-        <member name="P:Gbxx.WebApi.Areas.v1.Models.Post.LoginPost.LoginMethods">
-            <summary>
-            登录方式（0手机登录，1微信登录）
-            </summary>
-        </member>
-        <member name="P:Gbxx.WebApi.Areas.v1.Models.Post.LoginPost.NickName">
-            <summary>
-            昵称
-            </summary>
-        </member>
-        <member name="P:Gbxx.WebApi.Areas.v1.Models.Post.LoginPost.Avatar">
-            <summary>
-            头像
-            </summary>
-        </member>
-        <member name="P:Gbxx.WebApi.Areas.v1.Models.Post.LoginPost.Wechat">
-            <summary>
-            微信号
             </summary>
         </member>
         <member name="T:Gbxx.WebApi.Areas.v1.Models.Post.LoginPostValidator">
@@ -896,6 +912,11 @@
             昵称
             </summary>
         </member>
+        <member name="P:Gbxx.WebApi.Areas.v1.Models.Post.MemberInfoPost.Name">
+            <summary>
+            真实姓名
+            </summary>
+        </member>
         <member name="P:Gbxx.WebApi.Areas.v1.Models.Post.MemberInfoPost.Sex">
             <summary>
             性别（0男，1女）
@@ -909,11 +930,6 @@
         <member name="P:Gbxx.WebApi.Areas.v1.Models.Post.MemberInfoPost.Alipay">
             <summary>
             支付宝
-            </summary>
-        </member>
-        <member name="P:Gbxx.WebApi.Areas.v1.Models.Post.MemberInfoPost.Wechat">
-            <summary>
-            微信
             </summary>
         </member>
         <member name="T:Gbxx.WebApi.Areas.v1.Models.Post.PasswordPostValidator">
@@ -1048,7 +1064,7 @@
             <param name="services"></param>
             <param name="configuration"></param>
         </member>
-        <member name="M:Gbxx.WebApi.Controllers.AccountController.#ctor(Microsoft.Extensions.Logging.ILogger{Gbxx.WebApi.Controllers.AccountController},Auto.RedisServices.Repositories.IWebNewsRedis,Auto.RedisServices.Repositories.IJwtRedis,Auto.DataServices.Contracts.IMemberInfosRepository)">
+        <member name="M:Gbxx.WebApi.Controllers.AccountController.#ctor(Microsoft.Extensions.Logging.ILogger{Gbxx.WebApi.Controllers.AccountController},Auto.RedisServices.Repositories.IWebNewsRedis,Auto.RedisServices.Repositories.IJwtRedis,Auto.DataServices.Contracts.IMemberInfosRepository,Microsoft.AspNetCore.Http.IHttpContextAccessor)">
             <summary>
             
             </summary>
@@ -1056,10 +1072,11 @@
             <param name="webNewsRedis"></param>
             <param name="jwtRedis"></param>
             <param name="memberInfosRepository"></param>
+            <param name="httpContextAccessor"></param>
         </member>
         <member name="M:Gbxx.WebApi.Controllers.AccountController.GetRefreshAsync(System.String,System.String)">
             <summary>
-            刷新Token（暂时可以不做，Token默认7天失效）
+            刷新Token（暂时不做，Token默认7天失效）
             </summary>
             <param name="source"></param>
             <param name="authorization"></param>
@@ -1074,12 +1091,21 @@
             <param name="item"></param>
             <returns></returns>
         </member>
-        <member name="M:Gbxx.WebApi.Controllers.AccountController.PostUserLoginOutAsync(System.String,System.String)">
+        <member name="M:Gbxx.WebApi.Controllers.AccountController.PostUserExitAsync(System.String,System.String)">
             <summary>
             退出
             </summary>
             <param name="source"></param>
             <param name="authorization"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Gbxx.WebApi.Controllers.AccountController.PostUserRegisterAsync(System.String,System.String,Gbxx.WebApi.Models.Post.RegisterPost)">
+            <summary>
+            微信登录注册
+            </summary>
+            <param name="source"></param>
+            <param name="authorization"></param>
+            <param name="item"></param>
             <returns></returns>
         </member>
         <member name="T:Gbxx.WebApi.Controllers.AuthorizeController">
@@ -1117,7 +1143,7 @@
             支付宝
             </summary>
         </member>
-        <member name="P:Gbxx.WebApi.Controllers.AuthorizeController.Wechat">
+        <member name="P:Gbxx.WebApi.Controllers.AuthorizeController.OpenId">
             <summary>
             微信
             </summary>
@@ -1173,27 +1199,27 @@
             隐藏接口，不生成到swagger文档展示
             </summary>
         </member>
-        <member name="P:Gbxx.WebApi.Handlers.PolicyRequirement._IAuthenticationSchemeProvider">
+        <member name="T:Gbxx.WebApi.Handlers.Menu">
+            <summary>
+            测试菜单类
+            </summary>
+        </member>
+        <member name="P:Gbxx.WebApi.Handlers.PolicyHandler._IAuthenticationSchemeProvider">
             <summary>
             授权方式（cookie, bearer, oauth, openid）
             </summary>
         </member>
-        <member name="F:Gbxx.WebApi.Handlers.PolicyRequirement._IJwtRedis">
+        <member name="F:Gbxx.WebApi.Handlers.PolicyHandler._IJwtRedis">
             <summary>
             jwt 服务
             </summary>
         </member>
-        <member name="M:Gbxx.WebApi.Handlers.PolicyRequirement.#ctor(Microsoft.AspNetCore.Authentication.IAuthenticationSchemeProvider,Auto.RedisServices.Repositories.IJwtRedis)">
+        <member name="M:Gbxx.WebApi.Handlers.PolicyHandler.#ctor(Microsoft.AspNetCore.Authentication.IAuthenticationSchemeProvider,Auto.RedisServices.Repositories.IJwtRedis)">
             <summary>
-            ctor
+            
             </summary>
-            <param name="schemes"></param>
-            <param name="jwtApp"></param>
-        </member>
-        <member name="T:Gbxx.WebApi.Handlers.PolicyRequirement.Menu">
-            <summary>
-            测试菜单类
-            </summary>
+            <param name="authenticationSchemeProvider"></param>
+            <param name="jwtRedis"></param>
         </member>
         <member name="T:Gbxx.WebApi.Models.PagerBaseValidator">
             <summary>
@@ -1232,6 +1258,41 @@
             </summary>
         </member>
         <member name="M:Gbxx.WebApi.Models.ElasticPagerValidator.#ctor">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Gbxx.WebApi.Models.Post.RegisterPost.uid">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Gbxx.WebApi.Models.Post.RegisterPost.openid">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Gbxx.WebApi.Models.Post.RegisterPost.gender">
+            <summary>
+            性别
+            </summary>
+        </member>
+        <member name="P:Gbxx.WebApi.Models.Post.RegisterPost.name">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="P:Gbxx.WebApi.Models.Post.RegisterPost.iconurl">
+            <summary>
+            头像
+            </summary>
+        </member>
+        <member name="T:Gbxx.WebApi.Models.Post.RegisterPostValidator">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Gbxx.WebApi.Models.Post.RegisterPostValidator.#ctor">
             <summary>
             
             </summary>

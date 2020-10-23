@@ -30,7 +30,9 @@ namespace Auto.Entities.Modals {
 
         public string Alipay { get; set; }
 
-        public string Wechat { get; set; }
+        public string Uid { get; set; }
+
+        public string OpenId { get; set; }
 
         public string Password { get; set; }
 

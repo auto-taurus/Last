@@ -5,6 +5,7 @@ namespace Auto.Entities.Modals {
     public partial class MemberComment {
         public MemberComment() {
             #region Generated Constructor
+            MemberCommentUps = new HashSet<MemberCommentUp>();
             #endregion
         }
 
@@ -29,6 +30,8 @@ namespace Auto.Entities.Modals {
 
         public int? Up { get; set; }
 
+        public int? Number { get; set; }
+
         public int? IsEnable { get; set; }
 
         public string Remarks { get; set; }
@@ -36,8 +39,9 @@ namespace Auto.Entities.Modals {
         #endregion
 
         #region Generated Relationships
-        public virtual WebNews WebNews { get; set; }
+        public virtual ICollection<MemberCommentUp> MemberCommentUps { get; set; }
 
+        public virtual WebNews WebNews { get; set; }
         #endregion
 
     }

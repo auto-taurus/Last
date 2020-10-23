@@ -6,13 +6,15 @@ using CatFactory.SqlServer;
 
 namespace Auto.Test {
     class Program {
+        //private string key = "server=.;database=auto_news;integrated security=yes;";
+        private static string key = "server=.;database=master;integrated security=yes;";
         static void Main(string[] args) {
             A();
         }
         static void A() {
             // Import database
             var factory = new SqlServerDatabaseFactory() {
-                ConnectionString = "server=.;database=auto_news;integrated security=yes;"
+                ConnectionString = key
 
             };
             var database = factory.Import();
@@ -57,11 +59,11 @@ namespace Auto.Test {
         static void B() {
             // Import database
             var factory = new SqlServerDatabaseFactory() {
-                ConnectionString = "server=.;database=auto_news;integrated security=yes;"
+                ConnectionString = key
 
             };
             var database = factory.Import();
-            // Create instance of Entity Framework Core Project
+            // Create instance of Entity Framework Core Project 
             var entityFrameworkProject = new EntityFrameworkCoreProject() {
                 Name = "OnLineStore.Core",
                 Database = database,

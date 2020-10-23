@@ -11,10 +11,8 @@ namespace AutoNews.Domain.Validation
         {
             #region Generated Constructor
             RuleFor(p => p.NewsId).MaximumLength(12);
-            RuleFor(p => p.OCommentName).MaximumLength(20);
-            RuleFor(p => p.OCommentBody).MaximumLength(255);
-            RuleFor(p => p.TCommentName).MaximumLength(20);
-            RuleFor(p => p.TCommentBody).MaximumLength(255);
+            RuleFor(p => p.MemberName).MaximumLength(20);
+            RuleFor(p => p.CommentBody).MaximumLength(255);
             RuleFor(p => p.QuoteName).MaximumLength(20);
             RuleFor(p => p.Remarks).MaximumLength(255);
             #endregion

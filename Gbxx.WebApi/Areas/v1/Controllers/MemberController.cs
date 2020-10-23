@@ -110,10 +110,10 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                         entity.Sex = item.Sex;
                     if (!string.IsNullOrEmpty(item.Phone))
                         entity.Phone = item.Phone;
+                    if (!string.IsNullOrEmpty(item.Name))
+                        entity.Phone = item.Name;
                     if (!string.IsNullOrEmpty(item.Alipay))
                         entity.Alipay = item.Alipay;
-                    if (!string.IsNullOrEmpty(item.Wechat))
-                        entity.Wechat = item.Wechat;
 
                     response.Code = await _IMemberInfoRepository.BatchUpdateAsync(a => a.MemberId == route.id, u => entity);
                 }

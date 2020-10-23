@@ -8,6 +8,6 @@ using System.Threading.Tasks;
 
 namespace Auto.DataServices.Contracts {
     public interface IMemberIncomeRepository : IRepository<MemberIncome>, ISingletonInject {
-        Task<IList<MemberIncomeAppDto>> GetAppPagerAsync(Expression<Func<MemberIncome, bool>> predicate, int pageIndex, int pageSize);
+        Task<IList<IncomeAppDto>> GetAppPagerAsync(Expression<Func<MemberIncome, bool>> predicate, int pageIndex, int pageSize);
     }
 }

@@ -79,7 +79,7 @@ namespace Auto.RedisServices.Contracts {
                 new Claim(ClaimTypes.MobilePhone,     string.IsNullOrEmpty(dto.Phone)?"":dto.Phone),
                 new Claim(ClaimTypes.SerialNumber,    string.IsNullOrEmpty(dto.Code)?"":dto.Code),
                 new Claim(ClaimTypes.Upn,             string.IsNullOrEmpty(dto.Alipay)?"":dto.Alipay),
-                new Claim(ClaimTypes.Spn,             string.IsNullOrEmpty(dto.Wechat)?"":dto.Wechat),
+                new Claim(ClaimTypes.Spn,             string.IsNullOrEmpty(dto.OpenId)?"":dto.OpenId),
                 new Claim(ClaimTypes.Expiration,      expiresAt.ToString())
             };
             identity.AddClaims(claims);

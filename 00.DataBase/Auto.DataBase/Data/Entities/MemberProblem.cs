@@ -24,6 +24,8 @@ namespace AutoNews.Data.Entities
 
         public int? IsHot { get; set; }
 
+        public int? Sequence { get; set; }
+
         public int? IsEnable { get; set; }
 
         public string Remarks { get; set; }

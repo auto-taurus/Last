@@ -95,8 +95,12 @@ namespace AutoNews.Data.Mapping
                 .HasColumnName("FansNumber")
                 .HasColumnType("int");
 
-            builder.Property(t => t.IsEnbale)
-                .HasColumnName("IsEnbale")
+            builder.Property(t => t.IsNew)
+                .HasColumnName("IsNew")
+                .HasColumnType("int");
+
+            builder.Property(t => t.IsEnable)
+                .HasColumnName("IsEnable")
                 .HasColumnType("int");
 
             builder.Property(t => t.Remarks)

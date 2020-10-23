@@ -46,8 +46,14 @@ namespace Auto.ElasticServices.Entities {
         /// 内容标题
         /// </summary>
         /// <value></value>
-        [Text(Index = true)]
+        [Text(Index = true, Analyzer = "ik_smart")]
         public string NewsTitle { get; set; }
+        /// <summary>
+        /// 来源编号
+        /// </summary>
+        /// <value></value>
+        [Keyword(Index = true)]
+        public string SourceId { get; set; }
         /// <summary>
         /// 来源
         /// </summary>

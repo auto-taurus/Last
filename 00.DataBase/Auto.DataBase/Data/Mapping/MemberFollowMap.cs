@@ -36,6 +36,10 @@ namespace AutoNews.Data.Mapping
                 .HasColumnType("varchar(20)")
                 .HasMaxLength(20);
 
+            builder.Property(t => t.CategoryId)
+                .HasColumnName("CategoryId")
+                .HasColumnType("int");
+
             builder.Property(t => t.FollowTime)
                 .HasColumnName("FollowTime")
                 .HasColumnType("datetime");

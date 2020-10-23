@@ -6,7 +6,11 @@ using Auto.Entities.Modals;
 using Auto.RedisServices.Entities;
 using Auto.RedisServices.Repositories;
 using Gbxx.WebApi.Areas.v1.Models.Post;
+using Gbxx.WebApi.Models.Post;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Swashbuckle.AspNetCore.Annotations;
@@ -21,6 +25,7 @@ namespace Gbxx.WebApi.Controllers {
         protected IWebNewsRedis _IWebNewsRedis;
         protected IJwtRedis _IJwtRedis;
         protected IMemberInfosRepository _IMemberInfosRepository;
+        private readonly IHttpContextAccessor _IHttpContextAccessor;
         /// <summary>
         /// 
         /// </summary>
@@ -28,18 +33,21 @@ namespace Gbxx.WebApi.Controllers {
         /// <param name="webNewsRedis"></param>
         /// <param name="jwtRedis"></param>
         /// <param name="memberInfosRepository"></param>
+        /// <param name="httpContextAccessor"></param>
         public AccountController(ILogger<AccountController> logger,
                                  IWebNewsRedis webNewsRedis,
                                  IJwtRedis jwtRedis,
-                                 IMemberInfosRepository memberInfosRepository) {
+                                 IMemberInfosRepository memberInfosRepository,
+                                 IHttpContextAccessor httpContextAccessor) {
             this._ILogger = logger;
             this._IWebNewsRedis = webNewsRedis;
             this._IJwtRedis = jwtRedis;
             this._IMemberInfosRepository = memberInfosRepository;
+            this._IHttpContextAccessor = httpContextAccessor;
         }
 
         /// <summary>
-        /// 刷新Token（暂时可以不做，Token默认7天失效）
+        /// 刷新Token（暂时不做，Token默认7天失效）
         /// </summary>
         /// <param name="source"></param>
         /// <param name="authorization"></param>
@@ -80,38 +88,15 @@ namespace Gbxx.WebApi.Controllers {
                                                             [FromBody]LoginPost item) {
             var response = new Response<JwtAuthorData>();
             try {
-
-                var entity = new MemberInfos();
-                if (item.LoginMethods == 0) {
-                    item.Password = Tools.Md5(item.Password);
-                    entity = await _IMemberInfosRepository.SingleAsync(a => a.Phone == item.LoginName && a.Password == item.Password && a.IsEnable == 1);
-                }
-                else if (item.LoginMethods == 1) {
-                    entity = await _IMemberInfosRepository.SingleAsync(a => a.Wechat == item.Wechat && a.IsEnable == 1);
-                    if (entity == null) {
-                        entity = new MemberInfos();
-                        entity.Code = SnowFlake.GetInstance().GetUniqueShortId(8);
-                        entity.NickName = item.NickName;
-                        entity.Name = item.LoginName;
-                        entity.Sex = 0;
-                        entity.Avatar = item.Avatar;
-                        entity.Wechat = item.Wechat;
-                        entity.Password = Tools.Md5("123456");
-                        entity.Beans = 0;
-                        entity.BeansTotals = 0;
-                        entity.IsNew = 0;
-                        entity.IsEnable = 1;
-                        entity.LastLoginTime = System.DateTime.Now;
-                        entity.CreateTime = System.DateTime.Now;
-                        entity.Remarks = "微信首次登录注册。";
-
-                        await _IMemberInfosRepository.AddAsync(entity);
-                        await _IMemberInfosRepository.CommitChangesAsync();
-                    }
-                }
+                item.Password = Tools.Md5(item.Password);
+                var entity = await _IMemberInfosRepository.SingleAsync(a => a.Phone == item.LoginName && a.Password == item.Password && a.IsEnable == 1);
                 if (entity != null) {
                     var result = _IJwtRedis.Create(entity);
                     if (result != null) {
+                        await _IMemberInfosRepository.BatchUpdateAsync(a => a.MemberId == entity.MemberId,
+                            a => new MemberInfos() {
+                                LastLoginTime = System.DateTime.Now
+                            });
                         response.Code = true;
                         response.Data = result;
                     }
@@ -134,11 +119,71 @@ namespace Gbxx.WebApi.Controllers {
         /// <param name="authorization"></param>
         /// <returns></returns>
         [HttpPost("Exit")]
-        public async Task<IActionResult> PostUserLoginOutAsync([FromHeader]String source,
+        public async Task<IActionResult> PostUserExitAsync([FromHeader]String source,
             [FromHeader]String authorization) {
             var response = new Response<Object>();
             try {
+                await _IHttpContextAccessor.HttpContext.SignOutAsync(JwtBearerDefaults.AuthenticationScheme);
                 response.Code = await _IJwtRedis.DeactivateCurrentAsync();
+            }
+            catch (Exception ex) {
+                response.SetError(ex, this._ILogger);
+            }
+            return response.ToHttpResponse();
+        }
+
+        /// <summary>
+        /// 微信登录注册
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="authorization"></param>
+        /// <param name="item"></param>
+        /// <returns></returns>
+        [HttpPost("Register")]
+        [AllowAnonymous]
+        public async Task<IActionResult> PostUserRegisterAsync([FromHeader]String source,
+                                                               [FromHeader]String authorization,
+                                                               [FromBody]RegisterPost item) {
+            var response = new Response<JwtAuthorData>();
+            try {
+                var entity = await _IMemberInfosRepository.SingleAsync(a => a.Uid == item.uid && a.OpenId == item.openid && a.IsEnable == 1);
+                if (entity == null) {
+                    entity = new MemberInfos();
+                    entity.Code = SnowFlake.GetInstance().GetUniqueShortId(8);
+                    entity.NickName = item.name;
+                    entity.Name = item.name;
+                    entity.Sex = item.gender == "男" ? 1 : 0;
+                    entity.Avatar = item.iconurl;
+                    entity.Uid = item.uid;
+                    entity.OpenId = item.openid;
+                    entity.Password = Tools.Md5("000000");
+                    entity.Beans = 0;
+                    entity.BeansTotals = 0;
+
+                    entity.NewsNumber = 0;
+                    entity.FollowNumber = 0;
+                    entity.FavoritesNumber = 0;
+                    entity.FansNumber = 0;
+
+                    entity.IsNew = 0;
+                    entity.IsEnable = 1;
+                    entity.LastLoginTime = System.DateTime.Now;
+                    entity.CreateTime = System.DateTime.Now;
+                    entity.Remarks = "微信首次登录注册。";
+
+                    await _IMemberInfosRepository.AddAsync(entity);
+                    await _IMemberInfosRepository.SaveChangesAsync();
+
+                }
+                var result = _IJwtRedis.Create(entity);
+                if (result != null) {
+                    response.Code = true;
+                    response.Message = "初始登录密码为【000000】。";
+                    response.Data = result;
+                }
+                else {
+                    return BadRequest("授权失败！");
+                }
             }
             catch (Exception ex) {
                 response.SetError(ex, this._ILogger);

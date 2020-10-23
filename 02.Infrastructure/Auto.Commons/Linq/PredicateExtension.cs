@@ -9,7 +9,7 @@ namespace Auto.Commons.Linq {
     /// LINKS：https://github.com/luancarloswd/predicate-extensions-core
     /// GIT：https://github.com/luancarloswd/predicate-extensions-core.git
     /// </summary>
-    public static class P {
+    public static class Express {
         public static Expression<Func<T, bool>> Begin<T>(bool value = false) {
             if (value)
                 return parameter => true;

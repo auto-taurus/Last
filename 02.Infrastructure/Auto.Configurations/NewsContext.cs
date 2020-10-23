@@ -22,7 +22,8 @@ namespace Auto.Configurations {
         /// <param name="optionsBuilder"></param>
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) {
             base.OnConfiguring(optionsBuilder);
-            optionsBuilder.UseLoggerFactory(MyLoggerFactory);
+            //optionsBuilder.UseLoggerFactory(MyLoggerFactory);
+            optionsBuilder.EnableSensitiveDataLogging(true);
         }
         /// <summary>
         /// 实体配置

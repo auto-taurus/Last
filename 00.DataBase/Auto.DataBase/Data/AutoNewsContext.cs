@@ -18,6 +18,8 @@ namespace AutoNews.Data
 
         public virtual DbSet<AutoNews.Data.Entities.MemberCommentSensitive> MemberCommentSensitives { get; set; }
 
+        public virtual DbSet<AutoNews.Data.Entities.MemberCommentUp> MemberCommentUps { get; set; }
+
         public virtual DbSet<AutoNews.Data.Entities.MemberFans> MemberFans { get; set; }
 
         public virtual DbSet<AutoNews.Data.Entities.MemberFavorites> MemberFavorites { get; set; }
@@ -33,6 +35,8 @@ namespace AutoNews.Data
         public virtual DbSet<AutoNews.Data.Entities.MemberMessage> MemberMessages { get; set; }
 
         public virtual DbSet<AutoNews.Data.Entities.MemberProblem> MemberProblems { get; set; }
+
+        public virtual DbSet<AutoNews.Data.Entities.MemberTask> MemberTasks { get; set; }
 
         public virtual DbSet<AutoNews.Data.Entities.MemberWithdrawConfig> MemberWithdrawConfigs { get; set; }
 
@@ -92,6 +96,7 @@ namespace AutoNews.Data
             modelBuilder.ApplyConfiguration(new AutoNews.Data.Mapping.AutoBatchInsertNewsIdMap());
             modelBuilder.ApplyConfiguration(new AutoNews.Data.Mapping.MemberCommentMap());
             modelBuilder.ApplyConfiguration(new AutoNews.Data.Mapping.MemberCommentSensitiveMap());
+            modelBuilder.ApplyConfiguration(new AutoNews.Data.Mapping.MemberCommentUpMap());
             modelBuilder.ApplyConfiguration(new AutoNews.Data.Mapping.MemberFansMap());
             modelBuilder.ApplyConfiguration(new AutoNews.Data.Mapping.MemberFavoritesMap());
             modelBuilder.ApplyConfiguration(new AutoNews.Data.Mapping.MemberFollowMap());
@@ -100,6 +105,7 @@ namespace AutoNews.Data
             modelBuilder.ApplyConfiguration(new AutoNews.Data.Mapping.MemberInfosMap());
             modelBuilder.ApplyConfiguration(new AutoNews.Data.Mapping.MemberMessageMap());
             modelBuilder.ApplyConfiguration(new AutoNews.Data.Mapping.MemberProblemMap());
+            modelBuilder.ApplyConfiguration(new AutoNews.Data.Mapping.MemberTaskMap());
             modelBuilder.ApplyConfiguration(new AutoNews.Data.Mapping.MemberWithdrawConfigMap());
             modelBuilder.ApplyConfiguration(new AutoNews.Data.Mapping.MemberWithdrawMap());
             modelBuilder.ApplyConfiguration(new AutoNews.Data.Mapping.ReportCategoryDayAccessMap());

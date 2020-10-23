@@ -15,11 +15,11 @@ namespace Auto.DataServices.Repositories {
         public MemberIncomeRepository(NewsContext newsContext) : base(newsContext) {
         }
 
-        public async Task<IList<MemberIncomeAppDto>> GetAppPagerAsync(Expression<Func<MemberIncome, bool>> predicate, int pageIndex, int pageSize) {
+        public async Task<IList<IncomeAppDto>> GetAppPagerAsync(Expression<Func<MemberIncome, bool>> predicate, int pageIndex, int pageSize) {
             predicate = predicate.And(a => a.Status == 0);
             return await base.Query(predicate)
                              .OrderByDescending(a => a.CreateTime)
-                             .Select(a => new MemberIncomeAppDto() {
+                             .Select(a => new IncomeAppDto() {
                                  IncomeId = a.IncomeId,
                                  TaksName = a.TaksName,
                                  Title = a.Title,

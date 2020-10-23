@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Microsoft.EntityFrameworkCore.Storage;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -55,13 +56,13 @@ namespace Auto.DataServices {
         /// <returns></returns>
         Task<Tuple<int, IList<TEntity>>> QueryPager<TSort>(Expression<Func<TEntity, bool>> predicate, Expression<Func<TEntity, TSort>> expression, bool isDesc = false, int pageIndex = 1, int pageSize = 10) where TSort : class;
         /// <summary>
-        /// 单个实体添加，需调用CommitChanges获CommitChangesAsync保存
+        /// 单个实体添加，需调用CommitChanges获SaveChangesAsync保存
         /// </summary>
         /// <param name="entity"></param>
         /// <returns></returns>
         EntityEntry<TEntity> Add(TEntity entity);
         /// <summary>
-        /// 单个实体添加，需调用CommitChanges获CommitChangesAsync保存
+        /// 单个实体添加，需调用CommitChanges获SaveChangesAsync保存
         /// </summary>
         /// <param name="entity"></param>
         /// <returns></returns>
@@ -73,7 +74,7 @@ namespace Auto.DataServices {
         /// <returns></returns>
         Task<bool> BatchAddAsync(IList<TEntity> entities);
         /// <summary>
-        /// 单个实体更新，需调用CommitChanges获CommitChangesAsync保存
+        /// 单个实体更新，需调用CommitChanges获SaveChangesAsync保存
         /// </summary>
         /// <param name="entity"></param>
         void Update(TEntity entity);
@@ -91,7 +92,7 @@ namespace Auto.DataServices {
         /// <returns></returns>
         Task<bool> BatchUpdateAsync(Expression<Func<TEntity, bool>> predicate, Expression<Func<TEntity, TEntity>> entity);
         /// <summary>
-        /// 单个实体删除，需调用CommitChanges获CommitChangesAsync保存
+        /// 单个实体删除，需调用CommitChanges获SaveChangesAsync保存
         /// </summary>
         /// <param name="entity"></param>
         void Remove(TEntity entity);
@@ -107,7 +108,11 @@ namespace Auto.DataServices {
         /// <param name="predicate"></param>
         /// <returns></returns>
         Task<bool> BatchRemoveAsync(Expression<Func<TEntity, bool>> predicate);
-        int CommitChanges();
-        Task<int> CommitChangesAsync();
+        int SaveChanges();
+        Task<int> SaveChangesAsync();
+        //IDbContextTransaction Begin();
+        //Task<IDbContextTransaction> BeginAsync();
+        //void Rollback();
+        //void Commit();
     }
 }

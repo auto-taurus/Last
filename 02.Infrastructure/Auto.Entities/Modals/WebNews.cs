@@ -27,6 +27,8 @@ namespace Auto.Entities.Modals {
 
         public string CustomTitle { get; set; }
 
+        public int SourceId { get; set; }
+
         public string Source { get; set; }
 
         public string SourceAddress { get; set; }
@@ -93,6 +95,8 @@ namespace Auto.Entities.Modals {
 
         public virtual ICollection<WebNewsOperateLogs> WebNewsOperateLogs { get; set; }
         public virtual ICollection<MemberComment> MemberComments { get; set; }
+
+        public virtual WebSource WebSource { get; set; }
         #endregion
 
     }

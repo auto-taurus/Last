@@ -5,5 +5,6 @@ using System.Threading.Tasks;
 
 namespace Gbxx.WebApi.Models {
     public class IdStringRoute {
+        public string id { get; set; }
     }
 }

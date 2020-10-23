@@ -241,6 +241,7 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
             try {
                 var request = new SearchRequest<WebNewsDoc>(_IWebNewsElastic.IndexName) {
                     TrackTotalHits = true,
+                    //Analyzer = "ik_smart",
                     Query = new BoolQuery() {
                         Must = new QueryContainer[] {
                             new TermQuery() {
@@ -260,8 +261,8 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                         new FieldSort (){ Field = "pushTime", Order = SortOrder.Descending }
                     },
                     Highlight = new Highlight() {
-                        PreTags = new[] { "<br>" },
-                        PostTags = new[] { "</br>" },
+                        PreTags = new[] { "<em style='color:#f73131'>" },
+                        PostTags = new[] { "</em>" },
                         Fields = new Dictionary<Field, IHighlightField>() { { "newsTitle", new HighlightField { } } }
                     },
                     Size = item.PageSize
@@ -278,8 +279,8 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                         var data = new List<Dictionary<string, Object>>();
                         foreach (var hit in result.Hits) {
                             var entity = new Dictionary<string, Object>();
-                            entity.Add("highlight", hit.Highlight);
-                            entity.Add("entities", hit.Source);
+                            entity.Add("highlight", hit.Highlight.Values.ElementAt(0).First());
+                            entity.Add("entity", hit.Source);
                             data.Add(entity);
                         }
                         response.Data = data;
