@@ -2,12 +2,12 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 
-namespace AutoNews.Data.Mapping
+namespace Master.Data.Mapping
 {
     public partial class MemberMessageMap
-        : IEntityTypeConfiguration<AutoNews.Data.Entities.MemberMessage>
+        : IEntityTypeConfiguration<Master.Data.Entities.MemberMessage>
     {
-        public void Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<AutoNews.Data.Entities.MemberMessage> builder)
+        public void Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<Master.Data.Entities.MemberMessage> builder)
         {
             #region Generated Configure
             // table
@@ -37,26 +37,12 @@ namespace AutoNews.Data.Mapping
                 .HasColumnType("nvarchar(255)")
                 .HasMaxLength(255);
 
-            builder.Property(t => t.LeaveTime)
-                .HasColumnName("LeaveTime")
-                .HasColumnType("datetime");
-
-            builder.Property(t => t.CustomerId)
-                .HasColumnName("CustomerId")
+            builder.Property(t => t.LeaveType)
+                .HasColumnName("LeaveType")
                 .HasColumnType("int");
 
-            builder.Property(t => t.CustomerName)
-                .HasColumnName("CustomerName")
-                .HasColumnType("nvarchar(20)")
-                .HasMaxLength(20);
-
-            builder.Property(t => t.ReplyBody)
-                .HasColumnName("ReplyBody")
-                .HasColumnType("nvarchar(255)")
-                .HasMaxLength(255);
-
-            builder.Property(t => t.ReplyTime)
-                .HasColumnName("ReplyTime")
+            builder.Property(t => t.CreateTime)
+                .HasColumnName("CreateTime")
                 .HasColumnType("datetime");
 
             builder.Property(t => t.IsEnable)

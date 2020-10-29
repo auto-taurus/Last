@@ -41,6 +41,7 @@ namespace Auto.Entities.Modals {
         #region Generated Relationships
         public virtual ICollection<MemberCommentUp> MemberCommentUps { get; set; }
 
+        public virtual MemberInfos MemberInfos { get; set; }
         public virtual WebNews WebNews { get; set; }
         #endregion
 

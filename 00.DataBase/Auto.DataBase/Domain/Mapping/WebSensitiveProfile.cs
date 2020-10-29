@@ -1,19 +1,19 @@
 using System;
 using AutoMapper;
-using AutoNews.Data.Entities;
-using AutoNews.Domain.Models;
+using Master.Data.Entities;
+using Master.Domain.Models;
 
-namespace AutoNews.Domain.Mapping
+namespace Master.Domain.Mapping
 {
     public partial class WebSensitiveProfile
         : AutoMapper.Profile
     {
         public WebSensitiveProfile()
         {
-            CreateMap<AutoNews.Data.Entities.WebSensitive, AutoNews.Domain.Models.WebSensitiveReadModel>();
-            CreateMap<AutoNews.Domain.Models.WebSensitiveCreateModel, AutoNews.Data.Entities.WebSensitive>();
-            CreateMap<AutoNews.Data.Entities.WebSensitive, AutoNews.Domain.Models.WebSensitiveUpdateModel>();
-            CreateMap<AutoNews.Domain.Models.WebSensitiveUpdateModel, AutoNews.Data.Entities.WebSensitive>();
+            CreateMap<Master.Data.Entities.WebSensitive, Master.Domain.Models.WebSensitiveReadModel>();
+            CreateMap<Master.Domain.Models.WebSensitiveCreateModel, Master.Data.Entities.WebSensitive>();
+            CreateMap<Master.Data.Entities.WebSensitive, Master.Domain.Models.WebSensitiveUpdateModel>();
+            CreateMap<Master.Domain.Models.WebSensitiveUpdateModel, Master.Data.Entities.WebSensitive>();
         }
 
     }

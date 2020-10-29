@@ -2,12 +2,12 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 
-namespace AutoNews.Data.Mapping
+namespace Master.Data.Mapping
 {
     public partial class WebNewsMap
-        : IEntityTypeConfiguration<AutoNews.Data.Entities.WebNews>
+        : IEntityTypeConfiguration<Master.Data.Entities.WebNews>
     {
-        public void Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<AutoNews.Data.Entities.WebNews> builder)
+        public void Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<Master.Data.Entities.WebNews> builder)
         {
             #region Generated Configure
             // table
@@ -50,6 +50,10 @@ namespace AutoNews.Data.Mapping
                 .HasColumnName("CustomTitle")
                 .HasColumnType("nvarchar(500)")
                 .HasMaxLength(500);
+
+            builder.Property(t => t.SourceId)
+                .HasColumnName("SourceId")
+                .HasColumnType("int");
 
             builder.Property(t => t.Source)
                 .HasColumnName("Source")
@@ -137,12 +141,12 @@ namespace AutoNews.Data.Mapping
 
             builder.Property(t => t.Author)
                 .HasColumnName("Author")
-                .HasColumnType("nvarchar(50)")
-                .HasMaxLength(50);
+                .HasColumnType("int");
 
             builder.Property(t => t.AuditBy)
                 .HasColumnName("AuditBy")
-                .HasColumnType("int");
+                .HasColumnType("nvarchar(50)")
+                .HasMaxLength(50);
 
             builder.Property(t => t.AuditStatus)
                 .HasColumnName("AuditStatus")
@@ -154,7 +158,8 @@ namespace AutoNews.Data.Mapping
 
             builder.Property(t => t.PushBy)
                 .HasColumnName("PushBy")
-                .HasColumnType("int");
+                .HasColumnType("nvarchar(50)")
+                .HasMaxLength(50);
 
             builder.Property(t => t.PushStatus)
                 .HasColumnName("PushStatus")
@@ -173,8 +178,8 @@ namespace AutoNews.Data.Mapping
                 .HasColumnType("int")
                 .HasDefaultValueSql("((255))");
 
-            builder.Property(t => t.SpecialSort)
-                .HasColumnName("SpecialSort")
+            builder.Property(t => t.SingleSort)
+                .HasColumnName("SingleSort")
                 .HasColumnType("int")
                 .HasDefaultValueSql("((255))");
 
@@ -212,6 +217,11 @@ namespace AutoNews.Data.Mapping
                 .WithMany(t => t.WebNews)
                 .HasForeignKey(d => d.CategoryId)
                 .HasConstraintName("FK_WEB_NEWS_REFERENCE_WEB_CATE");
+
+            builder.HasOne(t => t.WebSource)
+                .WithMany(t => t.WebNews)
+                .HasForeignKey(d => d.SourceId)
+                .HasConstraintName("FK_WEB_NEWS_REFERENCE_WEB_SOUR");
 
             #endregion
         }

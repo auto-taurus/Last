@@ -2,12 +2,12 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 
-namespace AutoNews.Data.Mapping
+namespace Master.Data.Mapping
 {
     public partial class WebNewsOperateLogsMap
-        : IEntityTypeConfiguration<AutoNews.Data.Entities.WebNewsOperateLogs>
+        : IEntityTypeConfiguration<Master.Data.Entities.WebNewsOperateLogs>
     {
-        public void Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<AutoNews.Data.Entities.WebNewsOperateLogs> builder)
+        public void Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<Master.Data.Entities.WebNewsOperateLogs> builder)
         {
             #region Generated Configure
             // table

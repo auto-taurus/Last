@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace AutoNews.Domain.Models
+namespace Master.Domain.Models
 {
     public partial class MemberCommentUpdateModel
     {
@@ -25,6 +25,8 @@ namespace AutoNews.Domain.Models
         public string QuoteName { get; set; }
 
         public int? Up { get; set; }
+
+        public int? Number { get; set; }
 
         public int? IsEnable { get; set; }
 

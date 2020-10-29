@@ -4,26 +4,26 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 
-namespace AutoNews.Data.Queries
+namespace Master.Data.Queries
 {
     public static partial class AutoBatchInsertNewsIdExtensions
     {
         #region Generated Extensions
-        public static AutoNews.Data.Entities.AutoBatchInsertNewsId GetByKey(this IQueryable<AutoNews.Data.Entities.AutoBatchInsertNewsId> queryable, int id)
+        public static Master.Data.Entities.AutoBatchInsertNewsId GetByKey(this IQueryable<Master.Data.Entities.AutoBatchInsertNewsId> queryable, int id)
         {
-            if (queryable is DbSet<AutoNews.Data.Entities.AutoBatchInsertNewsId> dbSet)
+            if (queryable is DbSet<Master.Data.Entities.AutoBatchInsertNewsId> dbSet)
                 return dbSet.Find(id);
 
             return queryable.FirstOrDefault(q => q.Id == id);
         }
 
-        public static ValueTask<AutoNews.Data.Entities.AutoBatchInsertNewsId> GetByKeyAsync(this IQueryable<AutoNews.Data.Entities.AutoBatchInsertNewsId> queryable, int id)
+        public static ValueTask<Master.Data.Entities.AutoBatchInsertNewsId> GetByKeyAsync(this IQueryable<Master.Data.Entities.AutoBatchInsertNewsId> queryable, int id)
         {
-            if (queryable is DbSet<AutoNews.Data.Entities.AutoBatchInsertNewsId> dbSet)
+            if (queryable is DbSet<Master.Data.Entities.AutoBatchInsertNewsId> dbSet)
                 return dbSet.FindAsync(id);
 
             var task = queryable.FirstOrDefaultAsync(q => q.Id == id);
-            return new ValueTask<AutoNews.Data.Entities.AutoBatchInsertNewsId>(task);
+            return new ValueTask<Master.Data.Entities.AutoBatchInsertNewsId>(task);
         }
 
         #endregion

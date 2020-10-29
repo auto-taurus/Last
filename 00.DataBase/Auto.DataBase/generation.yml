@@ -4,6 +4,8 @@ project:
 database:
   connectionName: ConnectionStrings:Generator
   userSecretsId: 7ddcd77f-6332-4c03-ab49-d4dfa8236840
+  tables: []
+  schemas: []
 data:
   context:
     name: '{Database.Name}Context'
@@ -26,15 +28,39 @@ model:
   shared:
     namespace: '{Project.Namespace}.Domain.Models'
     directory: '{Project.Directory}\Domain\Models'
+    include:
+      entities: []
+      properties: []
+    exclude:
+      entities: []
+      properties: []
   read:
     generate: true
     name: '{Entity.Name}ReadModel'
+    include:
+      entities: []
+      properties: []
+    exclude:
+      entities: []
+      properties: []
   create:
     generate: true
     name: '{Entity.Name}CreateModel'
+    include:
+      entities: []
+      properties: []
+    exclude:
+      entities: []
+      properties: []
   update:
     generate: true
     name: '{Entity.Name}UpdateModel'
+    include:
+      entities: []
+      properties: []
+    exclude:
+      entities: []
+      properties: []
   mapper:
     generate: true
     name: '{Entity.Name}Profile'

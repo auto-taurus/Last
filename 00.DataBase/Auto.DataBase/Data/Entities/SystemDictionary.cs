@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace AutoNews.Data.Entities
+namespace Master.Data.Entities
 {
     public partial class SystemDictionary
     {

@@ -2,12 +2,12 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 
-namespace AutoNews.Data.Mapping
+namespace Master.Data.Mapping
 {
     public partial class SystemMenuMap
-        : IEntityTypeConfiguration<AutoNews.Data.Entities.SystemMenu>
+        : IEntityTypeConfiguration<Master.Data.Entities.SystemMenu>
     {
-        public void Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<AutoNews.Data.Entities.SystemMenu> builder)
+        public void Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<Master.Data.Entities.SystemMenu> builder)
         {
             #region Generated Configure
             // table

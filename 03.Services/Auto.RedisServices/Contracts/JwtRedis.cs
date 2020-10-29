@@ -4,8 +4,6 @@ using Auto.RedisServices.Repositories;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Primitives;
 using Microsoft.IdentityModel.Tokens;
@@ -83,7 +81,7 @@ namespace Auto.RedisServices.Contracts {
                 new Claim(ClaimTypes.Expiration,      expiresAt.ToString())
             };
             identity.AddClaims(claims);
-            //签发一个加密后的用户信息凭证，用来标识用户的身份，并把用户信息添加请求上下文中
+            // 签发一个加密后的用户信息凭证，用来标识用户的身份，并把用户信息添加请求上下文中
             _httpContextAccessor.HttpContext.SignInAsync(JwtBearerDefaults.AuthenticationScheme, new ClaimsPrincipal(identity));
 
             var tokenDescriptor = new SecurityTokenDescriptor {
@@ -96,12 +94,14 @@ namespace Auto.RedisServices.Contracts {
 
             var token = tokenHandler.CreateToken(tokenDescriptor);
 
+            //tokenHandler.CreateSecurityTokenReference(token, false);
+
             //存储 Token 信息
             var jwt = new JwtAuthorData {
                 MemberId = dto.MemberId,
                 Token = tokenHandler.WriteToken(token),
-                Auths = new DateTimeOffset(authTime).ToUnixTimeSeconds(),
-                Expires = new DateTimeOffset(expiresAt).ToUnixTimeSeconds(),
+                Auths = new DateTimeOffset(authTime).ToUnixTimeMilliseconds(),
+                Expires = new DateTimeOffset(expiresAt).ToUnixTimeMilliseconds(),
             };
 
             if (!_tokens.Add(jwt)) {
@@ -124,7 +124,7 @@ namespace Auto.RedisServices.Contracts {
             //};
             return await _IRedisStore.Do(db => db.StringSetAsync(tokenKey,
                                                                  token,
-                                                                 DateTime.UtcNow.TimeOfDay
+                                                                 TimeSpan.FromMilliseconds(1)
                                                                  ), number);
         }
 
@@ -141,8 +141,10 @@ namespace Auto.RedisServices.Contracts {
         /// <param name="token">Token</param>
         /// <returns></returns>
         public async Task<bool> IsActiveAsync(string token) {
+
             var tokenKey = GetKey(token);
             var number = _IRedisStore.GetRandomNumber(tokenKey);
+            var result = await _IRedisStore.Do(db => db.KeyExistsAsync(tokenKey), number);
             return await _IRedisStore.Do(db => db.KeyExistsAsync(tokenKey), number);
         }
 
@@ -152,6 +154,23 @@ namespace Auto.RedisServices.Contracts {
         /// <returns></returns>
         public async Task<bool> IsCurrentActiveTokenAsync()
         => await IsActiveAsync(GetCurrentAsync());
+
+        /// <summary>
+        /// 判断当前 Token 是否有效
+        /// </summary>
+        /// <returns></returns>
+        public bool IsCurrentActiveAsync() {
+            var token = GetExistenceToken(GetCurrentAsync());
+            var flag = false;
+            if (token != null) {
+                var expires = DateTimeOffset.FromUnixTimeMilliseconds(token.Expires).ToLocalTime().DateTime;
+                if (expires > System.DateTime.Now) {
+                    flag = true;
+                }
+            }
+            return flag;
+        }
+        //=> await IsActiveAsync(GetCurrentAsync());
 
         /// <summary>
         /// 刷新 Token

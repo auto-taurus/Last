@@ -1,19 +1,19 @@
 using System;
 using AutoMapper;
-using AutoNews.Data.Entities;
-using AutoNews.Domain.Models;
+using Master.Data.Entities;
+using Master.Domain.Models;
 
-namespace AutoNews.Domain.Mapping
+namespace Master.Domain.Mapping
 {
     public partial class MemberFavoritesProfile
         : AutoMapper.Profile
     {
         public MemberFavoritesProfile()
         {
-            CreateMap<AutoNews.Data.Entities.MemberFavorites, AutoNews.Domain.Models.MemberFavoritesReadModel>();
-            CreateMap<AutoNews.Domain.Models.MemberFavoritesCreateModel, AutoNews.Data.Entities.MemberFavorites>();
-            CreateMap<AutoNews.Data.Entities.MemberFavorites, AutoNews.Domain.Models.MemberFavoritesUpdateModel>();
-            CreateMap<AutoNews.Domain.Models.MemberFavoritesUpdateModel, AutoNews.Data.Entities.MemberFavorites>();
+            CreateMap<Master.Data.Entities.MemberFavorites, Master.Domain.Models.MemberFavoritesReadModel>();
+            CreateMap<Master.Domain.Models.MemberFavoritesCreateModel, Master.Data.Entities.MemberFavorites>();
+            CreateMap<Master.Data.Entities.MemberFavorites, Master.Domain.Models.MemberFavoritesUpdateModel>();
+            CreateMap<Master.Domain.Models.MemberFavoritesUpdateModel, Master.Data.Entities.MemberFavorites>();
         }
 
     }

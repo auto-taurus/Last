@@ -8,6 +8,7 @@ using Gbxx.WebApi.Areas.v1.Data;
 using Gbxx.WebApi.Areas.v1.Models.Post;
 using Gbxx.WebApi.Areas.v1.Models.Route;
 using Gbxx.WebApi.Controllers;
+using Gbxx.WebApi.Handlers;
 using Gbxx.WebApi.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -64,7 +65,7 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
         [HttpGet("{id}")]
         [SwaggerResponse(200, "", typeof(MemberAppDto))]
         public async Task<IActionResult> GetMemberInfoAsync([FromHeader]String source,
-                                                            [FromRoute]IdIntRoute route) {
+                                                            [FromRoute]RouteIdInt route) {
             var response = new Response<MemberAppDto>();
             try {
                 var entity = await _IMemberInfoRepository.GetAppInfo(route.id);
@@ -98,8 +99,8 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
         /// <returns></returns>
         [HttpPost("{id}")]
         public async Task<IActionResult> PostMemberInfoAsync([FromHeader]String source,
-                                                                   [FromRoute]IdIntRoute route,
-                                                                   [FromBody]MemberInfoPost item) {
+                                                             [FromRoute]RouteIdInt route,
+                                                             [FromBody]MemberInfoPost item) {
             var response = new Response<Object>();
             try {
                 var entity = new MemberInfos();
@@ -134,7 +135,7 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
         /// <returns></returns>
         [HttpPost("{id}/Password")]
         public async Task<IActionResult> PostMemberInfoPasswordAsync([FromHeader]String source,
-                                                                     [FromRoute]IdIntRoute route,
+                                                                     [FromRoute]RouteIdInt route,
                                                                      [FromBody]PasswordPost item) {
             var response = new Response<Object>();
             try {
@@ -160,11 +161,12 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
         /// </summary>
         /// <param name="source"></param>
         /// <param name="route"></param>
-        /// <param name="item"></param>
+        /// <param name="avatar"></param>
         /// <returns></returns>
         [HttpPost("{id}/Avatar")]
+        [HiddenApi]
         public async Task<IActionResult> PostMemberInfoAvatarAsync([FromHeader]String source,
-                                                                   [FromRoute]IdIntRoute route,
+                                                                   [FromRoute]RouteIdInt route,
                                                                    [FromBody]String avatar) {
             var response = new Response<Object>();
             try {

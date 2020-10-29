@@ -1,19 +1,19 @@
 using System;
 using AutoMapper;
-using AutoNews.Data.Entities;
-using AutoNews.Domain.Models;
+using Master.Data.Entities;
+using Master.Domain.Models;
 
-namespace AutoNews.Domain.Mapping
+namespace Master.Domain.Mapping
 {
     public partial class ReportSiteDayAccessProfile
         : AutoMapper.Profile
     {
         public ReportSiteDayAccessProfile()
         {
-            CreateMap<AutoNews.Data.Entities.ReportSiteDayAccess, AutoNews.Domain.Models.ReportSiteDayAccessReadModel>();
-            CreateMap<AutoNews.Domain.Models.ReportSiteDayAccessCreateModel, AutoNews.Data.Entities.ReportSiteDayAccess>();
-            CreateMap<AutoNews.Data.Entities.ReportSiteDayAccess, AutoNews.Domain.Models.ReportSiteDayAccessUpdateModel>();
-            CreateMap<AutoNews.Domain.Models.ReportSiteDayAccessUpdateModel, AutoNews.Data.Entities.ReportSiteDayAccess>();
+            CreateMap<Master.Data.Entities.ReportSiteDayAccess, Master.Domain.Models.ReportSiteDayAccessReadModel>();
+            CreateMap<Master.Domain.Models.ReportSiteDayAccessCreateModel, Master.Data.Entities.ReportSiteDayAccess>();
+            CreateMap<Master.Data.Entities.ReportSiteDayAccess, Master.Domain.Models.ReportSiteDayAccessUpdateModel>();
+            CreateMap<Master.Domain.Models.ReportSiteDayAccessUpdateModel, Master.Data.Entities.ReportSiteDayAccess>();
         }
 
     }

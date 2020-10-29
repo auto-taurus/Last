@@ -1,19 +1,19 @@
 using System;
 using AutoMapper;
-using AutoNews.Data.Entities;
-using AutoNews.Domain.Models;
+using Master.Data.Entities;
+using Master.Domain.Models;
 
-namespace AutoNews.Domain.Mapping
+namespace Master.Domain.Mapping
 {
     public partial class WebSiteProfile
         : AutoMapper.Profile
     {
         public WebSiteProfile()
         {
-            CreateMap<AutoNews.Data.Entities.WebSite, AutoNews.Domain.Models.WebSiteReadModel>();
-            CreateMap<AutoNews.Domain.Models.WebSiteCreateModel, AutoNews.Data.Entities.WebSite>();
-            CreateMap<AutoNews.Data.Entities.WebSite, AutoNews.Domain.Models.WebSiteUpdateModel>();
-            CreateMap<AutoNews.Domain.Models.WebSiteUpdateModel, AutoNews.Data.Entities.WebSite>();
+            CreateMap<Master.Data.Entities.WebSite, Master.Domain.Models.WebSiteReadModel>();
+            CreateMap<Master.Domain.Models.WebSiteCreateModel, Master.Data.Entities.WebSite>();
+            CreateMap<Master.Data.Entities.WebSite, Master.Domain.Models.WebSiteUpdateModel>();
+            CreateMap<Master.Domain.Models.WebSiteUpdateModel, Master.Data.Entities.WebSite>();
         }
 
     }

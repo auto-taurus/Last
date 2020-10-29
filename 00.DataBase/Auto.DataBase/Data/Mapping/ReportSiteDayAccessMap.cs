@@ -2,12 +2,12 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 
-namespace AutoNews.Data.Mapping
+namespace Master.Data.Mapping
 {
     public partial class ReportSiteDayAccessMap
-        : IEntityTypeConfiguration<AutoNews.Data.Entities.ReportSiteDayAccess>
+        : IEntityTypeConfiguration<Master.Data.Entities.ReportSiteDayAccess>
     {
-        public void Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<AutoNews.Data.Entities.ReportSiteDayAccess> builder)
+        public void Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<Master.Data.Entities.ReportSiteDayAccess> builder)
         {
             #region Generated Configure
             // table

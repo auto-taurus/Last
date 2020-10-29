@@ -2,12 +2,12 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 
-namespace AutoNews.Data.Mapping
+namespace Master.Data.Mapping
 {
     public partial class ReportNewsDayAccessMap
-        : IEntityTypeConfiguration<AutoNews.Data.Entities.ReportNewsDayAccess>
+        : IEntityTypeConfiguration<Master.Data.Entities.ReportNewsDayAccess>
     {
-        public void Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<AutoNews.Data.Entities.ReportNewsDayAccess> builder)
+        public void Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<Master.Data.Entities.ReportNewsDayAccess> builder)
         {
             #region Generated Configure
             // table
@@ -25,8 +25,7 @@ namespace AutoNews.Data.Mapping
 
             builder.Property(t => t.NewsId)
                 .HasColumnName("NewsId")
-                .HasColumnType("varchar(12)")
-                .HasMaxLength(12);
+                .HasColumnType("int");
 
             builder.Property(t => t.CategoryId)
                 .HasColumnName("CategoryId")

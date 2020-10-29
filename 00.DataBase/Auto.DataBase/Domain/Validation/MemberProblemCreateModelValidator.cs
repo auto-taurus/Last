@@ -1,8 +1,8 @@
 using System;
 using FluentValidation;
-using AutoNews.Domain.Models;
+using Master.Domain.Models;
 
-namespace AutoNews.Domain.Validation
+namespace Master.Domain.Validation
 {
     public partial class MemberProblemCreateModelValidator
         : AbstractValidator<MemberProblemCreateModel>
@@ -11,9 +11,9 @@ namespace AutoNews.Domain.Validation
         {
             #region Generated Constructor
             RuleFor(p => p.Title).MaximumLength(50);
-            RuleFor(p => p.Desc).MaximumLength(500);
+            RuleFor(p => p.Desc).MaximumLength(255);
             RuleFor(p => p.Urls).MaximumLength(500);
-            RuleFor(p => p.Remarks).MaximumLength(255);
+            RuleFor(p => p.Remarks).MaximumLength(500);
             #endregion
         }
 

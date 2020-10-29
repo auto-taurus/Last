@@ -22,7 +22,7 @@ namespace Auto.RedisServices.Repositories {
         /// 判断当前 Token 是否有效
         /// </summary>
         /// <returns></returns>
-        Task<bool> IsCurrentActiveTokenAsync();
+        bool IsCurrentActiveAsync();
         /// <summary>
         /// 停用当前 Token
         /// </summary>

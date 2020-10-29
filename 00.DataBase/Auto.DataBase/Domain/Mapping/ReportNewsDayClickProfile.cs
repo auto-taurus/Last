@@ -1,19 +1,19 @@
 using System;
 using AutoMapper;
-using AutoNews.Data.Entities;
-using AutoNews.Domain.Models;
+using Master.Data.Entities;
+using Master.Domain.Models;
 
-namespace AutoNews.Domain.Mapping
+namespace Master.Domain.Mapping
 {
     public partial class ReportNewsDayClickProfile
         : AutoMapper.Profile
     {
         public ReportNewsDayClickProfile()
         {
-            CreateMap<AutoNews.Data.Entities.ReportNewsDayClick, AutoNews.Domain.Models.ReportNewsDayClickReadModel>();
-            CreateMap<AutoNews.Domain.Models.ReportNewsDayClickCreateModel, AutoNews.Data.Entities.ReportNewsDayClick>();
-            CreateMap<AutoNews.Data.Entities.ReportNewsDayClick, AutoNews.Domain.Models.ReportNewsDayClickUpdateModel>();
-            CreateMap<AutoNews.Domain.Models.ReportNewsDayClickUpdateModel, AutoNews.Data.Entities.ReportNewsDayClick>();
+            CreateMap<Master.Data.Entities.ReportNewsDayClick, Master.Domain.Models.ReportNewsDayClickReadModel>();
+            CreateMap<Master.Domain.Models.ReportNewsDayClickCreateModel, Master.Data.Entities.ReportNewsDayClick>();
+            CreateMap<Master.Data.Entities.ReportNewsDayClick, Master.Domain.Models.ReportNewsDayClickUpdateModel>();
+            CreateMap<Master.Domain.Models.ReportNewsDayClickUpdateModel, Master.Data.Entities.ReportNewsDayClick>();
         }
 
     }

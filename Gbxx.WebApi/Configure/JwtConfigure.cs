@@ -2,7 +2,6 @@
 using IdentityModel;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Authorization.Infrastructure;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -26,13 +25,14 @@ namespace Gbxx.WebApi.Configure {
             if (bool.Parse(configuration["Authentication:JwtBearer:IsEnabled"])) {
 
                 services.AddAuthorization(options => {
-                    options.AddPolicy("Permission", policy => policy.AddRequirements(new OperationAuthorizationRequirement()));
+                    //options.AddPolicy("Permission", policy => policy.AddRequirements(new OperationAuthorizationRequirement()));
                     //1、Definition authorization policy
-                    //options.AddPolicy("Permission", policy => policy.Requirements.Add(new PolicyRequirement()));
+                    options.AddPolicy("Permission", policy => policy.Requirements.Add(new PolicyRequirement()));
                 }).AddAuthentication(options => {
-                    options.DefaultAuthenticateScheme = "JwtBearer";
-                    options.DefaultChallengeScheme = "JwtBearer";
-                }).AddJwtBearer("JwtBearer", options => {
+                    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                    //options.DefaultSignOutScheme = JwtBearerDefaults.AuthenticationScheme;
+                }).AddJwtBearer(options => {
                     options.Audience = configuration["Authentication:JwtBearer:Audience"];
 
                     options.TokenValidationParameters = new TokenValidationParameters {

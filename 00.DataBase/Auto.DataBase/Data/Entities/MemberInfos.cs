@@ -1,13 +1,14 @@
 using System;
 using System.Collections.Generic;
 
-namespace AutoNews.Data.Entities
+namespace Master.Data.Entities
 {
     public partial class MemberInfos
     {
         public MemberInfos()
         {
             #region Generated Constructor
+            MemberComments = new HashSet<MemberComment>();
             MemberFans = new HashSet<MemberFans>();
             MemberFavorites = new HashSet<MemberFavorites>();
             MemberFollows = new HashSet<MemberFollow>();
@@ -55,7 +56,7 @@ namespace AutoNews.Data.Entities
 
         public int? IsNew { get; set; }
 
-        public int? IsEnable { get; set; }
+        public int? IsEnbale { get; set; }
 
         public string Remarks { get; set; }
 
@@ -64,6 +65,8 @@ namespace AutoNews.Data.Entities
         #endregion
 
         #region Generated Relationships
+        public virtual ICollection<MemberComment> MemberComments { get; set; }
+
         public virtual ICollection<MemberFans> MemberFans { get; set; }
 
         public virtual ICollection<MemberFavorites> MemberFavorites { get; set; }

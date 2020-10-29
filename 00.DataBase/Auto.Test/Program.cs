@@ -6,7 +6,7 @@ using CatFactory.SqlServer;
 
 namespace Auto.Test {
     class Program {
-        //private string key = "server=.;database=auto_news;integrated security=yes;";
+        //private static string key = "server=.;database=auto_news;integrated security=yes;";
         private static string key = "server=.;database=master;integrated security=yes;";
         static void Main(string[] args) {
             A();

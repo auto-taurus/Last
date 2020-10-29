@@ -67,7 +67,6 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
             this._IMySqlRepository = mySqlRepository;
             this._IWebNewsRepository = webNewsRepository;
             this._IWebCategoryRepository = webCategoryRepository;
-            _IWebNewsElastic.AddIndexAsync(_IWebNewsElastic.IndexName);
         }
         /// <summary>
         /// 
@@ -77,33 +76,51 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
         /// <param name="newsId"></param>
         /// <returns></returns>
         [HttpGet("{mark}/NewsDoc")]
-        public async Task<IActionResult> PostNewsDocAsync([FromHeader]String source,
-                                                          [FromRoute]SiteRoute route,
+        public async Task<IActionResult> PostNewsDocAsync([FromRoute]SiteRoute route,
                                                           string newsId = "10000000") {
             var response = new Response<Object>();
-            var ca = "";
             try {
                 var categories = await _IWebCategoryRepository.Query(a => a.SiteId == route.mark && a.IsEnable == 1,
                                                                           a => a.Sequence).ToListAsync();
 
+                var iidn = await _IWebNewsElastic.AddIndexAsync(_IWebNewsElastic.IndexName);
                 for (int pageIndex = 1; pageIndex <= 2; pageIndex++) {
                     var news = new List<WebNews>();
-                    news = _IMySqlRepository.GetList(1, pageIndex, 10000, Convert.ToInt32(newsId));
+                    news = _IMySqlRepository.GetList(1, pageIndex, 100000, Convert.ToInt32(newsId));
+                    //var cateSources = news.GroupBy(a => a.CategoryId,
+                    //                          (CategoryId, CategoryGroup) => new { CategoryId, Source = CategoryGroup.GroupBy(b => b.Source.Trim()).ToList() }).ToList();
+
+                    //var sources = news.GroupBy(a => a.Source)
+                    //                  .Select(a => new { a.First().Source })
+                    //                  .ToList();
+                    //var number = (int)Math.Ceiling(sources.Count / 1999.0);
+                    //var index = 0;
+                    //for (var i = 0; i < number; i++) {
+                    //    if (i > 0)
+                    //        index = i * 1999;
+                    //    var sou = sources.Skip(index).Take(1999).ToList();
+
+                    //}
                     var lastNews = news.LastOrDefault();
                     if (lastNews != null) {
                         newsId = news.LastOrDefault().NewsId;
                         var docs = new List<WebNewsDoc>();
+                        var newsDatas = new List<WebNews>();
                         news.ForEach(x => {
-                            ca = x.NewsId;
                             var category = categories.SingleOrDefault(a => a.CategoryName == x.CategoryName);
-                            SetWebNews(x, category);
-                            docs.Add(GetWebNewsDoc(x));
+                            if (category != null) {
+                                newsDatas.Add(SetWebNews(x, category));
+                                docs.Add(GetWebNewsDoc(x));
+                            }
                         });
-                        await _IWebNewsRepository.BatchAddAsync(news);
-                        await _IWebNewsElastic.BatchAddDocumentAsync(_IWebNewsElastic.IndexName, docs);
+                        if (newsDatas.Count > 0)
+                            await _IWebNewsRepository.BatchAddAsync(news);
+                        if (docs.Count > 0)
+                            response.Other += (await _IWebNewsElastic.BatchAddDocumentAsync(_IWebNewsElastic.IndexName, docs)).ToString() + "a|" + docs.Count;
                     }
                 }
                 response.Code = true;
+                response.Other = iidn;
             }
             catch (Exception ex) {
                 response.SetError(ex, this._ILogger);
@@ -136,8 +153,7 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                 Sequence = x.Sequence
             };
         }
-
-        private void SetWebNews(WebNews item, WebCategory category) {
+        private WebNews SetWebNews(WebNews item, WebCategory category) {
 
             item.NewsId = SnowFlake.NewId;
             if (string.IsNullOrEmpty(item.CustomTitle) && !string.IsNullOrEmpty(item.NewsTitle)) {
@@ -160,6 +176,7 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
             item.Remarks = "管理员手动同步";
             item.CreateBy = 1;
             item.CreateTime = System.DateTime.Now;
+            return item;
         }
     }
 }

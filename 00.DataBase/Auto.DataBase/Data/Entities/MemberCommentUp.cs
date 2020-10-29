@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace AutoNews.Data.Entities
+namespace Master.Data.Entities
 {
     public partial class MemberCommentUp
     {
@@ -12,9 +12,11 @@ namespace AutoNews.Data.Entities
         }
 
         #region Generated Properties
-        public int? MemberId { get; set; }
+        public int CommentUpId { get; set; }
 
         public int? CommentId { get; set; }
+
+        public int? MemberId { get; set; }
 
         #endregion
 

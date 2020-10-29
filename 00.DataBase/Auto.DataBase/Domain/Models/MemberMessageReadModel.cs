@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace AutoNews.Domain.Models
+namespace Master.Domain.Models
 {
     public partial class MemberMessageReadModel
     {
@@ -14,15 +14,9 @@ namespace AutoNews.Domain.Models
 
         public string LeaveBody { get; set; }
 
-        public DateTime? LeaveTime { get; set; }
+        public int? LeaveType { get; set; }
 
-        public int? CustomerId { get; set; }
-
-        public string CustomerName { get; set; }
-
-        public string ReplyBody { get; set; }
-
-        public DateTime? ReplyTime { get; set; }
+        public DateTime? CreateTime { get; set; }
 
         public int? IsEnable { get; set; }
 

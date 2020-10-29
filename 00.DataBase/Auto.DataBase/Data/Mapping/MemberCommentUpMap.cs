@@ -2,27 +2,33 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 
-namespace AutoNews.Data.Mapping
+namespace Master.Data.Mapping
 {
     public partial class MemberCommentUpMap
-        : IEntityTypeConfiguration<AutoNews.Data.Entities.MemberCommentUp>
+        : IEntityTypeConfiguration<Master.Data.Entities.MemberCommentUp>
     {
-        public void Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<AutoNews.Data.Entities.MemberCommentUp> builder)
+        public void Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<Master.Data.Entities.MemberCommentUp> builder)
         {
             #region Generated Configure
             // table
             builder.ToTable("Member_CommentUp", "dbo");
 
             // key
-            builder.HasNoKey();
+            builder.HasKey(t => t.CommentUpId);
 
             // properties
-            builder.Property(t => t.MemberId)
-                .HasColumnName("MemberId")
-                .HasColumnType("int");
+            builder.Property(t => t.CommentUpId)
+                .IsRequired()
+                .HasColumnName("CommentUpId")
+                .HasColumnType("int")
+                .ValueGeneratedOnAdd();
 
             builder.Property(t => t.CommentId)
                 .HasColumnName("CommentId")
+                .HasColumnType("int");
+
+            builder.Property(t => t.MemberId)
+                .HasColumnName("MemberId")
                 .HasColumnType("int");
 
             // relationships

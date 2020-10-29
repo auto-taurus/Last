@@ -1,19 +1,19 @@
 using System;
 using AutoMapper;
-using AutoNews.Data.Entities;
-using AutoNews.Domain.Models;
+using Master.Data.Entities;
+using Master.Domain.Models;
 
-namespace AutoNews.Domain.Mapping
+namespace Master.Domain.Mapping
 {
     public partial class MemberWithdrawProfile
         : AutoMapper.Profile
     {
         public MemberWithdrawProfile()
         {
-            CreateMap<AutoNews.Data.Entities.MemberWithdraw, AutoNews.Domain.Models.MemberWithdrawReadModel>();
-            CreateMap<AutoNews.Domain.Models.MemberWithdrawCreateModel, AutoNews.Data.Entities.MemberWithdraw>();
-            CreateMap<AutoNews.Data.Entities.MemberWithdraw, AutoNews.Domain.Models.MemberWithdrawUpdateModel>();
-            CreateMap<AutoNews.Domain.Models.MemberWithdrawUpdateModel, AutoNews.Data.Entities.MemberWithdraw>();
+            CreateMap<Master.Data.Entities.MemberWithdraw, Master.Domain.Models.MemberWithdrawReadModel>();
+            CreateMap<Master.Domain.Models.MemberWithdrawCreateModel, Master.Data.Entities.MemberWithdraw>();
+            CreateMap<Master.Data.Entities.MemberWithdraw, Master.Domain.Models.MemberWithdrawUpdateModel>();
+            CreateMap<Master.Domain.Models.MemberWithdrawUpdateModel, Master.Data.Entities.MemberWithdraw>();
         }
 
     }

@@ -2,18 +2,14 @@
 using Auto.Commons.Linq;
 using Auto.Configurations;
 using Auto.DataServices.Contracts;
-using Auto.Entities.Dtos;
 using Auto.Entities.Modals;
-using Gbxx.WebApi.Areas.v1.Data;
 using Gbxx.WebApi.Areas.v1.Models.Post;
 using Gbxx.WebApi.Controllers;
 using Gbxx.WebApi.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using Swashbuckle.AspNetCore.Annotations;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -48,7 +44,7 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
         /// <returns></returns>
         [HttpGet("Comment/{id}")]
         public async Task<IActionResult> GetCommentAsync([FromHeader]String source,
-                                                         [FromRoute]IdIntRoute route,
+                                                         [FromRoute]RouteIdInt route,
                                                          [FromQuery]PagerBase item) {
             var response = new Response<Object>();
             try {
@@ -93,7 +89,7 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
         /// <returns></returns>
         [HttpPost("Comment/{id}/Up")]
         public async Task<IActionResult> PostCommentUpAsync([FromHeader]String source,
-                                                            [FromRoute]IdIntRoute route) {
+                                                            [FromRoute]RouteIdInt route) {
             var response = new Response<Object>();
             try {
                 if (await _IMemberCommentUpRepository.IsExistAsync(a => a.CommentId == route.id && a.MemberId == MemberId))
@@ -120,7 +116,7 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
         /// <returns></returns>
         [HttpGet("News/{id}/Comment")]
         public async Task<IActionResult> GetMemberCommentAsync([FromHeader]String source,
-                                                               [FromRoute]IdStringRoute route,
+                                                               [FromRoute]RouteIdString route,
                                                                [FromQuery]PagerBase item) {
             var response = new Response<Object>();
             try {
@@ -142,7 +138,9 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                                                                 QuoteName = a.QuoteName,
                                                                 Up = a.Up,
                                                                 Number = a.Number,
-                                                                IsUp = a.MemberCommentUps.Any(b => b.MemberId == MemberId)
+                                                                Avatar = a.MemberInfos.Avatar,
+                                                                IsUp = a.MemberCommentUps.Any(b => b.MemberId == MemberId),
+
                                                             })
                                                             .ToListAsync();
                 if (result.Count <= 0) {
@@ -167,7 +165,7 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
         /// <returns></returns>
         [HttpPost("News/{id}/Comment")]
         public async Task<IActionResult> PostMemberCommentAsync([FromHeader]String source,
-                                                                [FromRoute]IdStringRoute route,
+                                                                [FromRoute]RouteIdString route,
                                                                 [FromBody]CommentPost item) {
             var response = new Response<Object>();
             try {

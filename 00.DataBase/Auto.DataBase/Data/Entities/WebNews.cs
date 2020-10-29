@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace AutoNews.Data.Entities
+namespace Master.Data.Entities
 {
     public partial class WebNews
     {
@@ -27,6 +27,8 @@ namespace AutoNews.Data.Entities
         public string NewsTitle { get; set; }
 
         public string CustomTitle { get; set; }
+
+        public int? SourceId { get; set; }
 
         public string Source { get; set; }
 
@@ -64,15 +66,15 @@ namespace AutoNews.Data.Entities
 
         public int? ClickNumber { get; set; }
 
-        public string Author { get; set; }
+        public int? Author { get; set; }
 
-        public int? AuditBy { get; set; }
+        public string AuditBy { get; set; }
 
         public int? AuditStatus { get; set; }
 
         public DateTime? AuditTime { get; set; }
 
-        public int? PushBy { get; set; }
+        public string PushBy { get; set; }
 
         public int? PushStatus { get; set; }
 
@@ -82,7 +84,7 @@ namespace AutoNews.Data.Entities
 
         public int? CategorySort { get; set; }
 
-        public int? SpecialSort { get; set; }
+        public int? SingleSort { get; set; }
 
         public int? Sequence { get; set; }
 
@@ -104,6 +106,8 @@ namespace AutoNews.Data.Entities
         public virtual WebCategory WebCategory { get; set; }
 
         public virtual ICollection<WebNewsOperateLogs> WebNewsOperateLogs { get; set; }
+
+        public virtual WebSource WebSource { get; set; }
 
         #endregion
 

@@ -2,12 +2,12 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 
-namespace AutoNews.Data.Mapping
+namespace Master.Data.Mapping
 {
     public partial class MemberCommentSensitiveMap
-        : IEntityTypeConfiguration<AutoNews.Data.Entities.MemberCommentSensitive>
+        : IEntityTypeConfiguration<Master.Data.Entities.MemberCommentSensitive>
     {
-        public void Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<AutoNews.Data.Entities.MemberCommentSensitive> builder)
+        public void Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<Master.Data.Entities.MemberCommentSensitive> builder)
         {
             #region Generated Configure
             // table

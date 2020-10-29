@@ -31,7 +31,11 @@ namespace Auto.Entities.Dtos {
         /// <summary>
         /// 微信
         /// </summary>
-        public string Wechat { get; set; }
+        public string Uid { get; set; }
+        /// <summary>
+        /// 微信
+        /// </summary>
+        public string OpenId { get; set; }
         /// <summary>
         /// 头像
         /// </summary>
@@ -63,7 +67,7 @@ namespace Auto.Entities.Dtos {
         /// <summary>
         /// 比率
         /// </summary>
-        public string Ratio { get; set; }
+        public string Ratio { get; set; } = "10000/1";
         #endregion
     }
 }

@@ -43,7 +43,7 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
         /// <returns></returns>
         [HttpGet("Member/{id}/Follow")]
         public async Task<IActionResult> GetMemberFollowAsync([FromHeader]String source,
-                                                              [FromRoute]IdIntRoute route,
+                                                              [FromRoute]RouteIdInt route,
                                                               [FromQuery]MemberFollowGet item) {
             var response = new Response<Object>();
             try {
@@ -73,7 +73,7 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
         /// <returns></returns>
         [HttpPost("Member/{id}/Follow")]
         public async Task<IActionResult> PostMemberFollowAsync([FromHeader]String source,
-                                                               [FromRoute]IdIntRoute route,
+                                                               [FromRoute]RouteIdInt route,
                                                                [FromBody]MemberFollowPost item) {
             var response = new Response<Object>();
             try {

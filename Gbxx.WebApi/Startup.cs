@@ -82,7 +82,8 @@ namespace Gbxx.WebApi {
                     //};
                     return new BadRequestObjectResult(error);
                 };
-            });
+            }); 
+
             //独立发布跨域
             services.AddCors(options =>
                              options.AddPolicy(Any, builder =>

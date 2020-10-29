@@ -1,19 +1,19 @@
 using System;
 using AutoMapper;
-using AutoNews.Data.Entities;
-using AutoNews.Domain.Models;
+using Master.Data.Entities;
+using Master.Domain.Models;
 
-namespace AutoNews.Domain.Mapping
+namespace Master.Domain.Mapping
 {
     public partial class SystemRoleDictionaryProfile
         : AutoMapper.Profile
     {
         public SystemRoleDictionaryProfile()
         {
-            CreateMap<AutoNews.Data.Entities.SystemRoleDictionary, AutoNews.Domain.Models.SystemRoleDictionaryReadModel>();
-            CreateMap<AutoNews.Domain.Models.SystemRoleDictionaryCreateModel, AutoNews.Data.Entities.SystemRoleDictionary>();
-            CreateMap<AutoNews.Data.Entities.SystemRoleDictionary, AutoNews.Domain.Models.SystemRoleDictionaryUpdateModel>();
-            CreateMap<AutoNews.Domain.Models.SystemRoleDictionaryUpdateModel, AutoNews.Data.Entities.SystemRoleDictionary>();
+            CreateMap<Master.Data.Entities.SystemRoleDictionary, Master.Domain.Models.SystemRoleDictionaryReadModel>();
+            CreateMap<Master.Domain.Models.SystemRoleDictionaryCreateModel, Master.Data.Entities.SystemRoleDictionary>();
+            CreateMap<Master.Data.Entities.SystemRoleDictionary, Master.Domain.Models.SystemRoleDictionaryUpdateModel>();
+            CreateMap<Master.Domain.Models.SystemRoleDictionaryUpdateModel, Master.Data.Entities.SystemRoleDictionary>();
         }
 
     }

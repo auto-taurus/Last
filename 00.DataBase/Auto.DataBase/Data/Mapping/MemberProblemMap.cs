@@ -2,12 +2,12 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 
-namespace AutoNews.Data.Mapping
+namespace Master.Data.Mapping
 {
     public partial class MemberProblemMap
-        : IEntityTypeConfiguration<AutoNews.Data.Entities.MemberProblem>
+        : IEntityTypeConfiguration<Master.Data.Entities.MemberProblem>
     {
-        public void Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<AutoNews.Data.Entities.MemberProblem> builder)
+        public void Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<Master.Data.Entities.MemberProblem> builder)
         {
             #region Generated Configure
             // table
@@ -30,8 +30,8 @@ namespace AutoNews.Data.Mapping
 
             builder.Property(t => t.Desc)
                 .HasColumnName("Desc")
-                .HasColumnType("nvarchar(500)")
-                .HasMaxLength(500);
+                .HasColumnType("nvarchar(255)")
+                .HasMaxLength(255);
 
             builder.Property(t => t.Type)
                 .HasColumnName("Type")
@@ -56,8 +56,8 @@ namespace AutoNews.Data.Mapping
 
             builder.Property(t => t.Remarks)
                 .HasColumnName("Remarks")
-                .HasColumnType("nvarchar(255)")
-                .HasMaxLength(255);
+                .HasColumnType("nvarchar(500)")
+                .HasMaxLength(500);
 
             builder.Property(t => t.CreateBy)
                 .HasColumnName("CreateBy")

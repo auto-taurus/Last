@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace AutoNews.Domain.Models
+namespace Master.Domain.Models
 {
     public partial class SystemUsersUpdateModel
     {
@@ -18,9 +18,9 @@ namespace AutoNews.Domain.Models
 
         public string Email { get; set; }
 
-        public string LastLoginIp { get; set; }
+        public string LoginIp { get; set; }
 
-        public DateTime? LastLoginTime { get; set; }
+        public DateTime? LoginTime { get; set; }
 
         public int? IsEnable { get; set; }
 

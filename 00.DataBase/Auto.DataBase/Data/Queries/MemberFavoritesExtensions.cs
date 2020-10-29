@@ -4,29 +4,29 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 
-namespace AutoNews.Data.Queries
+namespace Master.Data.Queries
 {
     public static partial class MemberFavoritesExtensions
     {
         #region Generated Extensions
-        public static AutoNews.Data.Entities.MemberFavorites GetByKey(this IQueryable<AutoNews.Data.Entities.MemberFavorites> queryable, int favoritesId)
+        public static Master.Data.Entities.MemberFavorites GetByKey(this IQueryable<Master.Data.Entities.MemberFavorites> queryable, int favoritesId)
         {
-            if (queryable is DbSet<AutoNews.Data.Entities.MemberFavorites> dbSet)
+            if (queryable is DbSet<Master.Data.Entities.MemberFavorites> dbSet)
                 return dbSet.Find(favoritesId);
 
             return queryable.FirstOrDefault(q => q.FavoritesId == favoritesId);
         }
 
-        public static ValueTask<AutoNews.Data.Entities.MemberFavorites> GetByKeyAsync(this IQueryable<AutoNews.Data.Entities.MemberFavorites> queryable, int favoritesId)
+        public static ValueTask<Master.Data.Entities.MemberFavorites> GetByKeyAsync(this IQueryable<Master.Data.Entities.MemberFavorites> queryable, int favoritesId)
         {
-            if (queryable is DbSet<AutoNews.Data.Entities.MemberFavorites> dbSet)
+            if (queryable is DbSet<Master.Data.Entities.MemberFavorites> dbSet)
                 return dbSet.FindAsync(favoritesId);
 
             var task = queryable.FirstOrDefaultAsync(q => q.FavoritesId == favoritesId);
-            return new ValueTask<AutoNews.Data.Entities.MemberFavorites>(task);
+            return new ValueTask<Master.Data.Entities.MemberFavorites>(task);
         }
 
-        public static IQueryable<AutoNews.Data.Entities.MemberFavorites> ByMemberId(this IQueryable<AutoNews.Data.Entities.MemberFavorites> queryable, int? memberId)
+        public static IQueryable<Master.Data.Entities.MemberFavorites> ByMemberId(this IQueryable<Master.Data.Entities.MemberFavorites> queryable, int? memberId)
         {
             return queryable.Where(q => (q.MemberId == memberId || (memberId == null && q.MemberId == null)));
         }

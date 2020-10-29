@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace AutoNews.Data.Entities
+namespace Master.Data.Entities
 {
     public partial class MemberComment
     {
@@ -33,6 +33,8 @@ namespace AutoNews.Data.Entities
 
         public int? Up { get; set; }
 
+        public int? Number { get; set; }
+
         public int? IsEnable { get; set; }
 
         public string Remarks { get; set; }
@@ -41,6 +43,8 @@ namespace AutoNews.Data.Entities
 
         #region Generated Relationships
         public virtual ICollection<MemberCommentUp> MemberCommentUps { get; set; }
+
+        public virtual MemberInfos MemberInfos { get; set; }
 
         public virtual WebNews WebNews { get; set; }
 

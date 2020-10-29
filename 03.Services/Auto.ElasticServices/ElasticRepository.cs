@@ -64,19 +64,24 @@ namespace Auto.ElasticServices {
         /// <param name="shards">分片数量，即数据块最小单元</param>
         /// <returns></returns>
         public async Task<bool> AddIndexAsync(string indexName, int shards = 5) {
-            var isHaveIndex = await IsExsitIndex(indexName.ToLower());
-            if (!isHaveIndex) {
-                var setting = new IndexState() {
-                    Settings = new IndexSettings() {
-                        NumberOfReplicas = 0, //副本数
-                        NumberOfShards = shards, //分片数
-                        RefreshInterval = -1
-                    }
-                };
-                var response = await Client.Indices
-                                         .CreateAsync(indexName, x => x.InitializeUsing(setting)
-                                                                       .Map<TEntity>(y => y.AutoMap()));
-                return response.Acknowledged;
+            try {
+                var isHaveIndex = await IsExsitIndex(indexName.ToLower());
+                if (!isHaveIndex) {
+                    var setting = new IndexState() {
+                        Settings = new IndexSettings() {
+                            NumberOfReplicas = 0, //副本数
+                            NumberOfShards = shards, //分片数
+                            RefreshInterval = -1
+                        }
+                    };
+                    var response = await Client.Indices
+                                               .CreateAsync(indexName, x => x.InitializeUsing(setting)
+                                                                             .Map<TEntity>(y => y.AutoMap()));
+                    return response.Acknowledged;
+                }
+            }
+            catch (Exception ex) {
+                throw;
             }
             return true;
         }
@@ -159,8 +164,8 @@ namespace Auto.ElasticServices {
                                                                 )
                                                                 .Wait(TimeSpan.FromMinutes(15), next => {
                                                                     var d = next;
-                                                                // do something e.g. write number of pages to console
-                                                            });
+                                                                    // do something e.g. write number of pages to console
+                                                                });
                     //var response = await Client.BulkAsync(x => x.Index(indexName).IndexMany(entities));
                     if (response.TotalNumberOfFailedBuffers <= 0 || response.TotalNumberOfRetries <= 0) {
                         _IMemoryCache.Set("isRar", false);

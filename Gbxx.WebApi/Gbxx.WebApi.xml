@@ -117,7 +117,7 @@
             
             </summary>
         </member>
-        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.CommentController.GetCommentAsync(System.String,Gbxx.WebApi.Models.IdIntRoute,Gbxx.WebApi.Models.PagerBase)">
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.CommentController.GetCommentAsync(System.String,Gbxx.WebApi.Models.RouteIdInt,Gbxx.WebApi.Models.PagerBase)">
             <summary>
             获取单个评论列表信息（二级评论）
             </summary>
@@ -126,7 +126,7 @@
             <param name="item"></param>
             <returns></returns>
         </member>
-        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.CommentController.PostCommentUpAsync(System.String,Gbxx.WebApi.Models.IdIntRoute)">
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.CommentController.PostCommentUpAsync(System.String,Gbxx.WebApi.Models.RouteIdInt)">
             <summary>
             评论点赞
             </summary>
@@ -134,7 +134,7 @@
             <param name="route"></param>
             <returns></returns>
         </member>
-        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.CommentController.GetMemberCommentAsync(System.String,Gbxx.WebApi.Models.IdStringRoute,Gbxx.WebApi.Models.PagerBase)">
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.CommentController.GetMemberCommentAsync(System.String,Gbxx.WebApi.Models.RouteIdString,Gbxx.WebApi.Models.PagerBase)">
             <summary>
             获取新闻评论信息(一级评论)
             </summary>
@@ -143,13 +143,31 @@
             <param name="item"></param>
             <returns></returns>
         </member>
-        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.CommentController.PostMemberCommentAsync(System.String,Gbxx.WebApi.Models.IdStringRoute,Gbxx.WebApi.Areas.v1.Models.Post.CommentPost)">
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.CommentController.PostMemberCommentAsync(System.String,Gbxx.WebApi.Models.RouteIdString,Gbxx.WebApi.Areas.v1.Models.Post.CommentPost)">
             <summary>
             发表新闻评论
             </summary>
             <param name="source"></param>
             <param name="route"></param>
             <param name="item"></param>
+            <returns></returns>
+        </member>
+        <member name="F:Gbxx.WebApi.Areas.v1.Controllers.DictionaryController._ILogger">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:Gbxx.WebApi.Areas.v1.Controllers.DictionaryController._ISystemDictionaryRepository">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.DictionaryController.GetCommentAsync(System.String,Gbxx.WebApi.Models.RouteIdString)">
+            <summary>
+            获取字典信息
+            </summary>
+            <param name="source"></param>
+            <param name="route"></param>
             <returns></returns>
         </member>
         <member name="F:Gbxx.WebApi.Areas.v1.Controllers.FavoritesController._ILogger">
@@ -202,7 +220,7 @@
             <param name="logger"></param>
             <param name="memberFollowRepository"></param>
         </member>
-        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.FollowController.GetMemberFollowAsync(System.String,Gbxx.WebApi.Models.IdIntRoute,Gbxx.WebApi.Areas.v1.Models.Get.MemberFollowGet)">
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.FollowController.GetMemberFollowAsync(System.String,Gbxx.WebApi.Models.RouteIdInt,Gbxx.WebApi.Areas.v1.Models.Get.MemberFollowGet)">
             <summary>
             获取会员关注列表
             </summary>
@@ -211,7 +229,7 @@
             <param name="item"></param>
             <returns></returns>
         </member>
-        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.FollowController.PostMemberFollowAsync(System.String,Gbxx.WebApi.Models.IdIntRoute,Gbxx.WebApi.Areas.v1.Models.Get.MemberFollowPost)">
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.FollowController.PostMemberFollowAsync(System.String,Gbxx.WebApi.Models.RouteIdInt,Gbxx.WebApi.Areas.v1.Models.Get.MemberFollowPost)">
             <summary>
             会员关注
             </summary>
@@ -268,7 +286,7 @@
             
             </summary>
         </member>
-        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.IncomeController.GetMemberIncomesAsync(System.String,Gbxx.WebApi.Models.IdIntRoute,Gbxx.WebApi.Models.PagerBase)">
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.IncomeController.GetMemberIncomesAsync(System.String,Gbxx.WebApi.Models.RouteIdInt,Gbxx.WebApi.Models.PagerBase)">
             <summary>
             获取会员收入记录列表
             </summary>
@@ -277,7 +295,15 @@
             <param name="item"></param>
             <returns></returns>
         </member>
-        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.IncomeController.GetMemberReadSumsAsync(System.String,Gbxx.WebApi.Models.IdIntRoute)">
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.IncomeController.GetMemberWeekIncomesAsync(System.String,Gbxx.WebApi.Models.RouteCodeId)">
+            <summary>
+            获取
+            </summary>
+            <param name="source"></param>
+            <param name="route"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.IncomeController.GetMemberReadSumsAsync(System.String,Gbxx.WebApi.Models.RouteIdInt)">
             <summary>
             单独获取当天阅读分钟数
             </summary>
@@ -285,7 +311,7 @@
             <param name="route"></param>
             <returns></returns>
         </member>
-        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.IncomeController.GetMemberBeansSumsAsync(System.String,Gbxx.WebApi.Models.IdIntRoute)">
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.IncomeController.GetMemberBeansSumsAsync(System.String,Gbxx.WebApi.Models.RouteIdInt)">
             <summary>
             单独获取当天获得绿豆数
             </summary>
@@ -326,7 +352,7 @@
             <param name="memberInfoRepository"></param>
             <param name="memberIncomeRepository"></param>
         </member>
-        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.MemberController.GetMemberInfoAsync(System.String,Gbxx.WebApi.Models.IdIntRoute)">
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.MemberController.GetMemberInfoAsync(System.String,Gbxx.WebApi.Models.RouteIdInt)">
             <summary>
             获取会员信息
             </summary>
@@ -334,7 +360,7 @@
             <param name="route"></param>
             <returns></returns>
         </member>
-        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.MemberController.PostMemberInfoAsync(System.String,Gbxx.WebApi.Models.IdIntRoute,Gbxx.WebApi.Areas.v1.Models.Post.MemberInfoPost)">
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.MemberController.PostMemberInfoAsync(System.String,Gbxx.WebApi.Models.RouteIdInt,Gbxx.WebApi.Areas.v1.Models.Post.MemberInfoPost)">
             <summary>
             修改会员信息
             </summary>
@@ -343,7 +369,7 @@
             <param name="item"></param>
             <returns></returns>
         </member>
-        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.MemberController.PostMemberInfoPasswordAsync(System.String,Gbxx.WebApi.Models.IdIntRoute,Gbxx.WebApi.Areas.v1.Models.Post.PasswordPost)">
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.MemberController.PostMemberInfoPasswordAsync(System.String,Gbxx.WebApi.Models.RouteIdInt,Gbxx.WebApi.Areas.v1.Models.Post.PasswordPost)">
             <summary>
             会员修改密码
             </summary>
@@ -352,12 +378,45 @@
             <param name="item"></param>
             <returns></returns>
         </member>
-        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.MemberController.PostMemberInfoAvatarAsync(System.String,Gbxx.WebApi.Models.IdIntRoute,System.String)">
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.MemberController.PostMemberInfoAvatarAsync(System.String,Gbxx.WebApi.Models.RouteIdInt,System.String)">
             <summary>
             上传会员头像
             </summary>
             <param name="source"></param>
             <param name="route"></param>
+            <param name="avatar"></param>
+            <returns></returns>
+        </member>
+        <member name="F:Gbxx.WebApi.Areas.v1.Controllers.MessageController._ILogger">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:Gbxx.WebApi.Areas.v1.Controllers.MessageController._IMemberMessageRepository">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.MessageController.#ctor(Microsoft.Extensions.Logging.ILogger{Gbxx.WebApi.Areas.v1.Controllers.MessageController},Auto.DataServices.Contracts.IMemberMessageRepository)">
+            <summary>
+            
+            </summary>
+            <param name="logger"></param>
+            <param name="memberMessageRepository"></param>
+        </member>
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.MessageController.GetMessageAsync(System.String,Gbxx.WebApi.Models.PagerBase)">
+            <summary>
+            获取留言信息
+            </summary>
+            <param name="source"></param>
+            <param name="item"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.MessageController.PostMessageAsync(System.String,Gbxx.WebApi.Areas.v1.Models.Post.MessagePost)">
+            <summary>
+            提交留言
+            </summary>
+            <param name="source"></param>
             <param name="item"></param>
             <returns></returns>
         </member>
@@ -518,15 +577,35 @@
             <param name="item"></param>
             <returns></returns>
         </member>
-        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.TaskController.GetIncomeAsync(System.String)">
+        <member name="F:Gbxx.WebApi.Areas.v1.Controllers.TaskController._ILogger">
             <summary>
-            获取任务种类信息
+            
+            </summary>
+        </member>
+        <member name="F:Gbxx.WebApi.Areas.v1.Controllers.TaskController._ITaskInfoApp">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:Gbxx.WebApi.Areas.v1.Controllers.TaskController._ITaskInfoRepository">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:Gbxx.WebApi.Areas.v1.Controllers.TaskController._ISystemDictionaryRepository">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.TaskController.GetIncomeAsync(System.String,Gbxx.WebApi.Models.RouteIdString)">
+            <summary>
+            获取任务种类信息(此Id为字典TypeKey)
             </summary>
             <param name="source"></param>
             <param name="route"></param>
             <returns></returns>
         </member>
-        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.TaskController.PostTaskAsync(System.String)">
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.TaskController.PostTaskAsync(System.String,Gbxx.WebApi.Models.RouteCode)">
             <summary>
             全站任务入口
             </summary>
@@ -603,7 +682,7 @@
             <param name="webNewsRepository"></param>
             <param name="webCategoryRepository"></param>
         </member>
-        <member name="M:Gbxx.WebApi.Areas.v1.Controllers._TestDataController.PostNewsDocAsync(System.String,Gbxx.WebApi.Areas.v1.Models.Route.SiteRoute,System.String)">
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers._TestDataController.PostNewsDocAsync(Gbxx.WebApi.Areas.v1.Models.Route.SiteRoute,System.String)">
             <summary>
             
             </summary>
@@ -930,6 +1009,36 @@
         <member name="P:Gbxx.WebApi.Areas.v1.Models.Post.MemberInfoPost.Alipay">
             <summary>
             支付宝
+            </summary>
+        </member>
+        <member name="P:Gbxx.WebApi.Areas.v1.Models.Post.MessagePost.MemberId">
+            <summary>
+            会员编号，客户编号
+            </summary>
+        </member>
+        <member name="P:Gbxx.WebApi.Areas.v1.Models.Post.MessagePost.MemberName">
+            <summary>
+            会员名称，客户名称
+            </summary>
+        </member>
+        <member name="P:Gbxx.WebApi.Areas.v1.Models.Post.MessagePost.LeaveBody">
+            <summary>
+            内容
+            </summary>
+        </member>
+        <member name="P:Gbxx.WebApi.Areas.v1.Models.Post.MessagePost.LeaveType">
+            <summary>
+            0会员留言，1客服回复（0默认为0）
+            </summary>
+        </member>
+        <member name="T:Gbxx.WebApi.Areas.v1.Models.Post.MessagePostValidator">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Gbxx.WebApi.Areas.v1.Models.Post.MessagePostValidator.#ctor">
+            <summary>
+            
             </summary>
         </member>
         <member name="T:Gbxx.WebApi.Areas.v1.Models.Post.PasswordPostValidator">

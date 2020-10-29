@@ -1,19 +1,19 @@
 using System;
 using AutoMapper;
-using AutoNews.Data.Entities;
-using AutoNews.Domain.Models;
+using Master.Data.Entities;
+using Master.Domain.Models;
 
-namespace AutoNews.Domain.Mapping
+namespace Master.Domain.Mapping
 {
     public partial class SystemUsersDictionaryProfile
         : AutoMapper.Profile
     {
         public SystemUsersDictionaryProfile()
         {
-            CreateMap<AutoNews.Data.Entities.SystemUsersDictionary, AutoNews.Domain.Models.SystemUsersDictionaryReadModel>();
-            CreateMap<AutoNews.Domain.Models.SystemUsersDictionaryCreateModel, AutoNews.Data.Entities.SystemUsersDictionary>();
-            CreateMap<AutoNews.Data.Entities.SystemUsersDictionary, AutoNews.Domain.Models.SystemUsersDictionaryUpdateModel>();
-            CreateMap<AutoNews.Domain.Models.SystemUsersDictionaryUpdateModel, AutoNews.Data.Entities.SystemUsersDictionary>();
+            CreateMap<Master.Data.Entities.SystemUsersDictionary, Master.Domain.Models.SystemUsersDictionaryReadModel>();
+            CreateMap<Master.Domain.Models.SystemUsersDictionaryCreateModel, Master.Data.Entities.SystemUsersDictionary>();
+            CreateMap<Master.Data.Entities.SystemUsersDictionary, Master.Domain.Models.SystemUsersDictionaryUpdateModel>();
+            CreateMap<Master.Domain.Models.SystemUsersDictionaryUpdateModel, Master.Data.Entities.SystemUsersDictionary>();
         }
 
     }

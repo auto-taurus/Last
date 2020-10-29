@@ -1,19 +1,19 @@
 using System;
 using AutoMapper;
-using AutoNews.Data.Entities;
-using AutoNews.Domain.Models;
+using Master.Data.Entities;
+using Master.Domain.Models;
 
-namespace AutoNews.Domain.Mapping
+namespace Master.Domain.Mapping
 {
     public partial class WebChannelProfile
         : AutoMapper.Profile
     {
         public WebChannelProfile()
         {
-            CreateMap<AutoNews.Data.Entities.WebChannel, AutoNews.Domain.Models.WebChannelReadModel>();
-            CreateMap<AutoNews.Domain.Models.WebChannelCreateModel, AutoNews.Data.Entities.WebChannel>();
-            CreateMap<AutoNews.Data.Entities.WebChannel, AutoNews.Domain.Models.WebChannelUpdateModel>();
-            CreateMap<AutoNews.Domain.Models.WebChannelUpdateModel, AutoNews.Data.Entities.WebChannel>();
+            CreateMap<Master.Data.Entities.WebChannel, Master.Domain.Models.WebChannelReadModel>();
+            CreateMap<Master.Domain.Models.WebChannelCreateModel, Master.Data.Entities.WebChannel>();
+            CreateMap<Master.Data.Entities.WebChannel, Master.Domain.Models.WebChannelUpdateModel>();
+            CreateMap<Master.Domain.Models.WebChannelUpdateModel, Master.Data.Entities.WebChannel>();
         }
 
     }

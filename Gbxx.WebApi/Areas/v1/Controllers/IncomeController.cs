@@ -46,7 +46,7 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
         /// <returns></returns>
         [HttpGet("{id}/Incomes")]
         public async Task<IActionResult> GetMemberIncomesAsync([FromHeader]String source,
-                                                               [FromRoute]IdIntRoute route,
+                                                               [FromRoute]RouteIdInt route,
                                                                [FromQuery]PagerBase item) {
             var response = new Response<Object>();
             try {
@@ -75,6 +75,40 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
             }
             return response.ToHttpResponse();
         }
+        /// <summary>
+        /// 获取
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="route"></param>
+        /// <returns></returns>
+        [HttpGet("{id}/WeekIncomes/{code}")]
+        public async Task<IActionResult> GetMemberWeekIncomesAsync([FromHeader]String source,
+                                                                   [FromRoute]RouteCodeId route) {
+            var response = new Response<Object>();
+            try {
+                var day = Convert.ToDateTime(System.DateTime.Now.AddDays(-6).ToString("yyyy-MM-dd 00:00:00"));
+                var result = await _IMemberIncomeRepository.Query(a => a.MemberId == route.id && a.TaskCode == route.code && a.CreateTime >= day && a.Status == 0)
+                                                           .GroupBy(a => a.CreateTime.Value.ToString("yyyy-MM-dd"))
+                                                           .OrderByDescending(a => a.First().CreateTime.Value.ToString("yyyy-MM-dd"))
+                                                           .Select(a => new {
+                                                               CreateTime = a.Key,
+                                                               Beans = a.Sum(b => b.Beans)
+                                                           }).ToListAsync();
+
+
+
+                if (result.Count > 0) {
+                    response.Code = true;
+                    response.Data = result;
+                }
+                else
+                    return NoContent();
+            }
+            catch (Exception ex) {
+                response.SetError(ex, this._ILogger);
+            }
+            return response.ToHttpResponse();
+        }
 
         /// <summary>
         /// 单独获取当天阅读分钟数
@@ -84,7 +118,7 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
         /// <returns></returns>
         [HttpGet("{id}/Reads")]
         public async Task<IActionResult> GetMemberReadSumsAsync([FromHeader]String source,
-                                                                [FromRoute]IdIntRoute route) {
+                                                                [FromRoute]RouteIdInt route) {
             var response = new Response<object>();
             try {
                 response.Code = true;
@@ -107,7 +141,7 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
         /// <returns></returns>
         [HttpGet("{id}/Beans")]
         public async Task<IActionResult> GetMemberBeansSumsAsync([FromHeader]String source,
-                                                                 [FromRoute]IdIntRoute route) {
+                                                                 [FromRoute]RouteIdInt route) {
             var response = new Response<object>();
             try {
                 response.Code = true;

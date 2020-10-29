@@ -2,12 +2,12 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 
-namespace AutoNews.Data.Mapping
+namespace Master.Data.Mapping
 {
     public partial class MemberIncomeMap
-        : IEntityTypeConfiguration<AutoNews.Data.Entities.MemberIncome>
+        : IEntityTypeConfiguration<Master.Data.Entities.MemberIncome>
     {
-        public void Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<AutoNews.Data.Entities.MemberIncome> builder)
+        public void Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<Master.Data.Entities.MemberIncome> builder)
         {
             #region Generated Configure
             // table
@@ -36,14 +36,6 @@ namespace AutoNews.Data.Mapping
                 .HasColumnName("TaksName")
                 .HasColumnType("nvarchar(20)")
                 .HasMaxLength(20);
-
-            builder.Property(t => t.CategoryDay)
-                .HasColumnName("CategoryDay")
-                .HasColumnType("int");
-
-            builder.Property(t => t.CategoryFixed)
-                .HasColumnName("CategoryFixed")
-                .HasColumnType("int");
 
             builder.Property(t => t.Title)
                 .HasColumnName("Title")
@@ -76,23 +68,23 @@ namespace AutoNews.Data.Mapping
                 .HasColumnName("Status")
                 .HasColumnType("int");
 
-            builder.Property(t => t.AuditBy)
-                .HasColumnName("AuditBy")
+            builder.Property(t => t.Remarks)
+                .HasColumnName("Remarks")
+                .HasColumnType("nvarchar(255)")
+                .HasMaxLength(255);
+
+            builder.Property(t => t.AuditId)
+                .HasColumnName("AuditId")
                 .HasColumnType("int");
 
-            builder.Property(t => t.AuditName)
-                .HasColumnName("AuditName")
+            builder.Property(t => t.Audit)
+                .HasColumnName("Audit")
                 .HasColumnType("nvarchar(50)")
                 .HasMaxLength(50);
 
             builder.Property(t => t.AuditTime)
                 .HasColumnName("AuditTime")
                 .HasColumnType("datetime");
-
-            builder.Property(t => t.Remarks)
-                .HasColumnName("Remarks")
-                .HasColumnType("nvarchar(255)")
-                .HasMaxLength(255);
 
             // relationships
             builder.HasOne(t => t.MemberInfos)

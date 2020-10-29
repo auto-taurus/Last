@@ -49,7 +49,12 @@
             支付宝
             </summary>
         </member>
-        <member name="P:Auto.Entities.Dtos.MemberAppDto.Wechat">
+        <member name="P:Auto.Entities.Dtos.MemberAppDto.Uid">
+            <summary>
+            微信
+            </summary>
+        </member>
+        <member name="P:Auto.Entities.Dtos.MemberAppDto.OpenId">
             <summary>
             微信
             </summary>

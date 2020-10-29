@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace AutoNews.Domain.Models
+namespace Master.Domain.Models
 {
     public partial class WebSiteUpdateModel
     {
@@ -14,7 +14,7 @@ namespace AutoNews.Domain.Models
 
         public string LogoUrls { get; set; }
 
-        public int? AccessNumber { get; set; }
+        public int? Count { get; set; }
 
         public string Title { get; set; }
 

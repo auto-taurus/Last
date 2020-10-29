@@ -50,6 +50,7 @@
     <ProjectReference Include="..\03.Services\Auto.DataServices\Auto.DataServices.csproj" />
     <ProjectReference Include="..\03.Services\Auto.ElasticServices\Auto.ElasticServices.csproj" />
     <ProjectReference Include="..\03.Services\Auto.RedisServices\Auto.RedisServices.csproj" />
+    <ProjectReference Include="..\04.Applications\Auto.Applications\Auto.Applications.csproj" />
   </ItemGroup>
 
   <ItemGroup>

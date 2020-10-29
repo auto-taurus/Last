@@ -2,12 +2,12 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 
-namespace AutoNews.Data.Mapping
+namespace Master.Data.Mapping
 {
     public partial class SystemUsersInRoleMap
-        : IEntityTypeConfiguration<AutoNews.Data.Entities.SystemUsersInRole>
+        : IEntityTypeConfiguration<Master.Data.Entities.SystemUsersInRole>
     {
-        public void Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<AutoNews.Data.Entities.SystemUsersInRole> builder)
+        public void Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<Master.Data.Entities.SystemUsersInRole> builder)
         {
             #region Generated Configure
             // table

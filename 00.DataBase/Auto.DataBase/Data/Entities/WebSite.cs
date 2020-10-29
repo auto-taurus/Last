@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace AutoNews.Data.Entities
+namespace Master.Data.Entities
 {
     public partial class WebSite
     {
@@ -20,7 +20,7 @@ namespace AutoNews.Data.Entities
 
         public string LogoUrls { get; set; }
 
-        public int? AccessNumber { get; set; }
+        public int? Count { get; set; }
 
         public string Title { get; set; }
 

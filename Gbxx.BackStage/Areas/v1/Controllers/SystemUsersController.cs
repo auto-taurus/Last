@@ -38,7 +38,7 @@ namespace Gbxx.BackStage.Areas.v1.Controllers {
         public async Task<IActionResult> GetSystemUsersAsync([FromQuery]SystemUsersQuery args) {
             var response = new Response<SystemUsers>();
             try {
-                var p = P.Begin<SystemUsers>(true);
+                var p = Express.Begin<SystemUsers>(true);
                 if (!string.IsNullOrEmpty(args.UserName))
                     p = p.And(e => e.UsersName.Contains(args.UserName));
                 if (!string.IsNullOrEmpty(args.LoginName))

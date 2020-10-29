@@ -2,12 +2,12 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 
-namespace AutoNews.Data.Mapping
+namespace Master.Data.Mapping
 {
     public partial class MemberCommentMap
-        : IEntityTypeConfiguration<AutoNews.Data.Entities.MemberComment>
+        : IEntityTypeConfiguration<Master.Data.Entities.MemberComment>
     {
-        public void Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<AutoNews.Data.Entities.MemberComment> builder)
+        public void Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<Master.Data.Entities.MemberComment> builder)
         {
             #region Generated Configure
             // table
@@ -63,6 +63,10 @@ namespace AutoNews.Data.Mapping
                 .HasColumnName("Up")
                 .HasColumnType("int");
 
+            builder.Property(t => t.Number)
+                .HasColumnName("Number")
+                .HasColumnType("int");
+
             builder.Property(t => t.IsEnable)
                 .HasColumnName("IsEnable")
                 .HasColumnType("int");
@@ -73,6 +77,11 @@ namespace AutoNews.Data.Mapping
                 .HasMaxLength(255);
 
             // relationships
+            builder.HasOne(t => t.MemberInfos)
+                .WithMany(t => t.MemberComments)
+                .HasForeignKey(d => d.MemberId)
+                .HasConstraintName("FK_MEMBER_C_REFERENCE_MEMBER_I");
+
             builder.HasOne(t => t.WebNews)
                 .WithMany(t => t.MemberComments)
                 .HasForeignKey(d => d.NewsId)

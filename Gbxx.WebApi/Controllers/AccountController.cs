@@ -6,6 +6,7 @@ using Auto.Entities.Modals;
 using Auto.RedisServices.Entities;
 using Auto.RedisServices.Repositories;
 using Gbxx.WebApi.Areas.v1.Models.Post;
+using Gbxx.WebApi.Handlers;
 using Gbxx.WebApi.Models.Post;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -15,6 +16,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Swashbuckle.AspNetCore.Annotations;
 using System;
+using System.IdentityModel.Tokens.Jwt;
 using System.Threading.Tasks;
 
 namespace Gbxx.WebApi.Controllers {
@@ -53,6 +55,7 @@ namespace Gbxx.WebApi.Controllers {
         /// <param name="authorization"></param>
         /// <param name="item"></param>
         /// <returns></returns>
+        [HiddenApi]
         [HttpPost("Refresh")]
         [SwaggerResponse(200, "", typeof(JwtAuthorData))]
         public async Task<IActionResult> GetRefreshAsync([FromHeader]String source,
@@ -120,10 +123,9 @@ namespace Gbxx.WebApi.Controllers {
         /// <returns></returns>
         [HttpPost("Exit")]
         public async Task<IActionResult> PostUserExitAsync([FromHeader]String source,
-            [FromHeader]String authorization) {
+                                                           [FromHeader]String authorization) {
             var response = new Response<Object>();
             try {
-                await _IHttpContextAccessor.HttpContext.SignOutAsync(JwtBearerDefaults.AuthenticationScheme);
                 response.Code = await _IJwtRedis.DeactivateCurrentAsync();
             }
             catch (Exception ex) {
@@ -177,6 +179,8 @@ namespace Gbxx.WebApi.Controllers {
                 }
                 var result = _IJwtRedis.Create(entity);
                 if (result != null) {
+                    //await _IJwtRedis.DeactivateAsync(authorization);
+
                     response.Code = true;
                     response.Message = "初始登录密码为【000000】。";
                     response.Data = result;

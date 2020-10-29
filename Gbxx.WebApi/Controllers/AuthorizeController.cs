@@ -6,7 +6,7 @@ namespace Gbxx.WebApi.Controllers {
     /// <summary>
     /// 
     /// </summary>
-    [Authorize]
+    [Authorize(Policy = "Permission")]
     public class AuthorizeController : DefaultController {
 
         /// <summary>

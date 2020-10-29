@@ -1,8 +1,8 @@
 using System;
 using FluentValidation;
-using AutoNews.Domain.Models;
+using Master.Domain.Models;
 
-namespace AutoNews.Domain.Validation
+namespace Master.Domain.Validation
 {
     public partial class SystemUsersUpdateModelValidator
         : AbstractValidator<SystemUsersUpdateModel>
@@ -15,7 +15,7 @@ namespace AutoNews.Domain.Validation
             RuleFor(p => p.Password).MaximumLength(50);
             RuleFor(p => p.MobilePhone).MaximumLength(50);
             RuleFor(p => p.Email).MaximumLength(50);
-            RuleFor(p => p.LastLoginIp).MaximumLength(20);
+            RuleFor(p => p.LoginIp).MaximumLength(20);
             RuleFor(p => p.Remarks).MaximumLength(255);
             #endregion
         }

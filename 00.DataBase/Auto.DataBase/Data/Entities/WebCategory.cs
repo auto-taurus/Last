@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace AutoNews.Data.Entities
+namespace Master.Data.Entities
 {
     public partial class WebCategory
     {
@@ -9,6 +9,7 @@ namespace AutoNews.Data.Entities
         {
             #region Generated Constructor
             WebNews = new HashSet<WebNews>();
+            WebSources = new HashSet<WebSource>();
             #endregion
         }
 
@@ -57,6 +58,8 @@ namespace AutoNews.Data.Entities
 
         #region Generated Relationships
         public virtual ICollection<WebNews> WebNews { get; set; }
+
+        public virtual ICollection<WebSource> WebSources { get; set; }
 
         #endregion
 

@@ -2,12 +2,12 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 
-namespace AutoNews.Data.Mapping
+namespace Master.Data.Mapping
 {
     public partial class MemberInfosMap
-        : IEntityTypeConfiguration<AutoNews.Data.Entities.MemberInfos>
+        : IEntityTypeConfiguration<Master.Data.Entities.MemberInfos>
     {
-        public void Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<AutoNews.Data.Entities.MemberInfos> builder)
+        public void Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<Master.Data.Entities.MemberInfos> builder)
         {
             #region Generated Configure
             // table
@@ -20,8 +20,7 @@ namespace AutoNews.Data.Mapping
             builder.Property(t => t.MemberId)
                 .IsRequired()
                 .HasColumnName("MemberId")
-                .HasColumnType("int")
-                .ValueGeneratedOnAdd();
+                .HasColumnType("int");
 
             builder.Property(t => t.Code)
                 .HasColumnName("Code")
@@ -99,8 +98,8 @@ namespace AutoNews.Data.Mapping
                 .HasColumnName("IsNew")
                 .HasColumnType("int");
 
-            builder.Property(t => t.IsEnable)
-                .HasColumnName("IsEnable")
+            builder.Property(t => t.IsEnbale)
+                .HasColumnName("IsEnbale")
                 .HasColumnType("int");
 
             builder.Property(t => t.Remarks)

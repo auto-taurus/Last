@@ -1,8 +1,8 @@
 using System;
 using FluentValidation;
-using AutoNews.Domain.Models;
+using Master.Domain.Models;
 
-namespace AutoNews.Domain.Validation
+namespace Master.Domain.Validation
 {
     public partial class MemberIncomeUpdateModelValidator
         : AbstractValidator<MemberIncomeUpdateModel>
@@ -15,8 +15,8 @@ namespace AutoNews.Domain.Validation
             RuleFor(p => p.Title).MaximumLength(100);
             RuleFor(p => p.BeansText).MaximumLength(20);
             RuleFor(p => p.Proportion).MaximumLength(20);
-            RuleFor(p => p.AuditName).MaximumLength(50);
             RuleFor(p => p.Remarks).MaximumLength(255);
+            RuleFor(p => p.Audit).MaximumLength(50);
             #endregion
         }
 

@@ -1,19 +1,19 @@
 using System;
 using AutoMapper;
-using AutoNews.Data.Entities;
-using AutoNews.Domain.Models;
+using Master.Data.Entities;
+using Master.Domain.Models;
 
-namespace AutoNews.Domain.Mapping
+namespace Master.Domain.Mapping
 {
     public partial class SystemRoleInMenuProfile
         : AutoMapper.Profile
     {
         public SystemRoleInMenuProfile()
         {
-            CreateMap<AutoNews.Data.Entities.SystemRoleInMenu, AutoNews.Domain.Models.SystemRoleInMenuReadModel>();
-            CreateMap<AutoNews.Domain.Models.SystemRoleInMenuCreateModel, AutoNews.Data.Entities.SystemRoleInMenu>();
-            CreateMap<AutoNews.Data.Entities.SystemRoleInMenu, AutoNews.Domain.Models.SystemRoleInMenuUpdateModel>();
-            CreateMap<AutoNews.Domain.Models.SystemRoleInMenuUpdateModel, AutoNews.Data.Entities.SystemRoleInMenu>();
+            CreateMap<Master.Data.Entities.SystemRoleInMenu, Master.Domain.Models.SystemRoleInMenuReadModel>();
+            CreateMap<Master.Domain.Models.SystemRoleInMenuCreateModel, Master.Data.Entities.SystemRoleInMenu>();
+            CreateMap<Master.Data.Entities.SystemRoleInMenu, Master.Domain.Models.SystemRoleInMenuUpdateModel>();
+            CreateMap<Master.Domain.Models.SystemRoleInMenuUpdateModel, Master.Data.Entities.SystemRoleInMenu>();
         }
 
     }

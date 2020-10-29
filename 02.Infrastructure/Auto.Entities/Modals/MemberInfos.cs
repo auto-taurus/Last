@@ -5,6 +5,7 @@ namespace Auto.Entities.Modals {
     public partial class MemberInfos {
         public MemberInfos() {
             #region Generated Constructor
+            MemberComments = new HashSet<MemberComment>();
             MemberFans = new HashSet<MemberFans>();
             MemberFavorites = new HashSet<MemberFavorites>();
             MemberFollows = new HashSet<MemberFollow>();
@@ -62,6 +63,8 @@ namespace Auto.Entities.Modals {
         #endregion
 
         #region Generated Relationships
+        public virtual ICollection<MemberComment> MemberComments { get; set; }
+
         public virtual ICollection<MemberFans> MemberFans { get; set; }
 
         public virtual ICollection<MemberFavorites> MemberFavorites { get; set; }

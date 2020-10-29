@@ -1,8 +1,8 @@
 using System;
 using FluentValidation;
-using AutoNews.Domain.Models;
+using Master.Domain.Models;
 
-namespace AutoNews.Domain.Validation
+namespace Master.Domain.Validation
 {
     public partial class ReportNewsDayClickUpdateModelValidator
         : AbstractValidator<ReportNewsDayClickUpdateModel>
@@ -10,7 +10,6 @@ namespace AutoNews.Domain.Validation
         public ReportNewsDayClickUpdateModelValidator()
         {
             #region Generated Constructor
-            RuleFor(p => p.NewsId).MaximumLength(12);
             RuleFor(p => p.CategoryName).MaximumLength(50);
             RuleFor(p => p.SpecialName).MaximumLength(50);
             #endregion

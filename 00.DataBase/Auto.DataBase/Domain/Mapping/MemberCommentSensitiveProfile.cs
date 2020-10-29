@@ -1,19 +1,19 @@
 using System;
 using AutoMapper;
-using AutoNews.Data.Entities;
-using AutoNews.Domain.Models;
+using Master.Data.Entities;
+using Master.Domain.Models;
 
-namespace AutoNews.Domain.Mapping
+namespace Master.Domain.Mapping
 {
     public partial class MemberCommentSensitiveProfile
         : AutoMapper.Profile
     {
         public MemberCommentSensitiveProfile()
         {
-            CreateMap<AutoNews.Data.Entities.MemberCommentSensitive, AutoNews.Domain.Models.MemberCommentSensitiveReadModel>();
-            CreateMap<AutoNews.Domain.Models.MemberCommentSensitiveCreateModel, AutoNews.Data.Entities.MemberCommentSensitive>();
-            CreateMap<AutoNews.Data.Entities.MemberCommentSensitive, AutoNews.Domain.Models.MemberCommentSensitiveUpdateModel>();
-            CreateMap<AutoNews.Domain.Models.MemberCommentSensitiveUpdateModel, AutoNews.Data.Entities.MemberCommentSensitive>();
+            CreateMap<Master.Data.Entities.MemberCommentSensitive, Master.Domain.Models.MemberCommentSensitiveReadModel>();
+            CreateMap<Master.Domain.Models.MemberCommentSensitiveCreateModel, Master.Data.Entities.MemberCommentSensitive>();
+            CreateMap<Master.Data.Entities.MemberCommentSensitive, Master.Domain.Models.MemberCommentSensitiveUpdateModel>();
+            CreateMap<Master.Domain.Models.MemberCommentSensitiveUpdateModel, Master.Data.Entities.MemberCommentSensitive>();
         }
 
     }
