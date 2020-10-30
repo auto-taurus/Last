@@ -3,7 +3,7 @@ using Auto.Commons.ApiHandles.Responses;
 using Auto.Commons.Systems;
 using Auto.DataServices.Contracts;
 using Auto.Entities.Modals;
-using Auto.RedisServices.Entities;
+using Auto.RedisServices.Modals;
 using Auto.RedisServices.Repositories;
 using Gbxx.WebApi.Areas.v1.Models.Post;
 using Gbxx.WebApi.Handlers;

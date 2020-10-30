@@ -15,7 +15,7 @@ namespace Auto.Entities.Modals {
 
         public string TaskCode { get; set; }
 
-        public string TaksName { get; set; }
+        public string TaskName { get; set; }
 
         public int? CategoryDay { get; set; }
 
@@ -49,6 +49,5 @@ namespace Auto.Entities.Modals {
         public virtual MemberInfos MemberInfos { get; set; }
 
         #endregion
-
     }
 }

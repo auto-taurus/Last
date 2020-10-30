@@ -21,7 +21,7 @@ namespace Auto.DataServices.Repositories {
                              .OrderByDescending(a => a.CreateTime)
                              .Select(a => new IncomeAppDto() {
                                  IncomeId = a.IncomeId,
-                                 TaksName = a.TaksName,
+                                 TaksName = a.TaskName,
                                  Title = a.Title,
                                  CategoryDay = a.CategoryDay,
                                  CategoryFixed = a.CategoryFixed,

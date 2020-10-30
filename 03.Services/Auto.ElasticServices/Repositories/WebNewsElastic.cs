@@ -1,4 +1,4 @@
-﻿using  Auto.ElasticServices.Entities;
+﻿using  Auto.ElasticServices.Modals;
 using Auto.ElasticServices.Contracts;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;

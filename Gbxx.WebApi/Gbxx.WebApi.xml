@@ -117,7 +117,7 @@
             
             </summary>
         </member>
-        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.CommentController.GetCommentAsync(System.String,Gbxx.WebApi.Models.RouteIdInt,Gbxx.WebApi.Models.PagerBase)">
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.CommentController.GetCommentAsync(System.String,Gbxx.WebApi.Models.RouteIdInt,Gbxx.WebApi.Areas.v1.Models.Get.CommentGet)">
             <summary>
             获取单个评论列表信息（二级评论）
             </summary>
@@ -134,7 +134,7 @@
             <param name="route"></param>
             <returns></returns>
         </member>
-        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.CommentController.GetMemberCommentAsync(System.String,Gbxx.WebApi.Models.RouteIdString,Gbxx.WebApi.Models.PagerBase)">
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.CommentController.GetMemberCommentAsync(System.String,Gbxx.WebApi.Models.RouteIdString,Gbxx.WebApi.Areas.v1.Models.Get.CommentGet)">
             <summary>
             获取新闻评论信息(一级评论)
             </summary>

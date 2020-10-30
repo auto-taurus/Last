@@ -55,7 +55,7 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                                                            .ToPager(item.PageIndex.Value, item.PageSize.Value)
                                                            .Select(a => new {
                                                                a.IncomeId,
-                                                               a.TaksName,
+                                                               a.TaskName,
                                                                a.CategoryDay,
                                                                a.CategoryFixed,
                                                                a.BeansText,

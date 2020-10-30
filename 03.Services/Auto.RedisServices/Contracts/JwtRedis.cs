@@ -1,5 +1,5 @@
 ﻿using Auto.Entities.Modals;
-using Auto.RedisServices.Entities;
+using Auto.RedisServices.Modals;
 using Auto.RedisServices.Repositories;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -39,7 +39,6 @@ namespace Auto.RedisServices.Contracts {
         /// 
         /// </summary>
         private readonly String _customPrefix = "token";
-
         /// <summary>
         /// ctor
         /// </summary>

@@ -29,9 +29,11 @@ namespace Auto.Entities.Modals {
 
         public string Platform { get; set; }
 
-        public long? Beans { get; set; }
+        public int? Beans { get; set; }
 
         public string BeansText { get; set; }
+
+        public int? ReadTime { get; set; }
 
         public int? IsDisplay { get; set; }
 

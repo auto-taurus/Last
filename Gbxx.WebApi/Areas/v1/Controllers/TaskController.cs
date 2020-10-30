@@ -76,7 +76,7 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
         [HttpPost("{id}")]
         public async Task<IActionResult> PostTaskAsync([FromHeader]String source,
                                                        [FromRoute]RouteCode route) {
-            var response = new Response<MemberAppDto>();
+            var response = new Response<Object>();
             try {
 
             }

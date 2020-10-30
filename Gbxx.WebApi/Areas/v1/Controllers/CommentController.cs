@@ -3,9 +3,11 @@ using Auto.Commons.Linq;
 using Auto.Configurations;
 using Auto.DataServices.Contracts;
 using Auto.Entities.Modals;
+using Gbxx.WebApi.Areas.v1.Models.Get;
 using Gbxx.WebApi.Areas.v1.Models.Post;
 using Gbxx.WebApi.Controllers;
 using Gbxx.WebApi.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -42,18 +44,17 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
         /// <param name="route"></param>
         /// <param name="item"></param>
         /// <returns></returns>
+        [AllowAnonymous]
         [HttpGet("Comment/{id}")]
         public async Task<IActionResult> GetCommentAsync([FromHeader]String source,
                                                          [FromRoute]RouteIdInt route,
-                                                         [FromQuery]PagerBase item) {
+                                                         [FromQuery]CommentGet item) {
             var response = new Response<Object>();
             try {
                 var express = Express.Begin<MemberComment>(true);
                 express = express.And(a => a.ParentId == route.id && a.IsEnable == 1);
 
                 var result = await _IMemberCommentRepository.Query(express)
-                                                            .OrderBy(a => a.CommentTime)
-                                                            .ToPager(item.PageIndex.Value, item.PageSize.Value)
                                                             .Select(a => new {
                                                                 CommentId = a.CommentId,
                                                                 NewsId = a.NewsId,
@@ -65,8 +66,10 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                                                                 QuoteId = a.QuoteId,
                                                                 QuoteName = a.QuoteName,
                                                                 Up = a.Up,
-                                                                IsUp = a.MemberCommentUps.Any(b => b.MemberId == MemberId)
+                                                                IsUp = item.MemberId > 0 ? a.MemberCommentUps.Any(b => b.MemberId == item.MemberId) : false
                                                             })
+                                                            .OrderBy(a => a.CommentTime)
+                                                            .ToPager(item.PageIndex.Value, item.PageSize.Value)
                                                             .ToListAsync();
                 if (result.Count <= 0) {
                     return NoContent();
@@ -114,18 +117,17 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
         /// <param name="route"></param>
         /// <param name="item"></param>
         /// <returns></returns>
+        [AllowAnonymous]
         [HttpGet("News/{id}/Comment")]
         public async Task<IActionResult> GetMemberCommentAsync([FromHeader]String source,
                                                                [FromRoute]RouteIdString route,
-                                                               [FromQuery]PagerBase item) {
+                                                               [FromQuery]CommentGet item) {
             var response = new Response<Object>();
             try {
                 var express = Express.Begin<MemberComment>(true);
                 express = express.And(a => a.NewsId == route.id && a.ParentId == 0 && a.IsEnable == 1);
 
                 var result = await _IMemberCommentRepository.Query(express)
-                                                            .OrderBy(a => a.CommentTime)
-                                                            .ToPager(item.PageIndex.Value, item.PageSize.Value)
                                                             .Select(a => new {
                                                                 CommentId = a.CommentId,
                                                                 NewsId = a.NewsId,
@@ -139,9 +141,11 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                                                                 Up = a.Up,
                                                                 Number = a.Number,
                                                                 Avatar = a.MemberInfos.Avatar,
-                                                                IsUp = a.MemberCommentUps.Any(b => b.MemberId == MemberId),
+                                                                IsUp = item.MemberId > 0 ? a.MemberCommentUps.Any(b => b.MemberId == item.MemberId) : false
 
                                                             })
+                                                            .OrderBy(a => a.CommentTime)
+                                                            .ToPager(item.PageIndex.Value, item.PageSize.Value)
                                                             .ToListAsync();
                 if (result.Count <= 0) {
                     return NoContent();

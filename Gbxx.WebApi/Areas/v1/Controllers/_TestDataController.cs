@@ -1,4 +1,4 @@
-﻿using Auto.ElasticServices.Entities;
+﻿using Auto.ElasticServices.Modals;
 using Auto.Commons.ApiHandles.Responses;
 using Auto.Commons.Systems;
 using Auto.DataServices.Contracts;

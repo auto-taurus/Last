@@ -1,4 +1,4 @@
-﻿using Auto.RedisServices.Entities;
+﻿using Auto.RedisServices.Modals;
 using Auto.Commons.Ioc.IContract;
 using System.Threading.Tasks;
 using Auto.Entities.Modals;

@@ -1,4 +1,4 @@
-﻿using Auto.ElasticServices.Entities;
+﻿using Auto.ElasticServices.Modals;
 using Auto.Entities.Modals;
 using Microsoft.EntityFrameworkCore;
 

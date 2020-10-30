@@ -1,6 +1,6 @@
 ﻿using Auto.Commons.ApiHandles.Responses;
 using Auto.ElasticServices.Contracts;
-using Auto.ElasticServices.Entities;
+using Auto.ElasticServices.Modals;
 using Gbxx.WebApi.Areas.v1.Data;
 using Gbxx.WebApi.Areas.v1.Models.Route;
 using Gbxx.WebApi.Controllers;

@@ -1,6 +1,6 @@
 ﻿using Auto.Commons.ApiHandles.Responses;
 using Auto.DataServices.Contracts;
-using Auto.RedisServices.Entities;
+using Auto.RedisServices.Modals;
 using Auto.RedisServices.Repositories;
 using Gbxx.WebApi.Areas.v1.Models.Route;
 using Gbxx.WebApi.Controllers;
