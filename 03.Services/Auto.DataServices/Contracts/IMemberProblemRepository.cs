@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Auto.DataServices.Contracts {
-    public interface IMemberProblemRepository : IRepository<MemberProblem>, ISingletonInject {
+    public interface IMemberProblemRepository : IRepository<MemberProblem>, IScopedInject {
         Task<IList<ProblemDto>> GetDists(List<int> distKey);
     }
 }

@@ -1,8 +1,8 @@
 using System;
 using FluentValidation;
-using Master.Domain.Models;
+using AutoNews.Domain.Models;
 
-namespace Master.Domain.Validation
+namespace AutoNews.Domain.Validation
 {
     public partial class MemberInfosUpdateModelValidator
         : AbstractValidator<MemberInfosUpdateModel>
@@ -15,7 +15,8 @@ namespace Master.Domain.Validation
             RuleFor(p => p.Name).MaximumLength(20);
             RuleFor(p => p.Phone).MaximumLength(15);
             RuleFor(p => p.Alipay).MaximumLength(20);
-            RuleFor(p => p.Wechat).MaximumLength(50);
+            RuleFor(p => p.Uid).MaximumLength(50);
+            RuleFor(p => p.OpenId).MaximumLength(50);
             RuleFor(p => p.Password).MaximumLength(100);
             RuleFor(p => p.Avatar).MaximumLength(255);
             RuleFor(p => p.Remarks).MaximumLength(255);

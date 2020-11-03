@@ -2,19 +2,19 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 
-namespace Master.Data.Mapping
+namespace AutoNews.Data.Mapping
 {
     public partial class SystemUsersInMenuMap
-        : IEntityTypeConfiguration<Master.Data.Entities.SystemUsersInMenu>
+        : IEntityTypeConfiguration<AutoNews.Data.Entities.SystemUsersInMenu>
     {
-        public void Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<Master.Data.Entities.SystemUsersInMenu> builder)
+        public void Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<AutoNews.Data.Entities.SystemUsersInMenu> builder)
         {
             #region Generated Configure
             // table
             builder.ToTable("System_UsersInMenu", "dbo");
 
             // key
-            builder.HasKey(t => t.Id);
+            builder.HasNoKey();
 
             // properties
             builder.Property(t => t.Id)

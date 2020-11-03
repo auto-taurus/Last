@@ -11,7 +11,7 @@ namespace Auto.Entities.Dtos {
         /// <summary>
         /// 任务名称
         /// </summary>
-        public string TaksName { get; set; }
+        public string TaskName { get; set; }
         /// <summary>
         /// 日常任务分类
         /// </summary>

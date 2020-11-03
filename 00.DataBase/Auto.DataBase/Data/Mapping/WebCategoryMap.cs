@@ -2,12 +2,12 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 
-namespace Master.Data.Mapping
+namespace AutoNews.Data.Mapping
 {
     public partial class WebCategoryMap
-        : IEntityTypeConfiguration<Master.Data.Entities.WebCategory>
+        : IEntityTypeConfiguration<AutoNews.Data.Entities.WebCategory>
     {
-        public void Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<Master.Data.Entities.WebCategory> builder)
+        public void Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<AutoNews.Data.Entities.WebCategory> builder)
         {
             #region Generated Configure
             // table
@@ -20,7 +20,8 @@ namespace Master.Data.Mapping
             builder.Property(t => t.CategoryId)
                 .IsRequired()
                 .HasColumnName("CategoryId")
-                .HasColumnType("int");
+                .HasColumnType("int")
+                .ValueGeneratedOnAdd();
 
             builder.Property(t => t.SiteId)
                 .HasColumnName("SiteId")

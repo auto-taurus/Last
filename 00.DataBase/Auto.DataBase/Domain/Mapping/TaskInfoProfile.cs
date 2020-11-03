@@ -1,19 +1,19 @@
 using System;
 using AutoMapper;
-using Master.Data.Entities;
-using Master.Domain.Models;
+using AutoNews.Data.Entities;
+using AutoNews.Domain.Models;
 
-namespace Master.Domain.Mapping
+namespace AutoNews.Domain.Mapping
 {
     public partial class TaskInfoProfile
         : AutoMapper.Profile
     {
         public TaskInfoProfile()
         {
-            CreateMap<Master.Data.Entities.TaskInfo, Master.Domain.Models.TaskInfoReadModel>();
-            CreateMap<Master.Domain.Models.TaskInfoCreateModel, Master.Data.Entities.TaskInfo>();
-            CreateMap<Master.Data.Entities.TaskInfo, Master.Domain.Models.TaskInfoUpdateModel>();
-            CreateMap<Master.Domain.Models.TaskInfoUpdateModel, Master.Data.Entities.TaskInfo>();
+            CreateMap<AutoNews.Data.Entities.TaskInfo, AutoNews.Domain.Models.TaskInfoReadModel>();
+            CreateMap<AutoNews.Domain.Models.TaskInfoCreateModel, AutoNews.Data.Entities.TaskInfo>();
+            CreateMap<AutoNews.Data.Entities.TaskInfo, AutoNews.Domain.Models.TaskInfoUpdateModel>();
+            CreateMap<AutoNews.Domain.Models.TaskInfoUpdateModel, AutoNews.Data.Entities.TaskInfo>();
         }
 
     }

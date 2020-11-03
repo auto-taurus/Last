@@ -1,19 +1,19 @@
 using System;
 using AutoMapper;
-using Master.Data.Entities;
-using Master.Domain.Models;
+using AutoNews.Data.Entities;
+using AutoNews.Domain.Models;
 
-namespace Master.Domain.Mapping
+namespace AutoNews.Domain.Mapping
 {
     public partial class MemberFollowProfile
         : AutoMapper.Profile
     {
         public MemberFollowProfile()
         {
-            CreateMap<Master.Data.Entities.MemberFollow, Master.Domain.Models.MemberFollowReadModel>();
-            CreateMap<Master.Domain.Models.MemberFollowCreateModel, Master.Data.Entities.MemberFollow>();
-            CreateMap<Master.Data.Entities.MemberFollow, Master.Domain.Models.MemberFollowUpdateModel>();
-            CreateMap<Master.Domain.Models.MemberFollowUpdateModel, Master.Data.Entities.MemberFollow>();
+            CreateMap<AutoNews.Data.Entities.MemberFollow, AutoNews.Domain.Models.MemberFollowReadModel>();
+            CreateMap<AutoNews.Domain.Models.MemberFollowCreateModel, AutoNews.Data.Entities.MemberFollow>();
+            CreateMap<AutoNews.Data.Entities.MemberFollow, AutoNews.Domain.Models.MemberFollowUpdateModel>();
+            CreateMap<AutoNews.Domain.Models.MemberFollowUpdateModel, AutoNews.Data.Entities.MemberFollow>();
         }
 
     }

@@ -1,19 +1,19 @@
 using System;
 using AutoMapper;
-using Master.Data.Entities;
-using Master.Domain.Models;
+using AutoNews.Data.Entities;
+using AutoNews.Domain.Models;
 
-namespace Master.Domain.Mapping
+namespace AutoNews.Domain.Mapping
 {
     public partial class SystemLogsProfile
         : AutoMapper.Profile
     {
         public SystemLogsProfile()
         {
-            CreateMap<Master.Data.Entities.SystemLogs, Master.Domain.Models.SystemLogsReadModel>();
-            CreateMap<Master.Domain.Models.SystemLogsCreateModel, Master.Data.Entities.SystemLogs>();
-            CreateMap<Master.Data.Entities.SystemLogs, Master.Domain.Models.SystemLogsUpdateModel>();
-            CreateMap<Master.Domain.Models.SystemLogsUpdateModel, Master.Data.Entities.SystemLogs>();
+            CreateMap<AutoNews.Data.Entities.SystemLogs, AutoNews.Domain.Models.SystemLogsReadModel>();
+            CreateMap<AutoNews.Domain.Models.SystemLogsCreateModel, AutoNews.Data.Entities.SystemLogs>();
+            CreateMap<AutoNews.Data.Entities.SystemLogs, AutoNews.Domain.Models.SystemLogsUpdateModel>();
+            CreateMap<AutoNews.Domain.Models.SystemLogsUpdateModel, AutoNews.Data.Entities.SystemLogs>();
         }
 
     }

@@ -1,8 +1,8 @@
 using System;
 using FluentValidation;
-using Master.Domain.Models;
+using AutoNews.Domain.Models;
 
-namespace Master.Domain.Validation
+namespace AutoNews.Domain.Validation
 {
     public partial class MemberIncomeCreateModelValidator
         : AbstractValidator<MemberIncomeCreateModel>
@@ -11,12 +11,12 @@ namespace Master.Domain.Validation
         {
             #region Generated Constructor
             RuleFor(p => p.TaskCode).MaximumLength(5);
-            RuleFor(p => p.TaksName).MaximumLength(20);
+            RuleFor(p => p.TaskName).MaximumLength(20);
             RuleFor(p => p.Title).MaximumLength(100);
             RuleFor(p => p.BeansText).MaximumLength(20);
             RuleFor(p => p.Proportion).MaximumLength(20);
+            RuleFor(p => p.AuditName).MaximumLength(50);
             RuleFor(p => p.Remarks).MaximumLength(255);
-            RuleFor(p => p.Audit).MaximumLength(50);
             #endregion
         }
 

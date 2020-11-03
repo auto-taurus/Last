@@ -2,12 +2,12 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 
-namespace Master.Data.Mapping
+namespace AutoNews.Data.Mapping
 {
     public partial class MemberFollowMap
-        : IEntityTypeConfiguration<Master.Data.Entities.MemberFollow>
+        : IEntityTypeConfiguration<AutoNews.Data.Entities.MemberFollow>
     {
-        public void Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<Master.Data.Entities.MemberFollow> builder)
+        public void Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<AutoNews.Data.Entities.MemberFollow> builder)
         {
             #region Generated Configure
             // table

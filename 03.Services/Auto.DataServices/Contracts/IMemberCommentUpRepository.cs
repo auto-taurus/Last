@@ -5,6 +5,6 @@ using System.Collections.Generic;
 using System.Text;
 
 namespace Auto.DataServices.Contracts {
-    public interface IMemberCommentUpRepository : IRepository<MemberCommentUp>, ISingletonInject {
+    public interface IMemberCommentUpRepository : IRepository<MemberCommentUp>, IScopedInject {
     }
 }

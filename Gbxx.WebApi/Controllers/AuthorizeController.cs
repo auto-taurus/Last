@@ -12,7 +12,15 @@ namespace Gbxx.WebApi.Controllers {
         /// <summary>
         /// 用户编号
         /// </summary>
-        protected int MemberId { get { return int.Parse(User.FindFirst(e => e.Type == ClaimTypes.NameIdentifier).Value); } }
+        protected int MemberId {
+            get {
+                var ident = User.FindFirst(e => e.Type == ClaimTypes.NameIdentifier);
+                if (ident != null)
+                    return int.Parse(ident.Value);
+                else
+                    return 0;
+            }
+        }
         /// <summary>
         /// 用户名称
         /// </summary>

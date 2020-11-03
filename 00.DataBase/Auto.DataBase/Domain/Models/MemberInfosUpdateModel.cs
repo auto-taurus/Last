@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Master.Domain.Models
+namespace AutoNews.Domain.Models
 {
     public partial class MemberInfosUpdateModel
     {
@@ -20,7 +20,9 @@ namespace Master.Domain.Models
 
         public string Alipay { get; set; }
 
-        public string Wechat { get; set; }
+        public string Uid { get; set; }
+
+        public string OpenId { get; set; }
 
         public string Password { get; set; }
 
@@ -42,7 +44,7 @@ namespace Master.Domain.Models
 
         public int? IsNew { get; set; }
 
-        public int? IsEnbale { get; set; }
+        public int? IsEnable { get; set; }
 
         public string Remarks { get; set; }
 

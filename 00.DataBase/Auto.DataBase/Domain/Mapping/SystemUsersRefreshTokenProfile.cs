@@ -1,19 +1,19 @@
 using System;
 using AutoMapper;
-using Master.Data.Entities;
-using Master.Domain.Models;
+using AutoNews.Data.Entities;
+using AutoNews.Domain.Models;
 
-namespace Master.Domain.Mapping
+namespace AutoNews.Domain.Mapping
 {
     public partial class SystemUsersRefreshTokenProfile
         : AutoMapper.Profile
     {
         public SystemUsersRefreshTokenProfile()
         {
-            CreateMap<Master.Data.Entities.SystemUsersRefreshToken, Master.Domain.Models.SystemUsersRefreshTokenReadModel>();
-            CreateMap<Master.Domain.Models.SystemUsersRefreshTokenCreateModel, Master.Data.Entities.SystemUsersRefreshToken>();
-            CreateMap<Master.Data.Entities.SystemUsersRefreshToken, Master.Domain.Models.SystemUsersRefreshTokenUpdateModel>();
-            CreateMap<Master.Domain.Models.SystemUsersRefreshTokenUpdateModel, Master.Data.Entities.SystemUsersRefreshToken>();
+            CreateMap<AutoNews.Data.Entities.SystemUsersRefreshToken, AutoNews.Domain.Models.SystemUsersRefreshTokenReadModel>();
+            CreateMap<AutoNews.Domain.Models.SystemUsersRefreshTokenCreateModel, AutoNews.Data.Entities.SystemUsersRefreshToken>();
+            CreateMap<AutoNews.Data.Entities.SystemUsersRefreshToken, AutoNews.Domain.Models.SystemUsersRefreshTokenUpdateModel>();
+            CreateMap<AutoNews.Domain.Models.SystemUsersRefreshTokenUpdateModel, AutoNews.Data.Entities.SystemUsersRefreshToken>();
         }
 
     }

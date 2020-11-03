@@ -7,7 +7,7 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace Auto.DataServices.Contracts {
-    public interface IMemberCommentRepository : IRepository<MemberComment>, ISingletonInject {
+    public interface IMemberCommentRepository : IRepository<MemberComment>, IScopedInject {
         /// <summary>
         /// 点赞累加
         /// </summary>

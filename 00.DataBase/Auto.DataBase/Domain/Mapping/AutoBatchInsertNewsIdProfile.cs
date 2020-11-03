@@ -1,19 +1,19 @@
 using System;
 using AutoMapper;
-using Master.Data.Entities;
-using Master.Domain.Models;
+using AutoNews.Data.Entities;
+using AutoNews.Domain.Models;
 
-namespace Master.Domain.Mapping
+namespace AutoNews.Domain.Mapping
 {
     public partial class AutoBatchInsertNewsIdProfile
         : AutoMapper.Profile
     {
         public AutoBatchInsertNewsIdProfile()
         {
-            CreateMap<Master.Data.Entities.AutoBatchInsertNewsId, Master.Domain.Models.AutoBatchInsertNewsIdReadModel>();
-            CreateMap<Master.Domain.Models.AutoBatchInsertNewsIdCreateModel, Master.Data.Entities.AutoBatchInsertNewsId>();
-            CreateMap<Master.Data.Entities.AutoBatchInsertNewsId, Master.Domain.Models.AutoBatchInsertNewsIdUpdateModel>();
-            CreateMap<Master.Domain.Models.AutoBatchInsertNewsIdUpdateModel, Master.Data.Entities.AutoBatchInsertNewsId>();
+            CreateMap<AutoNews.Data.Entities.AutoBatchInsertNewsId, AutoNews.Domain.Models.AutoBatchInsertNewsIdReadModel>();
+            CreateMap<AutoNews.Domain.Models.AutoBatchInsertNewsIdCreateModel, AutoNews.Data.Entities.AutoBatchInsertNewsId>();
+            CreateMap<AutoNews.Data.Entities.AutoBatchInsertNewsId, AutoNews.Domain.Models.AutoBatchInsertNewsIdUpdateModel>();
+            CreateMap<AutoNews.Domain.Models.AutoBatchInsertNewsIdUpdateModel, AutoNews.Data.Entities.AutoBatchInsertNewsId>();
         }
 
     }

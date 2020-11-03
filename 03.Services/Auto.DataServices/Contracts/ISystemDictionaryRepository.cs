@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Auto.DataServices.Contracts {
-    public interface ISystemDictionaryRepository : IRepository<SystemDictionary>, ISingletonInject {
+    public interface ISystemDictionaryRepository : IRepository<SystemDictionary>, IScopedInject {
         Task<IList<KeyAllDto>> GetAlls(string typeKey);
         Task<IList<KeyNameDto>> GetKeyNames(string typeKey);
         Task<IList<KeyValueDto>> GetKeyValues(string typeKey);

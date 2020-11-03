@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Master.Data.Entities
+namespace AutoNews.Data.Entities
 {
     public partial class SystemLogs
     {

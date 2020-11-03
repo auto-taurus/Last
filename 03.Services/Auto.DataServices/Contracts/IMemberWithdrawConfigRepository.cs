@@ -2,7 +2,7 @@
 using Auto.Entities.Modals;
 
 namespace Auto.DataServices.Contracts {
-    public interface IMemberWithdrawConfigRepository : IRepository<MemberWithdrawConfig>, ISingletonInject {
+    public interface IMemberWithdrawConfigRepository : IRepository<MemberWithdrawConfig>, IScopedInject {
 
     }
 }

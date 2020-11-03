@@ -4,29 +4,29 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 
-namespace Master.Data.Queries
+namespace AutoNews.Data.Queries
 {
     public static partial class SystemUsersDictionaryExtensions
     {
         #region Generated Extensions
-        public static Master.Data.Entities.SystemUsersDictionary GetByKey(this IQueryable<Master.Data.Entities.SystemUsersDictionary> queryable, int id)
+        public static AutoNews.Data.Entities.SystemUsersDictionary GetByKey(this IQueryable<AutoNews.Data.Entities.SystemUsersDictionary> queryable, int id)
         {
-            if (queryable is DbSet<Master.Data.Entities.SystemUsersDictionary> dbSet)
+            if (queryable is DbSet<AutoNews.Data.Entities.SystemUsersDictionary> dbSet)
                 return dbSet.Find(id);
 
             return queryable.FirstOrDefault(q => q.Id == id);
         }
 
-        public static ValueTask<Master.Data.Entities.SystemUsersDictionary> GetByKeyAsync(this IQueryable<Master.Data.Entities.SystemUsersDictionary> queryable, int id)
+        public static ValueTask<AutoNews.Data.Entities.SystemUsersDictionary> GetByKeyAsync(this IQueryable<AutoNews.Data.Entities.SystemUsersDictionary> queryable, int id)
         {
-            if (queryable is DbSet<Master.Data.Entities.SystemUsersDictionary> dbSet)
+            if (queryable is DbSet<AutoNews.Data.Entities.SystemUsersDictionary> dbSet)
                 return dbSet.FindAsync(id);
 
             var task = queryable.FirstOrDefaultAsync(q => q.Id == id);
-            return new ValueTask<Master.Data.Entities.SystemUsersDictionary>(task);
+            return new ValueTask<AutoNews.Data.Entities.SystemUsersDictionary>(task);
         }
 
-        public static IQueryable<Master.Data.Entities.SystemUsersDictionary> ByUserId(this IQueryable<Master.Data.Entities.SystemUsersDictionary> queryable, int userId)
+        public static IQueryable<AutoNews.Data.Entities.SystemUsersDictionary> ByUserId(this IQueryable<AutoNews.Data.Entities.SystemUsersDictionary> queryable, int userId)
         {
             return queryable.Where(q => q.UserId == userId);
         }

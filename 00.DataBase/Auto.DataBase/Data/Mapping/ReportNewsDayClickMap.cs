@@ -2,12 +2,12 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 
-namespace Master.Data.Mapping
+namespace AutoNews.Data.Mapping
 {
     public partial class ReportNewsDayClickMap
-        : IEntityTypeConfiguration<Master.Data.Entities.ReportNewsDayClick>
+        : IEntityTypeConfiguration<AutoNews.Data.Entities.ReportNewsDayClick>
     {
-        public void Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<Master.Data.Entities.ReportNewsDayClick> builder)
+        public void Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<AutoNews.Data.Entities.ReportNewsDayClick> builder)
         {
             #region Generated Configure
             // table
@@ -25,7 +25,8 @@ namespace Master.Data.Mapping
 
             builder.Property(t => t.NewsId)
                 .HasColumnName("NewsId")
-                .HasColumnType("int");
+                .HasColumnType("varchar(12)")
+                .HasMaxLength(12);
 
             builder.Property(t => t.CategoryId)
                 .HasColumnName("CategoryId")

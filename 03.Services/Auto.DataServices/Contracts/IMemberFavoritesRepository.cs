@@ -2,6 +2,6 @@
 using Auto.Entities.Modals;
 
 namespace Auto.DataServices.Contracts {
-    public interface IMemberFavoritesRepository : IRepository<MemberFavorites>, ISingletonInject {
+    public interface IMemberFavoritesRepository : IRepository<MemberFavorites>, IScopedInject {
     }
 }

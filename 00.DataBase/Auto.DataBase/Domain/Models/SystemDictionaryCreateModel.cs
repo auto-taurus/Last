@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Master.Domain.Models
+namespace AutoNews.Domain.Models
 {
     public partial class SystemDictionaryCreateModel
     {

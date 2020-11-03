@@ -2,12 +2,12 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 
-namespace Master.Data.Mapping
+namespace AutoNews.Data.Mapping
 {
     public partial class MemberIncomeMap
-        : IEntityTypeConfiguration<Master.Data.Entities.MemberIncome>
+        : IEntityTypeConfiguration<AutoNews.Data.Entities.MemberIncome>
     {
-        public void Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<Master.Data.Entities.MemberIncome> builder)
+        public void Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<AutoNews.Data.Entities.MemberIncome> builder)
         {
             #region Generated Configure
             // table
@@ -27,15 +27,27 @@ namespace Master.Data.Mapping
                 .HasColumnName("MemberId")
                 .HasColumnType("int");
 
+            builder.Property(t => t.TaskId)
+                .HasColumnName("TaskId")
+                .HasColumnType("int");
+
             builder.Property(t => t.TaskCode)
                 .HasColumnName("TaskCode")
                 .HasColumnType("varchar(5)")
                 .HasMaxLength(5);
 
-            builder.Property(t => t.TaksName)
-                .HasColumnName("TaksName")
+            builder.Property(t => t.TaskName)
+                .HasColumnName("TaskName")
                 .HasColumnType("nvarchar(20)")
                 .HasMaxLength(20);
+
+            builder.Property(t => t.CategoryDay)
+                .HasColumnName("CategoryDay")
+                .HasColumnType("int");
+
+            builder.Property(t => t.CategoryFixed)
+                .HasColumnName("CategoryFixed")
+                .HasColumnType("int");
 
             builder.Property(t => t.Title)
                 .HasColumnName("Title")
@@ -50,6 +62,10 @@ namespace Master.Data.Mapping
                 .HasColumnName("BeansText")
                 .HasColumnType("nvarchar(20)")
                 .HasMaxLength(20);
+
+            builder.Property(t => t.Number)
+                .HasColumnName("Number")
+                .HasColumnType("int");
 
             builder.Property(t => t.CreateTime)
                 .HasColumnName("CreateTime")
@@ -68,17 +84,12 @@ namespace Master.Data.Mapping
                 .HasColumnName("Status")
                 .HasColumnType("int");
 
-            builder.Property(t => t.Remarks)
-                .HasColumnName("Remarks")
-                .HasColumnType("nvarchar(255)")
-                .HasMaxLength(255);
-
-            builder.Property(t => t.AuditId)
-                .HasColumnName("AuditId")
+            builder.Property(t => t.AuditBy)
+                .HasColumnName("AuditBy")
                 .HasColumnType("int");
 
-            builder.Property(t => t.Audit)
-                .HasColumnName("Audit")
+            builder.Property(t => t.AuditName)
+                .HasColumnName("AuditName")
                 .HasColumnType("nvarchar(50)")
                 .HasMaxLength(50);
 
@@ -86,11 +97,21 @@ namespace Master.Data.Mapping
                 .HasColumnName("AuditTime")
                 .HasColumnType("datetime");
 
+            builder.Property(t => t.Remarks)
+                .HasColumnName("Remarks")
+                .HasColumnType("nvarchar(255)")
+                .HasMaxLength(255);
+
             // relationships
             builder.HasOne(t => t.MemberInfos)
                 .WithMany(t => t.MemberIncomes)
                 .HasForeignKey(d => d.MemberId)
                 .HasConstraintName("FK_MEMBER_I_REFERENCE_MEMBER_I");
+
+            builder.HasOne(t => t.TaskInfo)
+                .WithMany(t => t.MemberIncomes)
+                .HasForeignKey(d => d.TaskId)
+                .HasConstraintName("FK_MEMBER_I_REFERENCE_TASK_INF");
 
             #endregion
         }

@@ -43,7 +43,7 @@ namespace Gbxx.WebApi {
                         y.MaxBatchSize(10).UseRowNumberForPaging();
                     });
             })
-            .AddSingleton<NewsContext>()
+            .AddScoped<NewsContext>()
             .AddOptions();
 
             services.AddSingleton<IEntityMapper, EntityMapper>();
@@ -82,7 +82,7 @@ namespace Gbxx.WebApi {
                     //};
                     return new BadRequestObjectResult(error);
                 };
-            }); 
+            });
 
             //独立发布跨域
             services.AddCors(options =>

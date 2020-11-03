@@ -7,7 +7,7 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace Auto.DataServices.Contracts {
-    public interface IMemberIncomeRepository : IRepository<MemberIncome>, ISingletonInject {
+    public interface IMemberIncomeRepository : IRepository<MemberIncome>, IScopedInject {
         Task<IList<IncomeAppDto>> GetAppPagerAsync(Expression<Func<MemberIncome, bool>> predicate, int pageIndex, int pageSize);
     }
 }

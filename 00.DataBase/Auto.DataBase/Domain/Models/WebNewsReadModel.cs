@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Master.Domain.Models
+namespace AutoNews.Domain.Models
 {
     public partial class WebNewsReadModel
     {
@@ -58,15 +58,15 @@ namespace Master.Domain.Models
 
         public int? ClickNumber { get; set; }
 
-        public int? Author { get; set; }
+        public string Author { get; set; }
 
-        public string AuditBy { get; set; }
+        public int? AuditBy { get; set; }
 
         public int? AuditStatus { get; set; }
 
         public DateTime? AuditTime { get; set; }
 
-        public string PushBy { get; set; }
+        public int? PushBy { get; set; }
 
         public int? PushStatus { get; set; }
 
@@ -76,7 +76,7 @@ namespace Master.Domain.Models
 
         public int? CategorySort { get; set; }
 
-        public int? SingleSort { get; set; }
+        public int? SpecialSort { get; set; }
 
         public int? Sequence { get; set; }
 

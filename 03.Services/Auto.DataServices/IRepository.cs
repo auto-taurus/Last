@@ -21,7 +21,7 @@ namespace Auto.DataServices {
         /// </summary>
         /// <param name="predicate"></param>
         /// <returns></returns>
-        Task<TEntity> SingleAsync(Expression<Func<TEntity, bool>> predicate);
+        Task<TEntity> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> predicate);
         /// <summary>
         /// 自定义条件过滤、排序、分页，请使用此方法
         /// 根据指定条件获取单个实体

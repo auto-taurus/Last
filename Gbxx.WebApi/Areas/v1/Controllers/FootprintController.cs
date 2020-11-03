@@ -45,7 +45,7 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                                                         [FromRoute]IdRoute route) {
             var response = new Response<MemberAppDto>();
             try {
-                var entity = await _IMemberFootprintRepository.SingleAsync(e => e.MemberId == Convert.ToInt32(route.id));
+                var entity = await _IMemberFootprintRepository.FirstOrDefaultAsync(e => e.MemberId == Convert.ToInt32(route.id));
                 if (entity != null) {
                     response.Code = true;
                 }
@@ -69,7 +69,7 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                                                         [FromRoute]IdRoute route) {
             var response = new Response<MemberAppDto>();
             try {
-                var entity = await _IMemberFootprintRepository.SingleAsync(e => e.MemberId == Convert.ToInt32(route.id));
+                var entity = await _IMemberFootprintRepository.FirstOrDefaultAsync(e => e.MemberId == Convert.ToInt32(route.id));
                 if (entity != null) {
                     response.Code = true;
                 }

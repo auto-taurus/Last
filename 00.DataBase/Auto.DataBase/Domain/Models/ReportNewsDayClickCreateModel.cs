@@ -1,14 +1,14 @@
 using System;
 using System.Collections.Generic;
 
-namespace Master.Domain.Models
+namespace AutoNews.Domain.Models
 {
     public partial class ReportNewsDayClickCreateModel
     {
         #region Generated Properties
         public int NewsClickId { get; set; }
 
-        public int? NewsId { get; set; }
+        public string NewsId { get; set; }
 
         public int? CategoryId { get; set; }
 

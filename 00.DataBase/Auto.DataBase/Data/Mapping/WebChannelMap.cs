@@ -2,12 +2,12 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 
-namespace Master.Data.Mapping
+namespace AutoNews.Data.Mapping
 {
     public partial class WebChannelMap
-        : IEntityTypeConfiguration<Master.Data.Entities.WebChannel>
+        : IEntityTypeConfiguration<AutoNews.Data.Entities.WebChannel>
     {
-        public void Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<Master.Data.Entities.WebChannel> builder)
+        public void Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<AutoNews.Data.Entities.WebChannel> builder)
         {
             #region Generated Configure
             // table

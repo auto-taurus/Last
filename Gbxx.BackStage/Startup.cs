@@ -1,5 +1,4 @@
-﻿using Auto.EFCore;
-using Auto.EFCore.Configurations.Maps;
+﻿using Auto.Configurations;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Gbxx.BackStage.Configure.Ioc;
@@ -55,7 +54,7 @@ namespace Gbxx.BackStage {
             .AddOptions();
             // 配置信息注入
             services.AddSingleton(Configuration);
-            services.AddSingleton<IEntityMapper, AutoNewsEntityMapper>();
+            services.AddSingleton<IEntityMapper,EntityMapper>();
             //独立发布跨域
             services.AddCors(options =>
                              options.AddPolicy(Any, builder =>

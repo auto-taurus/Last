@@ -2,12 +2,12 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 
-namespace Master.Data.Mapping
+namespace AutoNews.Data.Mapping
 {
     public partial class SystemUsersDictionaryMap
-        : IEntityTypeConfiguration<Master.Data.Entities.SystemUsersDictionary>
+        : IEntityTypeConfiguration<AutoNews.Data.Entities.SystemUsersDictionary>
     {
-        public void Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<Master.Data.Entities.SystemUsersDictionary> builder)
+        public void Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<AutoNews.Data.Entities.SystemUsersDictionary> builder)
         {
             #region Generated Configure
             // table

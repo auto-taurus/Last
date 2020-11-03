@@ -92,7 +92,7 @@ namespace Gbxx.WebApi.Controllers {
             var response = new Response<JwtAuthorData>();
             try {
                 item.Password = Tools.Md5(item.Password);
-                var entity = await _IMemberInfosRepository.SingleAsync(a => a.Phone == item.LoginName && a.Password == item.Password && a.IsEnable == 1);
+                var entity = await _IMemberInfosRepository.FirstOrDefaultAsync(a => a.Phone == item.LoginName && a.Password == item.Password && a.IsEnable == 1);
                 if (entity != null) {
                     var result = _IJwtRedis.Create(entity);
                     if (result != null) {
@@ -148,7 +148,7 @@ namespace Gbxx.WebApi.Controllers {
                                                                [FromBody]RegisterPost item) {
             var response = new Response<JwtAuthorData>();
             try {
-                var entity = await _IMemberInfosRepository.SingleAsync(a => a.Uid == item.uid && a.OpenId == item.openid && a.IsEnable == 1);
+                var entity = await _IMemberInfosRepository.FirstOrDefaultAsync(a => a.Uid == item.uid && a.OpenId == item.openid && a.IsEnable == 1);
                 if (entity == null) {
                     entity = new MemberInfos();
                     entity.Code = SnowFlake.GetInstance().GetUniqueShortId(8);

@@ -9,7 +9,7 @@
             收入记录编号
             </summary>
         </member>
-        <member name="P:Auto.Entities.Dtos.IncomeAppDto.TaksName">
+        <member name="P:Auto.Entities.Dtos.IncomeAppDto.TaskName">
             <summary>
             任务名称
             </summary>

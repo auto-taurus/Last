@@ -2,6 +2,6 @@
 using Auto.Entities.Modals;
 
 namespace Auto.DataServices.Contracts {
-    public interface IWebSourceRepository : IRepository<WebSource>, ISingletonInject {
+    public interface IWebSourceRepository : IRepository<WebSource>, IScopedInject {
     }
 }

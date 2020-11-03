@@ -2,12 +2,12 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 
-namespace Master.Data.Mapping
+namespace AutoNews.Data.Mapping
 {
     public partial class SystemUsersMap
-        : IEntityTypeConfiguration<Master.Data.Entities.SystemUsers>
+        : IEntityTypeConfiguration<AutoNews.Data.Entities.SystemUsers>
     {
-        public void Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<Master.Data.Entities.SystemUsers> builder)
+        public void Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<AutoNews.Data.Entities.SystemUsers> builder)
         {
             #region Generated Configure
             // table
@@ -48,13 +48,13 @@ namespace Master.Data.Mapping
                 .HasColumnType("varchar(50)")
                 .HasMaxLength(50);
 
-            builder.Property(t => t.LoginIp)
-                .HasColumnName("LoginIp")
+            builder.Property(t => t.LastLoginIp)
+                .HasColumnName("LastLoginIp")
                 .HasColumnType("varchar(20)")
                 .HasMaxLength(20);
 
-            builder.Property(t => t.LoginTime)
-                .HasColumnName("LoginTime")
+            builder.Property(t => t.LastLoginTime)
+                .HasColumnName("LastLoginTime")
                 .HasColumnType("datetime");
 
             builder.Property(t => t.IsEnable)

@@ -2,6 +2,6 @@
 using Auto.Entities.Modals;
 
 namespace Auto.DataServices.Contracts {
-    public interface ISystemUsersRepository : IRepository<SystemUsers>, ISingletonInject {
+    public interface ISystemUsersRepository : IRepository<SystemUsers>, IScopedInject {
     }
 }

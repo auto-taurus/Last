@@ -1,19 +1,19 @@
 using System;
 using AutoMapper;
-using Master.Data.Entities;
-using Master.Domain.Models;
+using AutoNews.Data.Entities;
+using AutoNews.Domain.Models;
 
-namespace Master.Domain.Mapping
+namespace AutoNews.Domain.Mapping
 {
     public partial class MemberMessageProfile
         : AutoMapper.Profile
     {
         public MemberMessageProfile()
         {
-            CreateMap<Master.Data.Entities.MemberMessage, Master.Domain.Models.MemberMessageReadModel>();
-            CreateMap<Master.Domain.Models.MemberMessageCreateModel, Master.Data.Entities.MemberMessage>();
-            CreateMap<Master.Data.Entities.MemberMessage, Master.Domain.Models.MemberMessageUpdateModel>();
-            CreateMap<Master.Domain.Models.MemberMessageUpdateModel, Master.Data.Entities.MemberMessage>();
+            CreateMap<AutoNews.Data.Entities.MemberMessage, AutoNews.Domain.Models.MemberMessageReadModel>();
+            CreateMap<AutoNews.Domain.Models.MemberMessageCreateModel, AutoNews.Data.Entities.MemberMessage>();
+            CreateMap<AutoNews.Data.Entities.MemberMessage, AutoNews.Domain.Models.MemberMessageUpdateModel>();
+            CreateMap<AutoNews.Domain.Models.MemberMessageUpdateModel, AutoNews.Data.Entities.MemberMessage>();
         }
 
     }

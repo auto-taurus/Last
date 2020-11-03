@@ -47,7 +47,7 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                                                         [FromRoute]IdRoute route) {
             var response = new Response<MemberAppDto>();
             try {
-                var entity = await _IMemberFavoritesRepository.SingleAsync(e => e.MemberId == Convert.ToInt32(route.id));
+                var entity = await _IMemberFavoritesRepository.FirstOrDefaultAsync(e => e.MemberId == Convert.ToInt32(route.id));
                 if (entity != null) {
                     response.Code = true;
                     //response.Data.MemberId = entity.MemberId;
@@ -75,7 +75,7 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                                                         [FromRoute]IdRoute route) {
             var response = new Response<MemberAppDto>();
             try {
-                var entity = await _IMemberFavoritesRepository.SingleAsync(e => e.MemberId == Convert.ToInt32(route.id));
+                var entity = await _IMemberFavoritesRepository.FirstOrDefaultAsync(e => e.MemberId == Convert.ToInt32(route.id));
                 if (entity != null) {
                     response.Code = true;
                     //response.Data.MemberId = entity.MemberId;

@@ -2,12 +2,12 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 
-namespace Master.Data.Mapping
+namespace AutoNews.Data.Mapping
 {
     public partial class MemberMessageMap
-        : IEntityTypeConfiguration<Master.Data.Entities.MemberMessage>
+        : IEntityTypeConfiguration<AutoNews.Data.Entities.MemberMessage>
     {
-        public void Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<Master.Data.Entities.MemberMessage> builder)
+        public void Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<AutoNews.Data.Entities.MemberMessage> builder)
         {
             #region Generated Configure
             // table

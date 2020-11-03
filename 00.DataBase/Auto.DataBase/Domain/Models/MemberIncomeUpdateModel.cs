@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Master.Domain.Models
+namespace AutoNews.Domain.Models
 {
     public partial class MemberIncomeUpdateModel
     {
@@ -10,15 +10,23 @@ namespace Master.Domain.Models
 
         public int? MemberId { get; set; }
 
+        public int? TaskId { get; set; }
+
         public string TaskCode { get; set; }
 
-        public string TaksName { get; set; }
+        public string TaskName { get; set; }
+
+        public int? CategoryDay { get; set; }
+
+        public int? CategoryFixed { get; set; }
 
         public string Title { get; set; }
 
         public int? Beans { get; set; }
 
         public string BeansText { get; set; }
+
+        public int? Number { get; set; }
 
         public DateTime? CreateTime { get; set; }
 
@@ -28,13 +36,13 @@ namespace Master.Domain.Models
 
         public int? Status { get; set; }
 
-        public string Remarks { get; set; }
+        public int? AuditBy { get; set; }
 
-        public int? AuditId { get; set; }
-
-        public string Audit { get; set; }
+        public string AuditName { get; set; }
 
         public DateTime? AuditTime { get; set; }
+
+        public string Remarks { get; set; }
 
         #endregion
 

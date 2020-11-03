@@ -13,6 +13,8 @@ namespace Auto.Entities.Modals {
 
         public int? MemberId { get; set; }
 
+        public int? TaskId { get; set; }
+
         public string TaskCode { get; set; }
 
         public string TaskName { get; set; }
@@ -31,6 +33,8 @@ namespace Auto.Entities.Modals {
 
         public string Proportion { get; set; }
 
+        public int? Number { get; set; }
+
         public int? ReadTime { get; set; }
 
         public int? Status { get; set; }
@@ -47,6 +51,7 @@ namespace Auto.Entities.Modals {
 
         #region Generated Relationships
         public virtual MemberInfos MemberInfos { get; set; }
+        public virtual TaskInfo TaskInfo { get; set; }
 
         #endregion
     }

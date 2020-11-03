@@ -2,12 +2,12 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 
-namespace Master.Data.Mapping
+namespace AutoNews.Data.Mapping
 {
     public partial class ReportCategoryDayClickMap
-        : IEntityTypeConfiguration<Master.Data.Entities.ReportCategoryDayClick>
+        : IEntityTypeConfiguration<AutoNews.Data.Entities.ReportCategoryDayClick>
     {
-        public void Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<Master.Data.Entities.ReportCategoryDayClick> builder)
+        public void Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<AutoNews.Data.Entities.ReportCategoryDayClick> builder)
         {
             #region Generated Configure
             // table

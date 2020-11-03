@@ -1,8 +1,8 @@
 using System;
 using FluentValidation;
-using Master.Domain.Models;
+using AutoNews.Domain.Models;
 
-namespace Master.Domain.Validation
+namespace AutoNews.Domain.Validation
 {
     public partial class TaskInfoCreateModelValidator
         : AbstractValidator<TaskInfoCreateModel>
@@ -14,8 +14,9 @@ namespace Master.Domain.Validation
             RuleFor(p => p.RelatedTasks).MaximumLength(50);
             RuleFor(p => p.TaskName).MaximumLength(20);
             RuleFor(p => p.Desc).MaximumLength(50);
+            RuleFor(p => p.Tips).MaximumLength(50);
             RuleFor(p => p.SaveDesc).MaximumLength(100);
-            RuleFor(p => p.Platform).MaximumLength(50);
+            RuleFor(p => p.Platform).MaximumLength(10);
             RuleFor(p => p.BeansText).MaximumLength(20);
             RuleFor(p => p.Remarks).MaximumLength(255);
             #endregion

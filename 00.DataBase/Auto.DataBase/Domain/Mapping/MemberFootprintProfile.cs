@@ -1,19 +1,19 @@
 using System;
 using AutoMapper;
-using Master.Data.Entities;
-using Master.Domain.Models;
+using AutoNews.Data.Entities;
+using AutoNews.Domain.Models;
 
-namespace Master.Domain.Mapping
+namespace AutoNews.Domain.Mapping
 {
     public partial class MemberFootprintProfile
         : AutoMapper.Profile
     {
         public MemberFootprintProfile()
         {
-            CreateMap<Master.Data.Entities.MemberFootprint, Master.Domain.Models.MemberFootprintReadModel>();
-            CreateMap<Master.Domain.Models.MemberFootprintCreateModel, Master.Data.Entities.MemberFootprint>();
-            CreateMap<Master.Data.Entities.MemberFootprint, Master.Domain.Models.MemberFootprintUpdateModel>();
-            CreateMap<Master.Domain.Models.MemberFootprintUpdateModel, Master.Data.Entities.MemberFootprint>();
+            CreateMap<AutoNews.Data.Entities.MemberFootprint, AutoNews.Domain.Models.MemberFootprintReadModel>();
+            CreateMap<AutoNews.Domain.Models.MemberFootprintCreateModel, AutoNews.Data.Entities.MemberFootprint>();
+            CreateMap<AutoNews.Data.Entities.MemberFootprint, AutoNews.Domain.Models.MemberFootprintUpdateModel>();
+            CreateMap<AutoNews.Domain.Models.MemberFootprintUpdateModel, AutoNews.Data.Entities.MemberFootprint>();
         }
 
     }

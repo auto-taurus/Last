@@ -4,26 +4,26 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 
-namespace Master.Data.Queries
+namespace AutoNews.Data.Queries
 {
     public static partial class WebChannelExtensions
     {
         #region Generated Extensions
-        public static Master.Data.Entities.WebChannel GetByKey(this IQueryable<Master.Data.Entities.WebChannel> queryable, int channelId)
+        public static AutoNews.Data.Entities.WebChannel GetByKey(this IQueryable<AutoNews.Data.Entities.WebChannel> queryable, int channelId)
         {
-            if (queryable is DbSet<Master.Data.Entities.WebChannel> dbSet)
+            if (queryable is DbSet<AutoNews.Data.Entities.WebChannel> dbSet)
                 return dbSet.Find(channelId);
 
             return queryable.FirstOrDefault(q => q.ChannelId == channelId);
         }
 
-        public static ValueTask<Master.Data.Entities.WebChannel> GetByKeyAsync(this IQueryable<Master.Data.Entities.WebChannel> queryable, int channelId)
+        public static ValueTask<AutoNews.Data.Entities.WebChannel> GetByKeyAsync(this IQueryable<AutoNews.Data.Entities.WebChannel> queryable, int channelId)
         {
-            if (queryable is DbSet<Master.Data.Entities.WebChannel> dbSet)
+            if (queryable is DbSet<AutoNews.Data.Entities.WebChannel> dbSet)
                 return dbSet.FindAsync(channelId);
 
             var task = queryable.FirstOrDefaultAsync(q => q.ChannelId == channelId);
-            return new ValueTask<Master.Data.Entities.WebChannel>(task);
+            return new ValueTask<AutoNews.Data.Entities.WebChannel>(task);
         }
 
         #endregion

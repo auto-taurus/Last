@@ -2,12 +2,12 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 
-namespace Master.Data.Mapping
+namespace AutoNews.Data.Mapping
 {
     public partial class MemberInfosMap
-        : IEntityTypeConfiguration<Master.Data.Entities.MemberInfos>
+        : IEntityTypeConfiguration<AutoNews.Data.Entities.MemberInfos>
     {
-        public void Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<Master.Data.Entities.MemberInfos> builder)
+        public void Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<AutoNews.Data.Entities.MemberInfos> builder)
         {
             #region Generated Configure
             // table
@@ -20,7 +20,8 @@ namespace Master.Data.Mapping
             builder.Property(t => t.MemberId)
                 .IsRequired()
                 .HasColumnName("MemberId")
-                .HasColumnType("int");
+                .HasColumnType("int")
+                .ValueGeneratedOnAdd();
 
             builder.Property(t => t.Code)
                 .HasColumnName("Code")
@@ -51,8 +52,13 @@ namespace Master.Data.Mapping
                 .HasColumnType("varchar(20)")
                 .HasMaxLength(20);
 
-            builder.Property(t => t.Wechat)
-                .HasColumnName("Wechat")
+            builder.Property(t => t.Uid)
+                .HasColumnName("Uid")
+                .HasColumnType("varchar(50)")
+                .HasMaxLength(50);
+
+            builder.Property(t => t.OpenId)
+                .HasColumnName("OpenId")
                 .HasColumnType("varchar(50)")
                 .HasMaxLength(50);
 
@@ -98,8 +104,8 @@ namespace Master.Data.Mapping
                 .HasColumnName("IsNew")
                 .HasColumnType("int");
 
-            builder.Property(t => t.IsEnbale)
-                .HasColumnName("IsEnbale")
+            builder.Property(t => t.IsEnable)
+                .HasColumnName("IsEnable")
                 .HasColumnType("int");
 
             builder.Property(t => t.Remarks)

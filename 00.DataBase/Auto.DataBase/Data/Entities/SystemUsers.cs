@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Master.Data.Entities
+namespace AutoNews.Data.Entities
 {
     public partial class SystemUsers
     {
@@ -27,9 +27,9 @@ namespace Master.Data.Entities
 
         public string Email { get; set; }
 
-        public string LoginIp { get; set; }
+        public string LastLoginIp { get; set; }
 
-        public DateTime? LoginTime { get; set; }
+        public DateTime? LastLoginTime { get; set; }
 
         public int? IsEnable { get; set; }
 

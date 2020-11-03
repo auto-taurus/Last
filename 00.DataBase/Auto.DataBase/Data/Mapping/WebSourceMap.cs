@@ -2,12 +2,12 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 
-namespace Master.Data.Mapping
+namespace AutoNews.Data.Mapping
 {
     public partial class WebSourceMap
-        : IEntityTypeConfiguration<Master.Data.Entities.WebSource>
+        : IEntityTypeConfiguration<AutoNews.Data.Entities.WebSource>
     {
-        public void Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<Master.Data.Entities.WebSource> builder)
+        public void Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<AutoNews.Data.Entities.WebSource> builder)
         {
             #region Generated Configure
             // table

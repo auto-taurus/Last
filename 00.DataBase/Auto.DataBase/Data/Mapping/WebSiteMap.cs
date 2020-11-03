@@ -2,12 +2,12 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 
-namespace Master.Data.Mapping
+namespace AutoNews.Data.Mapping
 {
     public partial class WebSiteMap
-        : IEntityTypeConfiguration<Master.Data.Entities.WebSite>
+        : IEntityTypeConfiguration<AutoNews.Data.Entities.WebSite>
     {
-        public void Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<Master.Data.Entities.WebSite> builder)
+        public void Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<AutoNews.Data.Entities.WebSite> builder)
         {
             #region Generated Configure
             // table
@@ -38,8 +38,8 @@ namespace Master.Data.Mapping
                 .HasColumnType("varchar(255)")
                 .HasMaxLength(255);
 
-            builder.Property(t => t.Count)
-                .HasColumnName("Count")
+            builder.Property(t => t.AccessNumber)
+                .HasColumnName("AccessNumber")
                 .HasColumnType("int");
 
             builder.Property(t => t.Title)

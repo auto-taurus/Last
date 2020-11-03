@@ -2,12 +2,12 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 
-namespace Master.Data.Mapping
+namespace AutoNews.Data.Mapping
 {
     public partial class WebNewsMap
-        : IEntityTypeConfiguration<Master.Data.Entities.WebNews>
+        : IEntityTypeConfiguration<AutoNews.Data.Entities.WebNews>
     {
-        public void Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<Master.Data.Entities.WebNews> builder)
+        public void Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<AutoNews.Data.Entities.WebNews> builder)
         {
             #region Generated Configure
             // table
@@ -141,12 +141,12 @@ namespace Master.Data.Mapping
 
             builder.Property(t => t.Author)
                 .HasColumnName("Author")
-                .HasColumnType("int");
+                .HasColumnType("nvarchar(50)")
+                .HasMaxLength(50);
 
             builder.Property(t => t.AuditBy)
                 .HasColumnName("AuditBy")
-                .HasColumnType("nvarchar(50)")
-                .HasMaxLength(50);
+                .HasColumnType("int");
 
             builder.Property(t => t.AuditStatus)
                 .HasColumnName("AuditStatus")
@@ -158,8 +158,7 @@ namespace Master.Data.Mapping
 
             builder.Property(t => t.PushBy)
                 .HasColumnName("PushBy")
-                .HasColumnType("nvarchar(50)")
-                .HasMaxLength(50);
+                .HasColumnType("int");
 
             builder.Property(t => t.PushStatus)
                 .HasColumnName("PushStatus")
@@ -178,8 +177,8 @@ namespace Master.Data.Mapping
                 .HasColumnType("int")
                 .HasDefaultValueSql("((255))");
 
-            builder.Property(t => t.SingleSort)
-                .HasColumnName("SingleSort")
+            builder.Property(t => t.SpecialSort)
+                .HasColumnName("SpecialSort")
                 .HasColumnType("int")
                 .HasDefaultValueSql("((255))");
 
@@ -217,11 +216,6 @@ namespace Master.Data.Mapping
                 .WithMany(t => t.WebNews)
                 .HasForeignKey(d => d.CategoryId)
                 .HasConstraintName("FK_WEB_NEWS_REFERENCE_WEB_CATE");
-
-            builder.HasOne(t => t.WebSource)
-                .WithMany(t => t.WebNews)
-                .HasForeignKey(d => d.SourceId)
-                .HasConstraintName("FK_WEB_NEWS_REFERENCE_WEB_SOUR");
 
             #endregion
         }

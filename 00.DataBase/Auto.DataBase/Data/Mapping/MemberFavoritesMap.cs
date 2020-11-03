@@ -2,12 +2,12 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 
-namespace Master.Data.Mapping
+namespace AutoNews.Data.Mapping
 {
     public partial class MemberFavoritesMap
-        : IEntityTypeConfiguration<Master.Data.Entities.MemberFavorites>
+        : IEntityTypeConfiguration<AutoNews.Data.Entities.MemberFavorites>
     {
-        public void Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<Master.Data.Entities.MemberFavorites> builder)
+        public void Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<AutoNews.Data.Entities.MemberFavorites> builder)
         {
             #region Generated Configure
             // table

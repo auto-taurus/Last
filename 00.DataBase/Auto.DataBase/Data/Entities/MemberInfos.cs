@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Master.Data.Entities
+namespace AutoNews.Data.Entities
 {
     public partial class MemberInfos
     {
@@ -34,7 +34,9 @@ namespace Master.Data.Entities
 
         public string Alipay { get; set; }
 
-        public string Wechat { get; set; }
+        public string Uid { get; set; }
+
+        public string OpenId { get; set; }
 
         public string Password { get; set; }
 
@@ -56,7 +58,7 @@ namespace Master.Data.Entities
 
         public int? IsNew { get; set; }
 
-        public int? IsEnbale { get; set; }
+        public int? IsEnable { get; set; }
 
         public string Remarks { get; set; }
 

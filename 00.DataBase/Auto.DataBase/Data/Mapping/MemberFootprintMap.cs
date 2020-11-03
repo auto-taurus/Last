@@ -2,12 +2,12 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 
-namespace Master.Data.Mapping
+namespace AutoNews.Data.Mapping
 {
     public partial class MemberFootprintMap
-        : IEntityTypeConfiguration<Master.Data.Entities.MemberFootprint>
+        : IEntityTypeConfiguration<AutoNews.Data.Entities.MemberFootprint>
     {
-        public void Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<Master.Data.Entities.MemberFootprint> builder)
+        public void Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<AutoNews.Data.Entities.MemberFootprint> builder)
         {
             #region Generated Configure
             // table

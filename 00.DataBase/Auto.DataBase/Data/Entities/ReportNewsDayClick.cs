@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Master.Data.Entities
+namespace AutoNews.Data.Entities
 {
     public partial class ReportNewsDayClick
     {
@@ -14,7 +14,7 @@ namespace Master.Data.Entities
         #region Generated Properties
         public int NewsClickId { get; set; }
 
-        public int? NewsId { get; set; }
+        public string NewsId { get; set; }
 
         public int? CategoryId { get; set; }
 

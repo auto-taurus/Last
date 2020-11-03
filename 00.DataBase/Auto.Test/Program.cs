@@ -15,7 +15,6 @@ namespace Auto.Test {
             // Import database
             var factory = new SqlServerDatabaseFactory() {
                 ConnectionString = key
-
             };
             var database = factory.Import();
             // Create instance of Entity Framework Core Project

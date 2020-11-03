@@ -1,14 +1,13 @@
 using System;
 using System.Collections.Generic;
 
-namespace Master.Data.Entities
+namespace AutoNews.Data.Entities
 {
     public partial class WebSource
     {
         public WebSource()
         {
             #region Generated Constructor
-            WebNews = new HashSet<WebNews>();
             #endregion
         }
 
@@ -33,8 +32,6 @@ namespace Master.Data.Entities
 
         #region Generated Relationships
         public virtual WebCategory WebCategory { get; set; }
-
-        public virtual ICollection<WebNews> WebNews { get; set; }
 
         #endregion
 

@@ -36,8 +36,8 @@ namespace Auto.DataServices {
         /// </summary>
         /// <param name="predicate"></param>
         /// <returns></returns>
-        public virtual async Task<TEntity> SingleAsync(Expression<Func<TEntity, bool>> predicate)
-            => await _BaseDb.Set<TEntity>().AsNoTracking().SingleOrDefaultAsync(predicate);
+        public virtual async Task<TEntity> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> predicate)
+            => await _BaseDb.Set<TEntity>().AsNoTracking().FirstOrDefaultAsync(predicate);
         /// <summary>
         /// 自定义条件过滤、排序、分页，请使用此方法（不跟踪查询）
         /// 根据指定条件获取单个实体
@@ -132,6 +132,7 @@ namespace Auto.DataServices {
                 _BaseDb.Set<TEntity>().Attach(entity);
             }
             entry.State = EntityState.Modified;
+            _BaseDb.Set<TEntity>().Update(entity);
         }
         /// <summary>
         /// 批量实体更新
@@ -234,7 +235,6 @@ namespace Auto.DataServices {
         //public void Rollback() {
         //    _BaseDb.Database.RollbackTransaction();
         //}
-
         /// <summary>
         /// 同步提交
         /// </summary>

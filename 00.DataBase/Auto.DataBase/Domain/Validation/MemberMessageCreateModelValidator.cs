@@ -1,8 +1,8 @@
 using System;
 using FluentValidation;
-using Master.Domain.Models;
+using AutoNews.Domain.Models;
 
-namespace Master.Domain.Validation
+namespace AutoNews.Domain.Validation
 {
     public partial class MemberMessageCreateModelValidator
         : AbstractValidator<MemberMessageCreateModel>

@@ -2,12 +2,12 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 
-namespace Master.Data.Mapping
+namespace AutoNews.Data.Mapping
 {
     public partial class AutoBatchInsertNewsIdMap
-        : IEntityTypeConfiguration<Master.Data.Entities.AutoBatchInsertNewsId>
+        : IEntityTypeConfiguration<AutoNews.Data.Entities.AutoBatchInsertNewsId>
     {
-        public void Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<Master.Data.Entities.AutoBatchInsertNewsId> builder)
+        public void Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<AutoNews.Data.Entities.AutoBatchInsertNewsId> builder)
         {
             #region Generated Configure
             // table

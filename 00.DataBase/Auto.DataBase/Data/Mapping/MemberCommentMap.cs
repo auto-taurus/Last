@@ -2,12 +2,12 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 
-namespace Master.Data.Mapping
+namespace AutoNews.Data.Mapping
 {
     public partial class MemberCommentMap
-        : IEntityTypeConfiguration<Master.Data.Entities.MemberComment>
+        : IEntityTypeConfiguration<AutoNews.Data.Entities.MemberComment>
     {
-        public void Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<Master.Data.Entities.MemberComment> builder)
+        public void Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<AutoNews.Data.Entities.MemberComment> builder)
         {
             #region Generated Configure
             // table

@@ -1,19 +1,19 @@
 using System;
 using AutoMapper;
-using Master.Data.Entities;
-using Master.Domain.Models;
+using AutoNews.Data.Entities;
+using AutoNews.Domain.Models;
 
-namespace Master.Domain.Mapping
+namespace AutoNews.Domain.Mapping
 {
     public partial class WebNewsOperateLogsProfile
         : AutoMapper.Profile
     {
         public WebNewsOperateLogsProfile()
         {
-            CreateMap<Master.Data.Entities.WebNewsOperateLogs, Master.Domain.Models.WebNewsOperateLogsReadModel>();
-            CreateMap<Master.Domain.Models.WebNewsOperateLogsCreateModel, Master.Data.Entities.WebNewsOperateLogs>();
-            CreateMap<Master.Data.Entities.WebNewsOperateLogs, Master.Domain.Models.WebNewsOperateLogsUpdateModel>();
-            CreateMap<Master.Domain.Models.WebNewsOperateLogsUpdateModel, Master.Data.Entities.WebNewsOperateLogs>();
+            CreateMap<AutoNews.Data.Entities.WebNewsOperateLogs, AutoNews.Domain.Models.WebNewsOperateLogsReadModel>();
+            CreateMap<AutoNews.Domain.Models.WebNewsOperateLogsCreateModel, AutoNews.Data.Entities.WebNewsOperateLogs>();
+            CreateMap<AutoNews.Data.Entities.WebNewsOperateLogs, AutoNews.Domain.Models.WebNewsOperateLogsUpdateModel>();
+            CreateMap<AutoNews.Domain.Models.WebNewsOperateLogsUpdateModel, AutoNews.Data.Entities.WebNewsOperateLogs>();
         }
 
     }

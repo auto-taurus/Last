@@ -76,7 +76,7 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
             return response.ToHttpResponse();
         }
         /// <summary>
-        /// 获取
+        /// 获取当天向前7天的收入绿豆记录总额，按天算
         /// </summary>
         /// <param name="source"></param>
         /// <param name="route"></param>
@@ -94,9 +94,6 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                                                                CreateTime = a.Key,
                                                                Beans = a.Sum(b => b.Beans)
                                                            }).ToListAsync();
-
-
-
                 if (result.Count > 0) {
                     response.Code = true;
                     response.Data = result;
@@ -109,7 +106,6 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
             }
             return response.ToHttpResponse();
         }
-
         /// <summary>
         /// 单独获取当天阅读分钟数
         /// </summary>

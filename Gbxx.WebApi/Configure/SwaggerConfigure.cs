@@ -19,7 +19,7 @@ namespace Gbxx.WebApi.Configure.Swagger {
                         "<p>Header头部设备参数(参数不区分大小写/不可包含中文)-> <label style='color:red;'>Source : {\"Ip\": \"127.0.0.1\",\"Device\": \"ios\",\"DeviceVers\": \"1.0.0\",\"SystemVers\": \"1.0.0\"}，Device和SystemVers为必传，PC、H5传递浏览器信息</label></p>" +
                         "<p>Header头部权限参数(参数不区分大小写/不可包含中文)-> <label style='color:red;'>Authorization : asdlfqpwerup9qwe;oadfjg'jzjxpvhaiprhtiqwr;oqwje</label></p>" +
                         "<p>URL地址-> <label style='color:red;'>带{value}的不需要在header，from，body等其他地方再进行传递</label></p>" +
-                        "<p>返回状态-> 200成功（包含其他规则验证），204请求成功没有数据（一般针对列表），400请求参数验证错误，404资源不存在或未定义（一般针对单个对象），500内部错误，权限验证状态码待添加</p>" +
+                        "<p>返回状态-> 200成功（包含其他规则验证），204请求成功没有数据（一般针对列表），400请求参数验证错误，401未登录，403已登录没有权限，404资源不存在或未定义（一般针对单个对象），500内部错误</p>" +
                         "<p>200返回格式 -> <label>{\"code\":bool,\"message\":string,\"data\":object,\"other\":objecte}</label></p>"
                         +
                         "<p>其他状态返回错误或提示文本<p>"
