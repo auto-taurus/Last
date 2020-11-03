@@ -47,8 +47,7 @@ namespace Auto.Applications.Repositories.Tasks {
                 // 任务是否存在
                 if (taskInfo != null) {
                     // 会员当天收入信息
-                    var taskIncomes = await _IMemberIncomeRepository.Query(a => a.TaskCode == item.TaskCode
-                                                                                && a.MemberId == item.MemberId
+                    var memberIncomes = await _IMemberIncomeRepository.Query(a => a.MemberId == item.MemberId
                                                                                 && a.CreateTime.Value.ToString("yyyy-MM-dd") == System.DateTime.Now.ToString("yyyy-MM-dd")
                                                                                 && a.Status == 0)
                                                                     .OrderBy(a => a.CreateTime)
@@ -60,7 +59,7 @@ namespace Auto.Applications.Repositories.Tasks {
                     else {
 
                         // 当前任务
-                        var beans = await AddTask(item, taskInfo, taskIncomes);
+                        var beans = await AddTask(item, null, taskInfo, memberIncomes);
                         member.Beans += beans;
                         member.BeansTotals += beans;
 
@@ -71,16 +70,9 @@ namespace Auto.Applications.Repositories.Tasks {
                             var tasks = await _ITaskInfoRepository.Query(a => taskCodes.Contains(a.TaskCode) && a.IsEnable == 1)
                                                                   .ToListAsync();
                             if (tasks.Count > 0) {
-                                // 关联任务收入
-                                var taskRelatedIncomes = await _IMemberIncomeRepository.Query(a => taskCodes.Contains(a.TaskCode)
-                                                                                    && a.MemberId == item.MemberId
-                                                                                    && a.CreateTime.Value.ToString("yyyy-MM-dd") == System.DateTime.Now.ToString("yyyy-MM-dd")
-                                                                                    && a.Status == 0)
-                                                                        .OrderBy(a => a.CreateTime)
-                                                                        .ToListAsync();
                                 foreach (var task in tasks) {
                                     // 关联任务增加
-                                    beans = await AddTask(item, task, taskRelatedIncomes);
+                                    beans = await AddTask(item, taskInfo, task, memberIncomes);
 
                                     member.Beans += beans;
                                     member.BeansTotals += beans;
@@ -140,7 +132,11 @@ namespace Auto.Applications.Repositories.Tasks {
                 _IMemberInfosRepository.Update(member);
             }
         }
-        private async Task<int> AddTask(TaskItem item, TaskInfo taskInfo, List<MemberIncome> taskIncomes) {
+        private async Task<int> AddTask(TaskItem item, TaskInfo parentTask, TaskInfo taskInfo, List<MemberIncome> taskIncomes) {
+            var parentIncomes = new List<MemberIncome>();
+            if (parentTask != null) {
+                parentIncomes = taskIncomes.Where(a => a.TaskCode == parentTask.TaskCode).ToList();
+            }
             var codeIncomes = taskIncomes.Where(a => a.TaskCode == taskInfo.TaskCode).ToList();
 
             // 0.秒数(基础秒数)
@@ -169,8 +165,15 @@ namespace Auto.Applications.Repositories.Tasks {
             if (taskInfo.IsRandom == 1) {
                 randomBeans = new Random().Next(taskInfo.RandomBefore.Value, taskInfo.RandomAfter.Value);
                 // 已超过最大限额
-                if (randomBeans + firstBeans > taskInfo.Beans) {
-                    randomBeans = taskInfo.Beans.Value - firstBeans;
+                if (firstBeans > 0) {
+                    if (randomBeans + firstBeans >= taskInfo.Beans) {
+                        randomBeans = taskInfo.Beans.Value - firstBeans;
+                    }
+                }
+                else {
+                    var codeBeans = codeIncomes.Sum(a => a.Beans.Value);
+                    if (randomBeans + codeBeans >= taskInfo.Beans)
+                        randomBeans = taskInfo.Beans.Value - codeBeans;
                 }
             }
 
@@ -186,9 +189,20 @@ namespace Auto.Applications.Repositories.Tasks {
             }
             // 4.秒数(上限秒数)
             if (taskInfo.UpperSeconds.HasValue) {
-                var seconds = taskIncomes.Sum(a => a.ReadTime.Value);
-                if (seconds == taskInfo.UpperSeconds.Value && codeIncomes.Count <= 0) {
+                // 后期可扩展是否针对父级做验证，当前版本强制针对父级验证，其他验证同样适用。
+                var parentSecondsTotals = 0;
+                if (parentIncomes.Count > 0) {
+                    parentSecondsTotals = parentIncomes.Sum(a => a.ReadTime.HasValue ? a.ReadTime.Value : 0);
+                }
+                var parentSeconds = 0;
+                if (parentTask != null)
+                    parentSeconds = parentTask.Seconds.Value;
+
+                if (parentSecondsTotals + parentSeconds == taskInfo.UpperSeconds.Value) {
                     beans += taskInfo.Beans.Value;
+                }
+                else if (parentSecondsTotals < taskInfo.UpperSeconds.Value || parentSecondsTotals + parentSeconds > taskInfo.UpperSeconds.Value) {
+                    return 0;
                 }
             }
 
