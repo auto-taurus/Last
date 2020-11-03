@@ -608,27 +608,28 @@
             
             </summary>
         </member>
-        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.TaskController.GetTaskDayAsync(System.String)">
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.TaskController.GetTaskDayAsync(System.String,Gbxx.WebApi.Models.Get.MemberIdGet)">
             <summary>
             获取一周签到任务
             </summary>
             <param name="source"></param>
-            <param name="route"></param>
+            <param name="item"></param>
             <returns></returns>
         </member>
-        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.TaskController.GetTaskTypeKeysAsync(System.String)">
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.TaskController.GetTaskTypeKeysAsync(System.String,Gbxx.WebApi.Models.Get.MemberIdGet)">
             <summary>
             日常任务列表（一次性获取）
             </summary>
             <param name="source"></param>
-            <param name="route"></param>
+            <param name="item"></param>
             <returns></returns>
         </member>
-        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.TaskController.GetDictionariesAsync(System.String)">
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.TaskController.GetDictionariesAsync(System.String,Gbxx.WebApi.Models.Get.MemberIdGet)">
             <summary>
             赚钱日报（分类列表 + 总额）
             </summary>
             <param name="source"></param>
+            <param name="item"></param>
             <returns></returns>
         </member>
         <member name="M:Gbxx.WebApi.Areas.v1.Controllers.TaskController.GetTaskDistKeysAsync(System.String,Gbxx.WebApi.Models.RouteDistKey)">

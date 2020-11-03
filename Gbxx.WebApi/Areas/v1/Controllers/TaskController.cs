@@ -9,6 +9,7 @@ using Auto.RedisServices;
 using Gbxx.WebApi.Areas.v1.Data;
 using Gbxx.WebApi.Controllers;
 using Gbxx.WebApi.Models;
+using Gbxx.WebApi.Models.Get;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -46,7 +47,7 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
         /// 
         /// </summary>
         protected ISystemDictionaryRepository _ISystemDictionaryRepository;
-        //private int MemberId = 0;
+
         public TaskController(ILogger<SiteController> logger,
                               IRedisStore redisStore,
                               ISystemDictionaryRepository systemDictionaryRepository,
@@ -65,11 +66,12 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
         /// 获取一周签到任务
         /// </summary>
         /// <param name="source"></param>
-        /// <param name="route"></param>
+        /// <param name="item"></param>
         /// <returns></returns>
         [HttpGet("Weeks")]
         [AllowAnonymous]
-        public async Task<IActionResult> GetTaskDayAsync([FromHeader]String source) {
+        public async Task<IActionResult> GetTaskDayAsync([FromHeader]String source,
+                                                         [FromQuery]MemberIdGet item) {
             var response = new Response<Object>();
             var taskCode = "T0008";
             try {
@@ -90,14 +92,14 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                 // 今日签到数据
                 var memberIncome = await _IMemberIncomeRepository.Query(a => a.TaskCode == taskCode
                                                                       && a.Status == 0
-                                                                      && a.MemberId == MemberId
+                                                                      && a.MemberId == item.MemberId
                                                                       && a.CreateTime.Value.ToString("yyyy-MM-dd") == nows.ToString("yyyy-MM-dd"))
                                                           .SingleOrDefaultAsync();
                 if (memberIncome == null)
                     // 昨日签到数据
                     memberIncome = await _IMemberIncomeRepository.Query(a => a.TaskCode == taskCode
                                                                        && a.Status == 0
-                                                                       && a.MemberId == MemberId
+                                                                       && a.MemberId == item.MemberId
                                                                        && a.CreateTime.Value.ToString("yyyy-MM-dd") == nows.AddDays(-1).ToString("yyyy-MM-dd"))
                                                             .SingleOrDefaultAsync();
                 var todaySignin = false;
@@ -134,11 +136,12 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
         /// 日常任务列表（一次性获取）
         /// </summary>
         /// <param name="source"></param>
-        /// <param name="route"></param>
+        /// <param name="item"></param>
         /// <returns></returns>
         [HttpGet("Dailies")]
         [AllowAnonymous]
-        public async Task<IActionResult> GetTaskTypeKeysAsync([FromHeader]String source) {
+        public async Task<IActionResult> GetTaskTypeKeysAsync([FromHeader]String source,
+                                                         [FromQuery]MemberIdGet item) {
             var response = new Response<Object>();
             try {
                 var dists = await _ISystemDictionaryRepository.GetKeyNames("CategoryDay");
@@ -155,7 +158,7 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                                                           Tips = a.Tips,
                                                           CategoryDay = a.CategoryDay,
                                                           UpperNumber = a.UpperNumber.HasValue ? a.UpperNumber : 0,
-                                                          AlreadyNumber = a.UpperNumber.HasValue ? a.MemberIncomes.Count(b => b.TaskCode == a.TaskCode && b.MemberId == MemberId) : 0,
+                                                          AlreadyNumber = a.UpperNumber.HasValue ? a.MemberIncomes.Count(b => b.TaskCode == a.TaskCode && b.MemberId == item.MemberId) : 0,
                                                           UpperBeans = a.UpperBeans.HasValue ? a.UpperBeans : 0
                                                       })
                                                       .ToListAsync();
@@ -174,9 +177,12 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
         /// 赚钱日报（分类列表 + 总额）
         /// </summary>
         /// <param name="source"></param>
+        /// <param name="item"></param>
         /// <returns></returns>
         [HttpGet("Fixeds")]
-        public async Task<IActionResult> GetDictionariesAsync([FromHeader]String source) {
+        [AllowAnonymous]
+        public async Task<IActionResult> GetDictionariesAsync([FromHeader]String source,
+                                                              [FromQuery]MemberIdGet item) {
             var response = new Response<List<DistTaskResponse>>();
             try {
                 var dists = await _ISystemDictionaryRepository.Query(a => a.TypeKey == "CategoryFixed" && a.IsEnable == 1, a => a.Sequence)
@@ -187,7 +193,7 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                                                               .ToListAsync();
                 if (dists.Count > 0) {
                     var ids = dists.Select(a => int.Parse(a.DistKey)).ToList();
-                    var groups = await _IMemberIncomeRepository.Query(a => a.MemberId == MemberId
+                    var groups = await _IMemberIncomeRepository.Query(a => a.MemberId == item.MemberId
                                                                            && ids.Contains(a.CategoryFixed.Value)
                                                                            && a.CreateTime.Value.ToString("yyyy-MM-dd") == System.DateTime.Now.ToString("yyyy-MM-dd")
                                                                            && a.Status == 0)
@@ -219,7 +225,6 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
         /// <param name="route"></param>
         /// <returns></returns>
         [HttpGet("Fixeds/{distKey}")]
-        [AllowAnonymous]
         public async Task<IActionResult> GetTaskDistKeysAsync([FromHeader]String source,
                                                               [FromRoute]RouteDistKey route) {
             var response = new Response<Object>();
