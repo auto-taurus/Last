@@ -4,29 +4,24 @@ using Auto.DataServices.Contracts;
 using Auto.Entities.Dtos;
 using Auto.Entities.Modals;
 using Auto.RedisServices.Repositories;
-using Gbxx.WebApi.Areas.v1.Data;
 using Gbxx.WebApi.Areas.v1.Models.Post;
-using Gbxx.WebApi.Areas.v1.Models.Route;
 using Gbxx.WebApi.Controllers;
 using Gbxx.WebApi.Handlers;
 using Gbxx.WebApi.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Swashbuckle.AspNetCore.Annotations;
-using Microsoft.Extensions.Configuration;
 using System;
-using System.Linq;
 using System.Threading.Tasks;
 
-namespace Gbxx.WebApi.Areas.v1.Controllers
-{
+namespace Gbxx.WebApi.Areas.v1.Controllers {
     /// <summary>
     /// 会员中心
     /// </summary>
     [Route("v1/[controller]")]
-    public class MemberController : AuthorizeController
-    {
+    public class MemberController : AuthorizeController {
         /// <summary>
         /// 
         /// </summary>
@@ -55,8 +50,7 @@ namespace Gbxx.WebApi.Areas.v1.Controllers
                                 IMemberInfosRepository memberInfoRepository,
                                 IMemberIncomeRepository memberIncomeRepository,
                                 IJwtRedis jwtRedis,
-                                IConfiguration configuration)
-        {
+                                IConfiguration configuration) {
             this._IConfiguration = configuration;
             this._ILogger = logger;
             this._IMemberInfoRepository = memberInfoRepository;
@@ -73,14 +67,11 @@ namespace Gbxx.WebApi.Areas.v1.Controllers
         [HttpGet("{id}")]
         [SwaggerResponse(200, "", typeof(MemberAppDto))]
         public async Task<IActionResult> GetMemberInfoAsync([FromHeader]String source,
-                                                            [FromRoute]RouteIdInt route)
-        {
+                                                            [FromRoute]RouteIdInt route) {
             var response = new Response<MemberAppDto>();
-            try
-            {
+            try {
                 var entity = await _IMemberInfoRepository.GetAppInfo(route.id);
-                if (entity != null)
-                {
+                if (entity != null) {
                     entity.TodayRead = await _IMemberIncomeRepository.Query(a => a.MemberId == route.id
                                                                             && a.TaskCode == "T0003"
                                                                             && a.CreateTime.Value.ToString("yyyy-MM-dd") == System.DateTime.Now.ToString("yyyy-MM-dd")
@@ -100,8 +91,7 @@ namespace Gbxx.WebApi.Areas.v1.Controllers
                 else
                     return NotFound();
             }
-            catch (Exception ex)
-            {
+            catch (Exception ex) {
                 response.SetError(ex, this._ILogger);
             }
             return response.ToHttpResponse();
@@ -116,14 +106,11 @@ namespace Gbxx.WebApi.Areas.v1.Controllers
         [HttpPost("{id}")]
         public async Task<IActionResult> PostMemberInfoAsync([FromHeader]String source,
                                                              [FromRoute]RouteIdInt route,
-                                                             [FromBody]MemberInfoPost item)
-        {
+                                                             [FromBody]MemberInfoPost item) {
             var response = new Response<Object>();
-            try
-            {
+            try {
                 var entity = new MemberInfos();
-                if (await _IMemberInfoRepository.IsExistAsync(a => a.MemberId == 1 && a.IsEnable == 1))
-                {
+                if (await _IMemberInfoRepository.IsExistAsync(a => a.MemberId == 1 && a.IsEnable == 1)) {
                     if (!string.IsNullOrEmpty(item.NickName))
                         entity.NickName = item.NickName;
                     if (item.Sex.HasValue)
@@ -140,8 +127,7 @@ namespace Gbxx.WebApi.Areas.v1.Controllers
                 else
                     return NotFound();
             }
-            catch (Exception ex)
-            {
+            catch (Exception ex) {
                 response.SetError(ex, this._ILogger);
             }
             return response.ToHttpResponse();
@@ -156,26 +142,21 @@ namespace Gbxx.WebApi.Areas.v1.Controllers
         [HttpPost("{id}/Password")]
         public async Task<IActionResult> PostMemberInfoPasswordAsync([FromHeader]String source,
                                                                      [FromRoute]RouteIdInt route,
-                                                                     [FromBody]PasswordPost item)
-        {
+                                                                     [FromBody]PasswordPost item) {
             var response = new Response<Object>();
-            try
-            {
+            try {
                 var flag = await _IMemberInfoRepository.BatchUpdateAsync(a => a.MemberId == route.id,
-                    u => new MemberInfos()
-                    {
+                    u => new MemberInfos() {
                         Password = Tools.Md5(item.New)
                     });
-                if (flag)
-                {
+                if (flag) {
                     response.Code = true;
                     await _IJwtRedis.DeactivateCurrentAsync();
                 }
                 else
                     return BadRequest("修改密码失败！");
             }
-            catch (Exception ex)
-            {
+            catch (Exception ex) {
                 response.SetError(ex, this._ILogger);
             }
             return response.ToHttpResponse();
@@ -192,20 +173,16 @@ namespace Gbxx.WebApi.Areas.v1.Controllers
         [HiddenApi]
         public async Task<IActionResult> PostMemberInfoAvatarAsync([FromHeader]String source,
                                                                    [FromRoute]RouteIdInt route,
-                                                                   [FromBody]String avatar)
-        {
+                                                                   [FromBody]String avatar) {
             var response = new Response<Object>();
-            try
-            {
+            try {
                 if (string.IsNullOrEmpty(avatar))
                     return BadRequest("请传递头像文件！");
-                else
-                {
+                else {
 
                 }
             }
-            catch (Exception ex)
-            {
+            catch (Exception ex) {
                 response.SetError(ex, this._ILogger);
             }
             return response.ToHttpResponse();

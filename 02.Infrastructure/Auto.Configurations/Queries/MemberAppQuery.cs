@@ -11,7 +11,7 @@ namespace Auto.Configurations.Queries {
                 a.Ignore(b => b.TodayBeans)
                  .Ignore(b => b.TodayRead)
                  .Ignore(b => b.Ratio)
-                 .Ignore(b=>b.RatioValue);
+                 .Ignore(b => b.RatioValue);
             });
         }
     }
