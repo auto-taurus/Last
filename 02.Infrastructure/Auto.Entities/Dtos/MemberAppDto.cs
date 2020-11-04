@@ -67,7 +67,12 @@ namespace Auto.Entities.Dtos {
         /// <summary>
         /// 比率
         /// </summary>
-        public string Ratio { get; set; } = "10000/1";
+        public string Ratio { get; set; }
+
+        /// <summary>
+        /// 比率结果
+        /// </summary>
+        public decimal? RatioValue { get; set; }
         #endregion
     }
 }

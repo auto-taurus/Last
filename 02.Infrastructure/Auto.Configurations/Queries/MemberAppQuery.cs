@@ -10,7 +10,8 @@ namespace Auto.Configurations.Queries {
                 a.ToView("MemberAppDto");
                 a.Ignore(b => b.TodayBeans)
                  .Ignore(b => b.TodayRead)
-                 .Ignore(b => b.Ratio);
+                 .Ignore(b => b.Ratio)
+                 .Ignore(b=>b.RatioValue);
             });
         }
     }

@@ -94,5 +94,10 @@
             比率
             </summary>
         </member>
+        <member name="P:Auto.Entities.Dtos.MemberAppDto.RatioValue">
+            <summary>
+            比率结果
+            </summary>
+        </member>
     </members>
 </doc>
