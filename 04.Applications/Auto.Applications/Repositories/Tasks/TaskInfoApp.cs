@@ -37,43 +37,46 @@ namespace Auto.Applications.Repositories.Tasks {
             // 任务信息
             var taskInfo = await _ITaskInfoRepository.FirstOrDefaultAsync(a => a.TaskCode == item.TaskCode && a.IsEnable == 1);
             var flag = false;
-            // 签到任务特殊处理
-            if (item.TaskCode == "T0008") {
-                await AddSignIn(item, taskInfo);
-                flag = await _IMemberIncomeRepository.SaveChangesAsync() > 0;
-            }
-            else {
-                var member = await _IMemberInfosRepository.FirstOrDefaultAsync(a => a.MemberId == item.MemberId);
-                // 任务是否存在
-                if (taskInfo != null) {
-                    // 会员当天收入信息
-                    var memberIncomes = await _IMemberIncomeRepository.Query(a => a.MemberId == item.MemberId
-                                                                                && a.CreateTime.Value.ToString("yyyy-MM-dd") == System.DateTime.Now.ToString("yyyy-MM-dd")
-                                                                                && a.Status == 0)
-                                                                    .OrderBy(a => a.CreateTime)
-                                                                    .ToListAsync();
+            // 任务是否存在
+            #region Start
+            if (taskInfo != null) {
+                // 会员当天收入信息
+                var memberIncomes = await _IMemberIncomeRepository.Query(a => a.MemberId == item.MemberId
+                                                                            && a.CreateTime.Value.ToString("yyyy-MM-dd") == System.DateTime.Now.ToString("yyyy-MM-dd")
+                                                                            && a.Status == 0)
+                                                                .OrderBy(a => a.CreateTime)
+                                                                .ToListAsync();
+
+                #region 特殊任务特殊处理
+                // 签到任务特殊处理
+                if (item.TaskCode == "T0008") {
+                    await AddSignIn(item, taskInfo);
+                }
+                //分享特殊处理
+                if (item.TaskCode == "T0005") {
+                    await AddShare(item, taskInfo, memberIncomes);
+                }
+                #endregion
+                else {
                     if (taskInfo.IsSubset == 1) {
                         // 子集任务(除签到任务，后续有子集的处理过程)
 
                     }
                     else {
-
                         // 当前任务
+                        var member = await _IMemberInfosRepository.FirstOrDefaultAsync(a => a.MemberId == item.MemberId);
                         var beans = await AddTask(item, null, taskInfo, memberIncomes);
-                        //if (beans <= 0)
-                        //{
-                        //    return false;
-                        //}
+                        if (beans == 0)
+                            return false;
                         member.Beans += beans;
                         if (!member.BeansTotals.HasValue) {
                             member.BeansTotals = 0;
                         }
                         member.BeansTotals += beans;
-                        if (!string.IsNullOrEmpty(taskInfo.RelatedTasks)) {
+                        if (taskInfo.TaskId != 0) {
                             // 是否有关联任务（只做二级）
-                            var taskCodes = taskInfo.RelatedTasks.Split("∮");
                             // 关联任务列表
-                            var tasks = await _ITaskInfoRepository.Query(a => taskCodes.Contains(a.TaskCode) && a.IsEnable == 1)
+                            var tasks = await _ITaskInfoRepository.Query(a => a.ParentId == taskInfo.TaskId && a.IsEnable == 1)
                                                                   .ToListAsync();
                             if (tasks.Count > 0) {
                                 foreach (var task in tasks) {
@@ -83,14 +86,14 @@ namespace Auto.Applications.Repositories.Tasks {
                                     member.Beans += beans;
                                     member.BeansTotals += beans;
                                 }
-
                             }
                         }
                         _IMemberInfosRepository.Update(member);
                     }
-                    flag = await _IMemberIncomeRepository.SaveChangesAsync() > 0;
                 }
+                flag = await _IMemberIncomeRepository.SaveChangesAsync() > 0;
             }
+            #endregion
             return flag;
         }
         /// <summary>
@@ -138,6 +141,52 @@ namespace Auto.Applications.Repositories.Tasks {
                 _IMemberInfosRepository.Update(member);
             }
         }
+
+        /// <summary>
+        /// 分享任务特殊处理
+        /// </summary>
+        /// <param name="item"></param>
+        /// <param name="taskInfo"></param>
+        /// <param name="taskIncomes"></param>
+        /// <returns></returns>
+        public async Task AddShare(TaskItem item, TaskInfo taskInfo, List<MemberIncome> taskIncomes) {
+            int beans = 0;
+            MemberIncome memberIncome = null;
+            var codeIncomes = taskIncomes.Where(a => a.TaskCode == taskInfo.TaskCode).ToList();
+            var sumNumber = taskIncomes.Sum(c => c.Number);
+            if (codeIncomes.Count != 0) {
+                memberIncome = codeIncomes.FirstOrDefault();
+            }
+            if (codeIncomes.Count == 0) {
+                beans = taskInfo.FirstBeans ?? 0;
+                await SetModal(item, taskInfo, beans);//信息会员收入记录
+            }
+            else {
+                if (!memberIncome.Number.HasValue)
+                    memberIncome.Number = 0;
+                if ((sumNumber + 1) < taskInfo.UpperNumber) {
+                    memberIncome.Number += 1;
+                    _IMemberIncomeRepository.Update(memberIncome);//更新会员收入记录
+                }
+                else if ((sumNumber + 1)== taskInfo.UpperNumber) {
+                    //分享上限额外奖励
+                    var tilte = "连续分享奖励";
+                    beans += taskInfo.UpperBeans.Value;
+
+                    memberIncome.Title = tilte;
+                    memberIncome.TaskName = tilte;
+                    memberIncome.TaskCode = null;
+                    await SetModal(item, taskInfo, beans, memberIncome);//信息会员收入记录
+                    var member = await _IMemberInfosRepository.FirstOrDefaultAsync(a => a.MemberId == item.MemberId && a.IsEnable == 1);
+                    member.Beans += beans;
+                    member.BeansTotals += beans;
+                    _IMemberInfosRepository.Update(member);//更新会员信息
+                }
+                else {
+                    //暂无处理
+                };
+            }
+        }
         private async Task<int> AddTask(TaskItem item, TaskInfo parentTask, TaskInfo taskInfo, List<MemberIncome> taskIncomes) {
             var parentIncomes = new List<MemberIncome>();
             if (parentTask != null) {
@@ -145,8 +194,8 @@ namespace Auto.Applications.Repositories.Tasks {
             }
             var codeIncomes = taskIncomes.Where(a => a.TaskCode == taskInfo.TaskCode).ToList();
 
-            var lastMemberIncome = codeIncomes.LastOrDefault();
-            if (lastMemberIncome == null) {
+            MemberIncome lastMemberIncome = null;
+            if (parentIncomes.Count != 0) {
                 lastMemberIncome = parentIncomes.LastOrDefault();
             }
             // 0.秒数(基础秒数)
@@ -191,13 +240,8 @@ namespace Auto.Applications.Repositories.Tasks {
 
             #region #region 额外奖励(大部分是关联任务奖励)
 
-            // 3.是否开启上限次数额外奖励
-            if (parentIncomes.Count() == 0 && taskInfo.UpperNumber > 0) {
-                if (codeIncomes.Count + 1 == taskInfo.UpperNumber) {
-                    beans += taskInfo.UpperBeans.Value;
-                }
-            }
-            // 4.秒数(上限秒数)
+
+            // 3.秒数(上限秒数)
             if (taskInfo.UpperSeconds.HasValue) {
                 // 后期可扩展是否针对父级做验证，当前版本强制针对父级验证，其他验证同样适用。
                 var parentSecondsTotals = 0;
@@ -208,7 +252,7 @@ namespace Auto.Applications.Repositories.Tasks {
                 if (parentTask != null)
                     parentSeconds = parentTask.Seconds.Value;
 
-                if (parentSecondsTotals + parentSeconds == taskInfo.UpperSeconds.Value) {
+                if (parentSecondsTotals == taskInfo.UpperSeconds.Value) {
                     beans += taskInfo.Beans.Value;
                 }
                 else if (parentSecondsTotals < taskInfo.UpperSeconds.Value || parentSecondsTotals + parentSeconds > taskInfo.UpperSeconds.Value) {
@@ -216,53 +260,69 @@ namespace Auto.Applications.Repositories.Tasks {
                 }
             }
 
-            if (codeIncomes.Count() != 0 && taskInfo.UpperBeans.HasValue)
-                return 0;
-            else if (lastMemberIncome.Number != taskInfo.UpperNumber) {
-
-                if (!lastMemberIncome.Number.HasValue)
-                    lastMemberIncome.Number = 0;
-                lastMemberIncome.Number += 1;
-                _IMemberIncomeRepository.Update(lastMemberIncome);
-                return 0;
+            // 4.是否开启上限次数额外奖励
+            if (taskInfo.UpperNumber > 0) {
+                if (codeIncomes.Count + 1 == taskInfo.UpperNumber) {
+                    beans += taskInfo.UpperBeans.Value;
+                }
+                else if ((codeIncomes.Count + 1) > taskInfo.UpperNumber) {
+                    return 0;
+                }
             }
-            else {
-                beans += taskInfo.Beans.Value;
-            }
-
             #endregion
             if (beans <= 0)
                 beans = taskInfo.Beans.Value;
             await SetModal(item, taskInfo, beans);
             return beans;
         }
+
+        /// <summary>
+        /// 新增会员收入记录
+        /// </summary>
+        /// <param name="item"></param>
+        /// <param name="taskInfo"></param>
+        /// <param name="beans"></param>
+        /// <param name="thisIncome"></param>
+        /// <returns></returns>
         private async Task SetModal(TaskItem item, TaskInfo taskInfo, int beans, MemberIncome thisIncome = null) {
-            thisIncome = thisIncome == null ? new MemberIncome() : thisIncome;
-            thisIncome.MemberId = item.MemberId;
-            thisIncome.TaskId = taskInfo.TaskId;
-            thisIncome.TaskCode = taskInfo.TaskCode;
-            thisIncome.TaskName = taskInfo.TaskName;
-            thisIncome.CategoryDay = taskInfo.CategoryDay;
-            thisIncome.CategoryFixed = taskInfo.CategoryFixed;
-            thisIncome.Title = taskInfo.SaveDesc;
-            thisIncome.Beans = beans;
-            thisIncome.CreateTime = System.DateTime.Now;
-            thisIncome.ReadTime = taskInfo.Seconds;
+            var memberIncome = new MemberIncome();
+            memberIncome.MemberId = item.MemberId;
+            if(thisIncome != null) {
+                memberIncome.TaskId = thisIncome.TaskId ;
+                memberIncome.TaskCode = thisIncome.TaskCode;
+                memberIncome.TaskName = thisIncome.TaskName;
+                memberIncome.CategoryDay = thisIncome.CategoryDay;
+                memberIncome.CategoryFixed =  thisIncome.CategoryFixed;
+                memberIncome.Title = thisIncome.Title;
+            }
+            else {
+                memberIncome.TaskId =  taskInfo.TaskId;
+                memberIncome.TaskCode =  taskInfo.TaskCode;
+                memberIncome.TaskName =taskInfo.TaskName;
+                memberIncome.CategoryDay =  taskInfo.CategoryDay;
+                memberIncome.CategoryFixed =  taskInfo.CategoryFixed;
+                memberIncome.Title = taskInfo.SaveDesc;
+            }
+            memberIncome.Beans = beans;
+            if (!memberIncome.Number.HasValue)
+                memberIncome.Number = 1;
+            memberIncome.CreateTime = System.DateTime.Now;
+            memberIncome.ReadTime = taskInfo.Seconds;
 
             var before = Convert.ToDouble(_Before);
             if (beans >= 20000)
-                thisIncome.BeansText = $"+{Math.Round(beans / before, 2)}元";
+                memberIncome.BeansText = $"+{Math.Round(beans / before, 2)}元";
             else
-                thisIncome.BeansText = $"+{beans}绿豆";
+                memberIncome.BeansText = $"+{beans}绿豆";
 
-            thisIncome.Proportion = $"{_Before}/{_After}";
+            memberIncome.Proportion = $"{_Before}/{_After}";
 
-            thisIncome.Status = 0;
-            thisIncome.AuditBy = 1;
-            thisIncome.AuditName = "admin";
-            thisIncome.AuditTime = System.DateTime.Now;
+            memberIncome.Status = 0;
+            memberIncome.AuditBy = 1;
+            memberIncome.AuditName = "admin";
+            memberIncome.AuditTime = System.DateTime.Now;
 
-            await _IMemberIncomeRepository.AddAsync(thisIncome);
+            await _IMemberIncomeRepository.AddAsync(memberIncome);
 
         }
     }

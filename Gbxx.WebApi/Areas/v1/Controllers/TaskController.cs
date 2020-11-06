@@ -154,7 +154,7 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                                                           Tips = a.Tips,
                                                           CategoryDay = a.CategoryDay,
                                                           UpperNumber = a.UpperNumber.HasValue ? a.UpperNumber : 0,
-                                                          AlreadyNumber = a.UpperNumber.HasValue ? a.MemberIncomes.Count(b => b.TaskCode == a.TaskCode && b.MemberId == item.MemberId) : 0,
+                                                          AlreadyNumber = a.UpperNumber.HasValue ? a.MemberIncomes.Sum(b => b.Number) : 0,
                                                           UpperBeans = a.UpperBeans.HasValue ? a.UpperBeans : 0
                                                       })
                                                       .ToListAsync();
