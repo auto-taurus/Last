@@ -285,9 +285,10 @@ namespace Auto.Applications.Repositories.Tasks {
         /// <param name="thisIncome"></param>
         /// <returns></returns>
         private async Task SetModal(TaskItem item, TaskInfo taskInfo, int beans, MemberIncome thisIncome = null) {
-            var memberIncome = new MemberIncome();
-            memberIncome.MemberId = item.MemberId;
-            if(thisIncome != null) {
+            var memberIncome = new MemberIncome {
+                MemberId = item.MemberId
+            };
+            if (thisIncome != null) {
                 memberIncome.TaskId = thisIncome.TaskId ;
                 memberIncome.TaskCode = thisIncome.TaskCode;
                 memberIncome.TaskName = thisIncome.TaskName;
