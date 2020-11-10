@@ -76,7 +76,8 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
         /// <param name="newsId"></param>
         /// <returns></returns>
         [HttpGet("{mark}/NewsDoc")]
-        public async Task<IActionResult> PostNewsDocAsync([FromRoute]SiteRoute route,
+        public async Task<IActionResult> PostNewsDocAsync([FromHeader]String source,
+                                                          [FromRoute]SiteRoute route,
                                                           string newsId = "10000000") {
             var response = new Response<Object>();
             try {

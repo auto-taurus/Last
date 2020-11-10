@@ -396,6 +396,14 @@
             <param name="avatar"></param>
             <returns></returns>
         </member>
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.MemberController.BindAlipayAsync(System.String,Gbxx.WebApi.Areas.v1.Models.Post.BindAlipayPost)">
+            <summary>
+            绑定支付宝
+            </summary>
+            <param name="source"></param>
+            <param name="item"></param>
+            <returns></returns>
+        </member>
         <member name="F:Gbxx.WebApi.Areas.v1.Controllers.MessageController._ILogger">
             <summary>
             
@@ -744,7 +752,7 @@
             <param name="webNewsRepository"></param>
             <param name="webCategoryRepository"></param>
         </member>
-        <member name="M:Gbxx.WebApi.Areas.v1.Controllers._TestDataController.PostNewsDocAsync(Gbxx.WebApi.Areas.v1.Models.Route.SiteRoute,System.String)">
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers._TestDataController.PostNewsDocAsync(System.String,Gbxx.WebApi.Areas.v1.Models.Route.SiteRoute,System.String)">
             <summary>
             
             </summary>
@@ -1011,6 +1019,31 @@
         <member name="M:Gbxx.WebApi.Areas.v1.Models.Get.MemberFollowPostValidator.#ctor">
             <summary>
             
+            </summary>
+        </member>
+        <member name="T:Gbxx.WebApi.Areas.v1.Models.Post.BindAlipayPost">
+            <summary>
+            绑定支付宝接收类
+            </summary>
+        </member>
+        <member name="P:Gbxx.WebApi.Areas.v1.Models.Post.BindAlipayPost.Id">
+            <summary>
+            会员id
+            </summary>
+        </member>
+        <member name="P:Gbxx.WebApi.Areas.v1.Models.Post.BindAlipayPost.Name">
+            <summary>
+            真实姓名
+            </summary>
+        </member>
+        <member name="P:Gbxx.WebApi.Areas.v1.Models.Post.BindAlipayPost.Alipay">
+            <summary>
+            支付宝
+            </summary>
+        </member>
+        <member name="T:Gbxx.WebApi.Areas.v1.Models.Post.BindAlipayPostValidator">
+            <summary>
+            数据校验
             </summary>
         </member>
         <member name="T:Gbxx.WebApi.Areas.v1.Models.Post.CommentPostValidator">

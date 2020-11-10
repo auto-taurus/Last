@@ -150,15 +150,12 @@ namespace Auto.Applications.Repositories.Tasks {
             MemberIncome lastIncomes;
             if (taskInfo.Seconds.HasValue && taskInfo.UpperSeconds.HasValue) {
                 lastIncomes = codeIncomes.LastOrDefault();
-                var ts = System.DateTime.Now.Subtract(lastIncomes.CreateTime.Value).TotalSeconds;
-                // 大于等于30秒（自定义）
-                if (ts < taskInfo.Seconds)
-                    return new Tuple<bool, string, int>(false, $"未到{taskInfo.Seconds}秒！", 0);
                 // 3.秒数 + 最大秒数
                 var seconds = 0.0;
                 if (lastIncomes != null) {
                     seconds = System.DateTime.Now.Subtract(lastIncomes.CreateTime.Value).TotalSeconds;
                 }
+                else seconds = taskInfo.Seconds.Value;
                 if (seconds >= taskInfo.Seconds) {
                     secondsBeans = GetSecondsBeans(taskInfo, codeIncomes, fromIds, randomBeans);
                     var secondsTotals = codeIncomes.Sum(a => a.ReadTime.Value);
@@ -192,18 +189,17 @@ namespace Auto.Applications.Repositories.Tasks {
                         }
                     }
                 }
+                else return new Tuple<bool, string, int>(false, $"未到{taskInfo.Seconds}秒！", 0);
             }
             else if (taskInfo.Seconds.HasValue) {
                 // 4.秒数
                 lastIncomes = codeIncomes.LastOrDefault();
-                var ts = System.DateTime.Now.Subtract(lastIncomes.CreateTime.Value).TotalSeconds;
-                // 大于等于30秒（自定义）
-                if (ts < taskInfo.Seconds)
-                    return new Tuple<bool, string, int>(false, $"未到{taskInfo.Seconds}秒！", 0);
                 var seconds = 0.0;
                 if (lastIncomes != null) {
                     seconds = System.DateTime.Now.Subtract(lastIncomes.CreateTime.Value).TotalSeconds;
                 }
+                else seconds = taskInfo.Seconds.Value;
+
                 if (seconds >= taskInfo.Seconds) {
                     secondsBeans = GetSecondsBeans(taskInfo, codeIncomes, fromIds, randomBeans);
                     if (secondsBeans > 0) {
@@ -223,6 +219,8 @@ namespace Auto.Applications.Repositories.Tasks {
                         }
                     }
                 }
+                else
+                    return new Tuple<bool, string, int>(false, $"未到{taskInfo.Seconds}秒！", 0);
             }
             else if (taskInfo.UpperNumber.HasValue) {
                 // 5.上限次数奖励
