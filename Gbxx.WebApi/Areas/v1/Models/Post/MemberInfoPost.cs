@@ -3,6 +3,7 @@ using FluentValidation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Gbxx.WebApi.Areas.v1.Models.Post {
@@ -33,9 +34,12 @@ namespace Gbxx.WebApi.Areas.v1.Models.Post {
         protected readonly IMemberInfosRepository _IMemberInfosRepository;
         public MemberInfoPostValidator(IMemberInfosRepository memberInfosRepository) {
             this._IMemberInfosRepository = memberInfosRepository;
-            RuleFor(x => x.Alipay).MustAsync(async (a, cancellation) => {
-                return await _IMemberInfosRepository.IsExistAsync(b => b.Alipay == a);
-            }).WithMessage("支付宝已被绑定!");
+            RuleFor(x => x.Alipay).Matches(@"0?(13|14|15|17|18|19)[0-9]{9}").WithMessage("支付宝账号格式不正确")
+                                  .MustAsync(AlipayRepeatValidator).WithMessage("支付宝已被绑定!");
         }
+        private async Task<bool> AlipayRepeatValidator(string alipay, CancellationToken cancellation) {
+            return await _IMemberInfosRepository.IsExistAsync(b => b.Alipay == alipay);
+        }
+
     }
 }
