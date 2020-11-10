@@ -28,6 +28,8 @@ namespace AutoNews.Data.Entities
 
         public string CustomTitle { get; set; }
 
+        public int? SourceId { get; set; }
+
         public string Source { get; set; }
 
         public string SourceAddress { get; set; }

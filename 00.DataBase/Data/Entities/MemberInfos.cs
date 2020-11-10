@@ -8,6 +8,7 @@ namespace AutoNews.Data.Entities
         public MemberInfos()
         {
             #region Generated Constructor
+            MemberComments = new HashSet<MemberComment>();
             MemberFans = new HashSet<MemberFans>();
             MemberFavorites = new HashSet<MemberFavorites>();
             MemberFollows = new HashSet<MemberFollow>();
@@ -33,7 +34,9 @@ namespace AutoNews.Data.Entities
 
         public string Alipay { get; set; }
 
-        public string Wechat { get; set; }
+        public string Uid { get; set; }
+
+        public string OpenId { get; set; }
 
         public string Password { get; set; }
 
@@ -53,7 +56,9 @@ namespace AutoNews.Data.Entities
 
         public int? FansNumber { get; set; }
 
-        public int? IsEnbale { get; set; }
+        public int? IsNew { get; set; }
+
+        public int? IsEnable { get; set; }
 
         public string Remarks { get; set; }
 
@@ -62,6 +67,8 @@ namespace AutoNews.Data.Entities
         #endregion
 
         #region Generated Relationships
+        public virtual ICollection<MemberComment> MemberComments { get; set; }
+
         public virtual ICollection<MemberFans> MemberFans { get; set; }
 
         public virtual ICollection<MemberFavorites> MemberFavorites { get; set; }

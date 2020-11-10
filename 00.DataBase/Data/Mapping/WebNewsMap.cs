@@ -51,6 +51,10 @@ namespace AutoNews.Data.Mapping
                 .HasColumnType("nvarchar(500)")
                 .HasMaxLength(500);
 
+            builder.Property(t => t.SourceId)
+                .HasColumnName("SourceId")
+                .HasColumnType("int");
+
             builder.Property(t => t.Source)
                 .HasColumnName("Source")
                 .HasColumnType("nvarchar(50)")

@@ -37,26 +37,12 @@ namespace AutoNews.Data.Mapping
                 .HasColumnType("nvarchar(255)")
                 .HasMaxLength(255);
 
-            builder.Property(t => t.LeaveTime)
-                .HasColumnName("LeaveTime")
-                .HasColumnType("datetime");
-
-            builder.Property(t => t.CustomerId)
-                .HasColumnName("CustomerId")
+            builder.Property(t => t.LeaveType)
+                .HasColumnName("LeaveType")
                 .HasColumnType("int");
 
-            builder.Property(t => t.CustomerName)
-                .HasColumnName("CustomerName")
-                .HasColumnType("nvarchar(20)")
-                .HasMaxLength(20);
-
-            builder.Property(t => t.ReplyBody)
-                .HasColumnName("ReplyBody")
-                .HasColumnType("nvarchar(255)")
-                .HasMaxLength(255);
-
-            builder.Property(t => t.ReplyTime)
-                .HasColumnName("ReplyTime")
+            builder.Property(t => t.CreateTime)
+                .HasColumnName("CreateTime")
                 .HasColumnType("datetime");
 
             builder.Property(t => t.IsEnable)

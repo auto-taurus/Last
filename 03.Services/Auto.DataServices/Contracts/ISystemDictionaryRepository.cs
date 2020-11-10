@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Auto.DataServices.Contracts {
     public interface ISystemDictionaryRepository : IRepository<SystemDictionary>, IScopedInject {
-        Task<IList<KeyAllDto>> GetAlls(string typeKey);
-        Task<IList<KeyNameDto>> GetKeyNames(string typeKey);
-        Task<IList<KeyValueDto>> GetKeyValues(string typeKey);
+        Task<List<KeyAllDto>> GetAlls(string typeKey);
+        Task<List<KeyNameDto>> GetKeyNames(string typeKey);
+        Task<List<KeyValueDto>> GetKeyValues(string typeKey);
     }
 }

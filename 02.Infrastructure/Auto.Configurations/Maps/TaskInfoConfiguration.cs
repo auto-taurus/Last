@@ -21,10 +21,6 @@ namespace Auto.Configurations.Maps {
                     .HasColumnType("int")
                     .ValueGeneratedOnAdd();
 
-                builder.Property(t => t.ParentId)
-                    .HasColumnName("ParentId")
-                    .HasColumnType("int");
-
                 builder.Property(t => t.TaskCode)
                     .HasColumnName("TaskCode")
                     .HasColumnType("varchar(5)")
@@ -40,20 +36,38 @@ namespace Auto.Configurations.Maps {
                     .HasColumnType("nvarchar(20)")
                     .HasMaxLength(20);
 
-                builder.Property(t => t.Desc)
-                    .HasColumnName("Desc")
+                builder.Property(t => t.ShowDesc)
+                    .HasColumnName("ShowDesc")
                     .HasColumnType("nvarchar(50)")
                     .HasMaxLength(50);
+
+                builder.Property(t => t.BeansText)
+                    .HasColumnName("BeansText")
+                    .HasColumnType("nvarchar(20)")
+                    .HasMaxLength(20);
 
                 builder.Property(t => t.Tips)
                     .HasColumnName("Tips")
                     .HasColumnType("nvarchar(50)")
                     .HasMaxLength(50);
 
-                builder.Property(t => t.SaveDesc)
-                    .HasColumnName("SaveDesc")
+                builder.Property(t => t.IconType)
+                    .HasColumnName("IconType")
+                    .HasColumnType("int");
+
+                builder.Property(t => t.JumpType)
+                    .HasColumnName("JumpType")
+                    .HasColumnType("int");
+
+                builder.Property(t => t.JumpTitle)
+                    .HasColumnName("JumpTitle")
                     .HasColumnType("nvarchar(100)")
                     .HasMaxLength(100);
+
+                builder.Property(t => t.JumpUrl)
+                    .HasColumnName("JumpUrl")
+                    .HasColumnType("nvarchar(255)")
+                    .HasMaxLength(255);
 
                 builder.Property(t => t.CategoryDay)
                     .HasColumnName("CategoryDay")
@@ -68,37 +82,29 @@ namespace Auto.Configurations.Maps {
                     .HasColumnType("nvarchar(10)")
                     .HasMaxLength(10);
 
-                builder.Property(t => t.Beans)
-                    .HasColumnName("Beans")
+                builder.Property(t => t.IsNoviceTask)
+                    .HasColumnName("IsNoviceTask")
+                    .HasColumnType("int");
+
+                builder.Property(t => t.IsDisplay)
+                    .HasColumnName("IsDisplay")
+                    .HasColumnType("int");
+
+                builder.Property(t => t.MaxBeans)
+                    .HasColumnName("MaxBeans")
+                    .HasColumnType("int");
+
+                builder.Property(t => t.MaxBeansDesc)
+                    .HasColumnName("MaxBeansDesc")
+                    .HasColumnType("nvarchar(100)")
+                    .HasMaxLength(100);
+
+                builder.Property(t => t.IsRandom)
+                    .HasColumnName("IsRandom")
                     .HasColumnType("int");
 
                 builder.Property(t => t.FirstBeans)
                     .HasColumnName("FirstBeans")
-                    .HasColumnType("int");
-
-                builder.Property(t => t.UpperNumber)
-                    .HasColumnName("UpperNumber")
-                    .HasColumnType("int");
-
-                builder.Property(t => t.UpperBeans)
-                    .HasColumnName("UpperBeans")
-                    .HasColumnType("int");
-
-                builder.Property(t => t.Seconds)
-                    .HasColumnName("Seconds")
-                    .HasColumnType("int");
-
-                builder.Property(t => t.UpperSeconds)
-                    .HasColumnName("UpperSeconds")
-                    .HasColumnType("int");
-
-                builder.Property(t => t.BeansText)
-                    .HasColumnName("BeansText")
-                    .HasColumnType("nvarchar(20)")
-                    .HasMaxLength(20);
-
-                builder.Property(t => t.IsRandom)
-                    .HasColumnName("IsRandom")
                     .HasColumnType("int");
 
                 builder.Property(t => t.RandomBefore)
@@ -109,16 +115,42 @@ namespace Auto.Configurations.Maps {
                     .HasColumnName("RandomAfter")
                     .HasColumnType("int");
 
-                builder.Property(t => t.IsSubset)
-                    .HasColumnName("IsSubset")
+                builder.Property(t => t.FixedBeans)
+                    .HasColumnName("FixedBeans")
                     .HasColumnType("int");
 
-                builder.Property(t => t.IsDisplay)
-                    .HasColumnName("IsDisplay")
+                builder.Property(t => t.Seconds)
+                    .HasColumnName("Seconds")
                     .HasColumnType("int");
 
-                builder.Property(t => t.IsTime)
-                    .HasColumnName("IsTime")
+                builder.Property(t => t.UpperSeconds)
+                    .HasColumnName("UpperSeconds")
+                    .HasColumnType("int");
+
+                builder.Property(t => t.UpperSecondsDesc)
+                    .HasColumnName("UpperSecondsDesc")
+                    .HasColumnType("nvarchar(100)")
+                    .HasMaxLength(100);
+
+                builder.Property(t => t.UpperCount)
+                    .HasColumnName("UpperCount")
+                    .HasColumnType("int");
+
+                builder.Property(t => t.UpperNumber)
+                    .HasColumnName("UpperNumber")
+                    .HasColumnType("int");
+
+                builder.Property(t => t.UpperBeans)
+                    .HasColumnName("UpperBeans")
+                    .HasColumnType("int");
+
+                builder.Property(t => t.UpperBeansDesc)
+                    .HasColumnName("UpperBeansDesc")
+                    .HasColumnType("nvarchar(100)")
+                    .HasMaxLength(100);
+
+                builder.Property(t => t.IsTimeLimit)
+                    .HasColumnName("IsTimeLimit")
                     .HasColumnType("int");
 
                 builder.Property(t => t.BeforeTime)
@@ -129,12 +161,12 @@ namespace Auto.Configurations.Maps {
                     .HasColumnName("AfterTime")
                     .HasColumnType("datetime");
 
-                builder.Property(t => t.EffectiveDay)
-                    .HasColumnName("EffectiveDay")
-                    .HasColumnType("int");
-
                 builder.Property(t => t.Sequence)
                     .HasColumnName("Sequence")
+                    .HasColumnType("int");
+
+                builder.Property(t => t.IsDisposable)
+                    .HasColumnName("IsDisposable")
                     .HasColumnType("int");
 
                 builder.Property(t => t.IsEnable)

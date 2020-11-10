@@ -1,4 +1,6 @@
-﻿using Auto.Commons;
+﻿using Auto.Applications.Contracts.Tasks;
+using Auto.Applications.Modals;
+using Auto.Commons;
 using Auto.Commons.ApiHandles.Responses;
 using Auto.Commons.Systems;
 using Auto.DataServices.Contracts;
@@ -13,10 +15,12 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Swashbuckle.AspNetCore.Annotations;
 using System;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Gbxx.WebApi.Controllers {
@@ -31,6 +35,15 @@ namespace Gbxx.WebApi.Controllers {
         /// <summary>
         /// 
         /// </summary>
+        protected ITaskInfoRepository _ITaskInfoRepository;
+        protected ITaskNoviceLogRepository _ITaskNoviceLogRepository;
+        /// <summary>
+        /// 
+        /// </summary>
+        protected ITaskInfoApp _ITaskInfoApp;
+        /// <summary>
+        /// 
+        /// </summary>
         /// <param name="logger"></param>
         /// <param name="webNewsRedis"></param>
         /// <param name="jwtRedis"></param>
@@ -40,12 +53,18 @@ namespace Gbxx.WebApi.Controllers {
                                  IWebNewsRedis webNewsRedis,
                                  IJwtRedis jwtRedis,
                                  IMemberInfosRepository memberInfosRepository,
-                                 IHttpContextAccessor httpContextAccessor) {
+                                 IHttpContextAccessor httpContextAccessor,
+                                 ITaskInfoRepository taskInfoRepository,
+                                 ITaskNoviceLogRepository taskNoviceLogRepository,
+                                 ITaskInfoApp taskInfoApp) {
             this._ILogger = logger;
             this._IWebNewsRedis = webNewsRedis;
             this._IJwtRedis = jwtRedis;
             this._IMemberInfosRepository = memberInfosRepository;
             this._IHttpContextAccessor = httpContextAccessor;
+            this._ITaskInfoRepository = taskInfoRepository;
+            this._ITaskNoviceLogRepository = taskNoviceLogRepository;
+            this._ITaskInfoApp = taskInfoApp;
         }
 
         /// <summary>
@@ -167,7 +186,7 @@ namespace Gbxx.WebApi.Controllers {
                     entity.FavoritesNumber = 0;
                     entity.FansNumber = 0;
 
-                    entity.IsNew = 0;
+                    entity.IsNoviceTask = 0;
                     entity.IsEnable = 1;
                     entity.LastLoginTime = System.DateTime.Now;
                     entity.CreateTime = System.DateTime.Now;
@@ -176,11 +195,24 @@ namespace Gbxx.WebApi.Controllers {
                     await _IMemberInfosRepository.AddAsync(entity);
                     await _IMemberInfosRepository.SaveChangesAsync();
 
+                    var taskNoviceLogs = await _ITaskInfoRepository.Query(a => a.IsNoviceTask == 1 && a.IsEnable == 1)
+                                                             .Select(a => new TaskNoviceLog() {
+                                                                 TaskId = a.TaskId,
+                                                                 CategoryFixed = a.CategoryFixed,
+                                                                 CategoryDay = a.CategoryDay,
+                                                                 MemberId = entity.MemberId,
+                                                                 IsEnable = 1
+                                                             })
+                                                             .ToListAsync();
+                    await _ITaskNoviceLogRepository.BatchAddAsync(taskNoviceLogs);
+                    await _ITaskInfoApp.AddTasks("T0001", new TaskItem() {
+                        MemberId = entity.MemberId,
+                        FromMark = 0
+                    });
                 }
                 var result = _IJwtRedis.Create(entity);
                 if (result != null) {
                     //await _IJwtRedis.DeactivateAsync(authorization);
-
                     response.Code = true;
                     response.Message = "初始登录密码为【000000】。";
                     response.Data = result;

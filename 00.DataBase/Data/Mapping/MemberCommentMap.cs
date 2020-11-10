@@ -32,31 +32,17 @@ namespace AutoNews.Data.Mapping
                 .HasColumnName("ParentId")
                 .HasColumnType("int");
 
-            builder.Property(t => t.OCommentId)
-                .HasColumnName("OCommentId")
+            builder.Property(t => t.MemberId)
+                .HasColumnName("MemberId")
                 .HasColumnType("int");
 
-            builder.Property(t => t.OCommentName)
-                .HasColumnName("OCommentName")
+            builder.Property(t => t.MemberName)
+                .HasColumnName("MemberName")
                 .HasColumnType("nvarchar(20)")
                 .HasMaxLength(20);
 
-            builder.Property(t => t.OCommentBody)
-                .HasColumnName("OCommentBody")
-                .HasColumnType("nvarchar(255)")
-                .HasMaxLength(255);
-
-            builder.Property(t => t.TCommentId)
-                .HasColumnName("TCommentId")
-                .HasColumnType("int");
-
-            builder.Property(t => t.TCommentName)
-                .HasColumnName("TCommentName")
-                .HasColumnType("nvarchar(20)")
-                .HasMaxLength(20);
-
-            builder.Property(t => t.TCommentBody)
-                .HasColumnName("TCommentBody")
+            builder.Property(t => t.CommentBody)
+                .HasColumnName("CommentBody")
                 .HasColumnType("nvarchar(255)")
                 .HasMaxLength(255);
 
@@ -77,6 +63,10 @@ namespace AutoNews.Data.Mapping
                 .HasColumnName("Up")
                 .HasColumnType("int");
 
+            builder.Property(t => t.Number)
+                .HasColumnName("Number")
+                .HasColumnType("int");
+
             builder.Property(t => t.IsEnable)
                 .HasColumnName("IsEnable")
                 .HasColumnType("int");
@@ -87,6 +77,11 @@ namespace AutoNews.Data.Mapping
                 .HasMaxLength(255);
 
             // relationships
+            builder.HasOne(t => t.MemberInfos)
+                .WithMany(t => t.MemberComments)
+                .HasForeignKey(d => d.MemberId)
+                .HasConstraintName("FK_MEMBER_C_REFERENCE_MEMBER_I");
+
             builder.HasOne(t => t.WebNews)
                 .WithMany(t => t.MemberComments)
                 .HasForeignKey(d => d.NewsId)

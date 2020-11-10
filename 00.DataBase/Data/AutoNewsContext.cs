@@ -18,6 +18,8 @@ namespace AutoNews.Data
 
         public virtual DbSet<AutoNews.Data.Entities.MemberCommentSensitive> MemberCommentSensitives { get; set; }
 
+        public virtual DbSet<AutoNews.Data.Entities.MemberCommentUp> MemberCommentUps { get; set; }
+
         public virtual DbSet<AutoNews.Data.Entities.MemberFans> MemberFans { get; set; }
 
         public virtual DbSet<AutoNews.Data.Entities.MemberFavorites> MemberFavorites { get; set; }
@@ -48,6 +50,8 @@ namespace AutoNews.Data
 
         public virtual DbSet<AutoNews.Data.Entities.ReportSiteDayAccess> ReportSiteDayAccesses { get; set; }
 
+        public virtual DbSet<AutoNews.Data.Entities.SystemDictionary> SystemDictionaries { get; set; }
+
         public virtual DbSet<AutoNews.Data.Entities.SystemLogs> SystemLogs { get; set; }
 
         public virtual DbSet<AutoNews.Data.Entities.SystemMenu> SystemMenus { get; set; }
@@ -68,6 +72,16 @@ namespace AutoNews.Data
 
         public virtual DbSet<AutoNews.Data.Entities.SystemUsersRefreshToken> SystemUsersRefreshTokens { get; set; }
 
+        public virtual DbSet<AutoNews.Data.Entities.TaskDetails> TaskDetails { get; set; }
+
+        public virtual DbSet<AutoNews.Data.Entities.TaskInfo> TaskInfos { get; set; }
+
+        public virtual DbSet<AutoNews.Data.Entities.TaskNoviceLog> TaskNoviceLogs { get; set; }
+
+        public virtual DbSet<AutoNews.Data.Entities.TaskSignLog> TaskSignLogs { get; set; }
+
+        public virtual DbSet<AutoNews.Data.Entities.TaskUpperLog> TaskUpperLogs { get; set; }
+
         public virtual DbSet<AutoNews.Data.Entities.WebCategory> WebCategories { get; set; }
 
         public virtual DbSet<AutoNews.Data.Entities.WebChannel> WebChannels { get; set; }
@@ -80,6 +94,8 @@ namespace AutoNews.Data
 
         public virtual DbSet<AutoNews.Data.Entities.WebSite> WebSites { get; set; }
 
+        public virtual DbSet<AutoNews.Data.Entities.WebSource> WebSources { get; set; }
+
         public virtual DbSet<AutoNews.Data.Entities.WebSpecial> WebSpecials { get; set; }
 
         #endregion
@@ -90,6 +106,7 @@ namespace AutoNews.Data
             modelBuilder.ApplyConfiguration(new AutoNews.Data.Mapping.AutoBatchInsertNewsIdMap());
             modelBuilder.ApplyConfiguration(new AutoNews.Data.Mapping.MemberCommentMap());
             modelBuilder.ApplyConfiguration(new AutoNews.Data.Mapping.MemberCommentSensitiveMap());
+            modelBuilder.ApplyConfiguration(new AutoNews.Data.Mapping.MemberCommentUpMap());
             modelBuilder.ApplyConfiguration(new AutoNews.Data.Mapping.MemberFansMap());
             modelBuilder.ApplyConfiguration(new AutoNews.Data.Mapping.MemberFavoritesMap());
             modelBuilder.ApplyConfiguration(new AutoNews.Data.Mapping.MemberFollowMap());
@@ -105,6 +122,7 @@ namespace AutoNews.Data
             modelBuilder.ApplyConfiguration(new AutoNews.Data.Mapping.ReportNewsDayAccessMap());
             modelBuilder.ApplyConfiguration(new AutoNews.Data.Mapping.ReportNewsDayClickMap());
             modelBuilder.ApplyConfiguration(new AutoNews.Data.Mapping.ReportSiteDayAccessMap());
+            modelBuilder.ApplyConfiguration(new AutoNews.Data.Mapping.SystemDictionaryMap());
             modelBuilder.ApplyConfiguration(new AutoNews.Data.Mapping.SystemLogsMap());
             modelBuilder.ApplyConfiguration(new AutoNews.Data.Mapping.SystemMenuMap());
             modelBuilder.ApplyConfiguration(new AutoNews.Data.Mapping.SystemRoleDictionaryMap());
@@ -115,12 +133,18 @@ namespace AutoNews.Data
             modelBuilder.ApplyConfiguration(new AutoNews.Data.Mapping.SystemUsersInRoleMap());
             modelBuilder.ApplyConfiguration(new AutoNews.Data.Mapping.SystemUsersMap());
             modelBuilder.ApplyConfiguration(new AutoNews.Data.Mapping.SystemUsersRefreshTokenMap());
+            modelBuilder.ApplyConfiguration(new AutoNews.Data.Mapping.TaskDetailsMap());
+            modelBuilder.ApplyConfiguration(new AutoNews.Data.Mapping.TaskInfoMap());
+            modelBuilder.ApplyConfiguration(new AutoNews.Data.Mapping.TaskNoviceLogMap());
+            modelBuilder.ApplyConfiguration(new AutoNews.Data.Mapping.TaskSignLogMap());
+            modelBuilder.ApplyConfiguration(new AutoNews.Data.Mapping.TaskUpperLogMap());
             modelBuilder.ApplyConfiguration(new AutoNews.Data.Mapping.WebCategoryMap());
             modelBuilder.ApplyConfiguration(new AutoNews.Data.Mapping.WebChannelMap());
             modelBuilder.ApplyConfiguration(new AutoNews.Data.Mapping.WebNewsMap());
             modelBuilder.ApplyConfiguration(new AutoNews.Data.Mapping.WebNewsOperateLogsMap());
             modelBuilder.ApplyConfiguration(new AutoNews.Data.Mapping.WebSensitiveMap());
             modelBuilder.ApplyConfiguration(new AutoNews.Data.Mapping.WebSiteMap());
+            modelBuilder.ApplyConfiguration(new AutoNews.Data.Mapping.WebSourceMap());
             modelBuilder.ApplyConfiguration(new AutoNews.Data.Mapping.WebSpecialMap());
             #endregion
         }

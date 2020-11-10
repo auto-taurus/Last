@@ -6,5 +6,6 @@ using System.Threading.Tasks;
 namespace Auto.DataServices.Contracts {
     public interface IMemberInfosRepository : IRepository<MemberInfos>, IScopedInject {
         Task<MemberAppDto> GetAppInfo(int memberId);
+        Task<bool> UpdateBeans(int memberId, int beans);
     }
 }

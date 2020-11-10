@@ -4956,7 +4956,7 @@ LABL 0 新宋体,8,N</a:FontList>
 </o:Column>
 <o:Column Id="o57">
 <a:ObjectID>0DA50177-0EBE-4E76-B168-676ED7B5E952</a:ObjectID>
-<a:Name>剩余绿豆</a:Name>
+<a:Name>剩余金币</a:Name>
 <a:Code>Beans</a:Code>
 <a:CreationDate>1602485275</a:CreationDate>
 <a:Creator>Administrator</a:Creator>
@@ -4966,7 +4966,7 @@ LABL 0 新宋体,8,N</a:FontList>
 </o:Column>
 <o:Column Id="o58">
 <a:ObjectID>2B19BE1D-75CB-40C4-B537-BFEB345571CA</a:ObjectID>
-<a:Name>累计绿豆</a:Name>
+<a:Name>累计金币</a:Name>
 <a:Code>BeansTotals</a:Code>
 <a:CreationDate>1602485275</a:CreationDate>
 <a:Creator>Administrator</a:Creator>
@@ -5132,7 +5132,7 @@ LABL 0 新宋体,8,N</a:FontList>
 </o:Column>
 <o:Column Id="o72">
 <a:ObjectID>FCF342FF-FF4C-425A-AE8D-A0F2BE5B89E5</a:ObjectID>
-<a:Name>提现绿豆</a:Name>
+<a:Name>提现金币</a:Name>
 <a:Code>Beans</a:Code>
 <a:CreationDate>1602484052</a:CreationDate>
 <a:Creator>Administrator</a:Creator>
@@ -6183,7 +6183,7 @@ LABL 0 新宋体,8,N</a:FontList>
 </o:Column>
 <o:Column Id="o155">
 <a:ObjectID>E2F48614-A84F-452B-ADC4-9926EE6BD6DE</a:ObjectID>
-<a:Name>奖励绿豆</a:Name>
+<a:Name>奖励金币</a:Name>
 <a:Code>Beans</a:Code>
 <a:CreationDate>1603111170</a:CreationDate>
 <a:Creator>Administrator</a:Creator>
@@ -6193,7 +6193,7 @@ LABL 0 新宋体,8,N</a:FontList>
 </o:Column>
 <o:Column Id="o156">
 <a:ObjectID>7B280999-8B2D-4BBE-9E1C-3B7ABD4BA439</a:ObjectID>
-<a:Name>奖励绿豆（显示）</a:Name>
+<a:Name>奖励金币（显示）</a:Name>
 <a:Code>BeansShow</a:Code>
 <a:CreationDate>1603113298</a:CreationDate>
 <a:Creator>Administrator</a:Creator>
@@ -6517,7 +6517,7 @@ LABL 0 新宋体,8,N</a:FontList>
 </o:Column>
 <o:Column Id="o175">
 <a:ObjectID>AE5FA7E7-3457-41C9-801B-E4D8406D6C38</a:ObjectID>
-<a:Name>收入绿豆</a:Name>
+<a:Name>收入金币</a:Name>
 <a:Code>Beans</a:Code>
 <a:CreationDate>1602484052</a:CreationDate>
 <a:Creator>Administrator</a:Creator>
@@ -6527,7 +6527,7 @@ LABL 0 新宋体,8,N</a:FontList>
 </o:Column>
 <o:Column Id="o176">
 <a:ObjectID>A958BF85-566A-4BE0-A396-0C4025F28090</a:ObjectID>
-<a:Name>前端展示收入绿豆</a:Name>
+<a:Name>前端展示收入金币</a:Name>
 <a:Code>BeansShow</a:Code>
 <a:CreationDate>1602484052</a:CreationDate>
 <a:Creator>Administrator</a:Creator>

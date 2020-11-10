@@ -16,7 +16,11 @@ namespace AutoNews.Data.Entities
 
         public int? MemberId { get; set; }
 
-        public int? AuthorId { get; set; }
+        public int? SourceId { get; set; }
+
+        public string SourceTable { get; set; }
+
+        public int? CategoryId { get; set; }
 
         public DateTime? FollowTime { get; set; }
 

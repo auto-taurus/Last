@@ -41,23 +41,23 @@ namespace Auto.Entities.Dtos {
         /// </summary>
         public string Avatar { get; set; }
         /// <summary>
-        /// 剩余绿豆
+        /// 剩余金币
         /// </summary>
         public int? Beans { get; set; }
         /// <summary>
-        /// 累计绿豆
+        /// 累计金币
         /// </summary>
         public int? BeansTotals { get; set; }
         /// <summary>
         /// 是否已完成新手任务
         /// </summary>
-        public int? IsNew { get; set; }
+        public int? IsNoviceTask { get; set; }
 
         #endregion
 
         #region Calculated Attributes
         /// <summary>
-        /// 今日绿豆
+        /// 今日金币
         /// </summary>
         public int? TodayBeans { get; set; }
         /// <summary>

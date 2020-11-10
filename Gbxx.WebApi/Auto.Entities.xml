@@ -66,22 +66,22 @@
         </member>
         <member name="P:Auto.Entities.Dtos.MemberAppDto.Beans">
             <summary>
-            剩余绿豆
+            剩余金币
             </summary>
         </member>
         <member name="P:Auto.Entities.Dtos.MemberAppDto.BeansTotals">
             <summary>
-            累计绿豆
+            累计金币
             </summary>
         </member>
-        <member name="P:Auto.Entities.Dtos.MemberAppDto.IsNew">
+        <member name="P:Auto.Entities.Dtos.MemberAppDto.IsNoviceTask">
             <summary>
             是否已完成新手任务
             </summary>
         </member>
         <member name="P:Auto.Entities.Dtos.MemberAppDto.TodayBeans">
             <summary>
-            今日绿豆
+            今日金币
             </summary>
         </member>
         <member name="P:Auto.Entities.Dtos.MemberAppDto.TodayRead">

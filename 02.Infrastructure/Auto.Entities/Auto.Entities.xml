@@ -26,12 +26,12 @@
         </member>
         <member name="P:Auto.Entities.Dtos.MemberInfoDto.Beans">
             <summary>
-            剩余绿豆
+            剩余金币
             </summary>
         </member>
         <member name="P:Auto.Entities.Dtos.MemberInfoDto.BeansTotals">
             <summary>
-            累计绿豆
+            累计金币
             </summary>
         </member>
         <member name="P:Auto.Entities.Dtos.MemberInfoDto.IsNew">
@@ -41,7 +41,7 @@
         </member>
         <member name="P:Auto.Entities.Dtos.MemberInfoDto.TodayBeans">
             <summary>
-            今日绿豆
+            今日金币
             </summary>
         </member>
         <member name="P:Auto.Entities.Dtos.MemberInfoDto.TodayRead">

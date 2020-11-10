@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Auto.DataServices.Contracts;
+using FluentValidation;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -26,5 +28,14 @@ namespace Gbxx.WebApi.Areas.v1.Models.Post {
         /// </summary>
 
         public string Alipay { get; set; }
+    }
+    public class MemberInfoPostValidator : AbstractValidator<MemberInfoPost> {
+        protected readonly IMemberInfosRepository _IMemberInfosRepository;
+        public MemberInfoPostValidator(IMemberInfosRepository memberInfosRepository) {
+            this._IMemberInfosRepository = memberInfosRepository;
+            RuleFor(x => x.Alipay).MustAsync(async (a, cancellation) => {
+                return await _IMemberInfosRepository.IsExistAsync(b => b.Alipay == a);
+            }).WithMessage("支付宝已被绑定!");
+        }
     }
 }

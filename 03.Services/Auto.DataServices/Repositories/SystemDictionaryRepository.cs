@@ -14,7 +14,7 @@ namespace Auto.DataServices.Repositories {
             this.context = newsContext;
         }
 
-        public async Task<IList<KeyAllDto>> GetAlls(string typeKey) {
+        public async Task<List<KeyAllDto>> GetAlls(string typeKey) {
             return await base.Query(a => a.TypeKey == typeKey && a.IsEnable == 1, a => a.Sequence)
                              .Select(a => new KeyAllDto {
                                  TypeKey = a.TypeKey,
@@ -25,7 +25,7 @@ namespace Auto.DataServices.Repositories {
                              .ToListAsync();
         }
 
-        public async Task<IList<KeyNameDto>> GetKeyNames(string typeKey) {
+        public async Task<List<KeyNameDto>> GetKeyNames(string typeKey) {
             return await base.Query(a => a.TypeKey == typeKey && a.IsEnable == 1, a => a.Sequence)
                              .Select(a => new KeyNameDto {
                                  DistKey = a.DistKey,
@@ -34,7 +34,7 @@ namespace Auto.DataServices.Repositories {
                              .ToListAsync();
         }
 
-        public async Task<IList<KeyValueDto>> GetKeyValues(string typeKey) {
+        public async Task<List<KeyValueDto>> GetKeyValues(string typeKey) {
             return await base.Query(a => a.TypeKey == typeKey && a.IsEnable == 1, a => a.Sequence)
                              .Select(a => new KeyValueDto {
                                  DistKey = a.DistKey,

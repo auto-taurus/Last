@@ -1,8 +1,6 @@
 ﻿using Auto.Configurations;
 using Auto.DataServices.Contracts;
-using Auto.Entities.Dtos;
 using Auto.Entities.Modals;
-using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 

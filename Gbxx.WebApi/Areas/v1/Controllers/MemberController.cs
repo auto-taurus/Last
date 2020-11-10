@@ -1,4 +1,6 @@
-﻿using Auto.Commons;
+﻿using Auto.Applications.Contracts.Tasks;
+using Auto.Applications.Modals;
+using Auto.Commons;
 using Auto.Commons.ApiHandles.Responses;
 using Auto.DataServices.Contracts;
 using Auto.Entities.Dtos;
@@ -38,6 +40,10 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
         /// 
         /// </summary>
         protected IJwtRedis _IJwtRedis;
+        /// <summary>
+        /// 
+        /// </summary>
+        protected ITaskInfoApp _ITaskInfoApp;
 
         private readonly IConfiguration _IConfiguration;
         /// <summary>
@@ -46,16 +52,21 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
         /// <param name="logger"></param>
         /// <param name="memberInfoRepository"></param>
         /// <param name="memberIncomeRepository"></param>
+        /// <param name="jwtRedis"></param>
+        /// <param name="configuration"></param>
+        /// <param name="taskInfoApp"></param>
         public MemberController(ILogger<SiteController> logger,
                                 IMemberInfosRepository memberInfoRepository,
                                 IMemberIncomeRepository memberIncomeRepository,
                                 IJwtRedis jwtRedis,
-                                IConfiguration configuration) {
+                                IConfiguration configuration,
+                                ITaskInfoApp taskInfoApp) {
             this._IConfiguration = configuration;
             this._ILogger = logger;
             this._IMemberInfoRepository = memberInfoRepository;
             this._IMemberIncomeRepository = memberIncomeRepository;
             this._IJwtRedis = jwtRedis;
+            this._ITaskInfoApp = taskInfoApp;
 
         }
         /// <summary>
@@ -109,8 +120,8 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                                                              [FromBody]MemberInfoPost item) {
             var response = new Response<Object>();
             try {
-                var entity = new MemberInfos();
-                if (await _IMemberInfoRepository.IsExistAsync(a => a.MemberId == 1 && a.IsEnable == 1)) {
+                if (await _IMemberInfoRepository.IsExistAsync(a => a.MemberId == route.id && a.IsEnable == 1)) {
+                    var entity = await _IMemberInfoRepository.FirstOrDefaultAsync(a => a.MemberId == route.id);
                     if (!string.IsNullOrEmpty(item.NickName))
                         entity.NickName = item.NickName;
                     if (item.Sex.HasValue)
@@ -118,11 +129,17 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                     if (!string.IsNullOrEmpty(item.Phone))
                         entity.Phone = item.Phone;
                     if (!string.IsNullOrEmpty(item.Name))
-                        entity.Phone = item.Name;
-                    if (!string.IsNullOrEmpty(item.Alipay))
+                        entity.Name = item.Name;
+                    if (!string.IsNullOrEmpty(item.Alipay)) {
                         entity.Alipay = item.Alipay;
-
-                    response.Code = await _IMemberInfoRepository.BatchUpdateAsync(a => a.MemberId == route.id, u => entity);
+                        await _ITaskInfoApp.AddTasks("T0004", new TaskItem() {
+                            MemberId = entity.MemberId,
+                            InvitedId = 0,
+                            FromMark = 0
+                        });
+                    }
+                    _IMemberInfoRepository.Update(entity);
+                    response.Code = await _IMemberInfoRepository.SaveChangesAsync() > 0;
                 }
                 else
                     return NotFound();
@@ -161,7 +178,6 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
             }
             return response.ToHttpResponse();
         }
-
         /// <summary>
         /// 上传会员头像
         /// </summary>

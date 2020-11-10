@@ -76,7 +76,7 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
             return response.ToHttpResponse();
         }
         /// <summary>
-        /// 获取当天向前7天的收入绿豆记录总额，按天算
+        /// 获取当天向前7天的收入金币记录总额，按天算
         /// </summary>
         /// <param name="source"></param>
         /// <param name="route"></param>
@@ -130,7 +130,7 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
             return response.ToHttpResponse();
         }
         /// <summary>
-        /// 单独获取当天获得绿豆数
+        /// 单独获取当天获得金币数
         /// </summary>
         /// <param name="source"></param>
         /// <param name="route"></param>

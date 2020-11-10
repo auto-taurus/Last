@@ -2,13 +2,16 @@
 using Auto.Applications.Modals;
 using Auto.Commons.ApiHandles.Responses;
 using Auto.DataServices.Contracts;
+using Auto.Entities.Dtos;
 using Auto.RedisServices;
 using Gbxx.WebApi.Areas.v1.Data;
+using Gbxx.WebApi.Areas.v1.Models.Post;
 using Gbxx.WebApi.Controllers;
 using Gbxx.WebApi.Models;
 using Gbxx.WebApi.Models.Get;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
@@ -38,6 +41,14 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
         /// <summary>
         /// 
         /// </summary>
+        protected ITaskDetailsRepository _ITaskDetailsRepository;
+        /// <summary>
+        /// 
+        /// </summary>
+        protected ITaskNoviceLogRepository _ITaskNoviceLogRepository;
+        /// <summary>
+        /// 
+        /// </summary>
         protected IMemberIncomeRepository _IMemberIncomeRepository;
         /// <summary>
         /// 
@@ -48,13 +59,17 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                               IRedisStore redisStore,
                               ISystemDictionaryRepository systemDictionaryRepository,
                               ITaskInfoRepository taskInfoRepository,
+                              ITaskDetailsRepository taskDetailsRepository,
                               IMemberIncomeRepository memberIncomeRepository,
+                              ITaskNoviceLogRepository taskNoviceLogRepository,
                               ITaskInfoApp taskInfoApp) {
             this._ILogger = logger;
             this._IRedisStore = redisStore;
             this._ISystemDictionaryRepository = systemDictionaryRepository;
             this._ITaskInfoApp = taskInfoApp;
             this._ITaskInfoRepository = taskInfoRepository;
+            this._ITaskDetailsRepository = taskDetailsRepository;
+            this._ITaskNoviceLogRepository = taskNoviceLogRepository;
             this._IMemberIncomeRepository = memberIncomeRepository;
         }
 
@@ -69,16 +84,15 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
         public async Task<IActionResult> GetTaskDayAsync([FromHeader]String source,
                                                          [FromQuery]MemberIdGet item) {
             var response = new Response<Object>();
-            var taskCode = "T0008";
+            var taskCode = "T0005";
             try {
-
                 var taskInfo = await _ITaskInfoRepository.FirstOrDefaultAsync(a => a.TaskCode == taskCode && a.IsEnable == 1);
                 if (taskInfo == null) {
                     return NotFound();
                 }
-                var weeks = await _ITaskInfoRepository.Query(a => a.ParentId == taskInfo.TaskId && a.IsEnable == 1)
-                                                      .OrderBy(a => a.Sequence)
-                                                      .ToListAsync();
+                var weeks = await _ITaskDetailsRepository.Query(a => a.TaskId == taskInfo.TaskId && a.IsEnable == 1)
+                                                         .OrderBy(a => a.Sequence)
+                                                         .ToListAsync();
                 if (weeks.Count <= 0)
                     return NoContent();
                 // 当前日期
@@ -100,7 +114,7 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                                                             .SingleOrDefaultAsync();
                 var todaySignin = false;
                 if (memberIncome != null) {
-                    signNumber = memberIncome.Number.Value;
+                    signNumber = memberIncome.SignNumber.Value;
                     todaySignin = memberIncome.CreateTime.Value.ToString("yyyy-MM-dd") == nows.ToString("yyyy-MM-dd");
                 }
                 DateTime beforeTime;
@@ -129,6 +143,56 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
             return response.ToHttpResponse();
         }
         /// <summary>
+        /// 新手任务
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="item"></param>
+        /// <returns></returns>
+        [HttpGet("Novice")]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetTaskNovicesAsync([FromHeader]String source,
+                                                             [FromQuery]MemberIdGet item) {
+            var response = new Response<Object>();
+            try {
+                if (await _ITaskNoviceLogRepository.IsExistAsync(a => a.MemberId == item.MemberId && a.IsEnable == 1)) {
+                    var noviceLogIds = await _ITaskNoviceLogRepository.Query(a => a.MemberId == item.MemberId && a.CategoryDay == 1 && a.IsEnable == 1)
+                                                                      .Select(a => a.TaskId)
+                                                                      .ToListAsync();
+
+                    var tasks = await _ITaskInfoRepository.Query(a => noviceLogIds.Contains(a.TaskId)
+                                                                      && a.IsDisplay == 1
+                                                                      && a.IsEnable == 1)
+                                                          .OrderBy(a => a.Sequence)
+                                                          .Select(a => new {
+                                                              TaskId = a.TaskId,
+                                                              TaskName = a.TaskName,
+                                                              TaskCode = a.TaskCode,
+                                                              ShowDesc = a.ShowDesc,
+                                                              BeansText = a.BeansText,
+                                                              Tips = a.Tips,
+                                                              CategoryDay = a.CategoryDay,
+                                                              IconType = a.IconType,
+                                                              JumpType = a.JumpType,
+                                                              JumpTitle = a.JumpTitle,
+                                                              JumpUrl = a.JumpUrl,
+                                                              AlreadyNumber = a.UpperNumber.HasValue ? a.MemberIncomes.Count(b => b.TaskCode == a.TaskCode && b.MemberId == item.MemberId) : (a.UpperSeconds.HasValue ? a.MemberIncomes.Sum(b => b.ReadTime) / 60 : 0),
+                                                              UpperNumber = a.UpperNumber.HasValue ? a.UpperNumber : (a.UpperSeconds.HasValue ? a.UpperSeconds / 60 : 0),
+                                                              UpperBeans = a.UpperBeans.HasValue ? a.UpperBeans : (a.UpperSeconds.HasValue ? a.UpperSecondsBeans : 0)
+                                                          })
+                                                          .ToListAsync();
+                    response.Code = true;
+                    response.Data = tasks;
+                }
+                else {
+                    return NoContent();
+                }
+            }
+            catch (Exception ex) {
+                response.SetError(ex, this._ILogger);
+            }
+            return response.ToHttpResponse();
+        }
+        /// <summary>
         /// 日常任务列表（一次性获取）
         /// </summary>
         /// <param name="source"></param>
@@ -137,25 +201,34 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
         [HttpGet("Dailies")]
         [AllowAnonymous]
         public async Task<IActionResult> GetTaskTypeKeysAsync([FromHeader]String source,
-                                                         [FromQuery]MemberIdGet item) {
+                                                              [FromQuery]MemberIdGet item) {
             var response = new Response<Object>();
             try {
                 var dists = await _ISystemDictionaryRepository.GetKeyNames("CategoryDay");
                 if (dists.Count <= 0)
                     return NoContent();
+                dists.RemoveAt(dists.FindIndex(a => a.DistKey == "1"));
                 var distKeys = dists.Select(a => int.Parse(a.DistKey)).ToList();
-                var tasks = await _ITaskInfoRepository.Query(a => distKeys.Contains(a.CategoryDay.Value) && a.IsDisplay == 1 && a.IsEnable == 1)
+                var tasks = await _ITaskInfoRepository.Query(a => distKeys.Contains(a.CategoryDay.Value)
+                                                                  && a.IsNoviceTask != 1
+                                                                  && a.IsDisplay == 1
+                                                                  && a.IsEnable == 1)
                                                       .OrderBy(a => a.Sequence)
                                                       .Select(a => new {
                                                           TaskId = a.TaskId,
                                                           TaskName = a.TaskName,
                                                           TaskCode = a.TaskCode,
-                                                          Desc = a.Desc,
+                                                          ShowDesc = a.ShowDesc,
+                                                          BeansText = a.BeansText,
                                                           Tips = a.Tips,
                                                           CategoryDay = a.CategoryDay,
-                                                          UpperNumber = a.UpperNumber.HasValue ? a.UpperNumber : 0,
-                                                          AlreadyNumber = a.UpperNumber.HasValue ? a.MemberIncomes.Count(b => b.TaskCode == a.TaskCode && b.MemberId == item.MemberId) : 0,
-                                                          UpperBeans = a.UpperBeans.HasValue ? a.UpperBeans : 0
+                                                          IconType = a.IconType,
+                                                          JumpType = a.JumpType,
+                                                          JumpTitle = a.JumpTitle,
+                                                          JumpUrl = a.JumpUrl,
+                                                          AlreadyNumber = a.UpperNumber.HasValue ? a.MemberIncomes.Count(b => b.TaskCode == a.TaskCode && b.MemberId == item.MemberId) : (a.UpperSeconds.HasValue ? a.MemberIncomes.Sum(b => b.ReadTime) / 60 : 0),
+                                                          UpperNumber = a.UpperNumber.HasValue ? a.UpperNumber : (a.UpperSeconds.HasValue ? a.UpperSeconds / 60 : 0),
+                                                          UpperBeans = a.UpperBeans.HasValue ? a.UpperBeans : (a.UpperSeconds.HasValue ? a.UpperSecondsBeans : 0)
                                                       })
                                                       .ToListAsync();
                 response.Code = true;
@@ -257,16 +330,17 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
         /// </summary>
         /// <param name="source"></param>
         /// <param name="route"></param>
+        /// <param name="item"></param>
         /// <returns></returns>
         [HttpPost("{code}")]
         public async Task<IActionResult> PostTaskInfoAsync([FromHeader]String source,
-                                                           [FromRoute]RouteCode route) {
+                                                           [FromRoute]RouteCode route,
+                                                           [FromBody]TaskItem item) {
             var response = new Response<Object>();
             try {
-                response.Code = await _ITaskInfoApp.AddTask(new TaskItem() {
-                    MemberId = MemberId,
-                    TaskCode = route.code
-                });
+                var result = await _ITaskInfoApp.AddTasks(route.code, item);
+                response.Code = result.Item1;
+                response.Message = result.Item2;
             }
             catch (Exception ex) {
                 response.SetError(ex, this._ILogger);

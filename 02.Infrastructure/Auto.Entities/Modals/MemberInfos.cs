@@ -52,7 +52,8 @@ namespace Auto.Entities.Modals {
         public int? FavoritesNumber { get; set; }
 
         public int? FansNumber { get; set; }
-        public int? IsNew { get; set; }
+
+        public int? IsNoviceTask { get; set; }
 
         public int? IsEnable { get; set; }
 

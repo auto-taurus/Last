@@ -52,8 +52,13 @@ namespace AutoNews.Data.Mapping
                 .HasColumnType("varchar(20)")
                 .HasMaxLength(20);
 
-            builder.Property(t => t.Wechat)
-                .HasColumnName("Wechat")
+            builder.Property(t => t.Uid)
+                .HasColumnName("Uid")
+                .HasColumnType("varchar(50)")
+                .HasMaxLength(50);
+
+            builder.Property(t => t.OpenId)
+                .HasColumnName("OpenId")
                 .HasColumnType("varchar(50)")
                 .HasMaxLength(50);
 
@@ -95,8 +100,12 @@ namespace AutoNews.Data.Mapping
                 .HasColumnName("FansNumber")
                 .HasColumnType("int");
 
-            builder.Property(t => t.IsEnbale)
-                .HasColumnName("IsEnbale")
+            builder.Property(t => t.IsNew)
+                .HasColumnName("IsNew")
+                .HasColumnType("int");
+
+            builder.Property(t => t.IsEnable)
+                .HasColumnName("IsEnable")
                 .HasColumnType("int");
 
             builder.Property(t => t.Remarks)

@@ -16,13 +16,31 @@ namespace AutoNews.Data.Entities
 
         public int? MemberId { get; set; }
 
+        public int? InvitedId { get; set; }
+
+        public string FromId { get; set; }
+
+        public int? FromMark { get; set; }
+
+        public int? TaskId { get; set; }
+
         public string TaskCode { get; set; }
 
-        public string TaksName { get; set; }
+        public string TaskName { get; set; }
+
+        public int? CategoryDay { get; set; }
+
+        public int? CategoryFixed { get; set; }
 
         public string Title { get; set; }
 
         public int? Beans { get; set; }
+
+        public string BeansText { get; set; }
+
+        public int? Number { get; set; }
+
+        public int? SignNumber { get; set; }
 
         public DateTime? CreateTime { get; set; }
 
@@ -32,18 +50,22 @@ namespace AutoNews.Data.Entities
 
         public int? Status { get; set; }
 
-        public string Remarks { get; set; }
+        public int? IsDisplay { get; set; }
 
-        public int? AuditId { get; set; }
+        public int? AuditBy { get; set; }
 
-        public string Audit { get; set; }
+        public string AuditName { get; set; }
 
         public DateTime? AuditTime { get; set; }
+
+        public string Remarks { get; set; }
 
         #endregion
 
         #region Generated Relationships
         public virtual MemberInfos MemberInfos { get; set; }
+
+        public virtual TaskInfo TaskInfo { get; set; }
 
         #endregion
 

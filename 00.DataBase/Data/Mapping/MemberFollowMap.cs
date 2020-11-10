@@ -27,8 +27,17 @@ namespace AutoNews.Data.Mapping
                 .HasColumnName("MemberId")
                 .HasColumnType("int");
 
-            builder.Property(t => t.AuthorId)
-                .HasColumnName("AuthorId")
+            builder.Property(t => t.SourceId)
+                .HasColumnName("SourceId")
+                .HasColumnType("int");
+
+            builder.Property(t => t.SourceTable)
+                .HasColumnName("SourceTable")
+                .HasColumnType("varchar(20)")
+                .HasMaxLength(20);
+
+            builder.Property(t => t.CategoryId)
+                .HasColumnName("CategoryId")
                 .HasColumnType("int");
 
             builder.Property(t => t.FollowTime)
