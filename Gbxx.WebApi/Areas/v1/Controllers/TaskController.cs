@@ -16,6 +16,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -54,6 +55,7 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
         /// 
         /// </summary>
         protected ISystemDictionaryRepository _ISystemDictionaryRepository;
+
 
         public TaskController(ILogger<SiteController> logger,
                               IRedisStore redisStore,
