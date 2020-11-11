@@ -235,14 +235,15 @@ namespace Auto.Applications.Repositories.Tasks {
                     memberIncome.Beans = upperBeans;
                     memberIncome.Title = taskInfo.MaxBeansDesc;
 
-                    await SetModal(item, taskInfo, memberIncome);
-
                     await _ITaskUpperLogRepository.AddAsync(new TaskUpperLog() {
                         TaskId = taskInfo.TaskId,
                         MemberId = item.MemberId,
                         NewsId = item.FromId,
                         CreateTime = System.DateTime.Now
                     });
+
+                    if (upperBeans != 0)
+                        await SetModal(item, taskInfo, memberIncome);
                 }
                 else {
                     var newsIds = upperLogs.GroupBy(a => a.NewsId).Select(a => a.First().NewsId).ToList();
@@ -284,8 +285,8 @@ namespace Auto.Applications.Repositories.Tasks {
             if (secondsBeans > 0 || secondsMaxBeans > 0 || upperBeans > 0 || beans > 0) {
                 // 更新新手任务完成状态，只支持一次性任务
                 await UpdateTaskNoviceLog(item, taskInfo);
-
-                return new Tuple<bool, string, int>(true, "", secondsBeans + secondsMaxBeans + upperBeans + beans);
+                var benasTotal = secondsBeans + secondsMaxBeans + upperBeans + beans;
+                return new Tuple<bool, string, int>(true, $"任务奖励为{benasTotal}！", benasTotal);
             }
             else
                 return new Tuple<bool, string, int>(false, "任务奖励为0！", 0);

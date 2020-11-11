@@ -1,4 +1,5 @@
-﻿using Auto.Configurations;
+﻿using Auto.Applications.Modals;
+using Auto.Configurations;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Gbxx.BackStage.Configure.Ioc;
@@ -66,6 +67,7 @@ namespace Gbxx.WebApi {
                         options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
                     }).AddFluentValidation(x => {
                         x.RegisterValidatorsFromAssemblyContaining<HeaderSourceValidator>();
+                        x.RegisterValidatorsFromAssemblyContaining<TaskItemValidator>();
                         x.RunDefaultMvcValidationAfterFluentValidationExecutes = false;
                         x.ValidatorOptions.CascadeMode = CascadeMode.Stop;
                     });
