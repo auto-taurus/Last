@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Gbxx.BackStage.Areas.v1.Controllers {
@@ -70,7 +69,7 @@ namespace Gbxx.BackStage.Areas.v1.Controllers {
         public async Task<IActionResult> GetSystemUsersAsync(int? id) {
             var response = new Response<SystemUsers>();
             try {
-                var entity = await this._ISystemUsersRepository.SingleAsync(e => e.UsersId == id);
+                var entity = await this._ISystemUsersRepository.FirstOrDefaultAsync(e => e.UsersId == id);
                 if (entity != null) {
                     response.Data = entity;
                 }
@@ -97,7 +96,7 @@ namespace Gbxx.BackStage.Areas.v1.Controllers {
                     await this._ISystemUsersRepository.SaveChangesAsync();
                 }
                 else {
-                    var entity = await this._ISystemUsersRepository.SingleAsync(e => e.UsersId == requestModel.UsersId);
+                    var entity = await this._ISystemUsersRepository.FirstOrDefaultAsync(e => e.UsersId == requestModel.UsersId);
                     if (entity != null) {
                         entity.UsersName = requestModel.UsersName;
                         entity.LoginName = requestModel.LoginName;
@@ -135,7 +134,7 @@ namespace Gbxx.BackStage.Areas.v1.Controllers {
             var response = new Response<Object>();
             try {
                 // Add entity to database
-                var entity = await _ISystemUsersRepository.SingleAsync(e => e.UsersId == id);
+                var entity = await _ISystemUsersRepository.FirstOrDefaultAsync(e => e.UsersId == id);
                 var inMenus = new List<SystemUsersInMenu>();
                 menuIds.ForEach(x => {
                     entity.SystemMenus.Add(new SystemUsersInMenu() { UserId = id, MenuId = x });
@@ -164,7 +163,7 @@ namespace Gbxx.BackStage.Areas.v1.Controllers {
             var response = new Response<Object>();
             try {
                 // Add entity to database
-                var entity = await _ISystemUsersRepository.SingleAsync(e => e.UsersId == id);
+                var entity = await _ISystemUsersRepository.FirstOrDefaultAsync(e => e.UsersId == id);
                 var inMenus = new List<SystemUsersInRole>();
                 roleIds.ForEach(x => {
                     entity.SystemRoles.Add(new SystemUsersInRole() { UsersId = id, RoleId = x });

@@ -105,7 +105,7 @@ namespace Auto.Applications.Repositories.Tasks {
                         message = result.Item2;
                     }
                     if (flag)
-                        return new Tuple<bool, string>(flag, result.Item2);
+                        return new Tuple<bool, string>(flag, "");
                     else
                         return new Tuple<bool, string>(flag, string.IsNullOrEmpty(result.Item2) ? "添加任务奖励失败！" : result.Item2);
                 }

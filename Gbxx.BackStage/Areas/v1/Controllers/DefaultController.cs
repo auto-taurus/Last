@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Auto.Entities.Modals;
-using Microsoft.AspNetCore.Http;
+﻿using Auto.Entities.Modals;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Gbxx.BackStage.Areas.v1.Controllers {
