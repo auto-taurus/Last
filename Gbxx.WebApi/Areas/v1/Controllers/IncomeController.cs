@@ -1,16 +1,12 @@
 ﻿using Auto.Commons.ApiHandles.Responses;
 using Auto.Configurations;
 using Auto.DataServices.Contracts;
-using Auto.Entities.Dtos;
-using Gbxx.WebApi.Areas.v1.Data;
 using Gbxx.WebApi.Controllers;
 using Gbxx.WebApi.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using Swashbuckle.AspNetCore.Annotations;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
