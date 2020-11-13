@@ -228,7 +228,7 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                                                           JumpType = a.JumpType,
                                                           JumpTitle = a.JumpTitle,
                                                           JumpUrl = a.JumpUrl,
-                                                          AlreadyNumber = a.UpperNumber.HasValue ? a.MemberIncomes.Count(b => b.TaskCode == a.TaskCode && b.MemberId == item.MemberId) : (a.UpperSeconds.HasValue ? a.MemberIncomes.Sum(b => b.ReadTime) / 60 : 0),
+                                                          AlreadyNumber = a.UpperNumber.HasValue ? a.MemberIncomes.Count(b => b.TaskCode == a.TaskCode && b.MemberId == item.MemberId) : (a.UpperSeconds.HasValue ? a.MemberIncomes.Where( b=> b.TaskCode == a.TaskCode && b.MemberId == item.MemberId).Sum(b => b.ReadTime) / 60 : 0),
                                                           UpperNumber = a.UpperNumber.HasValue ? a.UpperNumber : (a.UpperSeconds.HasValue ? a.UpperSeconds / 60 : 0),
                                                           UpperBeans = a.UpperBeans.HasValue ? a.UpperBeans : (a.UpperSeconds.HasValue ? a.UpperSecondsBeans : 0)
                                                       })
