@@ -1256,6 +1256,22 @@
             
             </summary>
         </member>
+        <member name="T:Gbxx.WebApi.Configure.IocConfigure">
+            <summary>
+            AddSingleton的生命周期：
+            项目启动-项目关闭 相当于静态类  只会有一个
+            AddScoped的生命周期：
+            请求开始-请求结束 在这次请求中获取的对象都是同一个
+            AddTransient的生命周期：
+            请求获取-（GC回收-主动释放） 每一次获取的对象都不是同一个
+            </summary>
+        </member>
+        <member name="M:Gbxx.WebApi.Configure.IocConfigure.BatchServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            注册指定程序集中的服务
+            </summary>
+            <param name="services">IServiceCollection类型的对象</param>
+        </member>
         <member name="T:Gbxx.WebApi.Configure.JwtConfigure">
             <summary>
             
@@ -1522,22 +1538,6 @@
             实体配置
             </summary>
             <param name="modelBuilder"></param>
-        </member>
-        <member name="T:Gbxx.BackStage.Configure.Ioc.IocConfigure">
-            <summary>
-            AddSingleton的生命周期：
-            项目启动-项目关闭 相当于静态类  只会有一个
-            AddScoped的生命周期：
-            请求开始-请求结束 在这次请求中获取的对象都是同一个
-            AddTransient的生命周期：
-            请求获取-（GC回收-主动释放） 每一次获取的对象都不是同一个
-            </summary>
-        </member>
-        <member name="M:Gbxx.BackStage.Configure.Ioc.IocConfigure.BatchServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
-            <summary>
-            注册指定程序集中的服务
-            </summary>
-            <param name="services">IServiceCollection类型的对象</param>
         </member>
     </members>
 </doc>

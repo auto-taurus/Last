@@ -6,7 +6,7 @@
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DocumentationFile>D:\03_项目文件\04_Last\2.1\Gbxx\Gbxx.WebApi\Gbxx.WebApi.xml</DocumentationFile>
-    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+    <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
     <NoWarn>1591</NoWarn>
   </PropertyGroup>
 

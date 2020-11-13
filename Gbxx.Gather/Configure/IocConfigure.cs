@@ -7,7 +7,7 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.Loader;
 
-namespace Gbxx.WebApi.Configure {
+namespace Gbxx.Gather.Configure {
     /// <summary>
     /// AddSingleton的生命周期：
     /// 项目启动-项目关闭 相当于静态类  只会有一个

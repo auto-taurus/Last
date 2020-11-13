@@ -14,6 +14,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Gbxx.WebApi.Handlers;
 
 namespace Gbxx.WebApi.Areas.v1.Controllers {
 
@@ -76,6 +77,7 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
         /// <param name="newsId"></param>
         /// <returns></returns>
         [HttpGet("{mark}/NewsDoc")]
+        [HiddenApi]
         public async Task<IActionResult> PostNewsDocAsync([FromHeader]String source,
                                                           [FromRoute]SiteRoute route,
                                                           string newsId = "10000000") {
@@ -129,7 +131,6 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
             response.Data = newsId;
             return response.ToHttpResponse();
         }
-
         private WebNewsDoc GetWebNewsDoc(WebNews x) {
             return new WebNewsDoc() {
                 SiteId = x.SiteId,

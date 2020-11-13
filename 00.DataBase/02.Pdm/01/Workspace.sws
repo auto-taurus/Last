@@ -4,8 +4,8 @@
 
 <Workspace>
 	<Local Expanded="Yes">
-		<Model ID="{F5B96658-0C0A-4E9D-907E-46965E766668}" Name="gbxx_new" Type="{CDE44E21-9669-11D1-9914-006097355D9B}" URL="gbxx_new.pdm"/>
-		<Model Expanded="Yes" ID="{CEA4652C-EBB4-4212-8042-9BA473C91CAB}" Name="gbxx_user" Type="{CDE44E21-9669-11D1-9914-006097355D9B}" URL="gbxx_user.pdm"/>
+		<Model Expanded="Yes" ID="{F5B96658-0C0A-4E9D-907E-46965E766668}" Name="gbxx_new" Type="{CDE44E21-9669-11D1-9914-006097355D9B}" URL="gbxx_new.pdm"/>
+		<Model ID="{CEA4652C-EBB4-4212-8042-9BA473C91CAB}" Loaded="No" Name="gbxx_user" Type="{CDE44E21-9669-11D1-9914-006097355D9B}" URL="gbxx_user.pdm"/>
 		<Model Expanded="Yes" ID="{CA0AD81A-5EB4-439D-A32D-0E7870E699C4}" Name="gbxx_advert" Type="{CDE44E21-9669-11D1-9914-006097355D9B}" URL="/03_项目文件/03_ALL/02_数据库设计/gbxx_advert.pdm"/>
 	</Local>
 	<BrowserModule Name="Repository"/>
