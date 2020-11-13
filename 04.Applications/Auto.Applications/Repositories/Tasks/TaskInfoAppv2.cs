@@ -264,7 +264,7 @@ namespace Auto.Applications.Repositories.Tasks {
                             NewsId = item.FromId,
                             CreateTime = System.DateTime.Now
                         });
-                        
+
                         await _ITaskUpperLogRepository.SaveChangesAsync();
 
                         //根据没有上限奖励判断是否要增加记录
@@ -304,7 +304,7 @@ namespace Auto.Applications.Repositories.Tasks {
             if (secondsBeans > 0 || secondsMaxBeans > 0 || upperBeans > 0 || beans > 0 || randomBeans > 0) {
                 // 更新新手任务完成状态，只支持一次性任务
                 await UpdateTaskNoviceLog(item, taskInfo);
-                var benasTotal = secondsBeans + secondsMaxBeans + upperBeans + beans+randomBeans;
+                var benasTotal = secondsBeans + secondsMaxBeans + upperBeans + beans + randomBeans;
                 return new Tuple<bool, string, int>(true, $"任务奖励为{benasTotal}！", benasTotal);
             }
             else

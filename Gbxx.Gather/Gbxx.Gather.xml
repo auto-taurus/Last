@@ -1,0 +1,120 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Gbxx.Gather</name>
+    </assembly>
+    <members>
+        <member name="T:Gbxx.Gather.Configure.IocConfigure">
+            <summary>
+            AddSingleton的生命周期：
+            项目启动-项目关闭 相当于静态类  只会有一个
+            AddScoped的生命周期：
+            请求开始-请求结束 在这次请求中获取的对象都是同一个
+            AddTransient的生命周期：
+            请求获取-（GC回收-主动释放） 每一次获取的对象都不是同一个
+            </summary>
+        </member>
+        <member name="M:Gbxx.Gather.Configure.IocConfigure.BatchServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            注册指定程序集中的服务
+            </summary>
+            <param name="services">IServiceCollection类型的对象</param>
+        </member>
+        <member name="T:Gbxx.Gather.Controllers.ValuesController">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:Gbxx.Gather.Controllers.ValuesController._ILogger">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:Gbxx.Gather.Controllers.ValuesController._IWebNewsElastic">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:Gbxx.Gather.Controllers.ValuesController._IWebNewsRepository">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:Gbxx.Gather.Controllers.ValuesController._IWebCategoryRepository">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Gbxx.Gather.Controllers.ValuesController.#ctor(Microsoft.Extensions.Logging.ILogger{Gbxx.Gather.Controllers.ValuesController},Auto.ElasticServices.Contracts.IWebNewsElastic,Auto.DataServices.Contracts.IWebNewsRepository,Auto.DataServices.Contracts.IWebCategoryRepository)">
+            <summary>
+            
+            </summary>
+            <param name="logger"></param>
+            <param name="webNewsElastic"></param>
+            <param name="webNewsRepository"></param>
+            <param name="webCategoryRepository"></param>
+        </member>
+        <member name="M:Gbxx.Gather.Controllers.ValuesController.PostWebNewsAsync(System.Collections.Generic.List{Gbxx.Gather.Data.GatherPost})">
+            <summary>
+            
+            </summary>
+            <param name="item"></param>
+            <returns></returns>
+        </member>
+        <member name="P:Gbxx.Gather.Data.GatherPost.site_id">
+            <summary>
+            站点标识
+            </summary>
+        </member>
+        <member name="P:Gbxx.Gather.Data.GatherPost.cate_name">
+            <summary>
+            分类名称
+            </summary>
+        </member>
+        <member name="P:Gbxx.Gather.Data.GatherPost.title">
+            <summary>
+            标题
+            </summary>
+        </member>
+        <member name="P:Gbxx.Gather.Data.GatherPost.content">
+            <summary>
+            内容
+            </summary>
+        </member>
+        <member name="P:Gbxx.Gather.Data.GatherPost.tag">
+            <summary>
+            标签
+            </summary>
+        </member>
+        <member name="P:Gbxx.Gather.Data.GatherPost.from">
+            <summary>
+            来源名称
+            </summary>
+        </member>
+        <member name="P:Gbxx.Gather.Data.GatherPost.from_pic">
+            <summary>
+            来源Logo
+            </summary>
+        </member>
+        <member name="P:Gbxx.Gather.Data.GatherPost.image_host">
+            <summary>
+            ImageHost
+            </summary>
+        </member>
+        <member name="P:Gbxx.Gather.Data.GatherPost.thumbpic">
+            <summary>
+            缩略图
+            </summary>
+        </member>
+        <member name="P:Gbxx.Gather.Data.GatherPost.search_word">
+            <summary>
+            网页关键字
+            </summary>
+        </member>
+        <member name="T:Gbxx.Gather.Handlers.HiddenApiAttribute">
+            <summary>
+            隐藏接口，不生成到swagger文档展示
+            </summary>
+        </member>
+    </members>
+</doc>

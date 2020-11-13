@@ -4,15 +4,13 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 using System;
 using System.Linq;
 
-namespace Gbxx.WebApi.Handlers {
+namespace Gbxx.Gather.Handlers {
     /// <summary>
     /// 隐藏接口，不生成到swagger文档展示
     /// </summary>
     [AttributeUsage(AttributeTargets.Method | AttributeTargets.Class)]
-
     public partial class HiddenApiAttribute : Attribute {
     }
-
     public class HiddenApiFilter : IDocumentFilter {
         public void Apply(OpenApiDocument swaggerDoc, DocumentFilterContext context) {
             foreach (ApiDescription apiDescription in context.ApiDescriptions) {

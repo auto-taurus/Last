@@ -12,7 +12,7 @@ namespace Gbxx.BackStage.Configure.Swagger {
                 // 添加文档信息
                 c.SwaggerDoc("v1",
                     new Microsoft.OpenApi.Models.OpenApiInfo {
-                        Title = "Wap、Web、M端资讯接口",
+                        Title = "PC、WAP、M、APP后端接口",
                         Version = "v1"
                     });
                 //添加xml文件

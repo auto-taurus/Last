@@ -56,7 +56,6 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
         /// </summary>
         protected ISystemDictionaryRepository _ISystemDictionaryRepository;
 
-
         public TaskController(ILogger<SiteController> logger,
                               IRedisStore redisStore,
                               ISystemDictionaryRepository systemDictionaryRepository,

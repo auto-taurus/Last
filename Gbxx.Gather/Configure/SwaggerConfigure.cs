@@ -1,11 +1,11 @@
-﻿using Gbxx.WebApi.Handlers;
+﻿using Gbxx.Gather.Handlers;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
 using System;
 using System.Reflection;
 
-namespace Gbxx.WebApi.Configure {
+namespace Gbxx.Gather.Configure {
     public static class SwaggerConfigure {
         public static void InitSwaggerGen(this IServiceCollection services) {
             // 注册Swagger服务

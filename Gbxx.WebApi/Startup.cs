@@ -2,9 +2,7 @@
 using Auto.Configurations;
 using FluentValidation;
 using FluentValidation.AspNetCore;
-using Gbxx.BackStage.Configure.Ioc;
 using Gbxx.WebApi.Configure;
-using Gbxx.WebApi.Configure.Swagger;
 using Gbxx.WebApi.Filters;
 using Gbxx.WebApi.Utils;
 using Microsoft.AspNetCore.Builder;
