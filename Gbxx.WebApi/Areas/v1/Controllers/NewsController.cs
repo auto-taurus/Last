@@ -339,7 +339,7 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                 };
                 if (item.PageIndex != null) {
                     request.From = 0;
-                    request.SearchAfter = source.Split(",");
+                    request.SearchAfter = item.PageIndex.Split(",");
                 }
                 var result = await this._IWebNewsElastic.Client
                                                         .SearchAsync<NewsListResponse>(request);
