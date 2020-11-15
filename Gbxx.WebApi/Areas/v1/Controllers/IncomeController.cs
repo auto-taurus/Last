@@ -115,7 +115,7 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
             try {
                 response.Code = true;
                 response.Data = await _IMemberIncomeRepository.Query(a => a.MemberId == route.id
-                                                                          && a.TaskCode == "T0003"
+                                                                          && a.TaskCode == "T0007"
                                                                           && a.CreateTime.Value.ToString("yyyy-MM-dd") == System.DateTime.Now.ToString("yyyy-MM-dd")
                                                                           && a.Status == 0)
                                                               .SumAsync(a => a.ReadTime);
