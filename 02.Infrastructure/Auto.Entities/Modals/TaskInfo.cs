@@ -85,6 +85,8 @@ namespace Auto.Entities.Modals {
 
         public int? IsDisposable { get; set; }
 
+        public int? IsRelatedTasks { get; set; }
+
         public int? IsEnable { get; set; }
 
         public string Remarks { get; set; }

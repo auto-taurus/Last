@@ -169,6 +169,10 @@ namespace Auto.Configurations.Maps {
                     .HasColumnName("IsDisposable")
                     .HasColumnType("int");
 
+                builder.Property(t => t.IsRelatedTasks)
+                    .HasColumnName("IsRelatedTasks")
+                    .HasColumnType("int");
+
                 builder.Property(t => t.IsEnable)
                     .HasColumnName("IsEnable")
                     .HasColumnType("int");

@@ -251,7 +251,7 @@ namespace Auto.Applications.Repositories.Tasks {
                         CreateTime = System.DateTime.Now
                     });
 
-                    if (upperBeans != 0)
+                    if (upperBeans != 0 || taskInfo.IsRelatedTasks.HasValue)
                         await SetModal(item, taskInfo, memberIncome);
                 }
                 else {
@@ -267,8 +267,8 @@ namespace Auto.Applications.Repositories.Tasks {
 
                         await _ITaskUpperLogRepository.SaveChangesAsync();
 
-                        //根据没有上限奖励判断是否要增加记录
-                        if (!taskInfo.UpperBeans.HasValue) {
+                        //判断是否增加子级记录
+                        if (taskInfo.IsRelatedTasks.HasValue) {
                             memberIncome.Beans = randomBeans;
                             memberIncome.Title = taskInfo.MaxBeansDesc;
                             await SetModal(item, taskInfo, memberIncome);
