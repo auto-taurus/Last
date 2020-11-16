@@ -252,6 +252,12 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                                 Field = "newsTitle",
                                 Query = item.Title
                             }
+                        },
+                        MustNot=new QueryContainer[] {
+                            new MatchPhraseQuery(){
+                                Field= "newsTitle",
+                                Query = item.Title
+                            }
                         }
                     },
                     Source = new Union<bool, ISourceFilter>(new SourceFilter {
