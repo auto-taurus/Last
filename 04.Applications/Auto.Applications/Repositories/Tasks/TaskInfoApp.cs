@@ -35,7 +35,7 @@ namespace Auto.Applications.Repositories.Tasks {
 
         }
 
-        public async Task<Tuple<bool, String>> AddTasks(string code, TaskItem item) {
+        public async Task<Tuple<bool, String,int>> AddTasks(string code, TaskItem item) {
             //// 任务信息
             //var taskInfo = await _ITaskInfoRepository.FirstOrDefaultAsync(a => a.TaskCode == code && a.IsEnable == 1);
             var flag = false;
@@ -81,7 +81,7 @@ namespace Auto.Applications.Repositories.Tasks {
             //        }
             //    }
             //}
-            return new Tuple<bool, string>(flag, message);
+            return new Tuple<bool, string,int>(flag, message,0);
         }
         //private async Task<Tuple<bool, string, int>> AddTasks(TaskItem item, TaskInfo taskInfo, List<MemberIncome> memberIncomes) {
         //    var result = await SetTasks(item, taskInfo, memberIncomes);

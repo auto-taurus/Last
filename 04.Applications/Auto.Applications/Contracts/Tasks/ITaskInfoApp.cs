@@ -7,6 +7,6 @@ using System.Threading.Tasks;
 
 namespace Auto.Applications.Contracts.Tasks {
     public interface ITaskInfoApp : IScopedInject {
-        Task<Tuple<bool, String>> AddTasks(string code, TaskItem item);
+        Task<Tuple<bool, String,int>> AddTasks(string code, TaskItem item);
     }
 }

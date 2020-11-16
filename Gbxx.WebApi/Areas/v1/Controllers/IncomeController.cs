@@ -46,7 +46,7 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                                                                [FromQuery]PagerBase item) {
             var response = new Response<Object>();
             try {
-                var result = await _IMemberIncomeRepository.Query(a => a.MemberId == route.id && a.Status == 0)
+                var result = await _IMemberIncomeRepository.Query(a => a.MemberId == route.id && a.Status == 0&&a.IsDisplay==1)
                                                            .OrderByDescending(a => a.CreateTime)
                                                            .ToPager(item.PageIndex.Value, item.PageSize.Value)
                                                            .Select(a => new {
@@ -118,7 +118,7 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                                                                           && a.TaskCode == "T0007"
                                                                           && a.CreateTime.Value.ToString("yyyy-MM-dd") == System.DateTime.Now.ToString("yyyy-MM-dd")
                                                                           && a.Status == 0)
-                                                              .SumAsync(a => a.ReadTime);
+                                                              .SumAsync(a => a.ReadTime)/60;
             }
             catch (Exception ex) {
                 response.SetError(ex, this._ILogger);
