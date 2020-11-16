@@ -129,9 +129,10 @@ namespace Gbxx.Gather.Controllers {
             entity.Title = x.title; //网页标题
             entity.Keywords = x.search_word; //网页关键字
             entity.Description = x.title; // 网页描述
-
-            entity.ImageThums = x.thumbpic; // 缩略图
-            entity.ImagePaths = x.thumbpic; // 大图由运维人员去设置
+            if (!string.IsNullOrEmpty(x.thumbpic)) {
+                entity.ImageThums = x.thumbpic.Replace(',', '∮'); // 缩略图
+                //entity.ImagePaths = x.thumbpic.Replace(',', '∮'); // 大图由运维人员去设置
+            }
 
             entity.Controller = "/Content";
             entity.Action = "/Index";
