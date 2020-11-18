@@ -213,7 +213,6 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
         /// <param name="item"></param>
         /// <returns></returns>
         [HttpPost]
-        [AllowAnonymous]
         [HiddenApi]
         public async Task<IActionResult> BindAlipayAsync([FromHeader]String source,
                                                                    [FromBody]BindAlipayPost item) {

@@ -38,7 +38,7 @@ namespace Gbxx.WebApi.Areas.v1.Models.Post {
                                   .MustAsync(AlipayRepeatValidator).WithMessage("支付宝已被绑定!");
         }
         private async Task<bool> AlipayRepeatValidator(string alipay, CancellationToken cancellation) {
-            return await _IMemberInfosRepository.IsExistAsync(b => b.Alipay == alipay);
+            return !await _IMemberInfosRepository.IsExistAsync(b => b.Alipay == alipay);
         }
 
     }

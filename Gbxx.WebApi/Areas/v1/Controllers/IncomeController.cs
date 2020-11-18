@@ -1,6 +1,7 @@
 ﻿using Auto.Commons.ApiHandles.Responses;
 using Auto.Configurations;
 using Auto.DataServices.Contracts;
+using Auto.Entities.Modals;
 using Gbxx.WebApi.Controllers;
 using Gbxx.WebApi.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -8,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace Gbxx.WebApi.Areas.v1.Controllers {
@@ -34,7 +36,7 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
 
         }
         /// <summary>
-        /// 获取会员收入记录列表
+        /// 获取会员当天收入记录列表
         /// </summary>
         /// <param name="source"></param>
         /// <param name="route"></param>
@@ -43,10 +45,17 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
         [HttpGet("{id}/Incomes")]
         public async Task<IActionResult> GetMemberIncomesAsync([FromHeader]String source,
                                                                [FromRoute]RouteIdInt route,
-                                                               [FromQuery]PagerBase item) {
+                                                               [FromQuery]RoutePageCode item) {
             var response = new Response<Object>();
             try {
-                var result = await _IMemberIncomeRepository.Query(a => a.MemberId == route.id && a.Status == 0&&a.IsDisplay==1)
+                Expression<Func<MemberIncome, bool>> expression;
+                if (!string.IsNullOrEmpty(item.code)) {
+                    expression = a => a.MemberId == route.id && a.TaskCode == item.code && a.Status == 0 && a.IsDisplay == 1 && a.CreateTime.Value.ToString("yyyy-MM-dd") == System.DateTime.Now.ToString("yyyy-MM-dd");
+                }
+                else {
+                    expression = a => a.MemberId == route.id && a.Status == 0 && a.IsDisplay == 1 && a.CreateTime.Value.ToString("yyyy-MM-dd") == System.DateTime.Now.ToString("yyyy-MM-dd");
+                }
+                var result = await _IMemberIncomeRepository.Query(expression)
                                                            .OrderByDescending(a => a.CreateTime)
                                                            .ToPager(item.PageIndex.Value, item.PageSize.Value)
                                                            .Select(a => new {
@@ -107,18 +116,20 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
         /// </summary>
         /// <param name="source"></param>
         /// <param name="route"></param>
+        /// <param name="item"></param>
         /// <returns></returns>
         [HttpGet("{id}/Reads")]
         public async Task<IActionResult> GetMemberReadSumsAsync([FromHeader]String source,
-                                                                [FromRoute]RouteIdInt route) {
+                                                                [FromRoute]RouteIdInt route,
+                                                                [FromQuery] RouteCode item) {
             var response = new Response<object>();
             try {
                 response.Code = true;
                 response.Data = await _IMemberIncomeRepository.Query(a => a.MemberId == route.id
-                                                                          && a.TaskCode == "T0007"
+                                                                          && a.TaskCode == item.code
                                                                           && a.CreateTime.Value.ToString("yyyy-MM-dd") == System.DateTime.Now.ToString("yyyy-MM-dd")
                                                                           && a.Status == 0)
-                                                              .SumAsync(a => a.ReadTime)/60;
+                                                              .SumAsync(a => a.ReadTime) / 60;
             }
             catch (Exception ex) {
                 response.SetError(ex, this._ILogger);
