@@ -130,7 +130,11 @@ namespace Gbxx.Gather.Controllers {
             entity.Keywords = x.search_word; //网页关键字
             entity.Description = x.title; // 网页描述
             if (!string.IsNullOrEmpty(x.thumbpic)) {
-                entity.ImageThums = x.thumbpic.Replace(',', '∮'); // 缩略图
+                var thumbpic = x.thumbpic.Split(',');
+                for (var i = 0; i < thumbpic.Length; i++) {
+                    thumbpic[i] = thumbpic[i] + "?x-oss-process=style/xiaotu";
+                }
+                entity.ImageThums = string.Join('∮', thumbpic); // 缩略图
                 //entity.ImagePaths = x.thumbpic.Replace(',', '∮'); // 大图由运维人员去设置
             }
 

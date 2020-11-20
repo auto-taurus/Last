@@ -287,9 +287,9 @@
             
             </summary>
         </member>
-        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.IncomeController.GetMemberIncomesAsync(System.String,Gbxx.WebApi.Models.RouteIdInt,Gbxx.WebApi.Models.PagerBase)">
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.IncomeController.GetMemberIncomesAsync(System.String,Gbxx.WebApi.Models.RouteIdInt,Gbxx.WebApi.Models.RoutePageCode)">
             <summary>
-            获取会员收入记录列表
+            获取会员当天收入记录列表
             </summary>
             <param name="source"></param>
             <param name="route"></param>
@@ -304,12 +304,13 @@
             <param name="route"></param>
             <returns></returns>
         </member>
-        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.IncomeController.GetMemberReadSumsAsync(System.String,Gbxx.WebApi.Models.RouteIdInt)">
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.IncomeController.GetMemberReadSumsAsync(System.String,Gbxx.WebApi.Models.RouteIdInt,Gbxx.WebApi.Models.RouteCode)">
             <summary>
             单独获取当天阅读分钟数
             </summary>
             <param name="source"></param>
             <param name="route"></param>
+            <param name="item"></param>
             <returns></returns>
         </member>
         <member name="M:Gbxx.WebApi.Areas.v1.Controllers.IncomeController.GetMemberBeansSumsAsync(System.String,Gbxx.WebApi.Models.RouteIdInt)">
@@ -1523,6 +1524,16 @@
             </summary>
         </member>
         <member name="M:Gbxx.WebApi.Models.Post.RegisterPostValidator.#ctor">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Gbxx.WebApi.Models.RouteCodeValidator.#ctor">
+            <summary>
+            校验
+            </summary>
+        </member>
+        <member name="M:Gbxx.WebApi.Models.RoutePageCodeValidator.#ctor">
             <summary>
             
             </summary>
