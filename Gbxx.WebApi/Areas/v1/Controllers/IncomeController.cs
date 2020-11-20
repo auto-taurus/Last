@@ -36,7 +36,7 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
 
         }
         /// <summary>
-        /// 获取会员当天收入记录列表
+        /// 获取会员收入记录列表
         /// </summary>
         /// <param name="source"></param>
         /// <param name="route"></param>
@@ -53,7 +53,7 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                     expression = a => a.MemberId == route.id && a.TaskCode == item.code && a.Status == 0 && a.IsDisplay == 1 && a.CreateTime.Value.ToString("yyyy-MM-dd") == System.DateTime.Now.ToString("yyyy-MM-dd");
                 }
                 else {
-                    expression = a => a.MemberId == route.id && a.Status == 0 && a.IsDisplay == 1 && a.CreateTime.Value.ToString("yyyy-MM-dd") == System.DateTime.Now.ToString("yyyy-MM-dd");
+                    expression = a => a.MemberId == route.id && a.Status == 0 && a.IsDisplay == 1;
                 }
                 var result = await _IMemberIncomeRepository.Query(expression)
                                                            .OrderByDescending(a => a.CreateTime)
