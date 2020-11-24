@@ -19,6 +19,8 @@ namespace Auto.Entities.Modals {
 
         public int? FromMark { get; set; }
 
+        public int? FromType { get; set; }
+
         public int? TaskId { get; set; }
 
         public string TaskCode { get; set; }

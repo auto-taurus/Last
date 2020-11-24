@@ -325,6 +325,16 @@ namespace Auto.Applications.Repositories.Tasks {
         }
         private async Task SetModal(TaskItem item, TaskInfo taskInfo, MemberIncome thisIncome = null) {
             thisIncome = thisIncome == null ? new MemberIncome() : thisIncome;
+            //判断来源类型
+            if (taskInfo.TaskCode == "T0009" || taskInfo.TaskCode == "T0008") {
+                thisIncome.FromType = 1;//视频
+            }
+            else if (taskInfo.TaskCode == "T0007" || taskInfo.TaskCode == "T0006") {
+                thisIncome.FromType = 2;//文章
+            }
+            else
+                thisIncome.FromType = 0;//默认
+
             thisIncome.MemberId = item.MemberId;
             thisIncome.TaskId = taskInfo.TaskId;
 

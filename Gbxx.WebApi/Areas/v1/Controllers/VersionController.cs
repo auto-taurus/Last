@@ -55,10 +55,12 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                                                                                         PackageName=a.PackageName,
                                                                                         Version=a.Version,
                                                                                         VersionSize=a.VersionSize,
+                                                                                        VersionCode=a.VersionCode,
                                                                                         AppName=a.AppName,
                                                                                         AppUrl=a.AppUrl,
                                                                                         Introduction=a.Introduction,
                                                                                         UpdateLog=a.UpdateLog,
+                                                                                        IsMandatory=a.IsMandatory,
                                                                                         CreateTime=a.CreateTime//更新时间
                                                                                     }).
                                                                                     OrderByDescending(i => i.CreateTime).

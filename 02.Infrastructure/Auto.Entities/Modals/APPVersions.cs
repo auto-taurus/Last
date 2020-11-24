@@ -19,6 +19,8 @@ namespace Auto.Entities.Modals {
 
         public string Version { get; set; }
 
+        public int? VersionCode { get; set; }
+
         public decimal? VersionSize { get; set; }
 
         public string AppUrl { get; set; }

@@ -7,7 +7,6 @@ namespace Auto.Entities.Dtos {
         public APPVersionsDto() { }
 
         #region Generated Properties
-        public int AppId { get; set; }
 
         public string Code { get; set; }
 
@@ -18,6 +17,8 @@ namespace Auto.Entities.Dtos {
         public string AppName { get; set; }
 
         public string Version { get; set; }
+
+        public int? VersionCode { get; set; }
 
         public decimal? VersionSize { get; set; }
 

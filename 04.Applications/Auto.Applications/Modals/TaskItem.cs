@@ -25,6 +25,11 @@ namespace Auto.Applications.Modals {
         /// 来源标识
         /// </summary>
         public int? FromMark { get; set; }
+
+        /// <summary>
+        /// 来源类型
+        /// </summary>
+        public int? FromType { get; set; }
     }
 
     public class TaskItemValidator : AbstractValidator<TaskItem> {
