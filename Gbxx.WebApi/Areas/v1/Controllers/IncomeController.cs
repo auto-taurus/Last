@@ -86,13 +86,13 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
         /// <param name="source"></param>
         /// <param name="route"></param>
         /// <returns></returns>
-        [HttpGet("{id}/WeekIncomes/{code}")]
+        [HttpGet("{id}/WeekIncomes")]
         public async Task<IActionResult> GetMemberWeekIncomesAsync([FromHeader]String source,
-                                                                   [FromRoute]RouteCodeId route) {
+                                                                   [FromRoute]RouteIdInt route) {
             var response = new Response<Object>();
             try {
                 var day = Convert.ToDateTime(System.DateTime.Now.AddDays(-6).ToString("yyyy-MM-dd 00:00:00"));
-                var result = await _IMemberIncomeRepository.Query(a => a.MemberId == route.id && a.TaskCode == route.code && a.CreateTime >= day && a.Status == 0)
+                var result = await _IMemberIncomeRepository.Query(a => a.MemberId == route.id && a.CreateTime >= day && a.Status == 0)
                                                            .GroupBy(a => a.CreateTime.Value.ToString("yyyy-MM-dd"))
                                                            .OrderByDescending(a => a.First().CreateTime.Value.ToString("yyyy-MM-dd"))
                                                            .Select(a => new {

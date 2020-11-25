@@ -31,8 +31,8 @@ namespace Auto.Configurations.Maps {
 
                 builder.Property(t => t.NewsId)
                     .HasColumnName("NewsId")
-                    .HasColumnType("varchar(12)")
-                    .HasMaxLength(12);
+                    .HasColumnType("varchar(50)")
+                    .HasMaxLength(50);
 
                 builder.Property(t => t.CreateTime)
                     .HasColumnName("CreateTime")
