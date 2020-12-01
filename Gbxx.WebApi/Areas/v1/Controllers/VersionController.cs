@@ -17,7 +17,7 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
     /// 版本控制
     /// </summary>
     [Route("v1/[controller]")]
-    public class AppInfoController : DefaultController {
+    public class VersionController : DefaultController {
         /// <summary>
         /// 
         /// </summary>
@@ -25,14 +25,14 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
 
         private readonly IConfiguration _IConfiguration;
 
-        protected readonly IAppInfoRepository _IVersionRepository;
+        protected readonly IAppInfoRepository _IAppInfoRepository;
 
-        public AppInfoController(ILogger<AppInfoController> logger,
-            IAppInfoRepository versionRepository,
+        public VersionController(ILogger<VersionController> logger,
+            IAppInfoRepository appInfoRepository,
             IConfiguration configuration) {
             _ILogger = logger;
             _IConfiguration = configuration;
-            _IVersionRepository = versionRepository;
+            _IAppInfoRepository = appInfoRepository;
         }
 
         /// <summary>
@@ -46,7 +46,7 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                                                            [FromRoute]RouteCode route) {
             var response = new Response<Object>();
             try {
-                var result = await _IVersionRepository.Query(a =>a.Code == route.code
+                var result = await _IAppInfoRepository.Query(a =>a.Code == route.code
                                                                                     && a.Status == 1
                                                                                     && a.IsEnable == 1).
                                                                                     OrderByDescending(i => i.CreateTime).
