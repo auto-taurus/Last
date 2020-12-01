@@ -6,6 +6,6 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Auto.DataServices.Contracts {
-    public interface IVersionRepository : IRepository<APPVersions>, IScopedInject {
+    public interface IVersionRepository : IRepository<AppInfo>, IScopedInject {
     }
 }

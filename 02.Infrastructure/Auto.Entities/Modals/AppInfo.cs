@@ -2,8 +2,8 @@ using System;
 using System.Collections.Generic;
 
 namespace Auto.Entities.Modals {
-    public partial class APPVersions {
-        public APPVersions() {
+    public partial class AppInfo {
+        public AppInfo() {
         }
 
         #region Generated Properties

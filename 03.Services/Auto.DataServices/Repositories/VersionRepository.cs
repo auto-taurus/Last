@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Text;
 
 namespace Auto.DataServices.Repositories {
-    public class VersionRepository : Repository<APPVersions>, IVersionRepository {
+    public class VersionRepository : Repository<AppInfo>, IVersionRepository {
         public VersionRepository(NewsContext newsContext) : base(newsContext) {
         }
     }
