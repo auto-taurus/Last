@@ -50,10 +50,15 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
             try {
                 Expression<Func<MemberIncome, bool>> expression;
                 if (!string.IsNullOrEmpty(item.code)) {
+                    //查询不同code
                     expression = a => a.MemberId == route.id && a.TaskCode == item.code && a.Status == 0 && a.IsDisplay == 1 && a.CreateTime.Value.ToString("yyyy-MM-dd") == System.DateTime.Now.ToString("yyyy-MM-dd");
                 }
+                else if(item.todayFlag) {
+                    //查询今日
+                    expression = a => a.MemberId == route.id&& a.Status == 0 && a.IsDisplay == 1 && a.CreateTime.Value.ToString("yyyy-MM-dd") == System.DateTime.Now.ToString("yyyy-MM-dd");
+                }
                 else {
-                    expression = a => a.MemberId == route.id && a.Status == 0 && a.IsDisplay == 1;
+                    expression = a => a.MemberId == route.id && a.Status == 0 && a.IsDisplay == 1;//查询所有
                 }
                 var result = await _IMemberIncomeRepository.Query(expression)
                                                            .OrderByDescending(a => a.CreateTime)

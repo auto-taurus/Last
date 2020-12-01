@@ -47,7 +47,7 @@ namespace Auto.Applications.Repositories.Tasks {
             this._Before = Convert.ToInt32(_IConfiguration["ExchangeRatio:Before"]);
             this._After = Convert.ToInt32(_IConfiguration["ExchangeRatio:After"]);
         }
-        public async Task<Tuple<bool, String,int>> AddTasks(string code, TaskItem item) {
+        public async Task<Tuple<bool, String, int>> AddTasks(string code, TaskItem item) {
             // 任务信息
             var taskInfo = await _ITaskInfoRepository.FirstOrDefaultAsync(a => a.TaskCode == code && a.IsEnable == 1);
             var flag = false;
@@ -105,18 +105,19 @@ namespace Auto.Applications.Repositories.Tasks {
                         message = result.Item2;
                     }
                     if (flag)
-                        return new Tuple<bool, string,int>(flag, $"任务奖励为{beans}",beans);
+                        return new Tuple<bool, string, int>(flag, $"任务奖励为{beans}", beans);
                     else
-                        return new Tuple<bool, string,int>(flag, string.IsNullOrEmpty(result.Item2) ? "添加任务奖励失败！" : result.Item2,0);
+                        return new Tuple<bool, string, int>(flag, string.IsNullOrEmpty(result.Item2) ? "添加任务奖励失败！" : result.Item2, 0);
                 }
             }
-            return new Tuple<bool, string,int>(false, message,0);
+            return new Tuple<bool, string, int>(false, message, 0);
         }
         private async Task<Tuple<bool, string, int>> SetTask(TaskItem item, TaskInfo taskInfo, List<MemberIncome> memberIncomes) {
             // 当前任务收入列表
             var codeIncomes = memberIncomes.Where(a => a.TaskCode == taskInfo.TaskCode).ToList();
             MemberIncome lastIncomes;
             lastIncomes = codeIncomes.LastOrDefault();
+            var tempBeans = 0;
             //间隔10秒调用一次
             if (lastIncomes != null && System.DateTime.Now.Subtract(lastIncomes.CreateTime.Value).TotalSeconds < 10) {
                 return new Tuple<bool, string, int>(false, $"未到10秒！", 0);
@@ -270,6 +271,7 @@ namespace Auto.Applications.Repositories.Tasks {
                         //判断是否增加子级记录
                         if (taskInfo.IsRelatedTasks.HasValue) {
                             memberIncome.Beans = randomBeans;
+                            tempBeans = randomBeans;
                             memberIncome.Title = taskInfo.MaxBeansDesc;
                             await SetModal(item, taskInfo, memberIncome);
                         }
@@ -301,10 +303,10 @@ namespace Auto.Applications.Repositories.Tasks {
 
                 await SetModal(item, taskInfo, memberIncome);
             }
-            if (secondsBeans > 0 || secondsMaxBeans > 0 || upperBeans > 0 || beans > 0) {
+            if (secondsBeans > 0 || secondsMaxBeans > 0 || upperBeans > 0 || beans > 0 || tempBeans > 0) {
                 // 更新新手任务完成状态，只支持一次性任务
                 await UpdateTaskNoviceLog(item, taskInfo);
-                var benasTotal = secondsBeans + secondsMaxBeans + upperBeans + beans;
+                var benasTotal = secondsBeans + secondsMaxBeans + upperBeans + beans + tempBeans;
                 return new Tuple<bool, string, int>(true, $"任务奖励为{benasTotal}！", benasTotal);
             }
             else
@@ -367,7 +369,7 @@ namespace Auto.Applications.Repositories.Tasks {
             thisIncome.AuditBy = 1;
             thisIncome.AuditName = "admin";
             thisIncome.AuditTime = System.DateTime.Now;
-            if (!thisIncome.IsDisplay.HasValue&&beans>0)
+            if (!thisIncome.IsDisplay.HasValue && beans > 0)
                 thisIncome.IsDisplay = 1;
             await _IMemberIncomeRepository.AddAsync(thisIncome);
         }

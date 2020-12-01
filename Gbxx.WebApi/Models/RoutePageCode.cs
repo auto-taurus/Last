@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Gbxx.WebApi.Models {
     public class RoutePageCode : PagerBase {
+        public bool todayFlag { get; set; } = false;
         public string code { get; set; }
     }
 
