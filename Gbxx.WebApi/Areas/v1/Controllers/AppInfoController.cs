@@ -17,7 +17,7 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
     /// 版本控制
     /// </summary>
     [Route("v1/[controller]")]
-    public class VersionController : DefaultController {
+    public class AppInfoController : DefaultController {
         /// <summary>
         /// 
         /// </summary>
@@ -25,10 +25,10 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
 
         private readonly IConfiguration _IConfiguration;
 
-        protected readonly IVersionRepository _IVersionRepository;
+        protected readonly IAppInfoRepository _IVersionRepository;
 
-        public VersionController(ILogger<VersionController> logger,
-            IVersionRepository versionRepository,
+        public AppInfoController(ILogger<AppInfoController> logger,
+            IAppInfoRepository versionRepository,
             IConfiguration configuration) {
             _ILogger = logger;
             _IConfiguration = configuration;
