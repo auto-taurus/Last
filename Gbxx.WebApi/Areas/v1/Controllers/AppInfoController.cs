@@ -49,6 +49,7 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                 var result = await _IVersionRepository.Query(a =>a.Code == route.code
                                                                                     && a.Status == 1
                                                                                     && a.IsEnable == 1).
+                                                                                    OrderByDescending(i => i.CreateTime).
                                                                                     Select(a=>new APPVersionsDto {
                                                                                         Code=a.Code,
                                                                                         LogoUrl=a.LogoUrl,
@@ -63,7 +64,6 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                                                                                         IsMandatory=a.IsMandatory,
                                                                                         CreateTime=a.CreateTime//更新时间
                                                                                     }).
-                                                                                    OrderByDescending(i => i.CreateTime).
                                                                                     FirstOrDefaultAsync();
                 if(result==null) {
                     return NotFound();
