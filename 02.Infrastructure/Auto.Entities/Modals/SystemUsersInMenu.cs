@@ -2,13 +2,10 @@ using Auto.Commons.EfCore;
 using System;
 using System.Collections.Generic;
 
-namespace Auto.Entities.Modals
-{
+namespace Auto.Entities.Modals {
     public partial class SystemUsersInMenu
-        : IEntity
-    {
-        public SystemUsersInMenu()
-        {
+        : IEntity {
+        public SystemUsersInMenu() {
             #region Generated Constructor
             #endregion
         }

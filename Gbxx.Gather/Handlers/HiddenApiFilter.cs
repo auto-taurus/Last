@@ -11,7 +11,15 @@ namespace Gbxx.Gather.Handlers {
     [AttributeUsage(AttributeTargets.Method | AttributeTargets.Class)]
     public partial class HiddenApiAttribute : Attribute {
     }
+    /// <summary>
+    /// 
+    /// </summary>
     public class HiddenApiFilter : IDocumentFilter {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="swaggerDoc"></param>
+        /// <param name="context"></param>
         public void Apply(OpenApiDocument swaggerDoc, DocumentFilterContext context) {
             foreach (ApiDescription apiDescription in context.ApiDescriptions) {
                 if (apiDescription.CustomAttributes().OfType<HiddenApiAttribute>().Count() == 0

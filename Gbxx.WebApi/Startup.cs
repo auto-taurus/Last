@@ -98,6 +98,7 @@ namespace Gbxx.WebApi {
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env) {
             if (env.IsDevelopment()) {
+                app.UseCors(Any);
                 app.UseDeveloperExceptionPage();
             }
             else {
@@ -108,7 +109,7 @@ namespace Gbxx.WebApi {
             //授权中间件
             //app.UseAuthorization();
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
             app.UseStaticFiles();
             // 启用Swagger中间件
             app.UseSwagger();

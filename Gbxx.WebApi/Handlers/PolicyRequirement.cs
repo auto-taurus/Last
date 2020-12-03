@@ -77,7 +77,7 @@ namespace Gbxx.WebApi.Handlers {
                     ////判断角色与 Url 是否对应
                     ////
                     //var url = httpContext.Request.Path.Value.ToLower();
-                    //var role = httpContext.User.Claims.Where(c => c.Type == ClaimTypes.Role).FirstOrDefault().Value;
+                    //var role = httpConte xt.User.Claims.Where(c => c.Type == ClaimTypes.Role).FirstOrDefault().Value;
                     //var menu = list.Where(x => x.Role.Equals(role) && x.Url.ToLower().Equals(url)).FirstOrDefault();
                     //if (m enu == null) {
                     //    context.Fail();

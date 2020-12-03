@@ -8,8 +8,8 @@ namespace Auto.Entities.Modals {
         public SystemRole() {
             #region Generated Constructor
             SystemRoleDictionaries = new HashSet<SystemRoleDictionary>();
-            SystemMenus = new HashSet<SystemRoleInMenu>();
-            SystemUsers = new HashSet<SystemUsersInRole>();
+            SystemRoleInMenus = new HashSet<SystemRoleInMenu>();
+            SystemUsersInRoles = new HashSet<SystemUsersInRole>();
             #endregion
         }
 
@@ -18,14 +18,22 @@ namespace Auto.Entities.Modals {
 
         public string RoleName { get; set; }
 
+        public int? IsEnable { get; set; }
+
+        public string Remarks { get; set; }
+
+        public int? CreateBy { get; set; }
+
+        public DateTime? CreateTime { get; set; }
+
         #endregion
 
         #region Generated Relationships
         public virtual ICollection<SystemRoleDictionary> SystemRoleDictionaries { get; set; }
 
-        public virtual ICollection<SystemRoleInMenu> SystemMenus { get; set; }
+        public virtual ICollection<SystemRoleInMenu> SystemRoleInMenus { get; set; }
 
-        public virtual ICollection<SystemUsersInRole> SystemUsers { get; set; }
+        public virtual ICollection<SystemUsersInRole> SystemUsersInRoles { get; set; }
 
         #endregion
 

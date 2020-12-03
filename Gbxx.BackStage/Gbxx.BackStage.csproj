@@ -6,21 +6,28 @@
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DocumentationFile>D:\03_项目文件\04_Last\2.1\Gbxx\Gbxx.BackStage\Gbxx.BackStage.xml</DocumentationFile>
+    <NoWarn>1701;1702;1591</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
     <Folder Include="Areas\v1\Data\" />
     <Folder Include="Areas\v1\Models\" />
     <Folder Include="Areas\v1\Views\" />
+    <Folder Include="Models\Get\" />
+    <Folder Include="Models\Put\" />
+    <Folder Include="Models\Delete\" />
     <Folder Include="wwwroot\" />
+    <Folder Include="Data\" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="FluentValidation.AspNetCore" Version="9.2.0" />
+    <PackageReference Include="IdentityModel" Version="2.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.2" PrivateAssets="All" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.9" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.1" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Filters" Version="6.0.1" />
   </ItemGroup>
 
   <ItemGroup>

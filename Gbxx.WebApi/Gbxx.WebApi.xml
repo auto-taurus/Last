@@ -289,14 +289,14 @@
         </member>
         <member name="M:Gbxx.WebApi.Areas.v1.Controllers.IncomeController.GetMemberIncomesAsync(System.String,Gbxx.WebApi.Models.RouteIdInt,Gbxx.WebApi.Models.RoutePageCode)">
             <summary>
-            获取会员当天收入记录列表
+            获取会员收入记录列表
             </summary>
             <param name="source"></param>
             <param name="route"></param>
             <param name="item"></param>
             <returns></returns>
         </member>
-        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.IncomeController.GetMemberWeekIncomesAsync(System.String,Gbxx.WebApi.Models.RouteCodeId)">
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.IncomeController.GetMemberWeekIncomesAsync(System.String,Gbxx.WebApi.Models.RouteIdInt)">
             <summary>
             获取当天向前7天的收入金币记录总额，按天算
             </summary>
@@ -684,6 +684,24 @@
             <param name="item"></param>
             <returns></returns>
         </member>
+        <member name="T:Gbxx.WebApi.Areas.v1.Controllers.VersionController">
+            <summary>
+            版本控制
+            </summary>
+        </member>
+        <member name="F:Gbxx.WebApi.Areas.v1.Controllers.VersionController._ILogger">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.VersionController.GetVersionAsync(System.String,Gbxx.WebApi.Models.RouteCode)">
+            <summary>
+            获取版本信息
+            </summary>
+            <param name="source"></param>
+            <param name="route"></param>
+            <returns></returns>
+        </member>
         <member name="M:Gbxx.WebApi.Areas.v1.Controllers.WithdrawConfigController.GetIncomeAsync(System.String)">
             <summary>
             获取提现配置
@@ -692,20 +710,46 @@
             <param name="route"></param>
             <returns></returns>
         </member>
-        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.WithdrawController.GetMemberWithdrawIncomeAsync(System.String)">
+        <member name="F:Gbxx.WebApi.Areas.v1.Controllers.WithdrawController._ILogger">
             <summary>
-            获取会员提现记录列表
+            
             </summary>
-            <param name="source"></param>
-            <param name="route"></param>
-            <returns></returns>
         </member>
-        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.WithdrawController.PostMemberWithdrawIncomeAsync(System.String)">
+        <member name="F:Gbxx.WebApi.Areas.v1.Controllers.WithdrawController._IMemberInfoRepository">
             <summary>
-            会员提现
+            
+            </summary>
+        </member>
+        <member name="F:Gbxx.WebApi.Areas.v1.Controllers.WithdrawController._IMemberIncomeRepository">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:Gbxx.WebApi.Areas.v1.Controllers.WithdrawController._IMemberWithdrawRepository">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:Gbxx.WebApi.Areas.v1.Controllers.WithdrawController._IConfiguration">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.WithdrawController.#ctor(Microsoft.Extensions.Logging.ILogger{Auto.Entities.Modals.MemberWithdraw},Auto.DataServices.Contracts.IMemberInfosRepository,Auto.DataServices.Contracts.IMemberIncomeRepository,Auto.DataServices.Contracts.IMemberWithdrawRepository,Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            
+            </summary>
+            <param name="logger"></param>
+            <param name="memberInfoRepository"></param>
+            <param name="memberIncomeRepository"></param>
+            <param name="configuration"></param>
+        </member>
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.WithdrawController.PostMemberWithdrawIncomeAsync(System.String,Gbxx.WebApi.Areas.v1.Models.Post.MemberWithdrawPost)">
+            <summary>
+            会员提现扣金币
             </summary>
             <param name="source"></param>
-            <param name="route"></param>
+            <param name="item"></param>
             <returns></returns>
         </member>
         <member name="T:Gbxx.WebApi.Areas.v1.Controllers._TestDataController">
@@ -1105,6 +1149,26 @@
         <member name="P:Gbxx.WebApi.Areas.v1.Models.Post.MemberInfoPost.Alipay">
             <summary>
             支付宝
+            </summary>
+        </member>
+        <member name="T:Gbxx.WebApi.Areas.v1.Models.Post.MemberWithdrawPost">
+            <summary>
+            会员体现扣金币类
+            </summary>
+        </member>
+        <member name="P:Gbxx.WebApi.Areas.v1.Models.Post.MemberWithdrawPost.id">
+            <summary>
+            用户id
+            </summary>
+        </member>
+        <member name="P:Gbxx.WebApi.Areas.v1.Models.Post.MemberWithdrawPost.beans">
+            <summary>
+            金币
+            </summary>
+        </member>
+        <member name="P:Gbxx.WebApi.Areas.v1.Models.Post.MemberWithdrawPost.methods">
+            <summary>
+            提现方式（0默认值、1微信、2支付宝、3手机号）
             </summary>
         </member>
         <member name="P:Gbxx.WebApi.Areas.v1.Models.Post.MessagePost.MemberId">

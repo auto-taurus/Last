@@ -30,8 +30,8 @@ namespace Gbxx.WebApi.Configure {
                     });
                 c.ExampleFilters();
                 //c.OperationFilter<AddHeaderOperationFilter>("source", "{\"Ip\": \"127.0.0.1\",\"Device\": \"ios\",\"DeviceVers\": \"1.0.0\",\"SystemVers\": \"1.0.0\"}", true);
-                //添加xml文件
-                //获取xml注释文件的目录
+                // 添加xml文件
+                // 获取xml注释文件的目录
                 var xmlFile = $"{System.Reflection.Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 var xmlPath = System.IO.Path.Combine(AppContext.BaseDirectory, xmlFile);
                 // 启用xml注释

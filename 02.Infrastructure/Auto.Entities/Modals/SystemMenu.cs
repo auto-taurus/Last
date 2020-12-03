@@ -7,8 +7,8 @@ namespace Auto.Entities.Modals {
         : EntityBase {
         public SystemMenu() {
             #region Generated Constructor
-            SystemRoles = new HashSet<SystemRoleInMenu>();
-            SystemUsers = new HashSet<SystemUsersInMenu>();
+            SystemRoleInMenus = new HashSet<SystemRoleInMenu>();
+            SystemUsersInMenus = new HashSet<SystemUsersInMenu>();
             #endregion
         }
 
@@ -58,9 +58,9 @@ namespace Auto.Entities.Modals {
         #endregion
 
         #region Generated Relationships
-        public virtual ICollection<SystemRoleInMenu> SystemRoles { get; set; }
+        public virtual ICollection<SystemRoleInMenu> SystemRoleInMenus { get; set; }
 
-        public virtual ICollection<SystemUsersInMenu> SystemUsers { get; set; }
+        public virtual ICollection<SystemUsersInMenu> SystemUsersInMenus { get; set; }
 
         #endregion
 

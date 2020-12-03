@@ -6,12 +6,10 @@ using Auto.DataServices.Contracts;
 using Auto.Entities.Dtos;
 using Auto.Entities.Modals;
 using Auto.RedisServices.Repositories;
-using FluentValidation.Results;
 using Gbxx.WebApi.Areas.v1.Models.Post;
 using Gbxx.WebApi.Controllers;
 using Gbxx.WebApi.Handlers;
 using Gbxx.WebApi.Models;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -25,7 +23,7 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
     /// 会员中心
     /// </summary>
     [Route("v1/[controller]")]
-    public class MemberController : AuthorizeController {
+    public class MemberController : AuthorizeController  {
         /// <summary>
         /// 
         /// </summary>
@@ -215,7 +213,7 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
         [HttpPost]
         [HiddenApi]
         public async Task<IActionResult> BindAlipayAsync([FromHeader]String source,
-                                                                   [FromBody]BindAlipayPost item) {
+                                                         [FromBody]BindAlipayPost item) {
             var response = new Response<Object>();
             try {
                 response.Code = await _IMemberInfoRepository.BatchUpdateAsync(x => x.MemberId == item.Id, a => new MemberInfos {

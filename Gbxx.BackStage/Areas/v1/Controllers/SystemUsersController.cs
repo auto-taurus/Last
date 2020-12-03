@@ -2,6 +2,7 @@
 using Auto.Commons.Linq;
 using Auto.DataServices.Contracts;
 using Auto.Entities.Modals;
+using Gbxx.BackStage.Controllers;
 using Gbxx.BackStage.Requests.Items;
 using Gbxx.BackStage.Requests.Query;
 using Microsoft.AspNetCore.Mvc;
@@ -14,7 +15,8 @@ namespace Gbxx.BackStage.Areas.v1.Controllers {
     /// <summary>
     /// 系统用户管理
     /// </summary>
-    public class SystemUsersController : DefaultController {
+    [Route("v1/[controller]")]
+    public class SystemUsersController : AuthorizeController {
         public ISystemUsersRepository _ISystemUsersRepository;
         private readonly ILogger _ILogger;
         /// <summary>
@@ -22,16 +24,14 @@ namespace Gbxx.BackStage.Areas.v1.Controllers {
         /// </summary>
         /// <param name="systemUsersRepository"></param>
         /// <param name="logger"></param>
-        public SystemUsersController(ISystemUsersRepository systemUsersRepository, ILogger<SystemUsersController> logger) {
-            this._ISystemUsersRepository = systemUsersRepository;
+        public SystemUsersController(ILogger<SystemUsersController> logger, ISystemUsersRepository systemUsersRepository) {
             this._ILogger = logger;
+            this._ISystemUsersRepository = systemUsersRepository;
         }
         /// <summary>
         /// 用户列表分页查询
         /// </summary>
         /// <param name="args"></param>
-        /// <param name="pageSize"></param>
-        /// <param name="pageNumber"></param>
         /// <returns></returns>
         [HttpGet]
         public async Task<IActionResult> GetSystemUsersAsync([FromQuery]SystemUsersQuery args) {
@@ -137,7 +137,7 @@ namespace Gbxx.BackStage.Areas.v1.Controllers {
                 var entity = await _ISystemUsersRepository.FirstOrDefaultAsync(e => e.UsersId == id);
                 var inMenus = new List<SystemUsersInMenu>();
                 menuIds.ForEach(x => {
-                    entity.SystemMenus.Add(new SystemUsersInMenu() { UserId = id, MenuId = x });
+                    entity.SystemUsersInMenus.Add(new SystemUsersInMenu() { UserId = id, MenuId = x });
                 });
                 await _ISystemUsersRepository.SaveChangesAsync();
             }
@@ -166,7 +166,7 @@ namespace Gbxx.BackStage.Areas.v1.Controllers {
                 var entity = await _ISystemUsersRepository.FirstOrDefaultAsync(e => e.UsersId == id);
                 var inMenus = new List<SystemUsersInRole>();
                 roleIds.ForEach(x => {
-                    entity.SystemRoles.Add(new SystemUsersInRole() { UsersId = id, RoleId = x });
+                    entity.SystemUsersInRoles.Add(new SystemUsersInRole() { UsersId = id, RoleId = x });
                 });
                 await _ISystemUsersRepository.SaveChangesAsync();
             }
