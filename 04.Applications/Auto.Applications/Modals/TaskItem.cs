@@ -38,6 +38,12 @@ namespace Auto.Applications.Modals {
         /// </summary>
         /// <example></example>
         public int? FromType { get; set; }
+
+        /// <summary>
+        /// 高级签到 （默认0，0正常，1高级）
+        /// </summary>
+        /// <example></example>
+        public int AdvanceSing { get; set; }
     }
 
     /// <summary>

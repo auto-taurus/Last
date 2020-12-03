@@ -403,6 +403,8 @@ namespace Auto.Applications.Repositories.Tasks {
         /// 签到任务特殊处理
         /// </summary>
         /// <param name="item"></param>
+        /// <param name="memberIncomes"></param>
+        /// <param name="taskInfo"></param>
         /// <returns></returns>
         private async Task<Tuple<bool, string, int>> SetSign(TaskItem item, TaskInfo taskInfo, List<MemberIncome> memberIncomes) {
             var nows = System.DateTime.Now;
@@ -439,7 +441,7 @@ namespace Auto.Applications.Repositories.Tasks {
             if (beans > 0 && number < taskInfo.UpperNumber) {
                 var thisIncome = new MemberIncome();
                 thisIncome.SignNumber = number + 1;
-                thisIncome.Beans = beans;
+                thisIncome.Beans =beans = item.AdvanceSing==1? beans*2:beans;
                 thisIncome.Title = week.SaveDesc;
                 // 添加签到数据
                 await SetModal(item, taskInfo, thisIncome);

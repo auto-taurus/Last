@@ -39,6 +39,12 @@
             </summary>
             <example></example>
         </member>
+        <member name="P:Auto.Applications.Modals.TaskItem.AdvanceSing">
+            <summary>
+            高级签到 （默认0，0正常，1高级）
+            </summary>
+            <example></example>
+        </member>
         <member name="T:Auto.Applications.Modals.TaskItemValidator">
             <summary>
             自动验证
@@ -49,6 +55,8 @@
             签到任务特殊处理
             </summary>
             <param name="item"></param>
+            <param name="memberIncomes"></param>
+            <param name="taskInfo"></param>
             <returns></returns>
         </member>
     </members>
