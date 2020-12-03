@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Swashbuckle.AspNetCore.Annotations;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -119,10 +120,14 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                     todaySignin = memberIncome.CreateTime.Value.ToString("yyyy-MM-dd") == nows.ToString("yyyy-MM-dd");
                 }
                 DateTime beforeTime;
-                if (signNumber >= 7)
+                //第一天签到或者签到7天
+                if (signNumber >= 7 || (signNumber == 1 && todaySignin))
                     beforeTime = System.DateTime.Now;
-                else
+                else if (!todaySignin) { //今天未签
                     beforeTime = System.DateTime.Now.AddDays(-signNumber);
+                }
+                else //今天已签
+                    beforeTime = System.DateTime.Now.AddDays(-signNumber + 1);
                 var result = new List<Object>();
                 for (var i = 0; i < weeks.Count; i++) {
                     var time = beforeTime.AddDays(i);
@@ -151,6 +156,7 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
         /// <returns></returns>
         [HttpGet("Novice")]
         [AllowAnonymous]
+        [SwaggerResponse(200, "", typeof(TaskInfoDto))]
         public async Task<IActionResult> GetTaskNovicesAsync([FromHeader]String source,
                                                              [FromQuery]MemberIdGet item) {
             var response = new Response<Object>();
@@ -164,7 +170,7 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                                                                       && a.IsDisplay == 1
                                                                       && a.IsEnable == 1)
                                                           .OrderBy(a => a.Sequence)
-                                                          .Select(a => new {
+                                                          .Select(a => new TaskInfoDto {
                                                               TaskId = a.TaskId,
                                                               TaskName = a.TaskName,
                                                               TaskCode = a.TaskCode,
@@ -201,6 +207,7 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
         /// <returns></returns>
         [HttpGet("Dailies")]
         [AllowAnonymous]
+        [SwaggerResponse(200, "", typeof(TaskInfoDto))]
         public async Task<IActionResult> GetTaskTypeKeysAsync([FromHeader]String source,
                                                               [FromQuery]MemberIdGet item) {
             var response = new Response<Object>();
@@ -215,7 +222,7 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                                                                   && a.IsDisplay == 1
                                                                   && a.IsEnable == 1)
                                                       .OrderBy(a => a.Sequence)
-                                                      .Select(a => new {
+                                                      .Select(a => new TaskInfoDto {
                                                           TaskId = a.TaskId,
                                                           TaskName = a.TaskName,
                                                           TaskCode = a.TaskCode,
@@ -251,6 +258,7 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
         /// <returns></returns>
         [HttpGet("Fixeds")]
         [AllowAnonymous]
+        [SwaggerResponse(200, "", typeof(DistTaskResponse))]
         public async Task<IActionResult> GetDictionariesAsync([FromHeader]String source,
                                                               [FromQuery]MemberIdGet item) {
             var response = new Response<List<DistTaskResponse>>();
@@ -295,6 +303,7 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
         /// <param name="route"></param>
         /// <returns></returns>
         [HttpGet("Fixeds/{distKey}")]
+        [SwaggerResponse(200,"",typeof(FixdeIncomeDto))]
         public async Task<IActionResult> GetTaskDistKeysAsync([FromHeader]String source,
                                                               [FromRoute]RouteDistKey route) {
             var response = new Response<Object>();
@@ -305,15 +314,15 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                                                                        && a.Status == 0
                                                                        && a.CategoryFixed == distKey)
                                                            .OrderByDescending(a => a.CreateTime)
-                                                           .Select(a => new {
-                                                               a.IncomeId,
-                                                               a.TaskName,
-                                                               a.TaskCode,
-                                                               a.CategoryDay,
-                                                               a.CategoryFixed,
-                                                               a.BeansText,
-                                                               a.Title,
-                                                               a.CreateTime
+                                                           .Select(a => new FixdeIncomeDto {
+                                                               IncomeId = a.IncomeId,
+                                                               TaskName = a.TaskName,
+                                                               TaskCode = a.TaskCode,
+                                                               CategoryDay = a.CategoryDay,
+                                                               CategoryFixed = a.CategoryFixed,
+                                                               BeansText = a.BeansText,
+                                                               Title = a.Title,
+                                                               CreateTime = a.CreateTime
                                                            })
                                                            .ToListAsync();
                 if (result.Count <= 0)

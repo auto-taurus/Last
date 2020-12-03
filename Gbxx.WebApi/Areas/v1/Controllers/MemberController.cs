@@ -87,7 +87,7 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                                                                             && a.TaskCode == "T0007"
                                                                             && a.CreateTime.Value.ToString("yyyy-MM-dd") == System.DateTime.Now.ToString("yyyy-MM-dd")
                                                                             && a.Status == 0)
-                                                                      .SumAsync(a => a.ReadTime)/60;
+                                                                      .SumAsync(a => a.ReadTime) / 60;
                     entity.TodayBeans = await _IMemberIncomeRepository.Query(a => a.MemberId == route.id
                                                                              && a.CreateTime.Value.ToString("yyyy-MM-dd") == System.DateTime.Now.ToString("yyyy-MM-dd")
                                                                              && a.Status == 0)
@@ -138,8 +138,11 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                             FromMark = 0
                         });
                     }
+                    //注销账号
+                    entity.IsEnable = item.IsEnable;//注销
                     _IMemberInfoRepository.Update(entity);
                     response.Code = await _IMemberInfoRepository.SaveChangesAsync() > 0;
+                    response.Message = "修改成功";
                 }
                 else
                     return NotFound();
@@ -153,21 +156,20 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
         /// 会员修改密码
         /// </summary>
         /// <param name="source"></param>
-        /// <param name="route"></param>
         /// <param name="item"></param>
         /// <returns></returns>
-        [HttpPost("{id}/Password")]
+        [HttpPost("Password")]
         public async Task<IActionResult> PostMemberInfoPasswordAsync([FromHeader]String source,
-                                                                     [FromRoute]RouteIdInt route,
                                                                      [FromBody]PasswordPost item) {
             var response = new Response<Object>();
             try {
-                var flag = await _IMemberInfoRepository.BatchUpdateAsync(a => a.MemberId == route.id,
+                var flag = await _IMemberInfoRepository.BatchUpdateAsync(a => a.Uid == item.LoginName || a.Phone == item.LoginName,
                     u => new MemberInfos() {
                         Password = Tools.Md5(item.New)
                     });
                 if (flag) {
                     response.Code = true;
+                    response.Message = "修改成功！";
                     await _IJwtRedis.DeactivateCurrentAsync();
                 }
                 else
@@ -211,6 +213,7 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
         /// <param name="item"></param>
         /// <returns></returns>
         [HttpPost]
+        [AllowAnonymous]
         [HiddenApi]
         public async Task<IActionResult> BindAlipayAsync([FromHeader]String source,
                                                          [FromBody]BindAlipayPost item) {

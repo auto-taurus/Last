@@ -1,0 +1,518 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Auto.RedisServices</name>
+    </assembly>
+    <members>
+        <member name="F:Auto.RedisServices.Contracts.JwtRedis._tokens">
+            <summary>
+            已授权的 Token 信息集合
+            </summary>
+        </member>
+        <member name="F:Auto.RedisServices.Contracts.JwtRedis._IRedisStore">
+            <summary>
+            分布式缓存
+            </summary>
+        </member>
+        <member name="F:Auto.RedisServices.Contracts.JwtRedis._configuration">
+            <summary>
+            配置信息
+            </summary>
+        </member>
+        <member name="F:Auto.RedisServices.Contracts.JwtRedis._httpContextAccessor">
+            <summary>
+            获取 HTTP 请求上下文
+            </summary>
+        </member>
+        <member name="F:Auto.RedisServices.Contracts.JwtRedis._customPrefix">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Auto.RedisServices.Contracts.JwtRedis.#ctor(Auto.RedisServices.IRedisStore,Microsoft.AspNetCore.Http.IHttpContextAccessor,Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            ctor
+            </summary>
+            <param name="cache"></param>
+            <param name="httpContextAccessor"></param>
+            <param name="configuration"></param>
+        </member>
+        <member name="M:Auto.RedisServices.Contracts.JwtRedis.Create(Auto.Entities.Modals.MemberInfos)">
+            <summary>
+            新增 Token
+            </summary>
+            <param name="dto">用户信息数据传输对象</param>
+            <returns></returns>
+        </member>
+        <member name="M:Auto.RedisServices.Contracts.JwtRedis.DeactivateAsync(System.String)">
+            <summary>
+            停用 Token
+            </summary>
+            <param name="token">Token</param>
+            <returns></returns>
+        </member>
+        <member name="M:Auto.RedisServices.Contracts.JwtRedis.DeactivateCurrentAsync">
+            <summary>
+            停用当前 Token
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Auto.RedisServices.Contracts.JwtRedis.IsActiveAsync(System.String)">
+            <summary>
+            判断 Token 是否有效
+            </summary>
+            <param name="token">Token</param>
+            <returns></returns>
+        </member>
+        <member name="M:Auto.RedisServices.Contracts.JwtRedis.IsCurrentActiveTokenAsync">
+            <summary>
+            判断当前 Token 是否有效
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Auto.RedisServices.Contracts.JwtRedis.IsCurrentActiveAsync">
+            <summary>
+            判断当前 Token 是否有效
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Auto.RedisServices.Contracts.JwtRedis.RefreshAsync(System.String,Auto.Entities.Modals.MemberInfos)">
+            <summary>
+            刷新 Token
+            </summary>
+            <param name="token">Token</param>
+            <param name="dto">用户信息</param>
+            <returns></returns>
+        </member>
+        <member name="M:Auto.RedisServices.Contracts.JwtRedis.GetKey(System.String)">
+            <summary>
+            设置缓存中过期 Token 值的 key
+            </summary>
+            <param name="token">Token</param>
+            <returns></returns>
+        </member>
+        <member name="M:Auto.RedisServices.Contracts.JwtRedis.GetCurrentAsync">
+            <summary>
+            获取 HTTP 请求的 Token 值
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Auto.RedisServices.Contracts.JwtRedis.GetExistenceToken(System.String)">
+            <summary>
+            判断是否存在当前 Token
+            </summary>
+            <param name="token">Token</param>
+            <returns></returns>
+        </member>
+        <member name="T:Auto.RedisServices.Contracts.WebCategoryRedis">
+            <summary>
+            站点下的分类信息Key：gbxx:{mark}:categories
+            总访问Key：gbxx:{mark}:category:access:all
+            每日点击Key：gbxx:{mark}:category:click:{day}
+            日点击统计周排行Key：gbxx:{mark}:category:click:week:{week} 及时删除
+            日点击统计月排行Key：gbxx:{mark}:category:click:month:{month} 及时删除
+            每日访问Key：gbxx:{mark}:category:access:{day}
+            日访问计周排行Key：gbxx:{mark}:category:access:week:{week} 及时删除
+            日访问计月排行Key：gbxx:{mark}:category:access:month:{month} 及时删除
+            </summary>
+        </member>
+        <member name="M:Auto.RedisServices.Contracts.WebCategoryRedis.GetAsync(System.Int32)">
+            <summary>
+            获取分类信息
+            </summary>
+            <param name="mark"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Auto.RedisServices.Contracts.WebCategoryRedis.AddAsync(System.Int32,System.Collections.Generic.List{Auto.RedisServices.Modals.WebCategoryValue})">
+            <summary>
+            添加分类信息
+            </summary>
+            <param name="mark"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Auto.RedisServices.Contracts.WebChannelRedis">
+            <summary>
+            总访问Key：        gbxx:{mark}:channel:access:all
+            每日访问Key：      gbxx:{mark}:channel:access:{day}
+            日访问计周Key：    gbxx:{mark}:channel:access:week:count:{week} 及时删除
+            日访问计月Key：    gbxx:{mark}:channel:access:month:count:{month} 及时删除
+            日访问计周Key：    gbxx:{mark}:channel:access:week:{week} 及时删除
+            日访问计月Key：    gbxx:{mark}:channel:access:month:{month} 及时删除
+            </summary>
+        </member>
+        <member name="T:Auto.RedisServices.Contracts.WebNewsRedis">
+            <summary>
+            总访问Key：PrefixKey:{mark}:news:access:all
+            点击随机数据库Key：PrefixKey:{mark}:news:click
+            每日点击Key：PrefixKey:{mark}:news:click:{day}
+            日点击统计周排行Key：PrefixKey:{mark}:news:click:week:{week} 及时删除
+            日点击统计月排行Key：PrefixKey:{mark}:news:click:month:{month} 及时删除
+            访问随机数据库Key：PrefixKey:{mark}:news:access 
+            每日访问Key：PrefixKey:{mark}:news:access:{day}
+            日访问计周排行Key：PrefixKey:{mark}:news:access:week:{week} 及时删除
+            日访问计月排行Key：PrefixKey:{mark}:news:access:month:{month} 及时删除
+            </summary>
+        </member>
+        <member name="T:Auto.RedisServices.Contracts.WebSiteRedis">
+            <summary>
+            站点信息Key：     site:info:{mark}
+            站点总访问排行Key：site:access:all
+            每日访问Key：     site:access:{day}
+            日访问计周排行Key：site:access:week:{week} week=202001 及时删除
+            日访问计月排行Key：site:access:month:{month} month=202001 及时删除
+            </summary>
+        </member>
+        <member name="M:Auto.RedisServices.Contracts.WebSiteRedis.GetAsync(System.Int32)">
+            <summary>
+            获取站点信息
+            </summary>
+            <param name="mark"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Auto.RedisServices.Contracts.WebSiteRedis.AddAsync(System.Int32,Auto.RedisServices.Modals.WebSiteValue)">
+            <summary>
+            添加站点信息
+            </summary>
+            <param name="mark"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Auto.RedisServices.IRedisStore">
+            <summary>
+            Redis客户端，任何地方都可以调用
+            </summary>
+        </member>
+        <member name="P:Auto.RedisServices.IRedisStore.PrefixKey">
+            <summary>
+            获取前缀
+            </summary>
+        </member>
+        <member name="P:Auto.RedisServices.IRedisStore.Instance">
+            <summary>
+            获取默认实例
+            </summary>
+        </member>
+        <member name="M:Auto.RedisServices.IRedisStore.GetInstance(System.String)">
+            <summary>
+            获取指定实例
+            </summary>
+            <param name="nodeServer"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Auto.RedisServices.IRedisStore.GetDatabase(System.Nullable{System.Int32})">
+            <summary>
+            获取默认实例数据库
+            </summary>
+            <param name="number"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Auto.RedisServices.IRedisStore.GetServer(System.String)">
+            <summary>
+            获取默认实例下的服务
+            </summary>
+            <param name="number"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Auto.RedisServices.IRedisStoreExtension.ObjectToString``1(Auto.RedisServices.IRedisStore,``0)">
+            <summary>
+            对象转字符串
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Auto.RedisServices.IRedisStoreExtension.RedisValueToObject``1(Auto.RedisServices.IRedisStore,StackExchange.Redis.RedisValue)">
+            <summary>
+            RedisValueToObject
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Auto.RedisServices.IRedisStoreExtension.RedisValuesToList``1(Auto.RedisServices.IRedisStore,StackExchange.Redis.RedisValue[])">
+            <summary>
+            RedisValue[]转List对象
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="values"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Auto.RedisServices.IRedisStoreExtension.StringsToRedisKeys(Auto.RedisServices.IRedisStore,System.Collections.Generic.List{System.String})">
+            <summary>
+            stringList对象转RedisKey[]，多个Keys操作
+            </summary>
+            <param name="redisKeys"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Auto.RedisServices.IRedisStoreExtension.GetRandomNumber(Auto.RedisServices.IRedisStore,System.String)">
+            <summary>
+            获取随机DB
+            </summary>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Auto.RedisServices.IRedisStoreExtension.Md5(System.String)">
+            <summary>
+            获取MD5字符串
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="P:Auto.RedisServices.Modals.JwtAuthorData.MemberId">
+            <summary>
+            用户主键
+            </summary>
+        </member>
+        <member name="P:Auto.RedisServices.Modals.JwtAuthorData.Auths">
+            <summary>
+            授权时间
+            </summary>
+        </member>
+        <member name="P:Auto.RedisServices.Modals.JwtAuthorData.Expires">
+            <summary>
+            过期时间
+            </summary>
+        </member>
+        <member name="P:Auto.RedisServices.Modals.JwtAuthorData.Token">
+            <summary>
+            Token
+            </summary>
+        </member>
+        <member name="T:Auto.RedisServices.Modals.WebCategoryValue">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Auto.RedisServices.Modals.WebCategoryValue.CategoryId">
+            <summary>
+             栏目编号
+            </summary>
+        </member>
+        <member name="P:Auto.RedisServices.Modals.WebCategoryValue.CategoryName">
+            <summary>
+             栏目名称
+            </summary>
+        </member>
+        <member name="P:Auto.RedisServices.Modals.WebCategoryValue.ParentId">
+            <summary>
+             父级栏目编号
+            </summary>
+        </member>
+        <member name="P:Auto.RedisServices.Modals.WebCategoryValue.Controller">
+            <summary>
+            控制器
+            </summary>
+        </member>
+        <member name="P:Auto.RedisServices.Modals.WebCategoryValue.Action">
+            <summary>
+            动作
+            </summary>
+        </member>
+        <member name="P:Auto.RedisServices.Modals.WebCategoryValue.Urls">
+            <summary>
+             访问地址
+            </summary>
+        </member>
+        <member name="P:Auto.RedisServices.Modals.WebCategoryValue.Title">
+            <summary>
+             网页标题
+            </summary>
+        </member>
+        <member name="P:Auto.RedisServices.Modals.WebCategoryValue.Keywords">
+            <summary>
+             网页关键字
+            </summary>
+        </member>
+        <member name="P:Auto.RedisServices.Modals.WebCategoryValue.Description">
+            <summary>
+             网页描述
+            </summary>
+        </member>
+        <member name="T:Auto.RedisServices.Modals.WebSiteValue">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Auto.RedisServices.Modals.WebSiteValue.SiteId">
+            <summary>
+            站点编号
+            </summary>
+        </member>
+        <member name="P:Auto.RedisServices.Modals.WebSiteValue.SiteName">
+            <summary>
+            站点名称
+            </summary>
+        </member>
+        <member name="P:Auto.RedisServices.Modals.WebSiteValue.SiteUrls">
+            <summary>
+            站点访问地址
+            </summary>
+        </member>
+        <member name="P:Auto.RedisServices.Modals.WebSiteValue.LogoUrls">
+            <summary>
+            站点Logo地址
+            </summary>
+        </member>
+        <member name="P:Auto.RedisServices.Modals.WebSiteValue.Title">
+            <summary>
+             网页标题
+            </summary>
+        </member>
+        <member name="P:Auto.RedisServices.Modals.WebSiteValue.Keywords">
+            <summary>
+             网页关键字
+            </summary>
+        </member>
+        <member name="P:Auto.RedisServices.Modals.WebSiteValue.Description">
+            <summary>
+             网页描述
+            </summary>
+        </member>
+        <member name="M:Auto.RedisServices.RedisRepository.GetWeekAndDays(System.Nullable{System.DateTime})">
+            <summary>
+            获取指定日期周一、在年中为第几周，周的天数
+            </summary> 
+            <returns></returns>
+        </member>
+        <member name="M:Auto.RedisServices.RedisRepository.GetMonthAndDays(System.Nullable{System.DateTime})">
+            <summary>
+            获取指定日期月份的第一天、月份的天数
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Auto.RedisServices.RedisRepository.GetDayAndPage(System.Nullable{System.DateTime},System.Nullable{System.Int32},System.Nullable{System.Int32})">
+            <summary>
+            redis分页参数处理
+            </summary>
+            <param name="dt">日期</param>
+            <param name="pageIndex">当前页</param>
+            <param name="pageSize">页大小</param>
+            <returns>
+            item1 - yyyyMMdd（20200101）
+            item2 - 1（处理后的当前页）
+            item2 - 2（处理后的页大小）
+            </returns>
+        </member>
+        <member name="P:Auto.RedisServices.RedisStore.Instance">
+            <summary>
+            当前实例
+            </summary>
+        </member>
+        <member name="M:Auto.RedisServices.RedisStore.GetInstance(System.String)">
+            <summary>
+            获取指定redis实例
+            </summary>
+            <param name="instanceName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Auto.RedisServices.RedisStore.GetDatabase(System.Nullable{System.Int32})">
+            <summary>
+            获取默认数据库
+            </summary>
+            <param name="number"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Auto.RedisServices.RedisStore.GetServer(System.String)">
+            <summary>
+            获取默认服务
+            </summary>
+            <param name="number"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Auto.RedisServices.RedisStore.CheckConfiguration(System.String)">
+            <summary>
+            检查参数
+            </summary>
+            <param name="configName">RedisConfig配置文件中的 Redis_Default/Redis_6 名称</param>
+            <returns></returns>
+        </member>
+        <member name="M:Auto.RedisServices.RedisStore.GetConnect(Microsoft.Extensions.Configuration.IConfigurationSection)">
+            <summary>
+            获取链接
+            </summary>
+            <param name="configurationSection"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Auto.RedisServices.RedisStore.MuxerConfigurationChanged(System.Object,StackExchange.Redis.EndPointEventArgs)">
+            <summary>
+            配置更改时
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="M:Auto.RedisServices.RedisStore.MuxerErrorMessage(System.Object,StackExchange.Redis.RedisErrorEventArgs)">
+            <summary>
+            发生错误时
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="M:Auto.RedisServices.RedisStore.MuxerConnectionRestored(System.Object,StackExchange.Redis.ConnectionFailedEventArgs)">
+            <summary>
+            重新建立连接之前的错误
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="M:Auto.RedisServices.RedisStore.MuxerConnectionFailed(System.Object,StackExchange.Redis.ConnectionFailedEventArgs)">
+            <summary>
+            连接失败，如果重新连接成功你将不会收到这个通知
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="M:Auto.RedisServices.RedisStore.MuxerHashSlotMoved(System.Object,StackExchange.Redis.HashSlotMovedEventArgs)">
+            <summary>
+            更改集群
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="M:Auto.RedisServices.RedisStore.MuxerInternalError(System.Object,StackExchange.Redis.InternalErrorEventArgs)">
+            <summary>
+            redis类库错误
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="M:Auto.RedisServices.Repositories.IJwtRedis.Create(Auto.Entities.Modals.MemberInfos)">
+            <summary>
+            新增 Jwt token
+            </summary>
+            <param name="dto">用户信息数据传输对象</param>
+            <returns></returns>
+        </member>
+        <member name="M:Auto.RedisServices.Repositories.IJwtRedis.RefreshAsync(System.String,Auto.Entities.Modals.MemberInfos)">
+            <summary>
+            刷新 Token
+            </summary>
+            <param name="token">Token</param>
+            <param name="dto">用户信息数据传输对象</param>
+            <returns></returns>
+        </member>
+        <member name="M:Auto.RedisServices.Repositories.IJwtRedis.IsCurrentActiveAsync">
+            <summary>
+            判断当前 Token 是否有效
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Auto.RedisServices.Repositories.IJwtRedis.DeactivateCurrentAsync">
+            <summary>
+            停用当前 Token
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Auto.RedisServices.Repositories.IJwtRedis.IsActiveAsync(System.String)">
+            <summary>
+            判断 Token 是否有效
+            </summary>
+            <param name="token">Token</param>
+            <returns></returns>
+        </member>
+        <member name="M:Auto.RedisServices.Repositories.IJwtRedis.DeactivateAsync(System.String)">
+            <summary>
+            停用 Token
+            </summary>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

@@ -4,6 +4,10 @@
     <TargetFramework>netcoreapp2.1</TargetFramework>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>../../Gbxx.WebApi/Auto.Applications.xml</DocumentationFile>
+  </PropertyGroup>
+
   <ItemGroup>
     <ProjectReference Include="..\..\02.Infrastructure\Auto.Commons\Auto.Commons.csproj" />
     <ProjectReference Include="..\..\02.Infrastructure\Auto.Configurations\Auto.Configurations.csproj" />

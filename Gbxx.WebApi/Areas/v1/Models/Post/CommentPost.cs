@@ -7,16 +7,40 @@ using System.Threading.Tasks;
 namespace Gbxx.WebApi.Areas.v1.Models.Post {
     public class CommentPost {
 
+        /// <summary>
+        /// 父级评论编号
+        /// </summary>
+        /// <example></example>example设置默认值
         public int? ParentId { get; set; }
 
+        /// <summary>
+        /// 评论人编号
+        /// </summary>
+        /// <example></example>
         public int? MemberId { get; set; }
 
+        /// <summary>
+        /// 评论人名称（昵称）
+        /// </summary>
+        /// <example></example>
         public string MemberName { get; set; }
 
+        /// <summary>
+        /// 评论内容
+        /// </summary>
+        /// <example></example>
         public string CommentBody { get; set; }
 
+        /// <summary>
+        /// 被引用人编号
+        /// </summary>
+        /// <example></example>
         public int? QuoteId { get; set; }
 
+        /// <summary>
+        /// 被引用人名称（昵称）
+        /// </summary>
+        /// <example></example>
         public string QuoteName { get; set; }
     }
     /// <summary>

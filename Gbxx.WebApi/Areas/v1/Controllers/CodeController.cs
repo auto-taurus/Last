@@ -45,7 +45,7 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
         /// <param name="route"></param>
         /// <param name="item"></param>
         /// <returns></returns>
-        [SwaggerResponse(200, "", typeof(List<NewsListResponse>))]
+        [SwaggerResponse(200, "", typeof(NewsListResponse))]
         [HttpGet("{id}/News")]
         public async Task<IActionResult> GetCodeNewsAsync([FromHeader]String source,
                                                           [FromRoute]SiteIdRoute route,

@@ -8,6 +8,7 @@ using Gbxx.WebApi.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Swashbuckle.AspNetCore.Annotations;
 using System;
 using System.Threading.Tasks;
 
@@ -72,6 +73,7 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
         /// <param name="item"></param>
         /// <returns></returns>
         [HttpPost("Member/{id}/Follow")]
+        [SwaggerResponse(200, "", typeof(MemberFollowPost))]
         public async Task<IActionResult> PostMemberFollowAsync([FromHeader]String source,
                                                                [FromRoute]RouteIdInt route,
                                                                [FromBody]MemberFollowPost item) {

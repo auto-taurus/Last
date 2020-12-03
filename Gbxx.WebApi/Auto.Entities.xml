@@ -4,6 +4,106 @@
         <name>Auto.Entities</name>
     </assembly>
     <members>
+        <member name="P:Auto.Entities.Dtos.AppInfoDto.Code">
+            <summary>
+            渠道号
+            </summary>
+        </member>
+        <member name="P:Auto.Entities.Dtos.AppInfoDto.LogoUrl">
+            <summary>
+            图片地址
+            </summary>
+        </member>
+        <member name="P:Auto.Entities.Dtos.AppInfoDto.PackageName">
+            <summary>
+            程序包名称
+            </summary>
+        </member>
+        <member name="P:Auto.Entities.Dtos.AppInfoDto.AppName">
+            <summary>
+            app名称
+            </summary>
+        </member>
+        <member name="P:Auto.Entities.Dtos.AppInfoDto.Version">
+            <summary>
+            显示版本号
+            </summary>
+        </member>
+        <member name="P:Auto.Entities.Dtos.AppInfoDto.VersionCode">
+            <summary>
+            版本code 判断是否更新
+            </summary>
+        </member>
+        <member name="P:Auto.Entities.Dtos.AppInfoDto.VersionSize">
+            <summary>
+            版本大小
+            </summary>
+        </member>
+        <member name="P:Auto.Entities.Dtos.AppInfoDto.AppUrl">
+            <summary>
+            app下载地址
+            </summary>
+        </member>
+        <member name="P:Auto.Entities.Dtos.AppInfoDto.Introduction">
+            <summary>
+            说明
+            </summary>
+        </member>
+        <member name="P:Auto.Entities.Dtos.AppInfoDto.UpdateLog">
+            <summary>
+            更新日志
+            </summary>
+        </member>
+        <member name="P:Auto.Entities.Dtos.AppInfoDto.IsMandatory">
+            <summary>
+            是否强制更新 （1是，0否）
+            </summary>
+        </member>
+        <member name="P:Auto.Entities.Dtos.AppInfoDto.UpdateTime">
+            <summary>
+            更新时间
+            </summary>
+        </member>
+        <member name="P:Auto.Entities.Dtos.FixdeIncomeDto.IncomeId">
+            <summary>
+            收入记录编号
+            </summary>
+        </member>
+        <member name="P:Auto.Entities.Dtos.FixdeIncomeDto.TaskName">
+            <summary>
+            任务名称
+            </summary>
+        </member>
+        <member name="P:Auto.Entities.Dtos.FixdeIncomeDto.TaskCode">
+            <summary>
+            任务代码
+            </summary>
+        </member>
+        <member name="P:Auto.Entities.Dtos.FixdeIncomeDto.CategoryDay">
+            <summary>
+            日常任务分类
+            </summary>
+        </member>
+        <member name="P:Auto.Entities.Dtos.FixdeIncomeDto.CategoryFixed">
+            <summary>
+            每日固定分类
+            </summary>
+        </member>
+        <member name="P:Auto.Entities.Dtos.FixdeIncomeDto.BeansText">
+            <summary>
+            收入显示文本
+            </summary>
+        </member>
+        <member name="P:Auto.Entities.Dtos.FixdeIncomeDto.Title">
+            <summary>
+            显示标题
+            </summary>
+        </member>
+        <member name="P:Auto.Entities.Dtos.FixdeIncomeDto.CreateTime">
+            <summary>
+            收入收入时间
+            </summary>
+        </member>
         <member name="P:Auto.Entities.Dtos.IncomeAppDto.IncomeId">
             <summary>
             收入记录编号
@@ -41,7 +141,32 @@
         </member>
         <member name="P:Auto.Entities.Dtos.MemberAppDto.MemberId">
             <summary>
-            
+            会员Id
+            </summary>
+        </member>
+        <member name="P:Auto.Entities.Dtos.MemberAppDto.Code">
+            <summary>
+            邀请码
+            </summary>
+        </member>
+        <member name="P:Auto.Entities.Dtos.MemberAppDto.NickName">
+            <summary>
+            昵称
+            </summary>
+        </member>
+        <member name="P:Auto.Entities.Dtos.MemberAppDto.Name">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="P:Auto.Entities.Dtos.MemberAppDto.Sex">
+            <summary>
+            性别
+            </summary>
+        </member>
+        <member name="P:Auto.Entities.Dtos.MemberAppDto.Phone">
+            <summary>
+            手机号
             </summary>
         </member>
         <member name="P:Auto.Entities.Dtos.MemberAppDto.Alipay">
@@ -97,6 +222,76 @@
         <member name="P:Auto.Entities.Dtos.MemberAppDto.RatioValue">
             <summary>
             比率结果
+            </summary>
+        </member>
+        <member name="P:Auto.Entities.Dtos.TaskInfoDto.TaskId">
+            <summary>
+            任务编号
+            </summary>
+        </member>
+        <member name="P:Auto.Entities.Dtos.TaskInfoDto.TaskName">
+            <summary>
+            任务名称
+            </summary>
+        </member>
+        <member name="P:Auto.Entities.Dtos.TaskInfoDto.TaskCode">
+            <summary>
+            任务代码
+            </summary>
+        </member>
+        <member name="P:Auto.Entities.Dtos.TaskInfoDto.ShowDesc">
+            <summary>
+            任务简要描述（展示描述）
+            </summary>
+        </member>
+        <member name="P:Auto.Entities.Dtos.TaskInfoDto.BeansText">
+            <summary>
+            任务列表显示奖励文本
+            </summary>
+        </member>
+        <member name="P:Auto.Entities.Dtos.TaskInfoDto.Tips">
+            <summary>
+            任务列表显示奖励文本额外提示
+            </summary>
+        </member>
+        <member name="P:Auto.Entities.Dtos.TaskInfoDto.CategoryDay">
+            <summary>
+            日常任务分类
+            </summary>
+        </member>
+        <member name="P:Auto.Entities.Dtos.TaskInfoDto.IconType">
+            <summary>
+            显示图标类型（0默认，1红包）
+            </summary>
+        </member>
+        <member name="P:Auto.Entities.Dtos.TaskInfoDto.JumpType">
+            <summary>
+            跳转类型（0默认，1跳转站内新闻，2跳转站内视频，3跳转网页，4分享,5 ）
+            </summary>
+        </member>
+        <member name="P:Auto.Entities.Dtos.TaskInfoDto.JumpTitle">
+            <summary>
+            跳转自定义显示标题
+            </summary>
+        </member>
+        <member name="P:Auto.Entities.Dtos.TaskInfoDto.JumpUrl">
+            <summary>
+            跳转地址
+            </summary>
+        </member>
+        <member name="P:Auto.Entities.Dtos.TaskInfoDto.AlreadyNumber">
+            <summary>
+            阅读次数
+            </summary>
+        </member>
+        <member name="P:Auto.Entities.Dtos.TaskInfoDto.UpperNumber">
+            <summary>
+            上限次数
+            </summary>
+        </member>
+        <member name="P:Auto.Entities.Dtos.TaskInfoDto.UpperBeans">
+            <summary>
+            上限奖励
             </summary>
         </member>
     </members>

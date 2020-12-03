@@ -11,18 +11,33 @@ namespace Auto.Entities.Dtos {
         }
         #region Generated Properties
         /// <summary>
-        /// 
+        /// 会员Id
         /// </summary>
         public int MemberId { get; set; }
 
+        /// <summary>
+        /// 邀请码
+        /// </summary>
         public string Code { get; set; }
 
+        /// <summary>
+        /// 昵称
+        /// </summary>
         public string NickName { get; set; }
 
+        /// <summary>
+        /// 名称
+        /// </summary>
         public string Name { get; set; }
 
+        /// <summary>
+        /// 性别
+        /// </summary>
         public int? Sex { get; set; }
 
+        /// <summary>
+        /// 手机号
+        /// </summary>
         public string Phone { get; set; }
         /// <summary>
         /// 支付宝

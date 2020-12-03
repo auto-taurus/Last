@@ -232,7 +232,7 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
         /// <param name="route"></param>
         /// <param name="item"></param>
         /// <returns></returns>
-        [SwaggerResponse(200, "", typeof(List<NewsListResponse>))]
+        [SwaggerResponse(200, "", typeof(NewsListResponse))]
         [HttpGet("Tag")]
         public async Task<IActionResult> GetNewsSearchAsync([FromHeader]String source,
                                                             [FromRoute]SiteRoute route,
@@ -312,7 +312,7 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
         /// <param name="route"></param>
         /// <param name="item"></param>
         /// <returns></returns>
-        [SwaggerResponse(200, "", typeof(List<NewsListResponse>))]
+        [SwaggerResponse(200, "", typeof(NewsListResponse))]
         [HttpGet("Hot")]
         public async Task<IActionResult> GetNewsHotAsync([FromHeader]String source,
                                                          [FromRoute]SiteRoute route,
