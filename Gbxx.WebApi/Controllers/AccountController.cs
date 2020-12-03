@@ -202,10 +202,6 @@ namespace Gbxx.WebApi.Controllers {
                                                              })
                                                              .ToListAsync();
                     await _ITaskNoviceLogRepository.BatchAddAsync(taskNoviceLogs);
-                    await _ITaskInfoApp.AddTasks("T0001", new TaskItem() {
-                        MemberId = entity.MemberId,
-                        FromMark = 0
-                    });
                 }
                 var result = _IJwtRedis.Create(entity);
                 if (result != null) {

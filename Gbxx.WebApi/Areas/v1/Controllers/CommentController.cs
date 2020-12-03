@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Swashbuckle.AspNetCore.Annotations;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -168,6 +169,7 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
         /// <param name="item"></param>
         /// <returns></returns>
         [HttpPost("News/{id}/Comment")]
+        [SwaggerResponse(200, "", typeof(CommentPost))]
         public async Task<IActionResult> PostMemberCommentAsync([FromHeader]String source,
                                                                 [FromRoute]RouteIdString route,
                                                                 [FromBody]CommentPost item) {

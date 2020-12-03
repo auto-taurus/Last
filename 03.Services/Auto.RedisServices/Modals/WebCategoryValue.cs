@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Text;
 
 namespace Auto.RedisServices.Modals {
+    /// <summary>
+    /// 
+    /// </summary>
     public class WebCategoryValue {
         ///<summary>
         /// 栏目编号

@@ -6,15 +6,25 @@ using System.Threading.Tasks;
 
 namespace Gbxx.WebApi.Areas.v1.Models.Get {
     public class MemberFollowPost {
+        /// <summary>
+        /// 分类编号
+        /// </summary>
         public int CategoryId { get; set; }
+
+        /// <summary>
+        /// 来源编号
+        /// </summary>
         public int SourceId { get; set; }
+
         /// <summary>
         /// 0关注，1取消关注
         /// </summary>
         public int OType { get; set; }
-    }/// <summary>
-     /// 
-     /// </summary>
+    }
+
+    /// <summary>
+    /// 自动验证
+    /// </summary>
     public class MemberFollowPostValidator : AbstractValidator<MemberFollowPost> {
         /// <summary>
         /// 

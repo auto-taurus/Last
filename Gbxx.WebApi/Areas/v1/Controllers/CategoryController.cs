@@ -63,7 +63,7 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
         /// <param name="source"></param>
         /// <param name="route"></param>
         /// <returns></returns>
-        [SwaggerResponse(200, "", typeof(List<WebCategoryValue>))]
+        [SwaggerResponse(200, "", typeof(WebCategoryValue))]
         [HttpGet]
         public async Task<IActionResult> GetCategoriesAsync([FromHeader]String source,
                                                             [FromRoute]SiteRoute route) {
@@ -110,7 +110,7 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
         /// <param name="route"></param>
         /// <param name="item"></param>
         /// <returns></returns>
-        [SwaggerResponse(200, "", typeof(List<NewsListResponse>))]
+        [SwaggerResponse(200, "", typeof(NewsListResponse))]
         [HttpGet("{id}/News")]
 
         public async Task<IActionResult> GetCategoryNewsAsync([FromHeader]String source,

@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Swashbuckle.AspNetCore.Annotations;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -119,10 +120,14 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                     todaySignin = memberIncome.CreateTime.Value.ToString("yyyy-MM-dd") == nows.ToString("yyyy-MM-dd");
                 }
                 DateTime beforeTime;
-                if (signNumber >= 7)
+                //第一天签到或者签到7天
+                if (signNumber >= 7 || (signNumber == 1&& todaySignin))
                     beforeTime = System.DateTime.Now;
-                else
+                else if (!todaySignin) { //今天未签
                     beforeTime = System.DateTime.Now.AddDays(-signNumber);
+                }
+                else //今天已签
+                    beforeTime = System.DateTime.Now.AddDays(-signNumber + 1);
                 var result = new List<Object>();
                 for (var i = 0; i < weeks.Count; i++) {
                     var time = beforeTime.AddDays(i);
@@ -334,6 +339,7 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
         /// <param name="item"></param>
         /// <returns></returns>
         [HttpPost("{code}")]
+        [SwaggerResponse(200, "", typeof(TaskItem))]
         public async Task<IActionResult> PostTaskInfoAsync([FromHeader]String source,
                                                            [FromRoute]RouteCode route,
                                                            [FromBody]TaskItem item) {

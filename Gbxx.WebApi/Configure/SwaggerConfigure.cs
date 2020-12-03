@@ -3,6 +3,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
 using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Reflection;
 
 namespace Gbxx.WebApi.Configure {
@@ -29,13 +32,11 @@ namespace Gbxx.WebApi.Configure {
                         "<p>{\"Ip\": \"127.0.0.1\",\"Device\": \"ios\",\"DeviceVers\": \"IE:8.0\",\"SystemVers\": \"1.0.0\"} ,DeviceVers针对IE9及以下，值为IE:9.0,IE:8.0,IE:7.0,IE:6.0,其它保持不变<p>"
                     });
                 c.ExampleFilters();
-                //c.OperationFilter<AddHeaderOperationFilter>("source", "{\"Ip\": \"127.0.0.1\",\"Device\": \"ios\",\"DeviceVers\": \"1.0.0\",\"SystemVers\": \"1.0.0\"}", true);
-                //添加xml文件
-                //获取xml注释文件的目录
-                var xmlFile = $"{System.Reflection.Assembly.GetExecutingAssembly().GetName().Name}.xml";
-                var xmlPath = System.IO.Path.Combine(AppContext.BaseDirectory, xmlFile);
+
                 // 启用xml注释
-                c.IncludeXmlComments(xmlPath);
+                foreach (var item in XmlCommentsFilePath) {
+                    c.IncludeXmlComments(item);
+                }
 
                 //开启权限小锁
                 c.OperationFilter<AddResponseHeadersFilter>();
@@ -97,6 +98,16 @@ namespace Gbxx.WebApi.Configure {
             //    });
             //});
             services.AddSwaggerExamplesFromAssemblies(Assembly.GetEntryAssembly());
+        }
+
+        static List<string> XmlCommentsFilePath {
+            get {
+                var basePath = AppContext.BaseDirectory;
+                DirectoryInfo d = new DirectoryInfo(basePath);
+                FileInfo[] files = d.GetFiles("*.xml");
+                var xmls = files.Select(a => Path.Combine(basePath, a.FullName)).ToList();
+                return xmls;
+            }
         }
     }
 }

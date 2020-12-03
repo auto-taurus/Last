@@ -6,6 +6,9 @@ using System.Collections.Generic;
 using System.Text;
 
 namespace Auto.Applications.Modals {
+    /// <summary>
+    /// 
+    /// </summary>
     public class TaskItem {
         /// <summary>
         /// 会员编号
