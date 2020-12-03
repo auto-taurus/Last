@@ -144,6 +144,7 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                     entity.IsEnable = item.IsEnable;//注销
                     _IMemberInfoRepository.Update(entity);
                     response.Code = await _IMemberInfoRepository.SaveChangesAsync() > 0;
+                    response.Message = "修改成功";
                 }
                 else
                     return NotFound();
@@ -160,7 +161,6 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
         /// <param name="item"></param>
         /// <returns></returns>
         [HttpPost("Password")]
-        [SwaggerResponse(200, "", typeof(PasswordPost))]
         public async Task<IActionResult> PostMemberInfoPasswordAsync([FromHeader]String source,
                                                                      [FromBody]PasswordPost item) {
             var response = new Response<Object>();

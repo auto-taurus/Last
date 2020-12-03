@@ -9,16 +9,19 @@ namespace Gbxx.WebApi.Areas.v1.Models.Get {
         /// <summary>
         /// 分类编号
         /// </summary>
+        /// <example></example>
         public int CategoryId { get; set; }
 
         /// <summary>
         /// 来源编号
         /// </summary>
+        /// <example></example>
         public int SourceId { get; set; }
 
         /// <summary>
-        /// 0关注，1取消关注
+        ///  关注（默认0, 0关注，1取消关注）
         /// </summary>
+        /// <example>0</example>
         public int OType { get; set; }
     }
 

@@ -12,10 +12,12 @@ namespace Gbxx.WebApi.Areas.v1.Models.Post {
         /// <summary>
         /// 登录名（手机号）
         /// </summary>
+        /// <example></example>
         public string LoginName { get; set; }
         /// <summary>
         /// 登录密码
         /// </summary>
+        /// <example></example>
         public string Password { get; set; }
     }
     /// <summary>

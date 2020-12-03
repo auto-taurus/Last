@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Swashbuckle.AspNetCore.Annotations;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -42,6 +43,7 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
         /// <param name="route"></param>
         /// <returns></returns>
         [HttpGet("{code}")]
+        [SwaggerResponse(200, "", typeof(AppInfoDto))]
         public async Task<IActionResult> GetVersionAsync([FromHeader]String source,
                                                            [FromRoute]RouteCode route) {
             var response = new Response<Object>();
@@ -50,7 +52,7 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                                                                                     && a.Status == 1
                                                                                     && a.IsEnable == 1).
                                                                                     OrderByDescending(i => i.CreateTime).
-                                                                                    Select(a=>new APPVersionsDto {
+                                                                                    Select(a=>new AppInfoDto {
                                                                                         Code=a.Code,
                                                                                         LogoUrl=a.LogoUrl,
                                                                                         PackageName=a.PackageName,
@@ -62,7 +64,7 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                                                                                         Introduction=a.Introduction,
                                                                                         UpdateLog=a.UpdateLog,
                                                                                         IsMandatory=a.IsMandatory,
-                                                                                        CreateTime=a.CreateTime//更新时间
+                                                                                        UpdateTime=a.CreateTime//更新时间
                                                                                     }).
                                                                                     FirstOrDefaultAsync();
                 if(result==null) {

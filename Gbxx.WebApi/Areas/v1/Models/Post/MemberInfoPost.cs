@@ -12,32 +12,38 @@ namespace Gbxx.WebApi.Areas.v1.Models.Post {
         /// <summary>
         /// 昵称
         /// </summary>
+        /// <example></example>example设置默认值
         public string NickName { get; set; }
         /// <summary>
         /// 真实姓名
         /// </summary>
+        /// <example></example>
         public string Name { get; set; }
         /// <summary>
-        /// 性别（0男，1女）
+        /// 性别（ 默认1，0女，1男）
         /// </summary>
+        /// <example>1</example>
         public int? Sex { get; set; }
         /// <summary>
         /// 手机号
         /// </summary>
-        [DefaultValue("")]
+        ///<example></example>
         public string Phone { get; set; }
         /// <summary>
         /// 支付宝
         /// </summary>
+        /// <example></example>
         public string Alipay { get; set; }
 
         /// <summary>
-        /// 是否注销 (0是 ,1 否)
+        /// 是否注销 (默认1，0是 ,1 否)
         /// </summary>
-        public int IsEnable { get; set; } = 1;
+        /// <example>1</example>
+        public int IsEnable { get; set; }
     }
     public class MemberInfoPostValidator : AbstractValidator<MemberInfoPost> {
         protected readonly IMemberInfosRepository _IMemberInfosRepository;
+
         public MemberInfoPostValidator(IMemberInfosRepository memberInfosRepository) {
             this._IMemberInfosRepository = memberInfosRepository;
             When(x => x.IsEnable != 0, () => {

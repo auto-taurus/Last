@@ -5,18 +5,22 @@ namespace Gbxx.WebApi.Areas.v1.Models.Post {
         /// <summary>
         /// 会员编号，客户编号
         /// </summary>
+        /// <example></example>example设置默认值
         public int? MemberId { get; set; }
         /// <summary>
         /// 会员名称，客户名称
         /// </summary>
+        /// <example></example>
         public string MemberName { get; set; }
         /// <summary>
         /// 内容
         /// </summary>
+        /// <example></example>
         public string LeaveBody { get; set; }
         /// <summary>
-        /// 0会员留言，1客服回复（0默认为0）
+        /// 0会员留言，1客服回复（默认为0）
         /// </summary>
+        /// <example>0</example>
         public int? LeaveType { get; set; }
     }
     /// <summary>

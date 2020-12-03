@@ -121,7 +121,7 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                 }
                 DateTime beforeTime;
                 //第一天签到或者签到7天
-                if (signNumber >= 7 || (signNumber == 1&& todaySignin))
+                if (signNumber >= 7 || (signNumber == 1 && todaySignin))
                     beforeTime = System.DateTime.Now;
                 else if (!todaySignin) { //今天未签
                     beforeTime = System.DateTime.Now.AddDays(-signNumber);
@@ -156,6 +156,7 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
         /// <returns></returns>
         [HttpGet("Novice")]
         [AllowAnonymous]
+        [SwaggerResponse(200, "", typeof(TaskInfoDto))]
         public async Task<IActionResult> GetTaskNovicesAsync([FromHeader]String source,
                                                              [FromQuery]MemberIdGet item) {
             var response = new Response<Object>();
@@ -169,7 +170,7 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                                                                       && a.IsDisplay == 1
                                                                       && a.IsEnable == 1)
                                                           .OrderBy(a => a.Sequence)
-                                                          .Select(a => new {
+                                                          .Select(a => new TaskInfoDto {
                                                               TaskId = a.TaskId,
                                                               TaskName = a.TaskName,
                                                               TaskCode = a.TaskCode,
@@ -206,6 +207,7 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
         /// <returns></returns>
         [HttpGet("Dailies")]
         [AllowAnonymous]
+        [SwaggerResponse(200, "", typeof(TaskInfoDto))]
         public async Task<IActionResult> GetTaskTypeKeysAsync([FromHeader]String source,
                                                               [FromQuery]MemberIdGet item) {
             var response = new Response<Object>();
@@ -220,7 +222,7 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                                                                   && a.IsDisplay == 1
                                                                   && a.IsEnable == 1)
                                                       .OrderBy(a => a.Sequence)
-                                                      .Select(a => new {
+                                                      .Select(a => new TaskInfoDto {
                                                           TaskId = a.TaskId,
                                                           TaskName = a.TaskName,
                                                           TaskCode = a.TaskCode,
@@ -256,6 +258,7 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
         /// <returns></returns>
         [HttpGet("Fixeds")]
         [AllowAnonymous]
+        [SwaggerResponse(200, "", typeof(DistTaskResponse))]
         public async Task<IActionResult> GetDictionariesAsync([FromHeader]String source,
                                                               [FromQuery]MemberIdGet item) {
             var response = new Response<List<DistTaskResponse>>();
@@ -300,6 +303,7 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
         /// <param name="route"></param>
         /// <returns></returns>
         [HttpGet("Fixeds/{distKey}")]
+        [SwaggerResponse(200,"",typeof(FixdeIncomeDto))]
         public async Task<IActionResult> GetTaskDistKeysAsync([FromHeader]String source,
                                                               [FromRoute]RouteDistKey route) {
             var response = new Response<Object>();
@@ -310,15 +314,15 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                                                                        && a.Status == 0
                                                                        && a.CategoryFixed == distKey)
                                                            .OrderByDescending(a => a.CreateTime)
-                                                           .Select(a => new {
-                                                               a.IncomeId,
-                                                               a.TaskName,
-                                                               a.TaskCode,
-                                                               a.CategoryDay,
-                                                               a.CategoryFixed,
-                                                               a.BeansText,
-                                                               a.Title,
-                                                               a.CreateTime
+                                                           .Select(a => new FixdeIncomeDto {
+                                                               IncomeId = a.IncomeId,
+                                                               TaskName = a.TaskName,
+                                                               TaskCode = a.TaskCode,
+                                                               CategoryDay = a.CategoryDay,
+                                                               CategoryFixed = a.CategoryFixed,
+                                                               BeansText = a.BeansText,
+                                                               Title = a.Title,
+                                                               CreateTime = a.CreateTime
                                                            })
                                                            .ToListAsync();
                 if (result.Count <= 0)
@@ -339,7 +343,6 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
         /// <param name="item"></param>
         /// <returns></returns>
         [HttpPost("{code}")]
-        [SwaggerResponse(200, "", typeof(TaskItem))]
         public async Task<IActionResult> PostTaskInfoAsync([FromHeader]String source,
                                                            [FromRoute]RouteCode route,
                                                            [FromBody]TaskItem item) {

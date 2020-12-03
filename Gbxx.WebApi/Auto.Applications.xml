@@ -13,25 +13,35 @@
             <summary>
             会员编号
             </summary>
+            <example></example>example设置默认值
         </member>
         <member name="P:Auto.Applications.Modals.TaskItem.InvitedId">
             <summary>
             被邀请人
             </summary>
+            <example></example>
         </member>
         <member name="P:Auto.Applications.Modals.TaskItem.FromId">
             <summary>
             内容标识
             </summary>
+            <example></example>
         </member>
         <member name="P:Auto.Applications.Modals.TaskItem.FromMark">
             <summary>
             来源标识
             </summary>
+            <example></example>
         </member>
         <member name="P:Auto.Applications.Modals.TaskItem.FromType">
             <summary>
             来源类型
+            </summary>
+            <example></example>
+        </member>
+        <member name="T:Auto.Applications.Modals.TaskItemValidator">
+            <summary>
+            自动验证
             </summary>
         </member>
         <member name="M:Auto.Applications.Repositories.Tasks.TaskInfoAppv2.SetSign(Auto.Applications.Modals.TaskItem,Auto.Entities.Modals.TaskInfo,System.Collections.Generic.List{Auto.Entities.Modals.MemberIncome})">

@@ -159,10 +159,12 @@ namespace Gbxx.WebApi.Controllers {
         /// <returns></returns>
         [HttpPost("Register")]
         [AllowAnonymous]
+        [SwaggerResponse(200, "", typeof(JwtAuthorData))]
         public async Task<IActionResult> PostUserRegisterAsync([FromHeader]String source,
                                                                [FromHeader]String authorization,
                                                                [FromBody]RegisterPost item) {
             var response = new Response<JwtAuthorData>();
+            var message = string.Empty;
             try {
                 var entity = await _IMemberInfosRepository.FirstOrDefaultAsync(a => a.Uid == item.uid && a.OpenId == item.openid && a.IsEnable == 1);
                 if (entity == null) {
@@ -174,6 +176,7 @@ namespace Gbxx.WebApi.Controllers {
                     entity.Avatar = item.iconurl;
                     entity.Uid = item.uid;
                     entity.OpenId = item.openid;
+                    entity.Phone = item.phone;
                     entity.Password = Tools.Md5("000000");
                     entity.Beans = 0;
                     entity.BeansTotals = 0;
@@ -192,6 +195,8 @@ namespace Gbxx.WebApi.Controllers {
                     await _IMemberInfosRepository.AddAsync(entity);
                     await _IMemberInfosRepository.SaveChangesAsync();
 
+                    message = "初始登录密码为【000000】";
+
                     var taskNoviceLogs = await _ITaskInfoRepository.Query(a => a.IsNoviceTask == 1 && a.IsEnable == 1)
                                                              .Select(a => new TaskNoviceLog() {
                                                                  TaskId = a.TaskId,
@@ -203,11 +208,14 @@ namespace Gbxx.WebApi.Controllers {
                                                              .ToListAsync();
                     await _ITaskNoviceLogRepository.BatchAddAsync(taskNoviceLogs);
                 }
+                else {
+                    message = "已注册，初始登录密码为【000000】";
+                }
                 var result = _IJwtRedis.Create(entity);
                 if (result != null) {
                     //await _IJwtRedis.DeactivateAsync(authorization);
                     response.Code = true;
-                    response.Message = "初始登录密码为【000000】。";
+                    response.Message = message;
                     response.Data = result;
                 }
                 else {

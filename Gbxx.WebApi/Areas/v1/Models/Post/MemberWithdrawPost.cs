@@ -15,16 +15,19 @@ namespace Gbxx.WebApi.Areas.v1.Models.Post {
         /// <summary>
         /// 用户id
         /// </summary>
+        /// <example></example>
         public int id { get; set; }
 
         /// <summary>
         /// 金币
         /// </summary>
+        /// <example>0</example>
         public int beans { get; set; }
 
         /// <summary>
         /// 提现方式（0默认值、1微信、2支付宝、3手机号）
         /// </summary>
+        /// <example>0</example>
         public int methods { get; set; }
 
     }

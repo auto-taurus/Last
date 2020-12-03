@@ -11,19 +11,23 @@ namespace Gbxx.WebApi.Areas.v1.Models.Post {
         /// <summary>
         /// 手机号/微信号
         /// </summary>
+        /// <example></example>
         public string LoginName { get; set; }
         /// <summary>
         /// 原始密码
         /// </summary>
+        /// <example></example>
         public string Old { get; set; }
         /// <summary>
         /// 新密码
         /// </summary>
+        /// <example></example>
         public string New { get; set; }
 
         /// <summary>
         /// 确认密码
         /// </summary>
+        /// <example></example>
         public string Affirm { get; set; }
     }
     /// <summary>
