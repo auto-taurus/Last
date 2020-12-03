@@ -41,7 +41,32 @@
         </member>
         <member name="P:Auto.Entities.Dtos.MemberAppDto.MemberId">
             <summary>
-            
+            会员Id
+            </summary>
+        </member>
+        <member name="P:Auto.Entities.Dtos.MemberAppDto.Code">
+            <summary>
+            邀请码
+            </summary>
+        </member>
+        <member name="P:Auto.Entities.Dtos.MemberAppDto.NickName">
+            <summary>
+            昵称
+            </summary>
+        </member>
+        <member name="P:Auto.Entities.Dtos.MemberAppDto.Name">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="P:Auto.Entities.Dtos.MemberAppDto.Sex">
+            <summary>
+            性别
+            </summary>
+        </member>
+        <member name="P:Auto.Entities.Dtos.MemberAppDto.Phone">
+            <summary>
+            手机号
             </summary>
         </member>
         <member name="P:Auto.Entities.Dtos.MemberAppDto.Alipay">
