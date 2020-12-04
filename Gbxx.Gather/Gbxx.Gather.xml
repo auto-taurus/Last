@@ -116,5 +116,17 @@
             隐藏接口，不生成到swagger文档展示
             </summary>
         </member>
+        <member name="T:Gbxx.Gather.Handlers.HiddenApiFilter">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Gbxx.Gather.Handlers.HiddenApiFilter.Apply(Microsoft.OpenApi.Models.OpenApiDocument,Swashbuckle.AspNetCore.SwaggerGen.DocumentFilterContext)">
+            <summary>
+            
+            </summary>
+            <param name="swaggerDoc"></param>
+            <param name="context"></param>
+        </member>
     </members>
 </doc>

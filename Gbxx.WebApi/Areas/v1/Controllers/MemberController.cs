@@ -10,6 +10,7 @@ using Gbxx.WebApi.Areas.v1.Models.Post;
 using Gbxx.WebApi.Controllers;
 using Gbxx.WebApi.Handlers;
 using Gbxx.WebApi.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;

@@ -43,6 +43,27 @@ namespace Gbxx.BackStage.Areas.v1.Controllers {
                 response.Code = true;
                 response.Data = await _ISystemMenuRepository.Query()
                                                             .OrderBy(a => a.Sequence)
+                                                            .Select(a => new {
+                                                                a.MenuId,
+                                                                a.MenuIcon,
+                                                                a.MenuName,
+                                                                a.ParentId,
+                                                                a.NodeValue,
+                                                                a.Urls,
+                                                                a.RouterName,
+                                                                a.RouterPath,
+                                                                a.Component,
+                                                                a.ShowAlways,
+                                                                a.ShowHeader,
+                                                                a.HideInBread,
+                                                                a.HideInMenu,
+                                                                a.NotCache,
+                                                                a.BeforeCloseName,
+                                                                a.IsEnable,
+                                                                a.Remarks,
+                                                                a.CreateBy,
+                                                                a.CreateTime
+                                                            })
                                                             .ToListAsync();
             }
             catch (Exception ex) {
