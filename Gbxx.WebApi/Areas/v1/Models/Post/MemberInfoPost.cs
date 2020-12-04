@@ -23,7 +23,7 @@ namespace Gbxx.WebApi.Areas.v1.Models.Post {
         /// 性别（ 默认1，0女，1男）
         /// </summary>
         /// <example>1</example>
-        public int? Sex { get; set; }
+        public int? Sex { get; set; } = 1;
         /// <summary>
         /// 手机号
         /// </summary>
@@ -39,7 +39,7 @@ namespace Gbxx.WebApi.Areas.v1.Models.Post {
         /// 是否注销 (默认1，0是 ,1 否)
         /// </summary>
         /// <example>1</example>
-        public int IsEnable { get; set; }
+        public int IsEnable { get; set; } = 1;
     }
     public class MemberInfoPostValidator : AbstractValidator<MemberInfoPost> {
         protected readonly IMemberInfosRepository _IMemberInfosRepository;
@@ -48,9 +48,9 @@ namespace Gbxx.WebApi.Areas.v1.Models.Post {
             this._IMemberInfosRepository = memberInfosRepository;
             When(x => x.IsEnable != 0, () => {
                 RuleFor(x => x.Alipay).Matches(@"0?(13|14|15|17|18|19)[0-9]{9}").WithMessage("支付宝账号格式不正确")
-                                 .MustAsync(AlipayRepeatValidator).WithMessage("支付宝已被绑定!");
+                                 .MustAsync(AlipayRepeatValidator).WithMessage("支付宝已被绑定!").When(a => !string.IsNullOrEmpty(a.Alipay));
             });
-           
+
         }
         private async Task<bool> AlipayRepeatValidator(string alipay, CancellationToken cancellation) {
             return !await _IMemberInfosRepository.IsExistAsync(b => b.Alipay == alipay);

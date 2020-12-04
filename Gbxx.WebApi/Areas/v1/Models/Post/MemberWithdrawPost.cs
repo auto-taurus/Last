@@ -28,7 +28,7 @@ namespace Gbxx.WebApi.Areas.v1.Models.Post {
         /// 提现方式（0默认值、1微信、2支付宝、3手机号）
         /// </summary>
         /// <example>0</example>
-        public int methods { get; set; }
+        public int methods { get; set; } = 0;
 
     }
     public class MemberWithdrawPostValidator : AbstractValidator<MemberWithdrawPost> {
