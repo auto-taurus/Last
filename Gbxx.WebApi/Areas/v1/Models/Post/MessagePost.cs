@@ -21,7 +21,7 @@ namespace Gbxx.WebApi.Areas.v1.Models.Post {
         /// 0会员留言，1客服回复（默认为0）
         /// </summary>
         /// <example>0</example>
-        public int? LeaveType { get; set; }
+        public int? LeaveType { get; set; } = 0;
     }
     /// <summary>
     /// 

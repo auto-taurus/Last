@@ -17,7 +17,7 @@ namespace Gbxx.WebApi.Models.Post {
         /// 性别（默认男, 0女，1男）
         /// </summary>
         /// <example>1</example>
-        public string gender { get; set; }
+        public string gender { get; set; } = "1";
         /// <summary>
         /// 名称
         /// </summary>
@@ -39,7 +39,7 @@ namespace Gbxx.WebApi.Models.Post {
         /// 注册类型(0 默认微信，1手机号)
         /// </summary>
         /// <example>0</example>
-        public int type { get; set; }
+        public int type { get; set; } = 0;
     }
     /// <summary>
     /// 
