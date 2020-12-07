@@ -379,12 +379,11 @@
             <param name="item"></param>
             <returns></returns>
         </member>
-        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.MemberController.PostMemberInfoPasswordAsync(System.String,Gbxx.WebApi.Models.RouteIdInt,Gbxx.WebApi.Areas.v1.Models.Post.PasswordPost)">
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.MemberController.PostMemberInfoPasswordAsync(System.String,Gbxx.WebApi.Areas.v1.Models.Post.PasswordPost)">
             <summary>
             会员修改密码
             </summary>
             <param name="source"></param>
-            <param name="route"></param>
             <param name="item"></param>
             <returns></returns>
         </member>
@@ -856,6 +855,21 @@
              网页描述
             </summary>
         </member>
+        <member name="P:Gbxx.WebApi.Areas.v1.Data.DistTaskResponse.DistKey">
+            <summary>
+            实际使用Key
+            </summary>
+        </member>
+        <member name="P:Gbxx.WebApi.Areas.v1.Data.DistTaskResponse.DistName">
+            <summary>
+            中文显示名称
+            </summary>
+        </member>
+        <member name="P:Gbxx.WebApi.Areas.v1.Data.DistTaskResponse.Beans">
+            <summary>
+            金币
+            </summary>
+        </member>
         <member name="T:Gbxx.WebApi.Areas.v1.Data.NewsListResponse">
             <summary>
             新闻列表
@@ -1051,14 +1065,27 @@
             网页描述
             </summary>
         </member>
+        <member name="P:Gbxx.WebApi.Areas.v1.Models.Get.MemberFollowPost.CategoryId">
+            <summary>
+            分类编号
+            </summary>
+            <example></example>
+        </member>
+        <member name="P:Gbxx.WebApi.Areas.v1.Models.Get.MemberFollowPost.SourceId">
+            <summary>
+            来源编号
+            </summary>
+            <example></example>
+        </member>
         <member name="P:Gbxx.WebApi.Areas.v1.Models.Get.MemberFollowPost.OType">
             <summary>
-            0关注，1取消关注
+             关注（默认0, 0关注，1取消关注）
             </summary>
+            <example>0</example>
         </member>
         <member name="T:Gbxx.WebApi.Areas.v1.Models.Get.MemberFollowPostValidator">
             <summary>
-            
+            自动验证
             </summary>
         </member>
         <member name="M:Gbxx.WebApi.Areas.v1.Models.Get.MemberFollowPostValidator.#ctor">
@@ -1091,6 +1118,42 @@
             数据校验
             </summary>
         </member>
+        <member name="P:Gbxx.WebApi.Areas.v1.Models.Post.CommentPost.ParentId">
+            <summary>
+            父级评论编号
+            </summary>
+            <example></example>example设置默认值
+        </member>
+        <member name="P:Gbxx.WebApi.Areas.v1.Models.Post.CommentPost.MemberId">
+            <summary>
+            评论人编号
+            </summary>
+            <example></example>
+        </member>
+        <member name="P:Gbxx.WebApi.Areas.v1.Models.Post.CommentPost.MemberName">
+            <summary>
+            评论人名称（昵称）
+            </summary>
+            <example></example>
+        </member>
+        <member name="P:Gbxx.WebApi.Areas.v1.Models.Post.CommentPost.CommentBody">
+            <summary>
+            评论内容
+            </summary>
+            <example></example>
+        </member>
+        <member name="P:Gbxx.WebApi.Areas.v1.Models.Post.CommentPost.QuoteId">
+            <summary>
+            被引用人编号
+            </summary>
+            <example></example>
+        </member>
+        <member name="P:Gbxx.WebApi.Areas.v1.Models.Post.CommentPost.QuoteName">
+            <summary>
+            被引用人名称（昵称）
+            </summary>
+            <example></example>
+        </member>
         <member name="T:Gbxx.WebApi.Areas.v1.Models.Post.CommentPostValidator">
             <summary>
             
@@ -1110,11 +1173,13 @@
             <summary>
             登录名（手机号）
             </summary>
+            <example></example>
         </member>
         <member name="P:Gbxx.WebApi.Areas.v1.Models.Post.LoginPost.Password">
             <summary>
             登录密码
             </summary>
+            <example></example>
         </member>
         <member name="T:Gbxx.WebApi.Areas.v1.Models.Post.LoginPostValidator">
             <summary>
@@ -1130,26 +1195,37 @@
             <summary>
             昵称
             </summary>
+            <example></example>example设置默认值
         </member>
         <member name="P:Gbxx.WebApi.Areas.v1.Models.Post.MemberInfoPost.Name">
             <summary>
             真实姓名
             </summary>
+            <example></example>
         </member>
         <member name="P:Gbxx.WebApi.Areas.v1.Models.Post.MemberInfoPost.Sex">
             <summary>
-            性别（0男，1女）
+            性别（ 默认1，0女，1男）
             </summary>
+            <example>1</example>
         </member>
         <member name="P:Gbxx.WebApi.Areas.v1.Models.Post.MemberInfoPost.Phone">
-            <summary>
-            手机号
-            </summary>
+             <summary>
+             手机号
+             </summary>
+            <example></example>
         </member>
         <member name="P:Gbxx.WebApi.Areas.v1.Models.Post.MemberInfoPost.Alipay">
             <summary>
             支付宝
             </summary>
+            <example></example>
+        </member>
+        <member name="P:Gbxx.WebApi.Areas.v1.Models.Post.MemberInfoPost.IsEnable">
+            <summary>
+            是否注销 (默认1，0是 ,1 否)
+            </summary>
+            <example>1</example>
         </member>
         <member name="T:Gbxx.WebApi.Areas.v1.Models.Post.MemberWithdrawPost">
             <summary>
@@ -1160,36 +1236,43 @@
             <summary>
             用户id
             </summary>
+            <example></example>
         </member>
         <member name="P:Gbxx.WebApi.Areas.v1.Models.Post.MemberWithdrawPost.beans">
             <summary>
             金币
             </summary>
+            <example>0</example>
         </member>
         <member name="P:Gbxx.WebApi.Areas.v1.Models.Post.MemberWithdrawPost.methods">
             <summary>
             提现方式（0默认值、1微信、2支付宝、3手机号）
             </summary>
+            <example>0</example>
         </member>
         <member name="P:Gbxx.WebApi.Areas.v1.Models.Post.MessagePost.MemberId">
             <summary>
             会员编号，客户编号
             </summary>
+            <example></example>example设置默认值
         </member>
         <member name="P:Gbxx.WebApi.Areas.v1.Models.Post.MessagePost.MemberName">
             <summary>
             会员名称，客户名称
             </summary>
+            <example></example>
         </member>
         <member name="P:Gbxx.WebApi.Areas.v1.Models.Post.MessagePost.LeaveBody">
             <summary>
             内容
             </summary>
+            <example></example>
         </member>
         <member name="P:Gbxx.WebApi.Areas.v1.Models.Post.MessagePost.LeaveType">
             <summary>
-            0会员留言，1客服回复（0默认为0）
+            0会员留言，1客服回复（默认为0）
             </summary>
+            <example>0</example>
         </member>
         <member name="T:Gbxx.WebApi.Areas.v1.Models.Post.MessagePostValidator">
             <summary>
@@ -1201,15 +1284,47 @@
             
             </summary>
         </member>
+        <member name="P:Gbxx.WebApi.Areas.v1.Models.Post.PasswordPost.LoginName">
+            <summary>
+            手机号/微信号
+            </summary>
+            <example></example>
+        </member>
+        <member name="P:Gbxx.WebApi.Areas.v1.Models.Post.PasswordPost.Old">
+            <summary>
+            原始密码
+            </summary>
+            <example></example>
+        </member>
+        <member name="P:Gbxx.WebApi.Areas.v1.Models.Post.PasswordPost.New">
+            <summary>
+            新密码
+            </summary>
+            <example></example>
+        </member>
+        <member name="P:Gbxx.WebApi.Areas.v1.Models.Post.PasswordPost.Affirm">
+            <summary>
+            确认密码
+            </summary>
+            <example></example>
+        </member>
         <member name="T:Gbxx.WebApi.Areas.v1.Models.Post.PasswordPostValidator">
             <summary>
             
             </summary>
         </member>
-        <member name="M:Gbxx.WebApi.Areas.v1.Models.Post.PasswordPostValidator.#ctor">
+        <member name="M:Gbxx.WebApi.Areas.v1.Models.Post.PasswordPostValidator.#ctor(Auto.DataServices.Contracts.IMemberInfosRepository)">
             <summary>
-            
+            自动校验
             </summary>
+        </member>
+        <member name="M:Gbxx.WebApi.Areas.v1.Models.Post.PasswordPostValidator.ReEqualsNew(Gbxx.WebApi.Areas.v1.Models.Post.PasswordPost,System.String)">
+            <summary>
+            判断新密码与重复密码是否一样
+            </summary>
+            <param name="model"></param>
+            <param name="newPwdRe"></param>
+            <returns></returns>
         </member>
         <member name="T:Gbxx.WebApi.Areas.v1.Models.Post.UserPostValidator">
             <summary>
@@ -1559,37 +1674,54 @@
         </member>
         <member name="P:Gbxx.WebApi.Models.Post.RegisterPost.uid">
             <summary>
-            
+            微信uid(同一用户不同应用唯一)
             </summary>
+            <example></example>example设置默认值
         </member>
         <member name="P:Gbxx.WebApi.Models.Post.RegisterPost.openid">
             <summary>
-            
+            微信openid(同一用户同一应用唯一)
             </summary>
+            <example></example>
         </member>
         <member name="P:Gbxx.WebApi.Models.Post.RegisterPost.gender">
             <summary>
-            性别
+            性别（默认男, 0女，1男）
             </summary>
+            <example>1</example>
         </member>
         <member name="P:Gbxx.WebApi.Models.Post.RegisterPost.name">
             <summary>
             名称
             </summary>
+            <example></example>
         </member>
         <member name="P:Gbxx.WebApi.Models.Post.RegisterPost.iconurl">
             <summary>
             头像
             </summary>
+            <example></example>
+        </member>
+        <member name="P:Gbxx.WebApi.Models.Post.RegisterPost.phone">
+            <summary>
+            手机号
+            </summary>
+            <example></example>
+        </member>
+        <member name="P:Gbxx.WebApi.Models.Post.RegisterPost.type">
+            <summary>
+            注册类型(0 默认微信，1手机号)
+            </summary>
+            <example>0</example>
         </member>
         <member name="T:Gbxx.WebApi.Models.Post.RegisterPostValidator">
             <summary>
             
             </summary>
         </member>
-        <member name="M:Gbxx.WebApi.Models.Post.RegisterPostValidator.#ctor">
+        <member name="M:Gbxx.WebApi.Models.Post.RegisterPostValidator.#ctor(Auto.DataServices.Contracts.IMemberInfosRepository)">
             <summary>
-            
+            自动验证
             </summary>
         </member>
         <member name="M:Gbxx.WebApi.Models.RouteCodeValidator.#ctor">
