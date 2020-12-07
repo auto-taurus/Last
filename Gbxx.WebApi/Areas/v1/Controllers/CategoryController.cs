@@ -57,6 +57,57 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
             this._IWebCategoryRedis = webCategoryRedis;
             this._IWebCategoryRepository = webCategoryRepository;
         }
+
+        /// <summary>
+        /// 分类信息
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="route"></param>
+        /// <returns></returns>
+        [HttpGet("{id}")]
+        [SwaggerResponse(200, "", typeof(WebCategoryValue))]
+        public async Task<IActionResult> GetCategoryAsync([FromHeader]String source,
+                                                                        [FromRoute]SiteIdRoute route) {
+            var response = new Response<object>();
+            try {
+                var result = await this._IWebCategoryRedis.GetAsync(route.mark);
+                var newResult = result.FirstOrDefault(c => c.CategoryId ==Convert.ToInt32(route.id));//根据分类标识获取分类信息
+                if (newResult != null) {
+                    response.Code = true;
+                    response.Data = newResult;
+                }
+                else {
+                    var entities = await _IWebCategoryRepository.Query(a => a.SiteId == route.mark && a.IsEnable == 1,
+                                                                       a => a.Sequence)
+                                                                 .Select(a => new WebCategoryValue() {
+                                                                     CategoryId = a.CategoryId,
+                                                                     CategoryName = a.CategoryName,
+                                                                     ParentId = a.ParentId,
+                                                                     Controller = a.Controller,
+                                                                     Action = a.Action,
+                                                                     Urls = a.Urls,
+                                                                     Title = a.Title,
+                                                                     Keywords = a.Keywords,
+                                                                     Description = a.Description
+                                                                 })
+                                                                 .ToListAsync();
+
+                    if (entities.Count > 0) {
+                        await _IWebCategoryRedis.AddAsync(route.mark, entities);
+                        response.Code = true;
+                        response.Data = entities.FirstOrDefault(c => c.CategoryId == Convert.ToInt32(route.id));//根据分类标识获取分类信息
+                    }
+                    else
+                        return NoContent();
+                }
+            }
+            catch (Exception ex) {
+                response.SetError(ex, this._ILogger);
+            }
+            return response.ToHttpResponse();
+        }
+
+
         /// <summary>
         /// 分类列表
         /// </summary>
