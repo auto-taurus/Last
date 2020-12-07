@@ -80,7 +80,7 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                     var entities = await _IWebCategoryRepository.Query(a => a.SiteId == route.mark && a.IsEnable == 1,
                                                                        a => a.Sequence)
                                                                  .Select(a => new WebCategoryValue() {
-                                                                     CategoryId = a.CategoryId,
+                                                                     CategoryId = a.SiteId == 2 ? Convert.ToInt32(a.Remarks) : a.CategoryId,
                                                                      CategoryName = a.CategoryName,
                                                                      ParentId = a.ParentId,
                                                                      Controller = a.Controller,
