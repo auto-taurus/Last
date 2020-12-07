@@ -1,9 +1,9 @@
-﻿using Auto.ElasticServices.Modals;
-using Auto.Commons.ApiHandles.Responses;
+﻿using Auto.Commons.ApiHandles.Responses;
 using Auto.Commons.Systems;
 using Auto.DataServices.Contracts;
-using Auto.Entities.Modals;
 using Auto.ElasticServices.Contracts;
+using Auto.ElasticServices.Modals;
+using Auto.Entities.Modals;
 using Auto.RedisServices;
 using Gbxx.WebApi.Areas.v1.Models.Route;
 using Gbxx.WebApi.Utils;
@@ -14,7 +14,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Gbxx.WebApi.Handlers;
 
 namespace Gbxx.WebApi.Areas.v1.Controllers {
 
@@ -77,7 +76,7 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
         /// <param name="newsId"></param>
         /// <returns></returns>
         [HttpGet("{mark}/NewsDoc")]
-        [HiddenApi]
+        //[HiddenApi]
         public async Task<IActionResult> PostNewsDocAsync([FromHeader]String source,
                                                           [FromRoute]SiteRoute route,
                                                           string newsId = "10000000") {
@@ -86,8 +85,8 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                 var categories = await _IWebCategoryRepository.Query(a => a.SiteId == route.mark && a.IsEnable == 1,
                                                                           a => a.Sequence).ToListAsync();
 
-                var iidn = await _IWebNewsElastic.AddIndexAsync(_IWebNewsElastic.IndexName);
-                for (int pageIndex = 1; pageIndex <= 2; pageIndex++) {
+                //var iidn = await _IWebNewsElastic.AddIndexAsync(_IWebNewsElastic.IndexName);
+                for (int pageIndex = 1; pageIndex <= 20; pageIndex++) {
                     var news = new List<WebNews>();
                     news = _IMySqlRepository.GetList(1, pageIndex, 100000, Convert.ToInt32(newsId));
                     //var cateSources = news.GroupBy(a => a.CategoryId,
@@ -113,22 +112,62 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                             var category = categories.SingleOrDefault(a => a.CategoryName == x.CategoryName);
                             if (category != null) {
                                 newsDatas.Add(SetWebNews(x, category));
-                                docs.Add(GetWebNewsDoc(x));
+                                //docs.Add(GetWebNewsDoc(x));
                             }
                         });
                         if (newsDatas.Count > 0)
-                            await _IWebNewsRepository.BatchAddAsync(news);
-                        if (docs.Count > 0)
-                            response.Other += (await _IWebNewsElastic.BatchAddDocumentAsync(_IWebNewsElastic.IndexName, docs)).ToString() + "a|" + docs.Count;
+                            await _IWebNewsRepository.BatchAddAsync(newsDatas);
+                        //if (docs.Count > 0)
+                        //    response.Other += (await _IWebNewsElastic.BatchAddDocumentAsync(_IWebNewsElastic.IndexName, docs)).ToString() + "a|" + docs.Count;
+
+
                     }
                 }
                 response.Code = true;
-                response.Other = iidn;
+                response.Other = null;
             }
             catch (Exception ex) {
                 response.SetError(ex, this._ILogger);
             }
             response.Data = newsId;
+            return response.ToHttpResponse();
+        }
+
+        /// <summary>
+        /// 删除文档
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="route"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public async Task<IActionResult> DeleteNewsDocAsync([FromHeader]String source,
+                                                          [FromRoute]SiteRoute route) {
+            var response = new Response<Object>();
+            bool result = false;
+            int flagCount = 0;
+            List<string> FailList = new List<string>();
+            try {
+                //读取文件批量删除文档
+                string basePath = AppDomain.CurrentDomain.BaseDirectory;
+                string filePath = System.IO.Path.Combine(basePath, "data.text");
+                string[] newsIdArrr = System.IO.File.ReadAllLines(filePath);
+
+                foreach (var item in newsIdArrr) {
+                    result = await _IWebNewsElastic.RemoveDocumentAsync(_IWebNewsElastic.IndexName, item);
+                    if (result)
+                        flagCount++;
+                    else {
+                        FailList.Add(item);//失败的记录
+                    }
+                }
+            }
+            catch (Exception) {
+
+                throw;
+            }
+            response.Code = result;
+            response.Data = FailList;
+            response.Message = $"Success,{flagCount}";
             return response.ToHttpResponse();
         }
         private WebNewsDoc GetWebNewsDoc(WebNews x) {
