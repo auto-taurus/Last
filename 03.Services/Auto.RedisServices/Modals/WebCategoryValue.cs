@@ -43,5 +43,9 @@ namespace Auto.RedisServices.Modals {
         /// 网页描述
         ///</summary>
         public string Description { get; set; }
+        /// <summary>
+        /// 渠道Id
+        /// </summary>
+        public  int? ChannelId { get; set; }
     }
 }

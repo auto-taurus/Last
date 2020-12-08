@@ -327,6 +327,11 @@
              网页描述
             </summary>
         </member>
+        <member name="P:Auto.RedisServices.Modals.WebCategoryValue.ChannelId">
+            <summary>
+            渠道Id
+            </summary>
+        </member>
         <member name="T:Auto.RedisServices.Modals.WebSiteValue">
             <summary>
             

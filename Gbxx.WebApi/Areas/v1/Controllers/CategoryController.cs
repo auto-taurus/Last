@@ -1,4 +1,5 @@
 ﻿using Auto.Commons.ApiHandles.Responses;
+using Auto.Commons.Extend;
 using Auto.DataServices.Contracts;
 using Auto.ElasticServices.Contracts;
 using Auto.ElasticServices.Modals;
@@ -69,18 +70,21 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
         public async Task<IActionResult> GetCategoryAsync([FromHeader]String source,
                                                                         [FromRoute]SiteIdRoute route) {
             var response = new Response<object>();
+            var categoryId = route.id.ToInt();//分类Id
             try {
                 var result = await this._IWebCategoryRedis.GetAsync(route.mark);
-                var newResult = result.FirstOrDefault(c => c.CategoryId ==Convert.ToInt32(route.id));//根据分类标识获取分类信息
-                if (newResult != null) {
+                if (result.Count > 0) {
+                    var newResult = result.FirstOrDefault(c => c.CategoryId == categoryId);//根据分类标识获取分类信息
                     response.Code = true;
                     response.Data = newResult;
+                    response.Message = newResult==null? "未找到相关数据！":"Success";
                 }
                 else {
                     var entities = await _IWebCategoryRepository.Query(a => a.SiteId == route.mark && a.IsEnable == 1,
                                                                        a => a.Sequence)
                                                                  .Select(a => new WebCategoryValue() {
-                                                                     CategoryId = a.SiteId == 2 ? Convert.ToInt32(a.Remarks) : a.CategoryId,
+                                                                     CategoryId= a.CategoryId,
+                                                                     ChannelId =  Convert.ToInt32(a.Remarks),
                                                                      CategoryName = a.CategoryName,
                                                                      ParentId = a.ParentId,
                                                                      Controller = a.Controller,
@@ -95,7 +99,7 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                     if (entities.Count > 0) {
                         await _IWebCategoryRedis.AddAsync(route.mark, entities);
                         response.Code = true;
-                        response.Data = entities.FirstOrDefault(c => c.CategoryId == Convert.ToInt32(route.id));//根据分类标识获取分类信息
+                        response.Data = entities.FirstOrDefault(c => c.CategoryId == categoryId);//根据分类标识获取分类信息
                     }
                     else
                         return NoContent();
@@ -129,7 +133,8 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                     var entities = await _IWebCategoryRepository.Query(a => a.SiteId == route.mark && a.IsEnable == 1,
                                                                        a => a.Sequence)
                                                                  .Select(a => new WebCategoryValue() {
-                                                                     CategoryId = a.SiteId == 2 ? Convert.ToInt32(a.Remarks) : a.CategoryId,
+                                                                     CategoryId = a.CategoryId,
+                                                                     ChannelId = Convert.ToInt32(a.Remarks),
                                                                      CategoryName = a.CategoryName,
                                                                      ParentId = a.ParentId,
                                                                      Controller = a.Controller,
