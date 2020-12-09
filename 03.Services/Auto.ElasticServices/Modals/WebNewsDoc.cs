@@ -118,6 +118,12 @@ namespace Auto.ElasticServices.Modals {
         //[Date(Index = true)]
         [Date(Index = true)]
         public DateTime? PushTime { get; set; }
+
+        /// <summary>
+        /// 创建时间
+        /// </summary>
+        [Date(Index = true)]
+        public DateTime? CreateTime { get; set; }
         /// <summary>
         /// 分类排序
         /// </summary>

@@ -100,7 +100,7 @@ namespace Auto.ElasticServices {
         /// <param name="indexName">索引名称</param>
         /// <param name="refresh"></param>
         /// <returns></returns>
-        public async Task<bool> SetIndexRar(string indexName, string refresh = "30s") {
+        public async Task<bool> SetIndexRar(string indexName, string refresh = "60s") {
             var flag = false;
             try {
                 var response = new PutMappingResponse();
@@ -156,7 +156,7 @@ namespace Auto.ElasticServices {
             if (isRefresh) {
                 try {
                     var response = Client.BulkAll(entities, b => b.Index(indexName)
-                                                                  .BackOffTime("30s")
+                                                                  .BackOffTime("60s")
                                                                   .BackOffRetries(2)
                                                                   .RefreshOnCompleted()
                                                                   .MaxDegreeOfParallelism(Environment.ProcessorCount)

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Auto.Commons;
 using Auto.Commons.Systems;
 using Auto.DataServices.Contracts;
 using Auto.ElasticServices.Contracts;
@@ -53,36 +54,39 @@ namespace Gbxx.Gather.Controllers {
             this._IWebCategoryRepository = webCategoryRepository;
         }
         /// <summary>
-        /// 
+        /// 同步新闻数据
         /// </summary>
         /// <param name="item"></param>
         /// <returns></returns>
         [HttpPost]
         public async Task<IActionResult> PostWebNewsAsync([FromBody]List<GatherPost> item) {
+            try {
+                var categories = await _IWebCategoryRepository.Query(a => a.IsEnable == 1)
+                                                         .ToListAsync();
+                var entities = new List<WebNews>();
+                var docs = new List<WebNewsDoc>();
 
-            var categories = await _IWebCategoryRepository.Query(a => a.IsEnable == 1)
-                                                          .ToListAsync();
-            var entities = new List<WebNews>();
-            var docs = new List<WebNewsDoc>();
+                item.ForEach(x => {
+                    var category = categories.FirstOrDefault(y => y.CategoryName == x.cate_name);
+                    if (category != null) {
+                        var entity = GetNewsEntity(category, x);
+                        var doc = GetNewsDoc(entity);
+                        entities.Add(entity);
+                        docs.Add(doc);
+                    }
+                });
 
-            item.ForEach(x => {
-                var category = categories.FirstOrDefault(y => y.CategoryName == x.cate_name);
-                if (category != null) {
-                    var entity = GetNewsEntity(category, x);
-                    var doc = GetNewsDoc(entity);
-                    entities.Add(entity);
-                    docs.Add(doc);
+                if (entities.Count > 0) {
+                    await _IWebNewsRepository.BatchAddAsync(entities);
                 }
-            });
 
-            if (entities.Count > 0) {
-                await _IWebNewsRepository.BatchAddAsync(entities);
+                if (docs.Count > 0) {
+                    await _IWebNewsElastic.BatchAddDocumentAsync(_IWebNewsElastic.IndexName, docs);
+                }
             }
-
-            if (docs.Count > 0) {
-                await _IWebNewsElastic.BatchAddDocumentAsync(_IWebNewsElastic.IndexName, docs);
+            catch (Exception ex) {
+                LogHelper.LogError("错误信息:{0}", ex.Message + ex.StackTrace);
             }
-
             return Ok();
         }
         private WebNewsDoc GetNewsDoc(WebNews x) {
@@ -104,6 +108,7 @@ namespace Gbxx.Gather.Controllers {
                 IsHot = x.IsHot,
                 AccessCount = x.VirtualAccessNumber,
                 PushTime = x.PushTime,
+                CreateTime=x.CreateTime,
                 CategorySort = x.CategorySort,
                 SpecialSort = x.SpecialSort,
                 Sequence = x.Sequence
@@ -159,7 +164,7 @@ namespace Gbxx.Gather.Controllers {
 
             entity.OperateType = 4; //同步
             entity.CreateBy = 1; //创建人
-            entity.CreateTime = System.DateTime.Now;
+            entity.CreateTime = System.DateTime.Now;//创建时间
 
             var codeNumber = new Random().Next(0, 12);
             if (codeNumber > 0)

@@ -39,7 +39,7 @@ namespace Gbxx.WebApi {
                 //.UseLazyLoadingProxies()
                 x.UseSqlServer(Configuration.GetConnectionString("GbxxNews"),
                     y => {
-                        y.MaxBatchSize(10).UseRowNumberForPaging();
+                        y.MaxBatchSize(10).CommandTimeout(3600).UseRowNumberForPaging();
                     });
             })
             .AddScoped<NewsContext>()

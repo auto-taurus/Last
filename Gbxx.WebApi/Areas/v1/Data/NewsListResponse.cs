@@ -70,5 +70,10 @@ namespace Gbxx.WebApi.Areas.v1.Data {
         /// 发布时间
         /// </summary>
         public DateTime? PushTime { get; set; }
+
+        /// <summary>
+        /// 创建时间
+        /// </summary>
+        public DateTime? Creatime { get; set; }
     }
 }

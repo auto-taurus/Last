@@ -1,5 +1,7 @@
-﻿using Auto.Commons.ApiHandles.Responses;
+﻿using Auto.Commons;
+using Auto.Commons.ApiHandles.Responses;
 using Auto.Commons.Systems;
+using Auto.Configurations;
 using Auto.DataServices.Contracts;
 using Auto.ElasticServices.Contracts;
 using Auto.ElasticServices.Modals;
@@ -85,24 +87,10 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                 var categories = await _IWebCategoryRepository.Query(a => a.SiteId == route.mark && a.IsEnable == 1,
                                                                           a => a.Sequence).ToListAsync();
 
-                //var iidn = await _IWebNewsElastic.AddIndexAsync(_IWebNewsElastic.IndexName);
+                var iidn = await _IWebNewsElastic.AddIndexAsync(_IWebNewsElastic.IndexName);
                 for (int pageIndex = 1; pageIndex <= 20; pageIndex++) {
                     var news = new List<WebNews>();
                     news = _IMySqlRepository.GetList(1, pageIndex, 100000, Convert.ToInt32(newsId));
-                    //var cateSources = news.GroupBy(a => a.CategoryId,
-                    //                          (CategoryId, CategoryGroup) => new { CategoryId, Source = CategoryGroup.GroupBy(b => b.Source.Trim()).ToList() }).ToList();
-
-                    //var sources = news.GroupBy(a => a.Source)
-                    //                  .Select(a => new { a.First().Source })
-                    //                  .ToList();
-                    //var number = (int)Math.Ceiling(sources.Count / 1999.0);
-                    //var index = 0;
-                    //for (var i = 0; i < number; i++) {
-                    //    if (i > 0)
-                    //        index = i * 1999;
-                    //    var sou = sources.Skip(index).Take(1999).ToList();
-
-                    //}
                     var lastNews = news.LastOrDefault();
                     if (lastNews != null) {
                         newsId = news.LastOrDefault().NewsId;
@@ -112,15 +100,13 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                             var category = categories.SingleOrDefault(a => a.CategoryName == x.CategoryName);
                             if (category != null) {
                                 newsDatas.Add(SetWebNews(x, category));
-                                //docs.Add(GetWebNewsDoc(x));
+                                docs.Add(GetWebNewsDoc(x));
                             }
                         });
-                        if (newsDatas.Count > 0)
-                            await _IWebNewsRepository.BatchAddAsync(newsDatas);
-                        //if (docs.Count > 0)
-                        //    response.Other += (await _IWebNewsElastic.BatchAddDocumentAsync(_IWebNewsElastic.IndexName, docs)).ToString() + "a|" + docs.Count;
-
-
+                        //if (newsDatas.Count > 0)
+                        //    await _IWebNewsRepository.BatchAddAsync(newsDatas);//写入数据库
+                        if (docs.Count > 0)
+                            response.Other += (await _IWebNewsElastic.BatchAddDocumentAsync(_IWebNewsElastic.IndexName, docs)).ToString() + "a|" + docs.Count;//写入es
                     }
                 }
                 response.Code = true;
@@ -133,43 +119,88 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
             return response.ToHttpResponse();
         }
 
+
         /// <summary>
-        /// 删除文档
+        /// 批量导入es（本地db）
         /// </summary>
         /// <param name="source"></param>
         /// <param name="route"></param>
+        /// <param name="newsId"></param>
         /// <returns></returns>
-        [HttpGet]
-        public async Task<IActionResult> DeleteNewsDocAsync([FromHeader]String source,
-                                                          [FromRoute]SiteRoute route) {
+        [HttpGet("{mark}/NewsDoc/Localhost")]
+        public async Task<IActionResult> PostNewsDocLocalHostAsync([FromHeader]String source,
+                                                        [FromRoute]SiteRoute route,
+                                                        DateTime pushTime
+                                                        ) {
             var response = new Response<Object>();
-            bool result = false;
-            int flagCount = 0;
-            List<string> FailList = new List<string>();
             try {
-                //读取文件批量删除文档
-                string basePath = AppDomain.CurrentDomain.BaseDirectory;
-                string filePath = System.IO.Path.Combine(basePath, "data.text");
-                string[] newsIdArrr = System.IO.File.ReadAllLines(filePath);
+                var categories = await _IWebCategoryRepository.Query(a => a.SiteId == route.mark && a.IsEnable == 1, a => a.Sequence).ToListAsync();
 
-                foreach (var item in newsIdArrr) {
-                    result = await _IWebNewsElastic.RemoveDocumentAsync(_IWebNewsElastic.IndexName, item);
-                    if (result)
-                        flagCount++;
-                    else {
-                        FailList.Add(item);//失败的记录
+                var iidn = await _IWebNewsElastic.AddIndexAsync(_IWebNewsElastic.IndexName);
+                List<WebNews> news = null;
+                for (int pageIndex = 1; pageIndex <= 50; pageIndex++) {
+                    news = await _IWebNewsRepository.Query(c => c.SiteId == route.mark
+                                                                                              && c.IsEnable == 1
+                                                                                              && c.PushTime <= pushTime)
+                                                                          .ToPager(pageIndex, 50000).ToListAsync();
+
+                    var docs = new List<WebNewsDoc>();
+                    news.ForEach(x => {
+                        var category = categories.SingleOrDefault(a => a.CategoryName == x.CategoryName);
+                        if (category != null) {
+                            docs.Add(GetWebNewsDoc(x));
+                        }
+                    });
+                    if (docs.Count > 0) {
+                        response.Other += (await _IWebNewsElastic.BatchAddDocumentAsync(_IWebNewsElastic.IndexName, docs)).ToString() + "a|" + docs.Count;//写入es
+                        response.Code = true;
                     }
                 }
             }
-            catch (Exception) {
-
-                throw;
+            catch (Exception ex) {
+                LogHelper.LogError("错误信息:{0}", ex.Message + ex.StackTrace);
             }
-            response.Code = result;
-            response.Data = FailList;
-            response.Message = $"Success,{flagCount}";
+            response.Data = "";
             return response.ToHttpResponse();
         }
+
+        ///// <summary>
+        ///// 删除文档
+        ///// </summary>
+        ///// <param name="source"></param>
+        ///// <param name="route"></param>
+        ///// <returns></returns>
+        //[HttpGet]
+        //public async Task<IActionResult> DeleteNewsDocAsync([FromHeader]String source,
+        //                                                  [FromRoute]SiteRoute route) {
+        //    var response = new Response<Object>();
+        //    bool result = false;
+        //    int flagCount = 0;
+        //    List<string> FailList = new List<string>();
+        //    try {
+        //        //读取文件批量删除文档
+        //        string basePath = AppDomain.CurrentDomain.BaseDirectory;
+        //        string filePath = System.IO.Path.Combine(basePath, "data.text");
+        //        string[] newsIdArrr = System.IO.File.ReadAllLines(filePath);
+
+        //        foreach (var item in newsIdArrr) {
+        //            result = await _IWebNewsElastic.RemoveDocumentAsync(_IWebNewsElastic.IndexName, item);
+        //            if (result)
+        //                flagCount++;
+        //            else {
+        //                FailList.Add(item);//失败的记录
+        //            }
+        //        }
+        //    }
+        //    catch (Exception) {
+
+        //        throw;
+        //    }
+        //    response.Code = result;
+        //    response.Data = FailList;
+        //    response.Message = $"Success,{flagCount}";
+        //    return response.ToHttpResponse();
+        //}
         private WebNewsDoc GetWebNewsDoc(WebNews x) {
             return new WebNewsDoc() {
                 SiteId = x.SiteId,
@@ -189,6 +220,7 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                 IsHot = x.IsHot,
                 AccessCount = x.VirtualAccessNumber,
                 PushTime = x.PushTime,
+                CreateTime = x.CreateTime,
                 CategorySort = x.CategorySort,
                 SpecialSort = x.SpecialSort,
                 Sequence = x.Sequence
