@@ -38,6 +38,14 @@
             <param name="webCategoryRedis"></param>
             <param name="webCategoryRepository"></param>
         </member>
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.CategoryController.GetCategoryAsync(System.String,Gbxx.WebApi.Areas.v1.Models.Route.SiteIdRoute)">
+            <summary>
+            分类信息
+            </summary>
+            <param name="source"></param>
+            <param name="route"></param>
+            <returns></returns>
+        </member>
         <member name="M:Gbxx.WebApi.Areas.v1.Controllers.CategoryController.GetCategoriesAsync(System.String,Gbxx.WebApi.Areas.v1.Models.Route.SiteRoute)">
             <summary>
             分类列表
@@ -803,6 +811,14 @@
             <param name="source"></param>
             <param name="route"></param>
             <param name="newsId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers._TestDataController.DeleteNewsDocAsync(System.String,Gbxx.WebApi.Areas.v1.Models.Route.SiteRoute)">
+            <summary>
+            删除文档
+            </summary>
+            <param name="source"></param>
+            <param name="route"></param>
             <returns></returns>
         </member>
         <member name="T:Gbxx.WebApi.Areas.v1.Data.CategoryResponse">

@@ -61,7 +61,7 @@ namespace Gbxx.Gather.Controllers {
         [HttpPost]
         public async Task<IActionResult> PostWebNewsAsync([FromBody]List<GatherPost> item) {
             try {
-                var categories = await _IWebCategoryRepository.Query(a => a.IsEnable == 1)
+                var categories = await _IWebCategoryRepository.Query(a => a.IsEnable == 1 && a.SiteId == 1)
                                                          .ToListAsync();
                 var entities = new List<WebNews>();
                 var docs = new List<WebNewsDoc>();
@@ -108,7 +108,7 @@ namespace Gbxx.Gather.Controllers {
                 IsHot = x.IsHot,
                 AccessCount = x.VirtualAccessNumber,
                 PushTime = x.PushTime,
-                CreateTime=x.CreateTime,
+                CreateTime = x.CreateTime,
                 CategorySort = x.CategorySort,
                 SpecialSort = x.SpecialSort,
                 Sequence = x.Sequence

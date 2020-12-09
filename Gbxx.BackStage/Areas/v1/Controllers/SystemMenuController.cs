@@ -71,5 +71,45 @@ namespace Gbxx.BackStage.Areas.v1.Controllers {
             }
             return response.ToHttpResponse();
         }
+
+        /// <summary>
+        /// 获取系统菜单列表
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        [HttpGet("Routes")]
+        public async Task<IActionResult> GetSystemMenuRoutesAsync() {
+            var response = new Response<Object>();
+            try {
+                response.Code = true;
+                response.Data = await _ISystemMenuRepository.Query()
+                                                            .OrderBy(a => a.Sequence)
+                                                            .Select(a => new {
+                                                                a.MenuId,
+                                                                a.ParentId,
+                                                                a.NodeValue,
+                                                                a.Urls,
+                                                                a.Component,
+                                                                a.Remarks,
+                                                                Path = a.RouterPath,
+                                                                Name = a.RouterName,
+                                                                Mate = new {
+                                                                    Icon = a.MenuIcon,
+                                                                    Title = a.MenuName,
+                                                                    a.ShowAlways,
+                                                                    a.ShowHeader,
+                                                                    a.HideInBread,
+                                                                    a.HideInMenu,
+                                                                    a.NotCache,
+                                                                    a.BeforeCloseName
+                                                                }
+                                                            })
+                                                            .ToListAsync();
+            }
+            catch (Exception ex) {
+                response.SetError(ex, this._ILogger);
+            }
+            return response.ToHttpResponse();
+        }
     }
 }

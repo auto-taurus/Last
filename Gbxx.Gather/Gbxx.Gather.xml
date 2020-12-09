@@ -56,7 +56,7 @@
         </member>
         <member name="M:Gbxx.Gather.Controllers.ValuesController.PostWebNewsAsync(System.Collections.Generic.List{Gbxx.Gather.Data.GatherPost})">
             <summary>
-            
+            同步新闻数据
             </summary>
             <param name="item"></param>
             <returns></returns>

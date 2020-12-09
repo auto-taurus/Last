@@ -23,6 +23,13 @@
             <param name="args"></param>
             <returns></returns>
         </member>
+        <member name="M:Gbxx.BackStage.Areas.v1.Controllers.SystemMenuController.GetSystemMenuRoutesAsync">
+            <summary>
+            获取系统菜单列表
+            </summary>
+            <param name="args"></param>
+            <returns></returns>
+        </member>
         <member name="M:Gbxx.BackStage.Areas.v1.Controllers.SystemRoleController.GetSystemRoleAsync">
             <summary>
             获取角色列表
