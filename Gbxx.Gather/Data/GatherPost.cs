@@ -21,6 +21,11 @@ namespace Gbxx.Gather.Data {
         /// 内容
         /// </summary>
         public string content { get; set; }
+        
+        /// <summary>
+        /// 内容类型
+        /// </summary>
+        public int content_type { get; set; }
         /// <summary>
         /// 标签
         /// </summary>

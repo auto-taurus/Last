@@ -249,5 +249,14 @@ namespace Auto.DataServices {
         public async Task<int> SaveChangesAsync() {
             return await _BaseDb.SaveChangesAsync();
         }
+
+        /// <summary>
+        /// 调用SQL
+        /// </summary>
+        /// <param name="proc"></param>
+        /// <returns></returns>
+        public IQueryable<TEntity> FromSql(string proc, params object[] parameters) {
+            return _BaseDb.Set<TEntity>().FromSql(proc, parameters).AsQueryable();
+        }
     }
 }

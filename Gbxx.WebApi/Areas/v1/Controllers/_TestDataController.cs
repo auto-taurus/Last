@@ -15,6 +15,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace Gbxx.WebApi.Areas.v1.Controllers {
@@ -90,7 +91,7 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                 var iidn = await _IWebNewsElastic.AddIndexAsync(_IWebNewsElastic.IndexName);
                 for (int pageIndex = 1; pageIndex <= 20; pageIndex++) {
                     var news = new List<WebNews>();
-                    news = _IMySqlRepository.GetList(1, pageIndex, 100000, Convert.ToInt32(newsId));
+                    news = _IMySqlRepository.GetList(1, pageIndex, 1000, Convert.ToInt32(newsId));
                     var lastNews = news.LastOrDefault();
                     if (lastNews != null) {
                         newsId = news.LastOrDefault().NewsId;
@@ -103,17 +104,17 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                                 docs.Add(GetWebNewsDoc(x));
                             }
                         });
-                        //if (newsDatas.Count > 0)
-                        //    await _IWebNewsRepository.BatchAddAsync(newsDatas);//写入数据库
-                        if (docs.Count > 0)
-                            response.Other += (await _IWebNewsElastic.BatchAddDocumentAsync(_IWebNewsElastic.IndexName, docs)).ToString() + "a|" + docs.Count;//写入es
+                        if (newsDatas.Count > 0)
+                            await _IWebNewsRepository.BatchAddAsync(newsDatas);//写入数据库
+                        //if (docs.Count > 0)
+                        //    response.Other += (await _IWebNewsElastic.BatchAddDocumentAsync(_IWebNewsElastic.IndexName, docs)).ToString() + "a|" + docs.Count;//写入es
                     }
                 }
                 response.Code = true;
                 response.Other = null;
             }
             catch (Exception ex) {
-                response.SetError(ex, this._ILogger);
+                LogHelper.LogError("错误信息:{0}", ex.Message + ex.StackTrace);
             }
             response.Data = newsId;
             return response.ToHttpResponse();
@@ -125,12 +126,14 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
         /// </summary>
         /// <param name="source"></param>
         /// <param name="route"></param>
-        /// <param name="newsId"></param>
+        /// <param name="pushTime"></param>
+        /// <param name="errStartTime"></param>
         /// <returns></returns>
         [HttpGet("{mark}/NewsDoc/Localhost")]
         public async Task<IActionResult> PostNewsDocLocalHostAsync([FromHeader]String source,
                                                         [FromRoute]SiteRoute route,
-                                                        DateTime pushTime
+                                                        DateTime pushTime,
+                                                        DateTime? errStartTime
                                                         ) {
             var response = new Response<Object>();
             try {
@@ -138,10 +141,18 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
 
                 var iidn = await _IWebNewsElastic.AddIndexAsync(_IWebNewsElastic.IndexName);
                 List<WebNews> news = null;
-                for (int pageIndex = 1; pageIndex <= 50; pageIndex++) {
-                    news = await _IWebNewsRepository.Query(c => c.SiteId == route.mark
-                                                                                              && c.IsEnable == 1
-                                                                                              && c.PushTime <= pushTime)
+                Expression<Func<WebNews, bool>> predicate;
+                if(errStartTime != null) { //如果中途断掉则根据断掉的时间节点重新写入
+                    predicate = c => c.SiteId == route.mark && c.IsEnable == 1
+                                                                                   && c.PushTime <= pushTime && c.PushTime > errStartTime;
+                }
+                else {
+                    predicate = c => c.SiteId == route.mark && c.IsEnable == 1
+                                                                                  && c.PushTime <= pushTime;
+                }
+                for (int pageIndex = 1; pageIndex <= 25; pageIndex++) {
+
+                    news = await _IWebNewsRepository.Query(predicate)
                                                                           .ToPager(pageIndex, 50000).ToListAsync();
 
                     var docs = new List<WebNewsDoc>();
@@ -152,15 +163,22 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                         }
                     });
                     if (docs.Count > 0) {
-                        response.Other += (await _IWebNewsElastic.BatchAddDocumentAsync(_IWebNewsElastic.IndexName, docs)).ToString() + "a|" + docs.Count;//写入es
-                        response.Code = true;
+                        try {
+                            var flag = await _IWebNewsElastic.BatchAddDocumentAsync(_IWebNewsElastic.IndexName, docs);
+                            response.Data = docs.Count * pageIndex;//写入es
+                            response.Message = docs.LastOrDefault().PushTime.ToString();
+                            response.Code = flag;
+                        }
+                        catch (Exception ex) {
+                            LogHelper.LogError("写入ES错误信息:{0}", ex.Message + ex.StackTrace);
+                        }
+
                     }
                 }
             }
             catch (Exception ex) {
-                LogHelper.LogError("错误信息:{0}", ex.Message + ex.StackTrace);
+                LogHelper.LogError("db读取错误信息:{0}", ex.Message + ex.StackTrace);
             }
-            response.Data = "";
             return response.ToHttpResponse();
         }
 

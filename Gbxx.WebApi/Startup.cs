@@ -29,7 +29,7 @@ namespace Gbxx.WebApi {
             services.AddSingleton(Configuration);
             // 配置EF连接字符串
             services.AddDbContextPool<MysqlDbContext>(x => {
-                x.UseMySql(Configuration.GetConnectionString("XinWen"));
+                x.UseMySql(Configuration.GetConnectionString("XinWen"),i=>i.CommandTimeout(60*60));
             })
             .AddSingleton<MysqlDbContext>()
             .AddOptions();

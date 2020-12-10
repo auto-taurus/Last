@@ -78,6 +78,11 @@ namespace Auto.ElasticServices.Modals {
         [Text(Index = true)]
         public string Contents { get; set; }
         /// <summary>
+        /// 内容类型  1文档 2视频
+        /// </summary>
+        [Number(Index =true)]
+        public int? ContentType { get; set; }
+        /// <summary>
         /// 访问地址
         /// </summary>
         [Text(Index = false)]

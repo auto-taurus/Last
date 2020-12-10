@@ -110,6 +110,14 @@ namespace Auto.DataServices {
         Task<bool> BatchRemoveAsync(Expression<Func<TEntity, bool>> predicate);
         int SaveChanges();
         Task<int> SaveChangesAsync();
+
+        /// <summary>
+        /// 调用sql
+        /// </summary>
+        /// <param name="proc"></param>
+        /// <param name="parameters"></param>
+        /// <returns></returns>
+        IQueryable<TEntity> FromSql(string proc, params object[] parameters);
         //IDbContextTransaction Begin();
         //Task<IDbContextTransaction> BeginAsync();
         //void Rollback();

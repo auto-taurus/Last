@@ -77,11 +77,11 @@ namespace Gbxx.Gather.Controllers {
                 });
 
                 if (entities.Count > 0) {
-                    await _IWebNewsRepository.BatchAddAsync(entities);
+                  var resultDB =  await _IWebNewsRepository.BatchAddAsync(entities);
                 }
 
                 if (docs.Count > 0) {
-                    await _IWebNewsElastic.BatchAddDocumentAsync(_IWebNewsElastic.IndexName, docs);
+                  var resultES=  await _IWebNewsElastic.BatchAddDocumentAsync(_IWebNewsElastic.IndexName, docs);
                 }
             }
             catch (Exception ex) {
@@ -101,6 +101,7 @@ namespace Gbxx.Gather.Controllers {
                 Author = x.Author,
                 Tags = string.IsNullOrEmpty(x.Tags) ? null : x.Tags.Split("∮"),
                 Contents = x.Contents,
+                ContentType=x.ContentType,
                 Curl = x.Urls,
                 Img = x.ImageThums,
                 ImagePath = x.ImagePaths,
@@ -127,6 +128,7 @@ namespace Gbxx.Gather.Controllers {
             entity.CustomTitle = x.title; //自定义标题
 
             entity.Contents = x.content; //内容
+            entity.ContentType = x.content_type;//内容类型
             entity.Tags = x.tag.Replace(',', '∮'); //标签
             entity.Source = x.from; //来源
             entity.SourceLogo = x.from_pic; //来源Logo
