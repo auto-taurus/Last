@@ -144,16 +144,16 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                 Expression<Func<WebNews, bool>> predicate;
                 if(errStartTime != null) { //如果中途断掉则根据断掉的时间节点重新写入
                     predicate = c => c.SiteId == route.mark && c.IsEnable == 1
-                                                                                   && c.PushTime <= pushTime && c.PushTime > errStartTime;
+                                                                                   && (c.PushTime <= pushTime && c.PushTime > errStartTime);
                 }
                 else {
                     predicate = c => c.SiteId == route.mark && c.IsEnable == 1
                                                                                   && c.PushTime <= pushTime;
                 }
-                for (int pageIndex = 1; pageIndex <= 25; pageIndex++) {
+                for (int pageIndex = 1; pageIndex <= 1; pageIndex++) {
 
                     news = await _IWebNewsRepository.Query(predicate)
-                                                                          .ToPager(pageIndex, 50000).ToListAsync();
+                                                                          .ToPager(pageIndex, 100).ToListAsync();
 
                     var docs = new List<WebNewsDoc>();
                     news.ForEach(x => {
@@ -231,6 +231,7 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                 Author = x.Author,
                 Tags = string.IsNullOrEmpty(x.Tags) ? null : x.Tags.Split(","),
                 Contents = x.Contents,
+                ContentType=x.ContentType,
                 Curl = x.Urls,
                 Img = x.ImageThums,
                 ImagePath = x.ImagePaths,

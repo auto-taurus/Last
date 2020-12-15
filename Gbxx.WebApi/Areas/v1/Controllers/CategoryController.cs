@@ -9,6 +9,7 @@ using Gbxx.WebApi.Areas.v1.Data;
 using Gbxx.WebApi.Areas.v1.Models.Route;
 using Gbxx.WebApi.Controllers;
 using Gbxx.WebApi.Models;
+using Gbxx.WebApi.Requests.Query;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -77,14 +78,14 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                     var newResult = result.FirstOrDefault(c => c.CategoryId == categoryId);//根据分类标识获取分类信息
                     response.Code = true;
                     response.Data = newResult;
-                    response.Message = newResult==null? "未找到相关数据！":"Success";
+                    response.Message = newResult == null ? "未找到相关数据！" : "Success";
                 }
                 else {
                     var entities = await _IWebCategoryRepository.Query(a => a.SiteId == route.mark && a.IsEnable == 1,
                                                                        a => a.Sequence)
                                                                  .Select(a => new WebCategoryValue() {
-                                                                     CategoryId= a.CategoryId,
-                                                                     ChannelId =  Convert.ToInt32(a.Remarks),
+                                                                     CategoryId = a.CategoryId,
+                                                                     ChannelId = Convert.ToInt32(a.Remarks),
                                                                      CategoryName = a.CategoryName,
                                                                      ParentId = a.ParentId,
                                                                      Controller = a.Controller,
@@ -182,18 +183,22 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                                 Field = "siteId",
                                 Value = route.mark
                             }
-                            && new TermQuery() {
+                            & new TermQuery() {
                                 Field = "categoryId",
                                 Value = route.id
                             }
                         }
                     },
+                    PostFilter = new QueryContainer(new TermsQuery {
+                        Field = "contentType",
+                        Terms = new object[] { 1, 2 }
+                    }),
                     Source = new Union<bool, ISourceFilter>(new SourceFilter {
                         Excludes = new[] { "contents" }
                     }),
                     Sort = new List<ISort>() {
-                        new FieldSort (){ Field = "categorySort", Order = SortOrder.Ascending },
-                        new FieldSort() { Field ="pushTime", Order = SortOrder.Descending }
+                        new FieldSort { Field ="pushTime", Order = SortOrder.Descending },
+                        new FieldSort {Field="categorySort",Order=SortOrder.Ascending}
                     },
                     Size = item.PageSize
                 };
@@ -206,7 +211,27 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                 if (result.ApiCall.Success && result.ApiCall.HttpStatusCode == 200) {
                     if (result.Documents.Count > 0) {
                         response.Code = true;
-                        response.Data = result.Documents.ToList();
+                        //根据ContentType组合返回结果 2视频 1新闻
+                        //每隔两个新闻放置一个视频，如果有图片则先放置图片，然后在放视频
+                        var vieoList = result.Documents.Where(c => c.ContentType == 2).OrderByDescending(c => c.PushTime).ToList();//视频结果集
+                        var newsList = result.Documents.Where(c => c.ContentType == 1).OrderByDescending(c => c.PushTime).ToList();//新闻结果集
+                        var newsIndex = 0;
+                        var indexof = 0;
+                        for (int i = 0; i < vieoList.Count; i++) {
+                            if (i == 0)
+                                indexof += 2;
+                            else
+                                indexof += 3;
+                            if (newsList.Count == 16)
+                                break;
+                            if (indexof < newsList.Count)
+                                newsList.Insert(indexof, vieoList[newsIndex]);
+                            else
+                                newsList.Insert(indexof-1, vieoList[newsIndex]);
+                            newsIndex++;
+                        }
+                        response.Data = newsList;
+                        response.Message = $"返回{newsList.Count}条数据";
                         response.Other = string.Join(',', result.Hits.LastOrDefault().Sorts);
                     }
                     else
@@ -215,6 +240,65 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                 else {
                     return NoContent();
                 }
+            }
+            catch (Exception ex) {
+                response.SetError(ex, this._ILogger);
+            }
+            return response.ToHttpResponse();
+        }
+
+        /// <summary>
+        /// 分类新闻详情
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="route"></param>
+        /// <param name="item"></param>
+        /// <returns></returns>
+        [SwaggerResponse(200, "", typeof(NewsListResponse))]
+        [HttpGet("{id}/Detail")]
+        public async Task<IActionResult> GetCategoryNewsDetailAsync([FromHeader]String source,
+                                                             [FromRoute]SiteIdRoute route,
+                                                             [FromQuery]NewsTitleSearchGet item) {
+            var response = new Response<List<NewsListResponse>>();
+            try {
+                var request = new SearchRequest<WebNewsDoc>(_IWebNewsElastic.IndexName) {
+                    TrackTotalHits = true,
+                    Query = new BoolQuery() {
+                        Must = new QueryContainer[] {
+                            new TermQuery() {
+                                Field = "siteId",
+                                Value = route.mark
+                            }
+                            && new TermQuery() {
+                                Field = "categoryId",
+                                Value = route.id
+                            }
+                            && new MatchQuery() {
+                                Field = "newsTitle",
+                                Query = item.Title
+                            }
+                        }
+                    },
+                    Source = new Union<bool, ISourceFilter>(new SourceFilter {
+                        Excludes = new[] { "contents" }
+                    }),
+                    Sort = new List<ISort>() {
+                        new FieldSort (){ Field = "pushTime", Order = SortOrder.Descending }
+                    },
+                    Size = item.PageSize
+                };
+                var result = await this._IWebNewsElastic.Client
+                                                       .SearchAsync<NewsListResponse>(request);
+                if (result.ApiCall.Success && result.ApiCall.HttpStatusCode == 200) {
+                    if (result.Hits.Count > 0) {
+                        response.Code = true;
+                        response.Data = result.Documents.ToList();
+                    }
+                    else
+                        return NoContent();
+                }
+                else
+                    return NoContent();
             }
             catch (Exception ex) {
                 response.SetError(ex, this._ILogger);

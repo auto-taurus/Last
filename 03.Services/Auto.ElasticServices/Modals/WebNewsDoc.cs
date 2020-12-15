@@ -95,6 +95,7 @@ namespace Auto.ElasticServices.Modals {
         public string Img { get; set; }
         /// <summary>
         /// 正常大小，可规定指定大小（用于轮播等其他大图展示）
+        /// contentType为2存放的是视频地址
         /// </summary>
         /// <value></value>
         [Text(Index = false)]

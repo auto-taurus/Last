@@ -48,14 +48,22 @@ namespace Gbxx.WebApi.Areas.v1.Data {
         public string Img { get; set; }
         /// <summary>
         /// 正常大小，可规定指定大小（用于轮播等其他大图展示）
+        /// contentType为2存放视频地址
         /// </summary>
         /// <value></value>
         public string ImagePath { get; set; }
+
+        /// <summary>
+        /// 内容类型 1文章 2视频
+        /// </summary>
+        public int? ContentType { get; set; }
+
         /// <summary>
         /// 显示类型，前台独立位置显示
         /// </summary>
         /// <value>0默认值，1置顶</value>
         public int? DisplayType { get; set; }
+
         /// <summary>
         /// 是否热门（只是站点热门标识，不参与排序、或特定页显示靠前）
         /// </summary>
