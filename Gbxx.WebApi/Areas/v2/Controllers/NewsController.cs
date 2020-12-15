@@ -1,20 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Auto.Commons.ApiHandles.Responses;
-using Auto.ElasticServices.Contracts;
-using Auto.ElasticServices.Modals;
-using Auto.RedisServices.Repositories;
-using Gbxx.WebApi.Areas.v1.Controllers;
-using Gbxx.WebApi.Areas.v1.Data;
-using Gbxx.WebApi.Areas.v1.Models.Route;
-using Gbxx.WebApi.Controllers;
-using Microsoft.AspNetCore.Http;
+﻿using Gbxx.WebApi.Controllers;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using Nest;
-using Swashbuckle.AspNetCore.Annotations;
 
 namespace Gbxx.WebApi.Areas.v2.Controllers {
     [Route("v2/[controller]")]

@@ -64,6 +64,12 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                                 Field = "specialCode",
                                 Value = route.id
                             }
+                        },
+                        MustNot = new QueryContainer[] {
+                            new TermQuery(){
+                                Field = "contentType",
+                                Value = 2
+                            }
                         }
                     },
                     Source = new Union<bool, ISourceFilter>(new SourceFilter {

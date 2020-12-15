@@ -10,6 +10,12 @@ namespace Gbxx.WebApi.Requests.Query {
         /// 标题
         /// </summary>
         public string Title { get; set; }
+
+        /// <summary>
+        /// 展示内容类型 （1）
+        /// </summary>
+        public int ShowType { get; set; }
+
     }
     /// <summary>
     /// 

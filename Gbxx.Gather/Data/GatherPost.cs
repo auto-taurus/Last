@@ -21,11 +21,11 @@ namespace Gbxx.Gather.Data {
         /// 内容
         /// </summary>
         public string content { get; set; }
-        
+
         /// <summary>
         /// 内容类型
         /// </summary>
-        public int content_type { get; set; }
+        public int? content_type { get; set; }
         /// <summary>
         /// 标签
         /// </summary>
@@ -38,6 +38,10 @@ namespace Gbxx.Gather.Data {
         /// 来源Logo
         /// </summary>
         public string from_pic { get; set; }
+        /// <summary>
+        /// 缩略图
+        /// </summary>
+        public string video { get; set; }
         /// <summary>
         /// ImageHost
         /// </summary>

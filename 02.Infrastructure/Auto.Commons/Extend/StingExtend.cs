@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -38,6 +39,60 @@ namespace Auto.Commons.Extend {
                 newVal = null;
             }
             return newVal;
+        }
+
+        /// <summary>
+        /// 字符串转decimal，默认返回null
+        /// </summary>
+        /// <param name="val"></param>
+        /// <returns>null</returns>
+        public static decimal? ToDecimal(this string val) {
+            decimal? newVal = 0;
+            try {
+                newVal = Convert.ToDecimal(val);
+            }
+            catch (Exception) {
+                newVal = null;
+            }
+            return newVal;
+        }
+
+        /// <summary>
+        /// 字符串转object,默认返回null
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="val"></param>
+        /// <returns></returns>
+        public static T ToObject<T>(this string val) {
+            try {
+                return JsonConvert.DeserializeObject<T>(val);
+            }
+            catch (Exception) {
+                return default(T);
+            }
+        }
+
+
+        /// <summary>
+        /// 字符串转List，默认返回null
+        /// 调用：List<int> intList = str.ToList<int>(',', s => int.Parse(s));
+        /// </summary>
+        /// <param name="str"></param>
+        /// <returns>null</returns>
+        public static List<T> ToList<T>(this string str, char split, Converter<string, T> convertHandler) {
+            try {
+                if (string.IsNullOrEmpty(str)) {
+                    return new List<T>();
+                }
+                else {
+                    string[] arr = str.Split(split);
+                    T[] Tarr = Array.ConvertAll(arr, convertHandler);
+                    return new List<T>(Tarr);
+                }
+            }
+            catch (Exception) {
+                return null;
+            }
         }
     }
 }

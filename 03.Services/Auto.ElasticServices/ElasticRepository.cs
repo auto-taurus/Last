@@ -162,7 +162,7 @@ namespace Auto.ElasticServices {
                                                                   .MaxDegreeOfParallelism(Environment.ProcessorCount)
                                                                   .Size(10000)
                                                                 )
-                                                                .Wait(TimeSpan.FromMinutes(15), next => {
+                                                                .Wait(TimeSpan.FromMinutes(1), next => {
                                                                     var d = next;
                                                                     // do something e.g. write number of pages to console
                                                                 });

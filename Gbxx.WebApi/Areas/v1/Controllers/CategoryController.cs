@@ -6,14 +6,17 @@ using Auto.ElasticServices.Modals;
 using Auto.RedisServices.Modals;
 using Auto.RedisServices.Repositories;
 using Gbxx.WebApi.Areas.v1.Data;
+using Gbxx.WebApi.Areas.v1.Models.Get;
 using Gbxx.WebApi.Areas.v1.Models.Route;
 using Gbxx.WebApi.Controllers;
+using Gbxx.WebApi.Filters;
 using Gbxx.WebApi.Models;
 using Gbxx.WebApi.Requests.Query;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Nest;
+using Newtonsoft.Json;
 using Swashbuckle.AspNetCore.Annotations;
 using System;
 using System.Collections.Generic;
@@ -69,7 +72,7 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
         [HttpGet("{id}")]
         [SwaggerResponse(200, "", typeof(WebCategoryValue))]
         public async Task<IActionResult> GetCategoryAsync([FromHeader]String source,
-                                                                        [FromRoute]SiteIdRoute route) {
+                                                          [FromRoute]SiteIdRoute route) {
             var response = new Response<object>();
             var categoryId = route.id.ToInt();//分类Id
             try {
@@ -174,97 +177,140 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                                                               [FromRoute]SiteIdRoute route,
                                                               [FromQuery]PagerElastic item) {
             var response = new Response<List<NewsListResponse>>();
+            var documentList = new List<NewsListResponse>();
             try {
-                var request = new SearchRequest<WebNewsDoc>(_IWebNewsElastic.IndexName) {
-                    TrackTotalHits = true,
-                    Query = new BoolQuery() {
-                        Must = new QueryContainer[] {
-                            new TermQuery() {
+
+                //根据系统版本号区分是否显示视频
+                var entity = JsonConvert.DeserializeObject<HeaderSource>(source);
+                Version defalutVers = new Version("1.0.0");
+                Version newVers = new Version(entity.SystemVers);
+
+                //判断是否展示视频
+                if (newVers > defalutVers) {
+                    //根据新闻视频2:1比例设置Size
+                    int? newsSize = 0, newsRido = 2;
+                    int? videoSize = 0;
+
+                    if (item.PageSize % newsRido == 0) {
+                        newsSize = item.PageSize / newsRido + 3;
+                    }
+                    else {
+                        newsSize = (item.PageSize + 1) / newsRido + 2;
+                    }
+                    videoSize = item.PageSize - newsSize;
+                    #region 查询新闻
+                    var newsRequest = new SearchRequest<WebNewsDoc>(_IWebNewsElastic.IndexName) {
+                        From = 0,
+                        Size = newsSize,
+                        TrackTotalHits = true,
+                        Query = new BoolQuery() {
+                            Must = new QueryContainer[] {
+                             new TermQuery() {
                                 Field = "siteId",
                                 Value = route.mark
                             }
-                            & new TermQuery() {
+                            && new TermQuery() {
                                 Field = "categoryId",
                                 Value = route.id
                             }
+                            && new TermQuery() {
+                                Field = "contentType",
+                                Value=1
+                            }
                         }
-                    },
-                    PostFilter = new QueryContainer(new TermsQuery {
-                        Field = "contentType",
-                        Terms = new object[] { 1, 2 }
-                    }),
-                    Source = new Union<bool, ISourceFilter>(new SourceFilter {
-                        Excludes = new[] { "contents" }
-                    }),
-                    Sort = new List<ISort>() {
+                        },
+                        Source = new Union<bool, ISourceFilter>(new SourceFilter {
+                            Excludes = new[] { "contents" }
+                        }),
+                        Sort = new List<ISort>() {
                         new FieldSort { Field ="pushTime", Order = SortOrder.Descending },
                         new FieldSort {Field="categorySort",Order=SortOrder.Ascending}
-                    },
-                    Size = item.PageSize
-                };
-                if (item.PageIndex != null) {
-                    request.From = 0;
-                    request.SearchAfter = item.PageIndex.Split(",");
-                }
-                var result = await this._IWebNewsElastic.Client
-                                                        .SearchAsync<NewsListResponse>(request);
-                if (result.ApiCall.Success && result.ApiCall.HttpStatusCode == 200) {
-                    if (result.Documents.Count > 0) {
-                        response.Code = true;
-                        //根据ContentType组合返回结果 2视频 1新闻
-                        //每隔两个新闻放置一个视频，如果有图片则先放置图片，然后在放视频
-                        var vieoList = result.Documents.Where(c => c.ContentType == 2).OrderByDescending(c => c.PushTime).ToList();//视频结果集
-                        var newsList = result.Documents.Where(c => c.ContentType == 1).OrderByDescending(c => c.PushTime).ToList();//新闻结果集
-                        var newsIndex = 0;
-                        var indexof = 0;
-                        for (int i = 0; i < vieoList.Count; i++) {
-                            if (i == 0)
-                                indexof += 2;
-                            else
-                                indexof += 3;
-                            if (newsList.Count == 16)
-                                break;
-                            if (indexof < newsList.Count)
-                                newsList.Insert(indexof, vieoList[newsIndex]);
-                            else
-                                newsList.Insert(indexof-1, vieoList[newsIndex]);
-                            newsIndex++;
-                        }
-                        response.Data = newsList;
-                        response.Message = $"返回{newsList.Count}条数据";
-                        response.Other = string.Join(',', result.Hits.LastOrDefault().Sorts);
                     }
-                    else
+                    };
+                    if (item.PageIndex != null) {
+                        newsRequest.From = 0;
+                        newsRequest.SearchAfter = item.PageIndex.Split(",");
+                    }
+                    #endregion
+                    #region 查询视频
+                    var videoRequest = new SearchRequest<WebNewsDoc>(_IWebNewsElastic.IndexName) {
+                        From = 0,
+                        Size = videoSize,
+                        TrackTotalHits = true,
+                        Query = new BoolQuery() {
+                            Must = new QueryContainer[] {
+                             new TermQuery() {
+                                Field = "siteId",
+                                Value = route.mark
+                            }
+                            && new TermQuery() {
+                                Field = "categoryId",
+                                Value = route.id
+                            }
+                            && new TermQuery() {
+                                Field = "contentType",
+                                Value=2
+                            }
+                        }
+                        },
+                        Source = new Union<bool, ISourceFilter>(new SourceFilter {
+                            Excludes = new[] { "contents" }
+                        }),
+                        Sort = new List<ISort>() {
+                        new FieldSort { Field ="pushTime", Order = SortOrder.Descending },
+                        new FieldSort {Field="categorySort",Order=SortOrder.Ascending}
+                    }
+                    };
+                    if (item.PageIndex != null) {
+                        videoRequest.From = 0;
+                        videoRequest.SearchAfter = item.PageIndex.Split(",");
+                    }
+                    #endregion
+                    var newsResult = await this._IWebNewsElastic.Client
+                                                          .SearchAsync<NewsListResponse>(newsRequest);//es查询新闻
+                    var videoResult = await this._IWebNewsElastic.Client
+                                                            .SearchAsync<NewsListResponse>(videoRequest);//es查询视频
+
+                    if (newsResult.ApiCall.Success && newsResult.ApiCall.HttpStatusCode == 200 && videoResult.ApiCall.Success && videoResult.ApiCall.HttpStatusCode == 200) {
+                        if (newsResult.Documents.Count > 0 && videoResult.Documents.Count > 0) {
+                            response.Code = true;
+                            documentList.AddRange(newsResult.Documents.ToList());
+                            documentList.AddRange(videoResult.Documents.ToList());
+                            //根据ContentType组合返回结果 2视频 1新闻
+                            //每隔两个新闻放置一个视频
+                            var vieoList = documentList.Where(c => c.ContentType == 2).ToList();//视频结果集
+                            var newsList = documentList.Where(c => c.ContentType == 1).ToList();//新闻结果集
+                            var newsIndex = 0;
+                            var indexof = 0;
+                            for (int i = 0; i < vieoList.Count; i++) {
+                                if (i == 0)
+                                    indexof += 2;
+                                else
+                                    indexof += 3;
+                                if (newsList.Count == item.PageSize)
+                                    break;
+                                if (indexof < newsList.Count)
+                                    newsList.Insert(indexof, vieoList[newsIndex]);
+                                else
+                                    newsList.Insert(newsList.Count, vieoList[newsIndex]);
+                                newsIndex++;
+                            }
+                            response.Data = newsList;
+                            response.Message = $"返回{newsList.Count}条数据";
+                            response.Other = string.Join(',', newsResult.Hits.LastOrDefault().Sorts);
+                        }
+                        else
+                            return NoContent();
+                    }
+                    else {
                         return NoContent();
+                    }
                 }
                 else {
-                    return NoContent();
-                }
-            }
-            catch (Exception ex) {
-                response.SetError(ex, this._ILogger);
-            }
-            return response.ToHttpResponse();
-        }
-
-        /// <summary>
-        /// 分类新闻详情
-        /// </summary>
-        /// <param name="source"></param>
-        /// <param name="route"></param>
-        /// <param name="item"></param>
-        /// <returns></returns>
-        [SwaggerResponse(200, "", typeof(NewsListResponse))]
-        [HttpGet("{id}/Detail")]
-        public async Task<IActionResult> GetCategoryNewsDetailAsync([FromHeader]String source,
-                                                             [FromRoute]SiteIdRoute route,
-                                                             [FromQuery]NewsTitleSearchGet item) {
-            var response = new Response<List<NewsListResponse>>();
-            try {
-                var request = new SearchRequest<WebNewsDoc>(_IWebNewsElastic.IndexName) {
-                    TrackTotalHits = true,
-                    Query = new BoolQuery() {
-                        Must = new QueryContainer[] {
+                    var request = new SearchRequest<WebNewsDoc>(_IWebNewsElastic.IndexName) {
+                        TrackTotalHits = true,
+                        Query = new BoolQuery() {
+                            Must = new QueryContainer[] {
                             new TermQuery() {
                                 Field = "siteId",
                                 Value = route.mark
@@ -273,38 +319,45 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                                 Field = "categoryId",
                                 Value = route.id
                             }
-                            && new MatchQuery() {
-                                Field = "newsTitle",
-                                Query = item.Title
+                          },
+                            MustNot = new QueryContainer[] {//过滤掉类型为视频的数据
+                               new TermQuery() {
+                                Field = "contentType",
+                                Value = 2
                             }
-                        }
+                          }
+                        },
+                        Source = new Union<bool, ISourceFilter>(new SourceFilter {
+                            Excludes = new[] { "contents" }
+                        }),
+                        Sort = new List<ISort>() {
+                        new FieldSort { Field ="pushTime", Order = SortOrder.Descending },
+                        new FieldSort {Field="categorySort",Order=SortOrder.Ascending}
                     },
-                    Source = new Union<bool, ISourceFilter>(new SourceFilter {
-                        Excludes = new[] { "contents" }
-                    }),
-                    Sort = new List<ISort>() {
-                        new FieldSort (){ Field = "pushTime", Order = SortOrder.Descending }
-                    },
-                    Size = item.PageSize
-                };
-                var result = await this._IWebNewsElastic.Client
-                                                       .SearchAsync<NewsListResponse>(request);
-                if (result.ApiCall.Success && result.ApiCall.HttpStatusCode == 200) {
-                    if (result.Hits.Count > 0) {
-                        response.Code = true;
-                        response.Data = result.Documents.ToList();
+                        Size = item.PageSize
+                    };
+                    if (item.PageIndex != null) {
+                        request.From = 0;
+                        request.SearchAfter = item.PageIndex.Split(",");
                     }
-                    else
-                        return NoContent();
+                    var result = await this._IWebNewsElastic.Client
+                                                            .SearchAsync<NewsListResponse>(request);
+                    if (result.ApiCall.Success && result.ApiCall.HttpStatusCode == 200) {
+                        if (result.Documents.Count > 0) {
+                            response.Code = true;
+                            response.Data = result.Documents.ToList();
+                            response.Message = $"返回{result.Documents.Count}条数据";
+                            response.Other = string.Join(',', result.Hits.LastOrDefault().Sorts);
+                        }
+                    }
                 }
-                else
-                    return NoContent();
             }
             catch (Exception ex) {
                 response.SetError(ex, this._ILogger);
             }
             return response.ToHttpResponse();
         }
+
         /// <summary>
         /// 分类访问统计
         /// </summary>

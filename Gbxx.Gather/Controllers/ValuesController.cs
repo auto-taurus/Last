@@ -39,6 +39,10 @@ namespace Gbxx.Gather.Controllers {
         /// <summary>
         /// 
         /// </summary>
+        protected IWebSiteRepository _IWebSiteRepository;
+        /// <summary>
+        /// 
+        /// </summary>
         /// <param name="logger"></param>
         /// <param name="webNewsElastic"></param>
         /// <param name="webNewsRepository"></param>
@@ -52,6 +56,7 @@ namespace Gbxx.Gather.Controllers {
             this._IWebNewsElastic = webNewsElastic;
             this._IWebNewsRepository = webNewsRepository;
             this._IWebCategoryRepository = webCategoryRepository;
+            //_IWebNewsElastic.AddIndexAsync(_IWebNewsElastic.IndexName);
         }
         /// <summary>
         /// 同步新闻数据
@@ -62,10 +67,12 @@ namespace Gbxx.Gather.Controllers {
         public async Task<IActionResult> PostWebNewsAsync([FromBody]List<GatherPost> item) {
             try {
                 var categories = await _IWebCategoryRepository.Query(a => a.IsEnable == 1 && a.SiteId == 1)
-                                                         .ToListAsync();
+                                                              .ToListAsync();
                 var entities = new List<WebNews>();
                 var docs = new List<WebNewsDoc>();
-
+                //var d = new WebSite() { Remarks = $"{item[0].content_type}/{item[0].thumbpic}/{item[0].video}" };
+                //await _IWebSiteRepository.AddAsync(d);
+                //await _IWebSiteRepository.SaveChangesAsync();
                 item.ForEach(x => {
                     var category = categories.FirstOrDefault(y => y.CategoryName == x.cate_name);
                     if (category != null) {
@@ -77,11 +84,11 @@ namespace Gbxx.Gather.Controllers {
                 });
 
                 if (entities.Count > 0) {
-                  var resultDB =  await _IWebNewsRepository.BatchAddAsync(entities);
+                    var resultDB = await _IWebNewsRepository.BatchAddAsync(entities);
                 }
 
                 if (docs.Count > 0) {
-                  var resultES=  await _IWebNewsElastic.BatchAddDocumentAsync(_IWebNewsElastic.IndexName, docs);
+                    var resultES = await _IWebNewsElastic.BatchAddDocumentAsync(_IWebNewsElastic.IndexName, docs);
                 }
             }
             catch (Exception ex) {
@@ -101,15 +108,15 @@ namespace Gbxx.Gather.Controllers {
                 Author = x.Author,
                 Tags = string.IsNullOrEmpty(x.Tags) ? null : x.Tags.Split("∮"),
                 Contents = x.Contents,
-                ContentType=x.ContentType,
+                ContentType = x.ContentType,
                 Curl = x.Urls,
                 Img = x.ImageThums,
                 ImagePath = x.ImagePaths,
                 DisplayType = x.DisplayType,
                 IsHot = x.IsHot,
                 AccessCount = x.VirtualAccessNumber,
-                PushTime = x.PushTime,
-                CreateTime = x.CreateTime,
+                PushTime = Convert.ToDateTime(x.PushTime.Value.ToString("yyyy-MM-dd HH:mm:ss.fff")),
+                CreateTime = Convert.ToDateTime(x.CreateTime.Value.ToString("yyyy-MM-dd HH:mm:ss.fff")),
                 CategorySort = x.CategorySort,
                 SpecialSort = x.SpecialSort,
                 Sequence = x.Sequence
@@ -128,7 +135,9 @@ namespace Gbxx.Gather.Controllers {
             entity.CustomTitle = x.title; //自定义标题
 
             entity.Contents = x.content; //内容
-            entity.ContentType = x.content_type;//内容类型
+
+            entity.ContentType = x.content_type == 2 ? 2 : 1;//内容类型
+
             entity.Tags = x.tag.Replace(',', '∮'); //标签
             entity.Source = x.from; //来源
             entity.SourceLogo = x.from_pic; //来源Logo
@@ -137,12 +146,22 @@ namespace Gbxx.Gather.Controllers {
             entity.Keywords = x.search_word; //网页关键字
             entity.Description = x.title; // 网页描述
             if (!string.IsNullOrEmpty(x.thumbpic)) {
-                var thumbpic = x.thumbpic.Split(',');
-                for (var i = 0; i < thumbpic.Length; i++) {
-                    thumbpic[i] = thumbpic[i] + "?x-oss-process=style/xiaotu";
+                if (entity.ContentType == 1) {
+                    var thumbpic = x.thumbpic.Split(',');
+                    for (var i = 0; i < thumbpic.Length; i++) {
+                        thumbpic[i] = thumbpic[i] + "?x-oss-process=style/xiaotu";
+                    }
+                    entity.ImageThums = string.Join('∮', thumbpic); // 缩略图
+                                                                    // entity.ImagePaths = x.thumbpic.Replace(',', '∮'); // 大图由运维人员去设置
                 }
-                entity.ImageThums = string.Join('∮', thumbpic); // 缩略图
-                //entity.ImagePaths = x.thumbpic.Replace(',', '∮'); // 大图由运维人员去设置
+                else if (entity.ContentType == 2) {
+                    entity.ImageThums = x.thumbpic;
+                    entity.ImagePaths = x.video;
+                }
+            }
+            else if (!string.IsNullOrEmpty(x.video)) {
+                entity.ImageThums = x.thumbpic;
+                entity.ImagePaths = x.video;
             }
 
             entity.Controller = "/Content";

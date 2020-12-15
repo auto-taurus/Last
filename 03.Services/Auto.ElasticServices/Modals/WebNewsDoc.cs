@@ -43,6 +43,12 @@ namespace Auto.ElasticServices.Modals {
         [Keyword(Index = true)]
         public string SpecialCode { get; set; }
         /// <summary>
+        /// 内容类型（1文章，2视频）
+        /// </summary>
+        /// <value></value>
+        [Number(Index = true)]
+        public int? ContentType { get; set; }
+        /// <summary>
         /// 内容标题
         /// </summary>
         /// <value></value>
@@ -52,8 +58,8 @@ namespace Auto.ElasticServices.Modals {
         /// 来源编号
         /// </summary>
         /// <value></value>
-        [Keyword(Index = true)]
-        public string SourceId { get; set; }
+        //[Keyword(Index = true)]
+        //public string SourceId { get; set; }
         /// <summary>
         /// 来源
         /// </summary>
@@ -77,11 +83,11 @@ namespace Auto.ElasticServices.Modals {
         /// <value></value>
         [Text(Index = true)]
         public string Contents { get; set; }
-        /// <summary>
-        /// 内容类型  1文档 2视频
-        /// </summary>
-        [Number(Index =true)]
-        public int? ContentType { get; set; }
+        ///// <summary>
+        ///// 内容类型  1文档 2视频
+        ///// </summary>
+        //[Number(Index =true)]
+        //public int? ContentType { get; set; }
         /// <summary>
         /// 访问地址
         /// </summary>
@@ -124,7 +130,6 @@ namespace Auto.ElasticServices.Modals {
         //[Date(Index = true)]
         [Date(Index = true)]
         public DateTime? PushTime { get; set; }
-
         /// <summary>
         /// 创建时间
         /// </summary>

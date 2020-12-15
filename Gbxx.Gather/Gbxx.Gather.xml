@@ -45,6 +45,11 @@
             
             </summary>
         </member>
+        <member name="F:Gbxx.Gather.Controllers.ValuesController._IWebSiteRepository">
+            <summary>
+            
+            </summary>
+        </member>
         <member name="M:Gbxx.Gather.Controllers.ValuesController.#ctor(Microsoft.Extensions.Logging.ILogger{Gbxx.Gather.Controllers.ValuesController},Auto.ElasticServices.Contracts.IWebNewsElastic,Auto.DataServices.Contracts.IWebNewsRepository,Auto.DataServices.Contracts.IWebCategoryRepository)">
             <summary>
             
@@ -81,6 +86,11 @@
             内容
             </summary>
         </member>
+        <member name="P:Gbxx.Gather.Data.GatherPost.content_type">
+            <summary>
+            内容类型
+            </summary>
+        </member>
         <member name="P:Gbxx.Gather.Data.GatherPost.tag">
             <summary>
             标签
@@ -94,6 +104,11 @@
         <member name="P:Gbxx.Gather.Data.GatherPost.from_pic">
             <summary>
             来源Logo
+            </summary>
+        </member>
+        <member name="P:Gbxx.Gather.Data.GatherPost.video">
+            <summary>
+            缩略图
             </summary>
         </member>
         <member name="P:Gbxx.Gather.Data.GatherPost.image_host">
