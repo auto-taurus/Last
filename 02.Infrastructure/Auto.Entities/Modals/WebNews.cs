@@ -24,6 +24,7 @@ namespace Auto.Entities.Modals {
         public string CategoryName { get; set; }
 
         public int? ContentType { get; set; }
+
         public string NewsTitle { get; set; }
 
         public string CustomTitle { get; set; }

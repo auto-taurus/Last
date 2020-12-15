@@ -22,7 +22,7 @@ namespace Auto.Entities.Modals
 
         public string LogoUrls { get; set; }
 
-        public int? Count { get; set; }
+        public int? AccessNumber { get; set; }
 
         public string Title { get; set; }
 

@@ -95,9 +95,9 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                         Amount = Convert.ToDecimal(item.beans) / Convert.ToDecimal(_Before),
                         Proportion = $"{_Before}/{_After}",
                         CreateTime = DateTime.Now,
-                        Audit="admin",
-                        AuditId=1,
-                        AuditTime=DateTime.Now,
+                        Audit = "admin",
+                        AuditId = 1,
+                        AuditTime = DateTime.Now,
                         Status = 1
                     });
                     int flag = _IMemberInfoRepository.SaveChanges();//保存Db

@@ -253,7 +253,11 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                                 Query = item.Title
                             }
                         },
-                        MustNot=new QueryContainer[] {
+                        MustNot = new QueryContainer[] {
+                            new TermQuery(){
+                                Field = "contentType",
+                                Value = 2
+                            },
                             new MatchPhraseQuery(){
                                 Field= "newsTitle",
                                 Query = item.Title
@@ -333,6 +337,12 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                                 LessThanOrEqualTo = System.DateTime.Now.ToString("yyyy-MM-dd 23:59:59"),
                                 Format = "yyyy-MM-dd HH:mm:ss"
                             }
+                        },
+                        MustNot = new QueryContainer[] {
+                            new TermQuery(){
+                                Field = "contentType",
+                                Value = 2
+                            }
                         }
                     },
                     Source = new Union<bool, ISourceFilter>(new SourceFilter {
@@ -368,6 +378,5 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
             }
             return response.ToHttpResponse();
         }
-
     }
 }

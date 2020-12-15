@@ -813,12 +813,14 @@
             <param name="newsId"></param>
             <returns></returns>
         </member>
-        <member name="M:Gbxx.WebApi.Areas.v1.Controllers._TestDataController.DeleteNewsDocAsync(System.String,Gbxx.WebApi.Areas.v1.Models.Route.SiteRoute)">
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers._TestDataController.PostNewsDocLocalHostAsync(System.String,Gbxx.WebApi.Areas.v1.Models.Route.SiteRoute,System.DateTime,System.Nullable{System.DateTime})">
             <summary>
-            删除文档
+            批量导入es（本地db）
             </summary>
             <param name="source"></param>
             <param name="route"></param>
+            <param name="pushTime"></param>
+            <param name="errStartTime"></param>
             <returns></returns>
         </member>
         <member name="T:Gbxx.WebApi.Areas.v1.Data.CategoryResponse">
@@ -897,6 +899,11 @@
             </summary>
             <value></value>
         </member>
+        <member name="P:Gbxx.WebApi.Areas.v1.Data.NewsListResponse.ContentType">
+            <summary>
+            内容类型
+            </summary>
+        </member>
         <member name="P:Gbxx.WebApi.Areas.v1.Data.NewsListResponse.CategoryId">
             <summary>
             分类编号
@@ -964,6 +971,11 @@
         <member name="P:Gbxx.WebApi.Areas.v1.Data.NewsListResponse.PushTime">
             <summary>
             发布时间
+            </summary>
+        </member>
+        <member name="P:Gbxx.WebApi.Areas.v1.Data.NewsListResponse.Creatime">
+            <summary>
+            创建时间
             </summary>
         </member>
         <member name="T:Gbxx.WebApi.Areas.v1.Data.NewsResponse">

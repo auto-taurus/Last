@@ -68,7 +68,7 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
         [HttpGet("{id}")]
         [SwaggerResponse(200, "", typeof(WebCategoryValue))]
         public async Task<IActionResult> GetCategoryAsync([FromHeader]String source,
-                                                                        [FromRoute]SiteIdRoute route) {
+                                                          [FromRoute]SiteIdRoute route) {
             var response = new Response<object>();
             var categoryId = route.id.ToInt();//分类Id
             try {
@@ -77,14 +77,14 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                     var newResult = result.FirstOrDefault(c => c.CategoryId == categoryId);//根据分类标识获取分类信息
                     response.Code = true;
                     response.Data = newResult;
-                    response.Message = newResult==null? "未找到相关数据！":"Success";
+                    response.Message = newResult == null ? "未找到相关数据！" : "Success";
                 }
                 else {
                     var entities = await _IWebCategoryRepository.Query(a => a.SiteId == route.mark && a.IsEnable == 1,
                                                                        a => a.Sequence)
                                                                  .Select(a => new WebCategoryValue() {
-                                                                     CategoryId= a.CategoryId,
-                                                                     ChannelId =  Convert.ToInt32(a.Remarks),
+                                                                     CategoryId = a.CategoryId,
+                                                                     ChannelId = Convert.ToInt32(a.Remarks),
                                                                      CategoryName = a.CategoryName,
                                                                      ParentId = a.ParentId,
                                                                      Controller = a.Controller,
@@ -185,6 +185,12 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                             && new TermQuery() {
                                 Field = "categoryId",
                                 Value = route.id
+                            }
+                        },
+                        MustNot = new QueryContainer[] {
+                            new TermQuery(){
+                                Field = "contentType",
+                                Value = 2
                             }
                         }
                     },

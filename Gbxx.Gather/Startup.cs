@@ -68,6 +68,7 @@ namespace Gbxx.Gather {
             services.AddScoped<IWebNewsElastic, WebNewsElastic>();
             services.AddScoped<IWebNewsRepository, WebNewsRepository>();
             services.AddScoped<IWebCategoryRepository, WebCategoryRepository>();
+            //services.AddScoped<IWebSiteRepository, WebSiteRepository>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
                     .AddJsonOptions(options => {
