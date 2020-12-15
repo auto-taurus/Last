@@ -36,6 +36,7 @@
     <PackageReference Include="Microsoft.AspNetCore.Routing.Abstractions" Version="2.1.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="2.1.1" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.1.1" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Log4Net.AspNetCore" Version="5.0.0" />
     <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="6.8.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.9" />
     <PackageReference Include="NEST" Version="7.9.0" />
@@ -52,6 +53,12 @@
     <ProjectReference Include="..\03.Services\Auto.ElasticServices\Auto.ElasticServices.csproj" />
     <ProjectReference Include="..\03.Services\Auto.RedisServices\Auto.RedisServices.csproj" />
     <ProjectReference Include="..\04.Applications\Auto.Applications\Auto.Applications.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="log4net.Config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>
