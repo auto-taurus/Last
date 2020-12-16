@@ -1,5 +1,6 @@
 ﻿using Auto.Commons;
 using Auto.Commons.ApiHandles.Responses;
+using Auto.Commons.Linq;
 using Auto.Commons.Systems;
 using Auto.Configurations;
 using Auto.DataServices.Contracts;
@@ -8,6 +9,7 @@ using Auto.ElasticServices.Modals;
 using Auto.Entities.Modals;
 using Auto.RedisServices;
 using Gbxx.WebApi.Areas.v1.Models.Route;
+using Gbxx.WebApi.Handlers;
 using Gbxx.WebApi.Utils;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -23,7 +25,7 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
     /// <summary>
     /// 
     /// </summary>
-    [Route("v1/[controller]", Order = 0)]
+    [Route("v1/", Order = 0)]
     [ApiController]
     [Produces("application/json")]
     public class _TestDataController : ControllerBase {
@@ -79,7 +81,7 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
         /// <param name="newsId"></param>
         /// <returns></returns>
         [HttpGet("{mark}/NewsDoc")]
-        //[HiddenApi]
+        [HiddenApi]
         public async Task<IActionResult> PostNewsDocAsync([FromHeader]String source,
                                                           [FromRoute]SiteRoute route,
                                                           string newsId = "10000000") {
@@ -130,6 +132,7 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
         /// <param name="errStartTime"></param>
         /// <returns></returns>
         [HttpGet("{mark}/NewsDoc/Localhost")]
+        [HiddenApi]
         public async Task<IActionResult> PostNewsDocLocalHostAsync([FromHeader]String source,
                                                         [FromRoute]SiteRoute route,
                                                         DateTime pushTime,
@@ -142,7 +145,7 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                 var iidn = await _IWebNewsElastic.AddIndexAsync(_IWebNewsElastic.IndexName);
                 List<WebNews> news = null;
                 Expression<Func<WebNews, bool>> predicate;
-                if(errStartTime != null) { //如果中途断掉则根据断掉的时间节点重新写入
+                if (errStartTime != null) { //如果中途断掉则根据断掉的时间节点重新写入
                     predicate = c => c.SiteId == route.mark && c.IsEnable == 1
                                                                                    && (c.PushTime <= pushTime && c.PushTime > errStartTime);
                 }
@@ -182,6 +185,46 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
             return response.ToHttpResponse();
         }
 
+        [HttpGet("{mark}/MssqlImportEs")]
+        public async Task<IActionResult> PostNewsDocLocalHostAsync([FromHeader]String source,
+                                                                   [FromRoute]SiteRoute route) {
+            var response = new Response<Object>();
+            try {
+                var categories = await _IWebCategoryRepository.Query(a => a.SiteId == route.mark && a.IsEnable == 1,
+                                                                          a => a.Sequence).ToListAsync();
+                await _IWebNewsElastic.AddIndexAsync(_IWebNewsElastic.IndexName);
+                var lastNews = new WebNews();
+                var current = System.DateTime.Now;
+                for (int pageIndex = 1; pageIndex <= 10; pageIndex++) {
+                    var news = new List<WebNews>();
+
+                    var express = Express.Begin<WebNews>(true);
+                    express = express.And(a => a.SiteId == route.mark && a.IsEnable == 1 && a.PushTime <= current);
+                    news = await _IWebNewsRepository.Query(express)
+                                                    .OrderByDescending(a => a.PushTime)
+                                                    .ToPager(pageIndex, 40000)
+                                                    .ToListAsync();
+                    lastNews = news.LastOrDefault();
+                    if (lastNews != null) {
+                        var docs = new List<WebNewsDoc>();
+                        news.ForEach(x => {
+                            var category = categories.SingleOrDefault(a => a.CategoryName == x.CategoryName);
+                            if (category != null) {
+                                docs.Add(GetWebNewsDoc(x));
+                            }
+                        });
+                        if (docs.Count > 0)
+                            await _IWebNewsElastic.BatchAddDocumentAsync(_IWebNewsElastic.IndexName, docs);
+                    }
+                }
+                response.Code = true;
+                response.Other = null;
+            }
+            catch (Exception ex) {
+                response.SetError(ex, this._ILogger);
+            }
+            return response.ToHttpResponse();
+        }
         ///// <summary>
         ///// 删除文档
         ///// </summary>
@@ -234,12 +277,13 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                 ContentType=x.ContentType,
                 Curl = x.Urls,
                 Img = x.ImageThums,
+                //SourceId = x.SourceId,
                 ImagePath = x.ImagePaths,
                 DisplayType = x.DisplayType,
                 IsHot = x.IsHot,
                 AccessCount = x.VirtualAccessNumber,
-                PushTime = x.PushTime,
-                CreateTime = x.CreateTime,
+                PushTime = Convert.ToDateTime(x.PushTime.Value.ToString("yyyy-MM-dd HH:mm:ss.fff")),
+                CreateTime = Convert.ToDateTime(x.CreateTime.Value.ToString("yyyy-MM-dd HH:mm:ss.fff")),
                 CategorySort = x.CategorySort,
                 SpecialSort = x.SpecialSort,
                 Sequence = x.Sequence
