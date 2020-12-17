@@ -195,12 +195,13 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                         newsSize = (item.PageSize + 1) / newsRido + 2;
                     }
                     videoSize = item.PageSize - newsSize;
-                    int? from = null;
-                    string[] searechAfter = null;
+                    int? from = 0;
+                    //string[] searechAfter = null;
                     if (item.PageIndex != null) {
-                        from = 0;
-                        searechAfter = item.PageIndex.Split('|');
+                        from = item.PageIndex.ToInt();
+                        //searechAfter = item.PageIndex.Split('|');
                     }
+
                     //es多重查询
                     var request = new MultiSearchRequest() {
                         TotalHitsAsInteger = true,
@@ -208,7 +209,10 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                       {
                           { "news", new SearchRequest<NewsListResponse>(_IWebNewsElastic.IndexName)
                                 {
-                                    Query = new BoolQuery() {
+                                  Query=new FunctionScoreQuery() {
+                                     Name="news",
+                                     Boost=1.1,
+                                     Query = new BoolQuery() {
                                         Must=new QueryContainer[] {
                                               new TermQuery {
                                                 Field="siteId",
@@ -224,18 +228,37 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                                             }
                                         }
                                     },
-                                     Sort = new List<ISort>() {
-                                        new FieldSort (){ Field = "categorySort", Order = SortOrder.Ascending },
-                                        new FieldSort() { Field ="pushTime", Order = SortOrder.Descending }
-                                    },
+                                     Functions = new List<IScoreFunction> {
+                                          new GaussDateDecayFunction{
+                                              Origin = DateMath.Now, Field = "pushTime", Decay = 0.5, Scale = TimeSpan.FromDays(1)
+                                          },
+                                          new FieldValueFactorFunction
+                                          {
+                                            Field = "accessCount",
+                                            Factor = 1.1,
+                                            Missing = 0.1,
+                                            Modifier = FieldValueFactorModifier.Log1P,
+                                          }
+                                     },
+                                     BoostMode = FunctionBoostMode.Multiply,
+                                     ScoreMode = FunctionScoreMode.Sum,
+                                     MinScore = 1.0
+                                   },
+                                    // Sort = new List<ISort>() {
+                                    //    new FieldSort (){ Field = "categorySort", Order = SortOrder.Ascending },
+                                    //    new FieldSort() { Field ="accessCount", Order = SortOrder.Descending }
+                                    //},
                                     From=from,
                                     Size=newsSize,
-                                    SearchAfter=item.PageIndex!=null?searechAfter[0].Split(','):null
+                                    //SearchAfter=item.PageIndex!=null?searechAfter[0].Split(','):null
                                 }
                             },
                             { "video", new SearchRequest<NewsListResponse>(_IWebNewsElastic.IndexName)
                                 {
-                                    Query = new BoolQuery() {
+                                    Query=new FunctionScoreQuery() {
+                                     Name="video",
+                                     Boost=1.1,
+                                     Query = new BoolQuery() {
                                         Must=new QueryContainer[] {
                                               new TermQuery {
                                                 Field="siteId",
@@ -250,14 +273,30 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                                                 Value=2
                                             }
                                         }
-                                    },
-                                     Sort = new List<ISort>() {
-                                        new FieldSort (){ Field = "categorySort", Order = SortOrder.Ascending },
-                                        new FieldSort() { Field ="pushTime", Order = SortOrder.Descending }
-                                   },
+                                     },
+                                     Functions = new List<IScoreFunction> {
+                                          new GaussDateDecayFunction{
+                                              Origin = DateMath.Now, Field = "pushTime", Decay = 0.5, Scale = TimeSpan.FromDays(1)
+                                          },
+                                          new FieldValueFactorFunction
+                                          {
+                                            Field = "accessCount",
+                                            Factor = 1.1,
+                                            Missing = 0.1,
+                                            Modifier = FieldValueFactorModifier.Log1P,
+                                          }
+                                     },
+                                     BoostMode = FunctionBoostMode.Multiply,
+                                     ScoreMode = FunctionScoreMode.Sum,
+                                     MinScore = 1.0
+                                     },
+                                     //Sort = new List<ISort>() {
+                                     //   new FieldSort (){ Field = "categorySort", Order = SortOrder.Ascending },
+                                     //   new FieldSort() { Field ="accessCount", Order = SortOrder.Descending }
+                                     //},
                                     From=from,
                                     Size=videoSize,
-                                    SearchAfter=item.PageIndex!=null?searechAfter[1].Split(','):null
+                                    //SearchAfter=item.PageIndex!=null?searechAfter[1].Split(','):null
                                 }
                             }
                         }
@@ -290,7 +329,9 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                             }
                             response.Data = newsList;
                             response.Message = $"返回{newsList.Count}条数据";
-                            response.Other = string.Join(',', newsResult.Hits.LastOrDefault().Sorts) + "|" + string.Join(',', videoResult.Hits.LastOrDefault().Sorts);
+                            //if (newsResult.Hits.LastOrDefault().Sorts.Count > 0 && videoResult.Hits.LastOrDefault().Sorts.Count > 0)
+                            //response.Other = string.Join(",", newsResult.Hits.LastOrDefault().Sorts) + "|" + string.Join(",", videoResult.Hits.LastOrDefault().Sorts);
+                            response.Other = from+1;
                         }
                         else
                             return NoContent();
