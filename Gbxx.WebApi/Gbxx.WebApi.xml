@@ -506,15 +506,6 @@
             <param name="item"></param>
             <returns></returns>
         </member>
-        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.NewsController.Test(System.String,Gbxx.WebApi.Areas.v1.Models.Route.SiteRoute,Gbxx.WebApi.Requests.Query.NewsTitleSearchGet)">
-            <summary>
-            新闻标题检索2.0
-            </summary>
-            <param name="source"></param>
-            <param name="route"></param>
-            <param name="item"></param>
-            <returns></returns>
-        </member>
         <member name="M:Gbxx.WebApi.Areas.v1.Controllers.NewsController.GetNewsHotAsync(System.String,Gbxx.WebApi.Areas.v1.Models.Route.SiteRoute,Gbxx.WebApi.Models.PagerElastic)">
             <summary>
             24小时热文
