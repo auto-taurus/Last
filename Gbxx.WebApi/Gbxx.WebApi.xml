@@ -506,6 +506,15 @@
             <param name="item"></param>
             <returns></returns>
         </member>
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.NewsController.Test(System.String,Gbxx.WebApi.Areas.v1.Models.Route.SiteRoute,Gbxx.WebApi.Requests.Query.NewsTitleSearchGet)">
+            <summary>
+            新闻标题检索2.0
+            </summary>
+            <param name="source"></param>
+            <param name="route"></param>
+            <param name="item"></param>
+            <returns></returns>
+        </member>
         <member name="M:Gbxx.WebApi.Areas.v1.Controllers.NewsController.GetNewsHotAsync(System.String,Gbxx.WebApi.Areas.v1.Models.Route.SiteRoute,Gbxx.WebApi.Models.PagerElastic)">
             <summary>
             24小时热文
@@ -813,12 +822,14 @@
             <param name="newsId"></param>
             <returns></returns>
         </member>
-        <member name="M:Gbxx.WebApi.Areas.v1.Controllers._TestDataController.DeleteNewsDocAsync(System.String,Gbxx.WebApi.Areas.v1.Models.Route.SiteRoute)">
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers._TestDataController.PostNewsDocLocalHostAsync(System.String,Gbxx.WebApi.Areas.v1.Models.Route.SiteRoute,System.DateTime,System.Nullable{System.DateTime})">
             <summary>
-            删除文档
+            批量导入es（本地db）
             </summary>
             <param name="source"></param>
             <param name="route"></param>
+            <param name="pushTime"></param>
+            <param name="errStartTime"></param>
             <returns></returns>
         </member>
         <member name="T:Gbxx.WebApi.Areas.v1.Data.CategoryResponse">
@@ -940,8 +951,14 @@
         <member name="P:Gbxx.WebApi.Areas.v1.Data.NewsListResponse.ImagePath">
             <summary>
             正常大小，可规定指定大小（用于轮播等其他大图展示）
+            contentType为2存放视频地址
             </summary>
             <value></value>
+        </member>
+        <member name="P:Gbxx.WebApi.Areas.v1.Data.NewsListResponse.ContentType">
+            <summary>
+            内容类型 1文章 2视频
+            </summary>
         </member>
         <member name="P:Gbxx.WebApi.Areas.v1.Data.NewsListResponse.DisplayType">
             <summary>
@@ -964,6 +981,11 @@
         <member name="P:Gbxx.WebApi.Areas.v1.Data.NewsListResponse.PushTime">
             <summary>
             发布时间
+            </summary>
+        </member>
+        <member name="P:Gbxx.WebApi.Areas.v1.Data.NewsListResponse.Creatime">
+            <summary>
+            创建时间
             </summary>
         </member>
         <member name="T:Gbxx.WebApi.Areas.v1.Data.NewsResponse">
@@ -1410,6 +1432,11 @@
         <member name="P:Gbxx.WebApi.Requests.Query.NewsTitleSearchGet.Title">
             <summary>
             标题
+            </summary>
+        </member>
+        <member name="P:Gbxx.WebApi.Requests.Query.NewsTitleSearchGet.ShowType">
+            <summary>
+            展示内容类型（1显示文章、2显示视频、3显示文章视频）
             </summary>
         </member>
         <member name="T:Gbxx.WebApi.Requests.Query.NewsTitleSearchGetValidator">

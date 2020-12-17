@@ -195,7 +195,7 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                 await _IWebNewsElastic.AddIndexAsync(_IWebNewsElastic.IndexName);
                 var lastNews = new WebNews();
                 var current = System.DateTime.Now;
-                for (int pageIndex = 1; pageIndex <= 10; pageIndex++) {
+                for (int pageIndex = 1; pageIndex <= 4; pageIndex++) {
                     var news = new List<WebNews>();
 
                     var express = Express.Begin<WebNews>(true);

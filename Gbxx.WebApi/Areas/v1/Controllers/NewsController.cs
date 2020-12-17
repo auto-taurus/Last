@@ -1,10 +1,12 @@
 ﻿using Auto.Commons.ApiHandles.Responses;
+using Auto.Commons.Extend;
 using Auto.ElasticServices.Contracts;
 using Auto.ElasticServices.Modals;
 using Auto.RedisServices.Repositories;
 using Gbxx.WebApi.Areas.v1.Data;
 using Gbxx.WebApi.Areas.v1.Models.Route;
 using Gbxx.WebApi.Controllers;
+using Gbxx.WebApi.Filters;
 using Gbxx.WebApi.Models;
 using Gbxx.WebApi.Requests.Query;
 using Microsoft.AspNetCore.Mvc;
@@ -295,6 +297,187 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                         }
                         response.Data = data;
                         response.Other = string.Join(',', result.Hits.LastOrDefault().Sorts);
+                    }
+                    else {
+                        return NoContent();
+                    }
+                }
+                else {
+                    return NoContent();
+                }
+            }
+            catch (Exception ex) {
+                response.SetError(ex, this._ILogger);
+            }
+            return response.ToHttpResponse();
+        }
+
+        /// <summary>
+        /// 新闻标题检索2.0
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="route"></param>
+        /// <param name="item"></param>
+        /// <returns></returns>
+        [SwaggerResponse(200, "", typeof(NewsListResponse))]
+        [HttpGet("Tags")]
+        public async Task<IActionResult> Test([FromHeader]String source,
+                                                            [FromRoute]SiteRoute route,
+                                                            [FromQuery]NewsTitleSearchGet item) {
+            var response = new Response<Object>();
+            try {
+                var headerSource = source.ToObject<HeaderSource>();
+                item.ShowType = item.ShowType == 0 ? 1 : item.ShowType;
+                // 针对安卓版本判断
+                var lastVers = new Version("1.0.4"); // 最后版本
+                var newVers = new Version(headerSource.SystemVers); // 最新版本
+
+                string[] newsSearchAfter = null; // 新闻分页
+                string[] videoSearchAfter = null; // 视频分页
+
+                var mustNot = new QueryContainer[] {
+                    new MatchPhraseQuery(){
+                        Field = "newsTitle",
+                        Query = item.Title
+                     }
+                };
+                if (headerSource.Device == "android" && newVers > lastVers) {
+                    mustNot = new QueryContainer[] {
+                        new TermQuery(){
+                            Field = "contentType",
+                            Value = 2
+                        } &&
+                        new MatchPhraseQuery(){
+                            Field = "newsTitle",
+                            Query = item.Title
+                        }
+                    };
+                }
+                // 页
+                int? from = null;
+                if (!string.IsNullOrEmpty(item.PageIndex)) {
+                    from = 0;
+                    var after = item.PageIndex.Split("|");
+                    if (after.Length > 1) {
+                        newsSearchAfter = string.IsNullOrEmpty(after[0]) ? null : after[0].Split(',');
+                        videoSearchAfter = string.IsNullOrEmpty(after[1]) ? null : after[1].Split(',');
+                    }
+                    else {
+                        newsSearchAfter = item.PageIndex.Split(",");
+                    }
+                }
+                else {
+                    from = null;
+                }
+                Func<int, Func<SearchDescriptor<NewsListResponse>, ISearchRequest>> searchSelector = (x) => {
+                    string[] searchAfter = null;
+                    var pageSize = item.PageSize;
+                    if (x == 1) {
+                        searchAfter = newsSearchAfter;
+                    }
+                    else if (x == 2) {
+                        searchAfter = videoSearchAfter;
+                        pageSize = pageSize / 2;
+                    }
+
+                    Func<SearchDescriptor<NewsListResponse>, ISearchRequest> func = a => a
+                        .Index(_IWebNewsElastic.IndexName)
+                        .TrackTotalHits(true)
+                        .Query(c => c
+                            .Bool(d => d
+                                .Must(e => e
+                                    .Term("siteId", route.mark) && e
+                                    .Term(f => f.ContentType, x) && e
+                                    .Match(f => f.Field(g => g.NewsTitle).Query(item.Title))
+                                    )
+                                .MustNot(mustNot)))
+                         .Source(c => c.Excludes(d => d.Field("contents")))
+                         .Sort(c => c.Field(d => d.PushTime, SortOrder.Descending))
+                         .Highlight(c => c.PreTags("<em style='color:#f73131'>")
+                                          .PostTags("</em>")
+                                          .Fields(f => f
+                                              .Field("newsTitle")
+                                          ))
+                         .Size(pageSize)
+                         .From(from)
+                         .SearchAfter(searchAfter);
+                    return func;
+                };
+
+                MultiSearchResponse result;
+                if (item.ShowType == 3) {
+                    // 显示文章和视频
+                    result = await _IWebNewsElastic.Client.MultiSearchAsync(null, a => a.Search<NewsListResponse>("news", searchSelector(1))
+                                                                                        .Search<NewsListResponse>("videos", searchSelector(2)));
+                }
+                else {
+                    result = await _IWebNewsElastic.Client.MultiSearchAsync(null, a => a.Search<NewsListResponse>("news", searchSelector(item.ShowType)));
+                }
+                if (result.ApiCall.Success && result.ApiCall.HttpStatusCode == 200) {
+                    var news = result.GetResponse<NewsListResponse>("news");
+                    var videos = result.GetResponse<NewsListResponse>("videos");
+                    if (news.Hits.Count > 0) {
+                        response.Code = true;
+                        var data = new List<Dictionary<string, Object>>();
+                        var entity = new Dictionary<string, Object>();
+
+                        if (item.ShowType == 3) {
+                            if (videos.Hits.Count > 0) {
+                                var videosHits = videos.Hits.ToList();
+                                for (int i = 0; i < news.Hits.Count; i++) {
+                                    var newsHit = news.Hits.ElementAt(i);
+                                    if (i + 1 >= news.Hits.Count)
+                                        break;
+                                    else {
+                                        entity.Add("highlight", newsHit.Highlight.Values.ElementAt(0).First());
+                                        entity.Add("entity", newsHit.Source);
+                                        data.Add(entity);
+
+                                        if ((i + 1) % 2 == 0 && i > 0) {
+                                            var videosHit = videosHits.FirstOrDefault();
+                                            if (videosHit != null) {
+                                                entity = new Dictionary<string, object>();
+                                                if (videosHits.Count > 0)
+                                                    videosHits.Remove(videosHit);
+                                                entity.Add("highlight", videosHit.Highlight.Values.ElementAt(0).First());
+                                                entity.Add("entity", videosHit.Source);
+                                                data.Add(entity);
+                                            }
+                                        }
+                                    }
+                                }
+                                videosHits.ForEach(x => {
+                                    var videosHit = videosHits.FirstOrDefault();
+                                    entity = new Dictionary<string, Object>();
+                                    entity.Add("highlight", videosHit.Highlight.Values.ElementAt(0).First());
+                                    entity.Add("entity", videosHit.Source);
+                                    data.Add(entity);
+                                });
+
+                                response.Data = data;
+                                response.Other = string.Join(',', news.Hits.LastOrDefault().Sorts);
+                            }
+                            else {
+                                foreach (var hit in news.Hits) {
+                                    entity = new Dictionary<string, Object>();
+                                    entity.Add("highlight", hit.Highlight.Values.ElementAt(0).First());
+                                    entity.Add("entity", hit.Source);
+                                    data.Add(entity);
+                                }
+                                response.Data = data;
+                                response.Other = string.Join(',', news.Hits.LastOrDefault().Sorts);
+                            }
+                        }
+                        else {
+                            foreach (var hit in news.Hits) {
+                                entity = new Dictionary<string, Object>();
+                                entity.Add("highlight", hit.Highlight.Values.ElementAt(0).First());
+                                entity.Add("entity", hit.Source);
+                                data.Add(entity);
+                            }
+                            response.Data = data;
+                            response.Other = string.Join(',', news.Hits.LastOrDefault().Sorts);
+                        }
                     }
                     else {
                         return NoContent();

@@ -12,7 +12,7 @@ namespace Gbxx.WebApi.Requests.Query {
         public string Title { get; set; }
 
         /// <summary>
-        /// 展示内容类型 （1）
+        /// 展示内容类型（1显示文章、2显示视频、3显示文章视频）
         /// </summary>
         public int ShowType { get; set; }
 
