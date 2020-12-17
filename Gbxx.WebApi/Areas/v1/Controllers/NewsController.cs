@@ -241,91 +241,6 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                                                             [FromQuery]NewsTitleSearchGet item) {
             var response = new Response<Object>();
             try {
-                var request = new SearchRequest<WebNewsDoc>(_IWebNewsElastic.IndexName) {
-                    TrackTotalHits = true,
-                    //Analyzer = "ik_smart",
-                    Query = new BoolQuery() {
-                        Must = new QueryContainer[] {
-                            new TermQuery() {
-                                Field = "siteId",
-                                Value = route.mark
-                            }
-                            && new MatchQuery() {
-                                Field = "newsTitle",
-                                Query = item.Title
-                            }
-                        },
-                        MustNot = new QueryContainer[] {
-                             new TermQuery(){
-                                Field = "contentType",
-                                Value = 2
-                            }&&
-                            new MatchPhraseQuery(){
-                                Field= "newsTitle",
-                                Query = item.Title
-                            }
-                        }
-                    },
-                    Source = new Union<bool, ISourceFilter>(new SourceFilter {
-                        Excludes = new[] { "contents" }
-                    }),
-                    Sort = new List<ISort>() {
-                        new FieldSort (){ Field = "pushTime", Order = SortOrder.Descending }
-                    },
-                    Highlight = new Highlight() {
-                        PreTags = new[] { "<em style='color:#f73131'>" },
-                        PostTags = new[] { "</em>" },
-                        Fields = new Dictionary<Field, IHighlightField>() { { "newsTitle", new HighlightField { } } }
-                    },
-                    Size = item.PageSize
-                };
-                if (item.PageIndex != null) {
-                    request.From = 0;
-                    request.SearchAfter = item.PageIndex.Split(",");
-                }
-                var result = await this._IWebNewsElastic.Client
-                                                        .SearchAsync<NewsListResponse>(request);
-                if (result.ApiCall.Success && result.ApiCall.HttpStatusCode == 200) {
-                    if (result.Hits.Count > 0) {
-                        response.Code = true;
-                        var data = new List<Dictionary<string, Object>>();
-                        foreach (var hit in result.Hits) {
-                            var entity = new Dictionary<string, Object>();
-                            entity.Add("highlight", hit.Highlight.Values.ElementAt(0).First());
-                            entity.Add("entity", hit.Source);
-                            data.Add(entity);
-                        }
-                        response.Data = data;
-                        response.Other = string.Join(',', result.Hits.LastOrDefault().Sorts);
-                    }
-                    else {
-                        return NoContent();
-                    }
-                }
-                else {
-                    return NoContent();
-                }
-            }
-            catch (Exception ex) {
-                response.SetError(ex, this._ILogger);
-            }
-            return response.ToHttpResponse();
-        }
-
-        /// <summary>
-        /// 新闻标题检索2.0
-        /// </summary>
-        /// <param name="source"></param>
-        /// <param name="route"></param>
-        /// <param name="item"></param>
-        /// <returns></returns>
-        [SwaggerResponse(200, "", typeof(NewsListResponse))]
-        [HttpGet("Tags")]
-        public async Task<IActionResult> Test([FromHeader]String source,
-                                                            [FromRoute]SiteRoute route,
-                                                            [FromQuery]NewsTitleSearchGet item) {
-            var response = new Response<Object>();
-            try {
                 var headerSource = source.ToObject<HeaderSource>();
                 item.ShowType = item.ShowType == 0 ? 1 : item.ShowType;
                 // 针对安卓版本判断
@@ -425,6 +340,7 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                             if (videos.Hits.Count > 0) {
                                 var videosHits = videos.Hits.ToList();
                                 for (int i = 0; i < news.Hits.Count; i++) {
+                                    entity = new Dictionary<string, object>();
                                     var newsHit = news.Hits.ElementAt(i);
                                     if (i + 1 >= news.Hits.Count)
                                         break;
