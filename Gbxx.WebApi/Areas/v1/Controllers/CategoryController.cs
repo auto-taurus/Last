@@ -180,16 +180,63 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
             try {
                 //根据当前系统版本号区分是否显示视频
                 var entity = source.ToObject<HeaderSource>();
-                Version defalutVers = new Version("1.0.4");//当前安卓版本
-                Version newVers = new Version(entity.SystemVers);
+                Version defalutVers = new Version("1.0.4");//当前安卓版本号
+                var defalutVersCode = 5;//当前安卓版本code
+                var newVers = entity.SystemVers.ToInt();
                 //判断是否展示视频
-                if (entity.Device == "android" && newVers > defalutVers) {
+                if ((entity.Device == "android" && newVers == defalutVersCode)) {
+                    var request = new SearchRequest<WebNewsDoc>(_IWebNewsElastic.IndexName) {
+                        TrackTotalHits = true,
+                        Query = new BoolQuery() {
+                            Must = new QueryContainer[] {
+                            new TermQuery() {
+                                Field = "siteId",
+                                Value = route.mark
+                            }
+                            && new TermQuery() {
+                                Field = "categoryId",
+                                Value = route.id
+                            }
+                          },
+                            MustNot = new QueryContainer[] {//过滤掉类型为视频的数据
+                               new TermQuery() {
+                                Field = "contentType",
+                                Value = 2
+                            }
+                          },
+
+                        },
+                        Source = new Union<bool, ISourceFilter>(new SourceFilter {
+                            Excludes = new[] { "contents" }
+                        }),
+                        Sort = new List<ISort>() {
+                        new FieldSort { Field ="pushTime", Order = SortOrder.Descending },
+                        new FieldSort {Field="categorySort",Order=SortOrder.Ascending}
+                    },
+                        Size = item.PageSize
+                    };
+                    if (item.PageIndex != null) {
+                        request.From = 0;
+                        request.SearchAfter = item.PageIndex.Split(",");
+                    }
+                    var result = await this._IWebNewsElastic.Client
+                                                            .SearchAsync<NewsListResponse>(request);
+                    if (result.ApiCall.Success && result.ApiCall.HttpStatusCode == 200) {
+                        if (result.Documents.Count > 0) {
+                            response.Code = true;
+                            response.Data = result.Documents.ToList();
+                            response.Message = $"返回{result.Documents.Count}条数据";
+                            response.Other = string.Join(',', result.Hits.LastOrDefault().Sorts);
+                        }
+                    }
+                }
+                else {
                     //根据新闻视频2:1比例设置Size
                     int? newsSize = 0, newsRido = 2;
                     int? videoSize = 0;
 
                     if (item.PageSize % newsRido == 0) {
-                        newsSize = item.PageSize / newsRido + 3;
+                        newsSize = item.PageSize / newsRido + 2;
                     }
                     else {
                         newsSize = (item.PageSize + 1) / newsRido + 2;
@@ -331,59 +378,13 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                             response.Message = $"返回{newsList.Count}条数据";
                             //if (newsResult.Hits.LastOrDefault().Sorts.Count > 0 && videoResult.Hits.LastOrDefault().Sorts.Count > 0)
                             //response.Other = string.Join(",", newsResult.Hits.LastOrDefault().Sorts) + "|" + string.Join(",", videoResult.Hits.LastOrDefault().Sorts);
-                            response.Other = from+1;
+                            response.Other = from + 1;
                         }
                         else
                             return NoContent();
                     }
                     else {
                         return NoContent();
-                    }
-                }
-                else {
-                    var request = new SearchRequest<WebNewsDoc>(_IWebNewsElastic.IndexName) {
-                        TrackTotalHits = true,
-                        Query = new BoolQuery() {
-                            Must = new QueryContainer[] {
-                            new TermQuery() {
-                                Field = "siteId",
-                                Value = route.mark
-                            }
-                            && new TermQuery() {
-                                Field = "categoryId",
-                                Value = route.id
-                            }
-                          },
-                            MustNot = new QueryContainer[] {//过滤掉类型为视频的数据
-                               new TermQuery() {
-                                Field = "contentType",
-                                Value = 2
-                            }
-                          },
-
-                        },
-                        Source = new Union<bool, ISourceFilter>(new SourceFilter {
-                            Excludes = new[] { "contents" }
-                        }),
-                        Sort = new List<ISort>() {
-                        new FieldSort { Field ="pushTime", Order = SortOrder.Descending },
-                        new FieldSort {Field="categorySort",Order=SortOrder.Ascending}
-                    },
-                        Size = item.PageSize
-                    };
-                    if (item.PageIndex != null) {
-                        request.From = 0;
-                        request.SearchAfter = item.PageIndex.Split(",");
-                    }
-                    var result = await this._IWebNewsElastic.Client
-                                                            .SearchAsync<NewsListResponse>(request);
-                    if (result.ApiCall.Success && result.ApiCall.HttpStatusCode == 200) {
-                        if (result.Documents.Count > 0) {
-                            response.Code = true;
-                            response.Data = result.Documents.ToList();
-                            response.Message = $"返回{result.Documents.Count}条数据";
-                            response.Other = string.Join(',', result.Hits.LastOrDefault().Sorts);
-                        }
                     }
                 }
             }
