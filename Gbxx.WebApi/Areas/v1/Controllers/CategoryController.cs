@@ -238,6 +238,8 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                     int? newsSize = 0, newsRido = 2;
                     int? videoSize = 0;
 
+                    if (item.PageSize < 10)
+                        item.PageSize = 10;
                     if (item.PageSize % newsRido == 0) {
                         newsSize = item.PageSize / newsRido + 2;
                     }
@@ -245,11 +247,11 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                         newsSize = (item.PageSize + 1) / newsRido + 2;
                     }
                     videoSize = item.PageSize - newsSize;
-                    int? from = 0;
-                    //string[] searechAfter = null;
+                    int? from = null;
+                    string[] searechAfter = null;
                     if (item.PageIndex != null) {
-                        from = item.PageIndex.ToInt();
-                        //searechAfter = item.PageIndex.Split('|');
+                        from =0;
+                        searechAfter = item.PageIndex.Split('|');
                     }
 
                     //es多重查询
@@ -294,13 +296,13 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                                      ScoreMode = FunctionScoreMode.Sum,
                                      MinScore = 1.0
                                    },
-                                    // Sort = new List<ISort>() {
-                                    //    new FieldSort (){ Field = "categorySort", Order = SortOrder.Ascending },
-                                    //    new FieldSort() { Field ="accessCount", Order = SortOrder.Descending }
-                                    //},
+                                     Sort = new List<ISort>() {
+                                        new FieldSort (){ Field = "_score", Order = SortOrder.Descending },
+                                        new FieldSort() { Field ="categorySort", Order = SortOrder.Ascending }
+                                    },
                                     From = from,
                                     Size = newsSize,
-                                    //SearchAfter=item.PageIndex!=null?searechAfter[0].Split(','):null
+                                    SearchAfter=item.PageIndex!=null?searechAfter[0].Split(','):null
                                 }
                             },
                             { "video", new SearchRequest<NewsListResponse>(_IWebNewsElastic.IndexName)
@@ -340,13 +342,13 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                                      ScoreMode = FunctionScoreMode.Sum,
                                      MinScore = 1.0
                                      },
-                                     //Sort = new List<ISort>() {
-                                     //   new FieldSort (){ Field = "categorySort", Order = SortOrder.Ascending },
-                                     //   new FieldSort() { Field ="accessCount", Order = SortOrder.Descending }
-                                     //},
+                                     Sort = new List<ISort>() {
+                                        new FieldSort (){ Field = "_score", Order = SortOrder.Descending },
+                                        new FieldSort() { Field ="categorySort", Order = SortOrder.Ascending }
+                                     },
                                     From=from,
                                     Size=videoSize,
-                                    //SearchAfter=item.PageIndex!=null?searechAfter[1].Split(','):null
+                                    SearchAfter=item.PageIndex!=null?searechAfter[1].Split(','):null
                                 }
                             }
                         }
@@ -379,9 +381,8 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                             }
                             response.Data = newsList;
                             response.Message = $"返回{newsList.Count}条数据";
-                            //if (newsResult.Hits.LastOrDefault().Sorts.Count > 0 && videoResult.Hits.LastOrDefault().Sorts.Count > 0)
-                            //response.Other = string.Join(",", newsResult.Hits.LastOrDefault().Sorts) + "|" + string.Join(",", videoResult.Hits.LastOrDefault().Sorts);
-                            response.Other = from + 1;
+                            if (newsResult.Hits.LastOrDefault().Sorts.Count > 0 && videoResult.Hits.LastOrDefault().Sorts.Count > 0)
+                                response.Other = string.Join(",", newsResult.Hits.LastOrDefault().Sorts) + "|" + string.Join(",", videoResult.Hits.LastOrDefault().Sorts);
                         }
                         else
                             return NoContent();
