@@ -310,7 +310,7 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                                      },
                                     From=from,
                                     Size=videoSize,
-                                    SearchAfter=item.PageIndex!=null?searechAfter[1].Split(','):null
+                                    SearchAfter=item.PageIndex!=null?(searechAfter.Count()>1?searechAfter[1].Split(','):null):null
                                 }
                             }
                         }
@@ -320,7 +320,7 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                     var videoResult = result.GetResponse<NewsListResponse>("video");//视频
 
                     if (newsResult != null && newsResult.ApiCall.Success && videoResult != null && videoResult.ApiCall.Success) {
-                        if (newsResult.Documents.Count > 0 && videoResult.Documents.Count > 0) {
+                        if (newsResult.Documents.Count > 0 || videoResult.Documents.Count > 0) {
                             response.Code = true;
                             //根据ContentType返回结果 2视频 1新闻
                             //每隔两个新闻放置一个视频
@@ -343,7 +343,10 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                             }
                             response.Data = newsList;
                             response.Message = $"返回{newsList.Count}条数据";
-                            if (newsResult.Hits.LastOrDefault().Sorts.Count > 0 && videoResult.Hits.LastOrDefault().Sorts.Count > 0)
+                            if(newsResult.Hits.Count > 0&& videoResult.Hits.Count == 0) {
+                                response.Other = string.Join(",", newsResult.Hits.LastOrDefault().Sorts);
+                            }
+                            if (newsResult.Hits.Count>0 && videoResult.Hits.Count>0)
                                 response.Other = string.Join(",", newsResult.Hits.LastOrDefault().Sorts) + "|" + string.Join(",", videoResult.Hits.LastOrDefault().Sorts);
                         }
                         else
