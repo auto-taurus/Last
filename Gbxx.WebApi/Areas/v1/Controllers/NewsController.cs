@@ -256,7 +256,7 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                         Query = item.Title
                      }
                 };
-                if (headerSource.Device == "android" && newVers > lastVers) {
+                if ((headerSource.Device == "android" && headerSource.SystemVers == "5") || (headerSource.Device == "android" && newVers > lastVers && headerSource.SystemVers != "5")) {
                     mustNot = new QueryContainer[] {
                         new TermQuery(){
                             Field = "contentType",
@@ -342,7 +342,7 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                                 for (int i = 0; i < news.Hits.Count; i++) {
                                     entity = new Dictionary<string, object>();
                                     var newsHit = news.Hits.ElementAt(i);
-                                    if (i + 1 >= news.Hits.Count)
+                                    if (i + 1 > news.Hits.Count)
                                         break;
                                     else {
                                         entity.Add("highlight", newsHit.Highlight.Values.ElementAt(0).First());

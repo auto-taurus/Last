@@ -248,8 +248,8 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                                     //    new FieldSort (){ Field = "categorySort", Order = SortOrder.Ascending },
                                     //    new FieldSort() { Field ="accessCount", Order = SortOrder.Descending }
                                     //},
-                                    From=from,
-                                    Size=newsSize,
+                                    From = from,
+                                    Size = newsSize,
                                     //SearchAfter=item.PageIndex!=null?searechAfter[0].Split(','):null
                                 }
                             },
@@ -392,7 +392,6 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
             }
             return response.ToHttpResponse();
         }
-
         /// <summary>
         /// 分类访问统计
         /// </summary>
