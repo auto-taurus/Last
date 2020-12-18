@@ -63,7 +63,7 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
             try {
                 var request = new GetDescriptor<WebNewsDoc>(_IWebNewsElastic.IndexName, route.id);
                 // 排除返回字段
-                request.SourceExcludes(a => new { a.Img, a.ImagePath, a.DisplayType });
+                request.SourceExcludes(a => new { a.DisplayType });
                 // 只获取元数据
                 var result = await this._IWebNewsElastic.Client
                                                         .GetAsync<NewsResponse>(request);
@@ -374,9 +374,10 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                                     entity.Add("entity", videosHit.Source);
                                     data.Add(entity);
                                 });
-
+                                var ns = string.Join(',', news.Hits.LastOrDefault().Sorts);
+                                var vs = string.Join(',', videos.Hits.LastOrDefault().Sorts);
                                 response.Data = data;
-                                response.Other = string.Join(',', $"{news.Hits.LastOrDefault().Sorts}|{videos.Hits.LastOrDefault().Sorts}");
+                                response.Other = $"{ns}|{vs}";
                             }
                             else {
                                 foreach (var hit in news.Hits) {

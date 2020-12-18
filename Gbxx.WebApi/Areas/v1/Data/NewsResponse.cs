@@ -49,6 +49,19 @@ namespace Gbxx.WebApi.Areas.v1.Data {
         /// <value></value>
         public string Contents { get; set; }
         /// <summary>
+        /// 内容类型（1文章，2视频）
+        /// </summary>
+        /// <value></value>
+        public int? ContentType { get; set; }
+        /// <summary>
+        /// 小图地址
+        /// </summary>
+        public string Img { get; set; }
+        /// <summary>
+        /// 大图地址，视频地址
+        /// </summary>
+        public string ImagePath { get; set; }
+        /// <summary>
         /// 访问地址
         /// </summary>
         public string Curl { get; set; }
