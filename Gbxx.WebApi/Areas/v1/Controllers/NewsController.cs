@@ -245,7 +245,7 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                 item.ShowType = item.ShowType == 0 ? 1 : item.ShowType;
                 // 针对安卓版本判断
                 var lastVers = new Version("1.0.4"); // 最后版本
-                var newVers = new Version(headerSource.SystemVers); // 最新版本
+                //var newVers = new Version(headerSource.SystemVers); // 最新版本
 
                 string[] newsSearchAfter = null; // 新闻分页
                 string[] videoSearchAfter = null; // 视频分页
@@ -256,7 +256,7 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                         Query = item.Title
                      }
                 };
-                if ((headerSource.Device == "android" && headerSource.SystemVers == "5") || (headerSource.Device == "android" && newVers > lastVers && headerSource.SystemVers != "5")) {
+                if (headerSource.Device == "android" && headerSource.SystemVers == "5") {
                     mustNot = new QueryContainer[] {
                         new TermQuery(){
                             Field = "contentType",
@@ -277,8 +277,11 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                         newsSearchAfter = string.IsNullOrEmpty(after[0]) ? null : after[0].Split(',');
                         videoSearchAfter = string.IsNullOrEmpty(after[1]) ? null : after[1].Split(',');
                     }
-                    else {
+                    else if (item.ShowType == 1) {
                         newsSearchAfter = item.PageIndex.Split(",");
+                    }
+                    else if (item.ShowType == 2) {
+                        videoSearchAfter = item.PageIndex.Split(",");
                     }
                 }
                 else {
@@ -290,11 +293,13 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                     if (x == 1) {
                         searchAfter = newsSearchAfter;
                     }
-                    else if (x == 2) {
+                    else if (x == 2 && item.ShowType == 3) {
                         searchAfter = videoSearchAfter;
                         pageSize = pageSize / 2;
                     }
-
+                    else if (x == 2) {
+                        searchAfter = videoSearchAfter;
+                    }
                     Func<SearchDescriptor<NewsListResponse>, ISearchRequest> func = a => a
                         .Index(_IWebNewsElastic.IndexName)
                         .TrackTotalHits(true)
@@ -371,7 +376,7 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                                 });
 
                                 response.Data = data;
-                                response.Other = string.Join(',', news.Hits.LastOrDefault().Sorts);
+                                response.Other = string.Join(',', $"{news.Hits.LastOrDefault().Sorts}|{videos.Hits.LastOrDefault().Sorts}");
                             }
                             else {
                                 foreach (var hit in news.Hits) {

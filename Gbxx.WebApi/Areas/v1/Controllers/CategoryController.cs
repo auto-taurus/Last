@@ -180,11 +180,14 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
             try {
                 //根据当前系统版本号区分是否显示视频
                 var entity = source.ToObject<HeaderSource>();
-                Version defalutVers = new Version("1.0.4");//当前安卓版本号
+
+                // 针对安卓版本判断
+                var lastVers = new Version("1.0.4"); // 最后版本
+                //var newVers = new Version(entity.SystemVers); // 最新版本
+
                 var defalutVersCode = 5;//当前安卓版本code
-                var newVers = entity.SystemVers.ToInt();
                 //判断是否展示视频
-                if ((entity.Device == "android" && newVers == defalutVersCode)) {
+                if (entity.Device == "android" && entity.SystemVers == "5") {
                     var request = new SearchRequest<WebNewsDoc>(_IWebNewsElastic.IndexName) {
                         TrackTotalHits = true,
                         Query = new BoolQuery() {
