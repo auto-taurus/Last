@@ -261,9 +261,6 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                       {
                           { "news", new SearchRequest<NewsListResponse>(_IWebNewsElastic.IndexName)
                                 {
-                                  Query=new FunctionScoreQuery() {
-                                     Name="news",
-                                     Boost=1.1,
                                      Query = new BoolQuery() {
                                         Must=new QueryContainer[] {
                                               new TermQuery {
@@ -280,24 +277,8 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                                             }
                                         }
                                     },
-                                     Functions = new List<IScoreFunction> {
-                                          new GaussDateDecayFunction{
-                                              Origin = DateMath.Now, Field = "pushTime", Decay = 0.5, Scale = TimeSpan.FromDays(1)
-                                          },
-                                          new FieldValueFactorFunction
-                                          {
-                                            Field = "accessCount",
-                                            Factor = 1.1,
-                                            Missing = 0.1,
-                                            Modifier = FieldValueFactorModifier.Log1P,
-                                          }
-                                     },
-                                     BoostMode = FunctionBoostMode.Multiply,
-                                     ScoreMode = FunctionScoreMode.Sum,
-                                     MinScore = 1.0
-                                   },
                                      Sort = new List<ISort>() {
-                                        new FieldSort (){ Field = "_score", Order = SortOrder.Descending },
+                                        new FieldSort (){ Field = "pushTime", Order = SortOrder.Descending },
                                         new FieldSort() { Field ="categorySort", Order = SortOrder.Ascending }
                                     },
                                     From = from,
@@ -307,9 +288,6 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                             },
                             { "video", new SearchRequest<NewsListResponse>(_IWebNewsElastic.IndexName)
                                 {
-                                    Query=new FunctionScoreQuery() {
-                                     Name="video",
-                                     Boost=1.1,
                                      Query = new BoolQuery() {
                                         Must=new QueryContainer[] {
                                               new TermQuery {
@@ -326,24 +304,8 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                                             }
                                         }
                                      },
-                                     Functions = new List<IScoreFunction> {
-                                          new GaussDateDecayFunction{
-                                              Origin = DateMath.Now, Field = "pushTime", Decay = 0.5, Scale = TimeSpan.FromDays(1)
-                                          },
-                                          new FieldValueFactorFunction
-                                          {
-                                            Field = "accessCount",
-                                            Factor = 1.1,
-                                            Missing = 0.1,
-                                            Modifier = FieldValueFactorModifier.Log1P,
-                                          }
-                                     },
-                                     BoostMode = FunctionBoostMode.Multiply,
-                                     ScoreMode = FunctionScoreMode.Sum,
-                                     MinScore = 1.0
-                                     },
                                      Sort = new List<ISort>() {
-                                        new FieldSort (){ Field = "_score", Order = SortOrder.Descending },
+                                        new FieldSort (){ Field = "pushTime", Order = SortOrder.Descending },
                                         new FieldSort() { Field ="categorySort", Order = SortOrder.Ascending }
                                      },
                                     From=from,
