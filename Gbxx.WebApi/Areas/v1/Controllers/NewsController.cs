@@ -256,18 +256,37 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                         Query = item.Title
                      }
                 };
-                if (headerSource.Device == "android" && headerSource.SystemVers == "5") {
+                if (headerSource.Device == "android" && (headerSource.SystemVers == "5" || headerSource.SystemVers == "1")) {
+                    if (string.IsNullOrEmpty(item.NewsId)) {
+                        mustNot = new QueryContainer[] {
+                            new TermQuery(){
+                                Field = "contentType",
+                                Value = 2
+                            }
+                        };
+                    }
+                    else {
+                        mustNot = new QueryContainer[] {
+                            new TermQuery(){
+                                Field = "contentType",
+                                Value = 2
+                            } &&
+                            new TermQuery(){
+                                Field = "newsId",
+                                Value = item.NewsId
+                            }
+                        };
+                    }
+                }
+                else if (!string.IsNullOrEmpty(item.NewsId)) {
                     mustNot = new QueryContainer[] {
                         new TermQuery(){
-                            Field = "contentType",
-                            Value = 2
-                        } &&
-                        new MatchPhraseQuery(){
-                            Field = "newsTitle",
-                            Query = item.Title
+                            Field = "newsId",
+                            Value = item.NewsId
                         }
                     };
                 }
+
                 // 页
                 int? from = null;
                 if (!string.IsNullOrEmpty(item.PageIndex)) {
