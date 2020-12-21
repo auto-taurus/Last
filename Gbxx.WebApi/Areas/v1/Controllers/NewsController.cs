@@ -245,9 +245,24 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                 item.ShowType = item.ShowType == 0 ? 1 : item.ShowType;
                 // 针对安卓版本判断
                 var lastVers = new Version("1.0.4"); // 最后版本
-                //var newVers = new Version(headerSource.SystemVers); // 最新版本
+                var defalutVersCode = 5;//当前安卓版本code
+                var newVers = new Version();
+                var newVersInt = 0;
+                bool newsBool;
+                try {
+                    newVers = new Version(headerSource.SystemVers); // 最新版本
+                }
+                catch (Exception) {
+                    newVersInt = headerSource.SystemVers.ToInt();
+                }
+                if (newVersInt == 0)
+                    newsBool = headerSource.Device == "android" && newVers <= lastVers;
+                else
+                    newsBool = headerSource.Device == "android" && newVersInt <= defalutVersCode;
+
 
                 string[] newsSearchAfter = null; // 新闻分页
+
                 string[] videoSearchAfter = null; // 视频分页
 
                 var mustNot = new QueryContainer[] {
@@ -256,7 +271,7 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                         Query = item.Title
                      }
                 };
-                if (headerSource.Device == "android" && headerSource.SystemVers == "5") {
+                if (newsBool) {
                     mustNot = new QueryContainer[] {
                         new TermQuery(){
                             Field = "contentType",
