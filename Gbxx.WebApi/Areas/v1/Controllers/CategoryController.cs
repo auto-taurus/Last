@@ -6,17 +6,14 @@ using Auto.ElasticServices.Modals;
 using Auto.RedisServices.Modals;
 using Auto.RedisServices.Repositories;
 using Gbxx.WebApi.Areas.v1.Data;
-using Gbxx.WebApi.Areas.v1.Models.Get;
 using Gbxx.WebApi.Areas.v1.Models.Route;
 using Gbxx.WebApi.Controllers;
 using Gbxx.WebApi.Filters;
 using Gbxx.WebApi.Models;
-using Gbxx.WebApi.Requests.Query;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Nest;
-using Newtonsoft.Json;
 using Swashbuckle.AspNetCore.Annotations;
 using System;
 using System.Collections.Generic;
@@ -183,11 +180,23 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
 
                 // 针对安卓版本判断
                 var lastVers = new Version("1.0.4"); // 最后版本
-                //var newVers = new Version(entity.SystemVers); // 最新版本
-
                 var defalutVersCode = 5;//当前安卓版本code
+                var newVers = new Version();
+                var newVersInt = 0;
+                bool newsBool;
+                try {
+                    newVers = new Version(entity.SystemVers); // 最新版本
+                }
+                catch (Exception) {
+                    newVersInt = entity.SystemVers.ToInt();
+                }
+                if (newVersInt == 0)
+                    newsBool = entity.Device == "android" && newVers <= lastVers;
+                else
+                    newsBool = entity.Device == "android" && newVersInt <= defalutVersCode;
+
                 //判断是否展示视频
-                if (entity.Device == "android" && entity.SystemVers == "5") {
+                if (newsBool) {
                     var request = new SearchRequest<WebNewsDoc>(_IWebNewsElastic.IndexName) {
                         TrackTotalHits = true,
                         Query = new BoolQuery() {
@@ -250,7 +259,7 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                     int? from = null;
                     string[] searechAfter = null;
                     if (item.PageIndex != null) {
-                        from =0;
+                        from = 0;
                         searechAfter = item.PageIndex.Split('|');
                     }
 
@@ -261,6 +270,9 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                       {
                           { "news", new SearchRequest<NewsListResponse>(_IWebNewsElastic.IndexName)
                                 {
+                                     Query=new FunctionScoreQuery() {
+                                     Name="news",
+                                     Boost=1.1,
                                      Query = new BoolQuery() {
                                         Must=new QueryContainer[] {
                                               new TermQuery {
@@ -277,8 +289,27 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                                             }
                                         }
                                     },
+                                     Functions = new List<IScoreFunction> {
+                                          new GaussDateDecayFunction{
+                                              Origin = DateMath.Now, Field = "pushTime",
+                                              Decay = 0.5,
+                                              Scale = TimeSpan.FromSeconds(60),
+                                              Offset=TimeSpan.FromDays(1)
+                                          },
+                                          new FieldValueFactorFunction
+                                          {
+                                            Field = "accessCount",
+                                            Factor = 1.1,
+                                            Missing = 0.1,
+                                            Modifier = FieldValueFactorModifier.Log1P,
+                                          }
+                                     },
+                                     BoostMode = FunctionBoostMode.Multiply,
+                                     ScoreMode = FunctionScoreMode.Sum,
+                                     MinScore = 1.0
+                                   },
                                      Sort = new List<ISort>() {
-                                        new FieldSort (){ Field = "pushTime", Order = SortOrder.Descending },
+                                        new FieldSort (){ Field = "_score", Order = SortOrder.Descending },
                                         new FieldSort() { Field ="categorySort", Order = SortOrder.Ascending }
                                     },
                                     From = from,
@@ -288,6 +319,9 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                             },
                             { "video", new SearchRequest<NewsListResponse>(_IWebNewsElastic.IndexName)
                                 {
+                                   Query=new FunctionScoreQuery() {
+                                     Name="video",
+                                     Boost=1.1,
                                      Query = new BoolQuery() {
                                         Must=new QueryContainer[] {
                                               new TermQuery {
@@ -304,8 +338,28 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                                             }
                                         }
                                      },
+                                     Functions = new List<IScoreFunction> {
+                                          new GaussDateDecayFunction{
+                                              Origin = DateMath.Now,
+                                              Field = "pushTime",
+                                              Decay = 0.5,
+                                              Scale = TimeSpan.FromSeconds(60),
+                                              Offset = TimeSpan.FromDays(1)
+                                          },
+                                          new FieldValueFactorFunction
+                                          {
+                                            Field = "accessCount",
+                                            Factor = 1.1,
+                                            Missing = 0.1,
+                                            Modifier = FieldValueFactorModifier.Log1P,
+                                          }
+                                     },
+                                     BoostMode = FunctionBoostMode.Multiply,
+                                     ScoreMode = FunctionScoreMode.Sum,
+                                     MinScore = 1.0
+                                     },
                                      Sort = new List<ISort>() {
-                                        new FieldSort (){ Field = "pushTime", Order = SortOrder.Descending },
+                                        new FieldSort (){ Field = "_score", Order = SortOrder.Descending },
                                         new FieldSort() { Field ="categorySort", Order = SortOrder.Ascending }
                                      },
                                     From=from,
@@ -343,10 +397,10 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                             }
                             response.Data = newsList;
                             response.Message = $"返回{newsList.Count}条数据";
-                            if(newsResult.Hits.Count > 0&& videoResult.Hits.Count == 0) {
+                            if (newsResult.Hits.Count > 0 && videoResult.Hits.Count == 0) {
                                 response.Other = string.Join(",", newsResult.Hits.LastOrDefault().Sorts);
                             }
-                            if (newsResult.Hits.Count>0 && videoResult.Hits.Count>0)
+                            if (newsResult.Hits.Count > 0 && videoResult.Hits.Count > 0)
                                 response.Other = string.Join(",", newsResult.Hits.LastOrDefault().Sorts) + "|" + string.Join(",", videoResult.Hits.LastOrDefault().Sorts);
                         }
                         else
