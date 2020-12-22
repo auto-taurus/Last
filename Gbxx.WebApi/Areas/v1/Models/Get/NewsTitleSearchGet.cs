@@ -7,6 +7,10 @@ namespace Gbxx.WebApi.Requests.Query {
     /// </summary>
     public class NewsTitleSearchGet : PagerElastic {
         /// <summary>
+        /// 内容编号
+        /// </summary>
+        public string NewsId { get; set; }
+        /// <summary>
         /// 标题
         /// </summary>
         public string Title { get; set; }
