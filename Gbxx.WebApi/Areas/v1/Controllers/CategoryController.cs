@@ -215,18 +215,86 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                 //            Query = new TermsQuery {
                 //                Field = "newsId",
                 //                Terms = newIds
-                //            },
-                //            Sort = new List<ISort>() {
-                //            new FieldSort { Field ="accessCount", Order = SortOrder.Descending }
                 //            }
                 //        };
                 //        var result = await this._IWebNewsElastic.Client.SearchAsync<NewsListResponse>(request);//查询es
                 //        if (result != null && result.ApiCall.Success) {
-                //            response.Code = true;
-                //            response.Data = result.Documents.ToList();
-                //            response.Other = "Top10News";
-                //            response.Message = $"返回{result.Documents.Count}条数据";
-                //            return response.ToHttpResponse();
+                //            var titleList = result.Documents.ToList();
+                //            //根据标题搜索
+                //            var requestTitle = new SearchRequest<WebNewsDoc>(_IWebNewsElastic.IndexName) {
+                //                TrackTotalHits = true,
+                //                Query = new FunctionScoreQuery() {
+                //                    Query = new BoolQuery {
+                //                        Should = new QueryContainer[] {
+                //                        new MatchQuery {
+                //                            Field="newsTitle",
+                //                            Query=titleList[0].NewsTitle
+                //                        }
+                //                        || new MatchQuery {
+                //                            Field="newsTitle",
+                //                            Query=titleList[1].NewsTitle
+                //                        }
+                //                        || new MatchQuery {
+                //                            Field="newsTitle",
+                //                            Query=titleList[2].NewsTitle
+                //                        }
+                //                        || new MatchQuery {
+                //                            Field="newsTitle",
+                //                            Query=titleList[3].NewsTitle
+                //                        }
+                //                        || new MatchQuery {
+                //                            Field="newsTitle",
+                //                            Query=titleList[4].NewsTitle
+                //                        }
+                //                        || new MatchQuery {
+                //                            Field="newsTitle",
+                //                            Query=titleList[5].NewsTitle
+                //                        }
+                //                        || new MatchQuery {
+                //                            Field="newsTitle",
+                //                            Query=titleList[6].NewsTitle
+                //                        }
+                //                        || new MatchQuery {
+                //                            Field="newsTitle",
+                //                            Query=titleList[7].NewsTitle
+                //                        }
+                //                        || new MatchQuery {
+                //                            Field="newsTitle",
+                //                            Query=titleList[8].NewsTitle
+                //                        }
+                //                        || new MatchQuery {
+                //                            Field="newsTitle",
+                //                            Query=titleList[9].NewsTitle
+                //                        }
+
+                //                      }
+                //                    },
+                //                    Functions = new List<IScoreFunction> {
+                //                        new GaussDateDecayFunction{
+                //                              Origin =DateTime.Now.AddMinutes(30).ToString("yyyy-MM-ddTHH:mm:ss"),
+                //                              Field = "pushTime",
+                //                              Decay = 0.5,
+                //                              Scale = TimeSpan.FromMinutes(30),
+                //                              Offset=TimeSpan.FromMinutes(30)
+                //                          },
+                //                    },
+                //                    ScoreMode = FunctionScoreMode.Multiply,
+                //                    BoostMode = FunctionBoostMode.Sum,
+                //                },
+                //                Size=item.PageSize,
+                //                Sort = new List<ISort>() {
+                //                new FieldSort { Field ="_score", Order = SortOrder.Descending },
+                //                new FieldSort {Field="categorySort",Order=SortOrder.Ascending}
+                //                 }
+                //            };
+                //            var resultTitle = await this._IWebNewsElastic.Client.SearchAsync<NewsListResponse>(requestTitle);//查询es
+                //            if (resultTitle != null && resultTitle.ApiCall.Success) {
+                //                response.Code = true;
+                //                response.Data = resultTitle.Documents.ToList();
+                //                response.Other = "Top10News";
+                //                response.Message = $"返回{resultTitle.Documents.Count}条数据";
+                //                return response.ToHttpResponse();
+                //            }
                 //        }
                 //    }
                 //}
@@ -328,20 +396,18 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                                     },
                                      Functions = new List<IScoreFunction> {
                                           new GaussDateDecayFunction{
-                                              Origin =DateTime.Now.AddMinutes(30).ToString("yyyy-MM-ddTHH:mm"),
+                                              Origin =DateTime.Now.AddMinutes(60).ToString("yyyy-MM-ddTHH:mm:00"),
                                               Field = "pushTime",
                                               Decay = 0.5,
-                                              Scale = TimeSpan.FromMinutes(30),
-                                              Offset=TimeSpan.FromMinutes(30)
+                                              Scale = TimeSpan.FromMinutes(60),
+                                              Offset=TimeSpan.FromMinutes(60)
                                           },
-                                          new FieldValueFactorFunction
-                                          {
-                                            Field = "accessCount",
-                                            Factor = 1.1,
-                                            Missing = 1,
-                                            Modifier = FieldValueFactorModifier.SquareRoot,
+                                          new  LinearDecayFunction{
+                                              Field="accessCount",
+                                              Origin=150000,
+                                              Offset=50000,
+                                              Scale=10
                                           },
-                                          new ScriptScoreFunction { Script = new InlineScript("_score * 10")}
                                      },
                                      ScoreMode = FunctionScoreMode.Multiply,
                                      BoostMode = FunctionBoostMode.Sum,
@@ -377,20 +443,18 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                                      },
                                      Functions = new List<IScoreFunction> {
                                           new GaussDateDecayFunction{
-                                              Origin =DateTime.Now.AddMinutes(30).ToString("yyyy-MM-ddTHH:mm"),
+                                              Origin =DateTime.Now.AddMinutes(60).ToString("yyyy-MM-ddTHH:mm:00"),
                                               Field = "pushTime",
                                               Decay = 0.5,
-                                              Scale = TimeSpan.FromMinutes(30),
-                                              Offset=TimeSpan.FromMinutes(30)
+                                              Scale = TimeSpan.FromMinutes(60),
+                                              Offset=TimeSpan.FromMinutes(60)
                                           },
-                                          new FieldValueFactorFunction
-                                          {
-                                            Field = "accessCount",
-                                            Factor = 1.1,
-                                            Missing = 1,
-                                            Modifier = FieldValueFactorModifier.SquareRoot,
+                                           new  LinearDecayFunction{
+                                              Field="accessCount",
+                                              Origin=150000,
+                                              Offset=50000,
+                                              Scale=10
                                           },
-                                          new ScriptScoreFunction { Script = new InlineScript("_score * 10")}
                                      },
                                      ScoreMode = FunctionScoreMode.Multiply,
                                      BoostMode = FunctionBoostMode.Sum,
