@@ -202,34 +202,34 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                     newsBool = entity.Device == "android" && newVersInt <= defalutVersCode;
 
                 #region 获取Redis访问前十的数据作为热门
-                if (item.PageIndex == null) {
-                    var redisClickEntity = await _IWebNewsRedis.GetClickDays(route.mark, DateTime.Now, 1, 10);
-                    if (redisClickEntity.Count() > 0) {
-                        List<string> newIds = new List<string>();
-                        foreach (var entry in redisClickEntity) {
-                            newIds.Add(entry.Element);
-                        }
-                        //查询访问前十的es数据
-                        var request = new SearchRequest<WebNewsDoc>(_IWebNewsElastic.IndexName) {
-                            TrackTotalHits = true,
-                            Query = new TermsQuery {
-                                Field = "newsId",
-                                Terms = newIds
-                            },
-                            Sort = new List<ISort>() {
-                            new FieldSort { Field ="accessCount", Order = SortOrder.Descending }
-                            }
-                        };
-                        var result = await this._IWebNewsElastic.Client.SearchAsync<NewsListResponse>(request);//查询es
-                        if (result != null && result.ApiCall.Success) {
-                            response.Code = true;
-                            response.Data = result.Documents.ToList();
-                            response.Other = "Top10News";
-                            response.Message = $"返回{result.Documents.Count}条数据";
-                            return response.ToHttpResponse();
-                        }
-                    }
-                }
+                //if (item.PageIndex == null) {
+                //    var redisClickEntity = await _IWebNewsRedis.GetClickDays(route.mark, DateTime.Now, 1, 10);
+                //    if (redisClickEntity.Count() > 0) {
+                //        List<string> newIds = new List<string>();
+                //        foreach (var entry in redisClickEntity) {
+                //            newIds.Add(entry.Element);
+                //        }
+                //        //查询访问前十的es数据
+                //        var request = new SearchRequest<WebNewsDoc>(_IWebNewsElastic.IndexName) {
+                //            TrackTotalHits = true,
+                //            Query = new TermsQuery {
+                //                Field = "newsId",
+                //                Terms = newIds
+                //            },
+                //            Sort = new List<ISort>() {
+                //            new FieldSort { Field ="accessCount", Order = SortOrder.Descending }
+                //            }
+                //        };
+                //        var result = await this._IWebNewsElastic.Client.SearchAsync<NewsListResponse>(request);//查询es
+                //        if (result != null && result.ApiCall.Success) {
+                //            response.Code = true;
+                //            response.Data = result.Documents.ToList();
+                //            response.Other = "Top10News";
+                //            response.Message = $"返回{result.Documents.Count}条数据";
+                //            return response.ToHttpResponse();
+                //        }
+                //    }
+                //}
                 #endregion
                 //判断是否展示视频
                 if (newsBool) {
