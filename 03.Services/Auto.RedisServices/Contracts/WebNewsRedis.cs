@@ -69,7 +69,7 @@ namespace Auto.RedisServices.Contracts {
             var p = GetDayAndPage(dt, pageIndex, pageSize);
             var key = $"{_IRedisStore.PrefixKey}:{mark}:news:click";
 
-            return await GetDays(key, p);
+            return await new RedisRepository(_IRedisStore).GetDays(key, p);
         }
         public async Task<SortedSetEntry[]> GetClickWeeks(int mark, DateTime? dt, int? pageIndex, int? pageSize) {
             var p = GetDayAndPage(dt, pageIndex, pageSize);

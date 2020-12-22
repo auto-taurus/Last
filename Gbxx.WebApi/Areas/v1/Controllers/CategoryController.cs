@@ -37,6 +37,10 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
         /// <summary>
         /// 
         /// </summary>
+        protected IWebNewsRedis _IWebNewsRedis;
+        /// <summary>
+        /// 
+        /// </summary>
         protected IWebCategoryRedis _IWebCategoryRedis;
         /// <summary>
         /// 
@@ -52,10 +56,12 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
         public CategoryController(
                               ILogger<SiteController> logger,
                               IWebNewsElastic webNewsElastic,
+                              IWebNewsRedis webNewsRedis,
                               IWebCategoryRedis webCategoryRedis,
             IWebCategoryRepository webCategoryRepository) {
             this._ILogger = logger;
             this._IWebNewsElastic = webNewsElastic;
+            this._IWebNewsRedis = webNewsRedis;
             this._IWebCategoryRedis = webCategoryRedis;
             this._IWebCategoryRepository = webCategoryRepository;
         }
@@ -195,6 +201,36 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                 else
                     newsBool = entity.Device == "android" && newVersInt <= defalutVersCode;
 
+                #region 获取Redis访问前十的数据作为热门
+                if (item.PageIndex == null) {
+                    var redisClickEntity = await _IWebNewsRedis.GetClickDays(route.mark, DateTime.Now, 1, 10);
+                    if (redisClickEntity.Count() > 0) {
+                        List<string> newIds = new List<string>();
+                        foreach (var entry in redisClickEntity) {
+                            newIds.Add(entry.Element);
+                        }
+                        //查询访问前十的es数据
+                        var request = new SearchRequest<WebNewsDoc>(_IWebNewsElastic.IndexName) {
+                            TrackTotalHits = true,
+                            Query = new TermsQuery {
+                                Field = "newsId",
+                                Terms = newIds
+                            },
+                            Sort = new List<ISort>() {
+                            new FieldSort { Field ="accessCount", Order = SortOrder.Descending }
+                            }
+                        };
+                        var result = await this._IWebNewsElastic.Client.SearchAsync<NewsListResponse>(request);//查询es
+                        if (result != null && result.ApiCall.Success) {
+                            response.Code = true;
+                            response.Data = result.Documents.ToList();
+                            response.Other = "Top10News";
+                            response.Message = $"返回{result.Documents.Count}条数据";
+                            return response.ToHttpResponse();
+                        }
+                    }
+                }
+                #endregion
                 //判断是否展示视频
                 if (newsBool) {
                     var request = new SearchRequest<WebNewsDoc>(_IWebNewsElastic.IndexName) {
@@ -258,21 +294,22 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                     videoSize = item.PageSize - newsSize;
                     int? from = null;
                     string[] searechAfter = null;
+                    if (item.PageIndex == "Top10News") {
+                        item.PageIndex = null;
+                    }
                     if (item.PageIndex != null) {
                         from = 0;
                         searechAfter = item.PageIndex.Split('|');
                     }
-
                     //es多重查询
                     var request = new MultiSearchRequest() {
                         TotalHitsAsInteger = true,
                         Operations = new Dictionary<string, ISearchRequest>
-                      {
+                        {
                           { "news", new SearchRequest<NewsListResponse>(_IWebNewsElastic.IndexName)
                                 {
                                      Query=new FunctionScoreQuery() {
                                      Name="news",
-                                     Boost=1.1,
                                      Query = new BoolQuery() {
                                         Must=new QueryContainer[] {
                                               new TermQuery {
@@ -291,22 +328,23 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                                     },
                                      Functions = new List<IScoreFunction> {
                                           new GaussDateDecayFunction{
-                                              Origin = DateMath.Now, Field = "pushTime",
+                                              Origin =DateTime.Now.AddMinutes(30).ToString("yyyy-MM-ddTHH:mm"),
+                                              Field = "pushTime",
                                               Decay = 0.5,
-                                              Scale = TimeSpan.FromSeconds(60),
-                                              Offset=TimeSpan.FromDays(1)
+                                              Scale = TimeSpan.FromMinutes(30),
+                                              Offset=TimeSpan.FromMinutes(30)
                                           },
                                           new FieldValueFactorFunction
                                           {
                                             Field = "accessCount",
                                             Factor = 1.1,
-                                            Missing = 0.1,
-                                            Modifier = FieldValueFactorModifier.Log1P,
-                                          }
+                                            Missing = 1,
+                                            Modifier = FieldValueFactorModifier.SquareRoot,
+                                          },
+                                          new ScriptScoreFunction { Script = new InlineScript("_score * 10")}
                                      },
-                                     BoostMode = FunctionBoostMode.Multiply,
-                                     ScoreMode = FunctionScoreMode.Sum,
-                                     MinScore = 1.0
+                                     ScoreMode = FunctionScoreMode.Multiply,
+                                     BoostMode = FunctionBoostMode.Sum,
                                    },
                                      Sort = new List<ISort>() {
                                         new FieldSort (){ Field = "_score", Order = SortOrder.Descending },
@@ -321,7 +359,6 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                                 {
                                    Query=new FunctionScoreQuery() {
                                      Name="video",
-                                     Boost=1.1,
                                      Query = new BoolQuery() {
                                         Must=new QueryContainer[] {
                                               new TermQuery {
@@ -340,23 +377,23 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                                      },
                                      Functions = new List<IScoreFunction> {
                                           new GaussDateDecayFunction{
-                                              Origin = DateMath.Now,
+                                              Origin =DateTime.Now.AddMinutes(30).ToString("yyyy-MM-ddTHH:mm"),
                                               Field = "pushTime",
                                               Decay = 0.5,
-                                              Scale = TimeSpan.FromSeconds(60),
-                                              Offset = TimeSpan.FromDays(1)
+                                              Scale = TimeSpan.FromMinutes(30),
+                                              Offset=TimeSpan.FromMinutes(30)
                                           },
                                           new FieldValueFactorFunction
                                           {
                                             Field = "accessCount",
                                             Factor = 1.1,
-                                            Missing = 0.1,
-                                            Modifier = FieldValueFactorModifier.Log1P,
-                                          }
+                                            Missing = 1,
+                                            Modifier = FieldValueFactorModifier.SquareRoot,
+                                          },
+                                          new ScriptScoreFunction { Script = new InlineScript("_score * 10")}
                                      },
-                                     BoostMode = FunctionBoostMode.Multiply,
-                                     ScoreMode = FunctionScoreMode.Sum,
-                                     MinScore = 1.0
+                                     ScoreMode = FunctionScoreMode.Multiply,
+                                     BoostMode = FunctionBoostMode.Sum,
                                      },
                                      Sort = new List<ISort>() {
                                         new FieldSort (){ Field = "_score", Order = SortOrder.Descending },
@@ -396,12 +433,12 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                                 newsIndex++;
                             }
                             response.Data = newsList;
-                            response.Message = $"返回{newsList.Count}条数据";
                             if (newsResult.Hits.Count > 0 && videoResult.Hits.Count == 0) {
                                 response.Other = string.Join(",", newsResult.Hits.LastOrDefault().Sorts);
                             }
                             if (newsResult.Hits.Count > 0 && videoResult.Hits.Count > 0)
                                 response.Other = string.Join(",", newsResult.Hits.LastOrDefault().Sorts) + "|" + string.Join(",", videoResult.Hits.LastOrDefault().Sorts);
+                            response.Message = $"返回{newsList.Count}条数据";
                         }
                         else
                             return NoContent();
