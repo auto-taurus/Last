@@ -126,6 +126,11 @@
             网页关键字
             </summary>
         </member>
+        <member name="P:Gbxx.Gather.Data.GatherPost.duration">
+            <summary>
+            视频时长
+            </summary>
+        </member>
         <member name="T:Gbxx.Gather.Handlers.HiddenApiAttribute">
             <summary>
             隐藏接口，不生成到swagger文档展示

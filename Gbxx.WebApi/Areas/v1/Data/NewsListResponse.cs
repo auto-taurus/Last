@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Gbxx.WebApi.Areas.v1.Data {
+namespace Gbxx.WebApi.Areas.v1.Data
+{
     /// <summary>
     /// 新闻列表
     /// </summary>
-    public class NewsListResponse {
+    public class NewsListResponse
+    {
         /// <summary>
         /// 新闻编号
         /// </summary>
@@ -83,5 +85,10 @@ namespace Gbxx.WebApi.Areas.v1.Data {
         /// 创建时间
         /// </summary>
         public DateTime? Creatime { get; set; }
+
+        /// <summary>
+        /// 视频时长（秒）
+        /// </summary>
+        public int? Duration { get; set; }
     }
 }

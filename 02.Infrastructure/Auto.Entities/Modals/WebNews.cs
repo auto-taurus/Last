@@ -2,10 +2,13 @@ using Auto.Commons.EfCore;
 using System;
 using System.Collections.Generic;
 
-namespace Auto.Entities.Modals {
+namespace Auto.Entities.Modals
+{
     public partial class WebNews
-        : EntityBase {
-        public WebNews() {
+        : EntityBase
+    {
+        public WebNews()
+        {
             #region Generated Constructor
             WebNewsOperateLogs = new HashSet<WebNewsOperateLogs>();
             MemberComments = new HashSet<MemberComment>();
@@ -89,6 +92,8 @@ namespace Auto.Entities.Modals {
         public int? Sequence { get; set; }
 
         public Byte[] RowVers { get; set; }
+
+        public int? Duration { get; set; }
 
         #endregion
 

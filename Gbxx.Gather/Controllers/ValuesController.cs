@@ -12,6 +12,7 @@ using Gbxx.Gather.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Nest;
 
 namespace Gbxx.Gather.Controllers {
     /// <summary>
@@ -66,6 +67,7 @@ namespace Gbxx.Gather.Controllers {
         [HttpPost]
         public async Task<IActionResult> PostWebNewsAsync([FromBody]List<GatherPost> item) {
             try {
+
                 var categories = await _IWebCategoryRepository.Query(a => a.IsEnable == 1 && a.SiteId == 1)
                                                               .ToListAsync();
                 var entities = new List<WebNews>();
@@ -74,27 +76,47 @@ namespace Gbxx.Gather.Controllers {
                 //await _IWebSiteRepository.AddAsync(d);
                 //await _IWebSiteRepository.SaveChangesAsync();
                 item.ForEach(x => {
-                    var category = categories.FirstOrDefault(y => y.CategoryName == x.cate_name);
-                    if (category != null) {
-                        var entity = GetNewsEntity(category, x);
-                        var doc = GetNewsDoc(entity);
-                        entities.Add(entity);
-                        docs.Add(doc);
+                    if (!IsExistsTitle(x.title)) {
+                        var category = categories.FirstOrDefault(y => y.CategoryName == x.cate_name);
+                        if (category != null) {
+                            var entity = GetNewsEntity(category, x);
+                            var doc = GetNewsDoc(entity);
+                            entities.Add(entity);
+                            docs.Add(doc);
+                        }
                     }
                 });
 
                 if (entities.Count > 0) {
                     var resultDB = await _IWebNewsRepository.BatchAddAsync(entities);
                 }
-
                 if (docs.Count > 0) {
                     var resultES = await _IWebNewsElastic.BatchAddDocumentAsync(_IWebNewsElastic.IndexName, docs);
                 }
-            }
-            catch (Exception ex) {
+            } catch (Exception ex) {
                 LogHelper.LogError("错误信息:{0}", ex.Message + ex.StackTrace);
             }
             return Ok();
+        }
+        private bool IsExistsTitle(string title) {
+            var flag = false;
+            try {
+                var request = _IWebNewsElastic.Client.Search<WebNewsDoc>(a => a
+                    .Index(_IWebNewsElastic.IndexName)
+                    .Query(b => b
+                        .MatchPhrase(c => c
+                            .Field(d => d.NewsTitle)
+                            .Query(title)
+                            .Slop(0))));
+                if (request.ApiCall.Success && request.ApiCall.HttpStatusCode == 200) {
+                    if (request.Documents.Count > 0)
+                        flag = true;
+                }
+            } catch (Exception ex) {
+                flag = false;
+            }
+
+            return flag;
         }
         private WebNewsDoc GetNewsDoc(WebNews x) {
             return new WebNewsDoc() {
@@ -119,7 +141,8 @@ namespace Gbxx.Gather.Controllers {
                 CreateTime = Convert.ToDateTime(x.CreateTime.Value.ToString("yyyy-MM-dd HH:mm:ss.fff")),
                 CategorySort = x.CategorySort,
                 SpecialSort = x.SpecialSort,
-                Sequence = x.Sequence
+                Sequence = x.Sequence,
+                Duration = x.Duration
             };
         }
         private WebNews GetNewsEntity(WebCategory category, GatherPost x) {
@@ -153,13 +176,11 @@ namespace Gbxx.Gather.Controllers {
                     }
                     entity.ImageThums = string.Join('∮', thumbpic); // 缩略图
                                                                     // entity.ImagePaths = x.thumbpic.Replace(',', '∮'); // 大图由运维人员去设置
-                }
-                else if (entity.ContentType == 2) {
+                } else if (entity.ContentType == 2) {
                     entity.ImageThums = x.thumbpic;
                     entity.ImagePaths = x.video;
                 }
-            }
-            else if (!string.IsNullOrEmpty(x.video)) {
+            } else if (!string.IsNullOrEmpty(x.video)) {
                 entity.ImageThums = x.thumbpic;
                 entity.ImagePaths = x.video;
             }
@@ -195,6 +216,7 @@ namespace Gbxx.Gather.Controllers {
             entity.IsHot = new Random().Next(0, 1); //
             entity.VirtualAccessNumber = new Random().Next(1000, 200000); //
 
+            entity.Duration = !x.duration.HasValue ? 0 : x.duration;//视频时长
             entity.Remarks = "PHP采集同步！";
             return entity;
         }

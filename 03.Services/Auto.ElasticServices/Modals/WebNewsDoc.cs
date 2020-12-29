@@ -3,14 +3,17 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Auto.ElasticServices.Modals {
+namespace Auto.ElasticServices.Modals
+{
     /// <summary>
     /// 内容文档
     /// _doc中得_id为NewsId
     /// </summary>
     [ElasticsearchType(IdProperty = "NewsId")]
-    public class WebNewsDoc {
-        public WebNewsDoc() {
+    public class WebNewsDoc
+    {
+        public WebNewsDoc()
+        {
             Tags = new List<String>();
         }
         ///// <summary>
@@ -130,6 +133,11 @@ namespace Auto.ElasticServices.Modals {
         //[Date(Index = true)]
         [Date(Index = true)]
         public DateTime? PushTime { get; set; }
+        /// <summary>
+        /// 视频时长（秒）
+        /// </summary>
+        [Number(Index = false)]
+        public int? Duration { get; set; }
         /// <summary>
         /// 创建时间
         /// </summary>

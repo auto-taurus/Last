@@ -79,6 +79,15 @@ namespace Gbxx.WebApi.Areas.v1.Data {
         /// </summary>
         /// <value></value>
         public string Title { get; set; }
+        /// <summary>
+        /// 视频时长（秒）
+        /// </summary>
+        public int? Duration { get; set; }
+        /// <summary>
+        /// 访问总数
+        /// </summary>
+        /// <value></value>
+        public int? AccessCount { get; set; }
         ///// <summary>
         ///// 网页关键字
         ///// </summary>

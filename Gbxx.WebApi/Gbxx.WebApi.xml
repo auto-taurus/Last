@@ -19,6 +19,11 @@
             
             </summary>
         </member>
+        <member name="F:Gbxx.WebApi.Areas.v1.Controllers.CategoryController._IWebNewsRedis">
+            <summary>
+            
+            </summary>
+        </member>
         <member name="F:Gbxx.WebApi.Areas.v1.Controllers.CategoryController._IWebCategoryRedis">
             <summary>
             
@@ -29,7 +34,7 @@
             
             </summary>
         </member>
-        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.CategoryController.#ctor(Microsoft.Extensions.Logging.ILogger{Gbxx.WebApi.Areas.v1.Controllers.SiteController},Auto.ElasticServices.Contracts.IWebNewsElastic,Auto.RedisServices.Repositories.IWebCategoryRedis,Auto.DataServices.Contracts.IWebCategoryRepository)">
+        <member name="M:Gbxx.WebApi.Areas.v1.Controllers.CategoryController.#ctor(Microsoft.Extensions.Logging.ILogger{Gbxx.WebApi.Areas.v1.Controllers.SiteController},Auto.ElasticServices.Contracts.IWebNewsElastic,Auto.RedisServices.Repositories.IWebNewsRedis,Auto.RedisServices.Repositories.IWebCategoryRedis,Auto.DataServices.Contracts.IWebCategoryRepository)">
             <summary>
             
             </summary>
@@ -979,6 +984,11 @@
             创建时间
             </summary>
         </member>
+        <member name="P:Gbxx.WebApi.Areas.v1.Data.NewsListResponse.Duration">
+            <summary>
+            视频时长（秒）
+            </summary>
+        </member>
         <member name="T:Gbxx.WebApi.Areas.v1.Data.NewsResponse">
             <summary>
             新闻详情信息
@@ -1069,6 +1079,11 @@
             网页标题
             </summary>
             <value></value>
+        </member>
+        <member name="P:Gbxx.WebApi.Areas.v1.Data.NewsResponse.Duration">
+            <summary>
+            视频时长（秒）
+            </summary>
         </member>
         <member name="T:Gbxx.WebApi.Areas.v1.Data.SiteResponse">
             <summary>

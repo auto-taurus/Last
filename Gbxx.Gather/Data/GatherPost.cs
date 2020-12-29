@@ -54,5 +54,9 @@ namespace Gbxx.Gather.Data {
         /// 网页关键字
         /// </summary>
         public string search_word { get; set; }
+        /// <summary>
+        /// 视频时长
+        /// </summary>
+        public int? duration { get; set; }
     }
 }

@@ -114,8 +114,7 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                 }
                 response.Code = true;
                 response.Other = null;
-            }
-            catch (Exception ex) {
+            } catch (Exception ex) {
                 LogHelper.LogError("错误信息:{0}", ex.Message + ex.StackTrace);
             }
             response.Data = newsId;
@@ -148,8 +147,7 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                 if (errStartTime != null) { //如果中途断掉则根据断掉的时间节点重新写入
                     predicate = c => c.SiteId == route.mark && c.IsEnable == 1
                                                                                    && (c.PushTime <= pushTime && c.PushTime > errStartTime);
-                }
-                else {
+                } else {
                     predicate = c => c.SiteId == route.mark && c.IsEnable == 1
                                                                                   && c.PushTime <= pushTime;
                 }
@@ -171,15 +169,13 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                             response.Data = docs.Count * pageIndex;//写入es
                             response.Message = docs.LastOrDefault().PushTime.ToString();
                             response.Code = flag;
-                        }
-                        catch (Exception ex) {
+                        } catch (Exception ex) {
                             LogHelper.LogError("写入ES错误信息:{0}", ex.Message + ex.StackTrace);
                         }
 
                     }
                 }
-            }
-            catch (Exception ex) {
+            } catch (Exception ex) {
                 LogHelper.LogError("db读取错误信息:{0}", ex.Message + ex.StackTrace);
             }
             return response.ToHttpResponse();
@@ -195,14 +191,14 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                 await _IWebNewsElastic.AddIndexAsync(_IWebNewsElastic.IndexName);
                 var lastNews = new WebNews();
                 var current = System.DateTime.Now;
-                for (int pageIndex = 1; pageIndex <= 4; pageIndex++) {
+                for (int pageIndex = 1; pageIndex <= 40; pageIndex++) {
                     var news = new List<WebNews>();
 
                     var express = Express.Begin<WebNews>(true);
                     express = express.And(a => a.SiteId == route.mark && a.IsEnable == 1 && a.PushTime <= current);
                     news = await _IWebNewsRepository.Query(express)
                                                     .OrderByDescending(a => a.PushTime)
-                                                    .ToPager(pageIndex, 40000)
+                                                    .ToPager(pageIndex, 30000)
                                                     .ToListAsync();
                     lastNews = news.LastOrDefault();
                     if (lastNews != null) {
@@ -219,8 +215,7 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                 }
                 response.Code = true;
                 response.Other = null;
-            }
-            catch (Exception ex) {
+            } catch (Exception ex) {
                 response.SetError(ex, this._ILogger);
             }
             return response.ToHttpResponse();
@@ -274,7 +269,7 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                 Author = x.Author,
                 Tags = string.IsNullOrEmpty(x.Tags) ? null : x.Tags.Split(","),
                 Contents = x.Contents,
-                ContentType=x.ContentType,
+                ContentType = x.ContentType,
                 Curl = x.Urls,
                 Img = x.ImageThums,
                 //SourceId = x.SourceId,
@@ -286,7 +281,8 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                 CreateTime = Convert.ToDateTime(x.CreateTime.Value.ToString("yyyy-MM-dd HH:mm:ss.fff")),
                 CategorySort = x.CategorySort,
                 SpecialSort = x.SpecialSort,
-                Sequence = x.Sequence
+                Sequence = x.Sequence,
+                Duration = x.Duration
             };
         }
         private WebNews SetWebNews(WebNews item, WebCategory category) {
