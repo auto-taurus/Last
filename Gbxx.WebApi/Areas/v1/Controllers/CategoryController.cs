@@ -201,128 +201,6 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                 else
                     newsBool = entity.Device == "android" && newVersInt <= defalutVersCode;
 
-                #region 获取es访问量前十的数据作为热门
-                if (item.PageIndex == null) {
-                    //查询访问前十的es数据
-                    var request = new SearchRequest<WebNewsDoc>(_IWebNewsElastic.IndexName) {
-                        TrackTotalHits = true,
-                        Query = new FunctionScoreQuery() {
-                            Query = new BoolQuery {
-                                Must = new QueryContainer[] {
-                                    new TermQuery {
-                                        Field="siteId",
-                                        Value=route.mark
-                                    }
-                                    && new TermQuery {
-                                        Field="categoryId",
-                                        Value=route.id
-                                    }
-                                }
-                            },
-                            Functions = new List<IScoreFunction> {
-                                new GaussDateDecayFunction{
-                                              Origin =DateTime.Now.AddDays(1).ToString("yyyy-MM-ddTHH:mm:ss"),
-                                              Field = "pushTime",
-                                              Decay = 0.5,
-                                              Scale = TimeSpan.FromDays(1),
-                                              Offset=TimeSpan.FromDays(1),
-                                              Weight = 1.1
-                                          },
-                                new  LinearDecayFunction{
-                                              Field="accessCount",
-                                              Origin=150000,
-                                              Offset=50000,
-                                              Scale=10
-                                          },
-                            }
-                        },
-                        Sort = new List<ISort>() {
-                                new FieldSort { Field ="_score", Order = SortOrder.Descending },
-                                new FieldSort {Field="categorySort",Order=SortOrder.Ascending}
-                                 },
-                        Size = item.PageSize
-                    };
-                    var result = await this._IWebNewsElastic.Client.SearchAsync<NewsListResponse>(request);//查询es
-                    if (result != null && result.ApiCall.Success) {
-                        var titleList = result.Documents.ToList();
-                        //根据标题搜索
-                        var requestTitle = new SearchRequest<WebNewsDoc>(_IWebNewsElastic.IndexName) {
-                            TrackTotalHits = true,
-                            Query = new FunctionScoreQuery() {
-                                Query = new BoolQuery {
-                                    Should = new QueryContainer[] {
-                                        new MatchQuery {
-                                            Field="newsTitle",
-                                            Query=titleList[0].NewsTitle
-                                        }
-                                        || new MatchQuery {
-                                            Field="newsTitle",
-                                            Query=titleList[1].NewsTitle
-                                        }
-                                        || new MatchQuery {
-                                            Field="newsTitle",
-                                            Query=titleList[2].NewsTitle
-                                        }
-                                        || new MatchQuery {
-                                            Field="newsTitle",
-                                            Query=titleList[3].NewsTitle
-                                        }
-                                        || new MatchQuery {
-                                            Field="newsTitle",
-                                            Query=titleList[4].NewsTitle
-                                        }
-                                        || new MatchQuery {
-                                            Field="newsTitle",
-                                            Query=titleList[5].NewsTitle
-                                        }
-                                        || new MatchQuery {
-                                            Field="newsTitle",
-                                            Query=titleList[6].NewsTitle
-                                        }
-                                        || new MatchQuery {
-                                            Field="newsTitle",
-                                            Query=titleList[7].NewsTitle
-                                        }
-                                        || new MatchQuery {
-                                            Field="newsTitle",
-                                            Query=titleList[8].NewsTitle
-                                        }
-                                        || new MatchQuery {
-                                            Field="newsTitle",
-                                            Query=titleList[9].NewsTitle
-                                        }
-                                      }
-                                },
-                                Functions = new List<IScoreFunction> {
-                                        new GaussDateDecayFunction{
-                                              Origin =DateTime.Now.AddMinutes(30).ToString("yyyy-MM-ddTHH:mm:ss"),
-                                              Field = "pushTime",
-                                              Decay = 0.5,
-                                              Scale = TimeSpan.FromMinutes(30),
-                                              Offset=TimeSpan.FromMinutes(30)
-                                          },
-                                    },
-                                ScoreMode = FunctionScoreMode.Multiply,
-                                BoostMode = FunctionBoostMode.Sum,
-                            },
-                            Size = item.PageSize,
-                            Sort = new List<ISort>() {
-                                new FieldSort { Field ="_score", Order = SortOrder.Descending },
-                                new FieldSort {Field="categorySort",Order=SortOrder.Ascending}
-                                 }
-                        };
-                        var resultTitle = await this._IWebNewsElastic.Client.SearchAsync<NewsListResponse>(requestTitle);//查询es
-                        if (resultTitle != null && resultTitle.ApiCall.Success) {
-                            response.Code = true;
-                            response.Data = resultTitle.Documents.ToList();
-                            response.Other = "Top10News";
-                            response.Message = $"返回{resultTitle.Documents.Count}条数据";
-                            return response.ToHttpResponse();
-                        }
-                    }
-                }
-                #endregion
-                //#endregion
                 //判断是否展示视频
                 if (newsBool) {
                     var request = new SearchRequest<WebNewsDoc>(_IWebNewsElastic.IndexName) {
@@ -386,9 +264,7 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                     videoSize = item.PageSize - newsSize;
                     int? from = null;
                     string[] searechAfter = null;
-                    if (item.PageIndex == "Top10News") {
-                        item.PageIndex = null;
-                    }
+
                     if (item.PageIndex != null) {
                         from = 0;
                         searechAfter = item.PageIndex.Split('|');
@@ -400,10 +276,8 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                         {
                           { "news", new SearchRequest<NewsListResponse>(_IWebNewsElastic.IndexName)
                                 {
-                                     Query=new FunctionScoreQuery() {
-                                     Name="news",
-                                     Query = new BoolQuery() {
-                                        Must=new QueryContainer[] {
+                                  Query=new BoolQuery() {
+                                    Must=new QueryContainer[] {
                                               new TermQuery {
                                                 Field="siteId",
                                                 Value=route.mark
@@ -417,30 +291,9 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                                                 Value=1
                                             }
                                         }
-                                    },
-                                     Functions = new List<IScoreFunction> {
-                                          new GaussDateDecayFunction{
-                                              Origin =DateTime.Now.AddDays(1).ToString("yyyy-MM-ddTHH:mm:ss"),
-                                              Field = "pushTime",
-                                              Decay = 0.5,
-                                              Scale = TimeSpan.FromDays(1),
-                                              Offset=TimeSpan.FromDays(1),
-                                              Weight = 1.1
-                                          },
-                                          new  LinearDecayFunction{
-                                              Field="accessCount",
-                                              Origin=150000,
-                                              Offset=50000,
-                                              Scale=10
-                                          },
-                                         new ScriptScoreFunction { Script = new InlineScript("_score * 10000") }
                                      },
-                                     Boost=1.1,
-                                     ScoreMode = FunctionScoreMode.Multiply,
-                                     BoostMode = FunctionBoostMode.Sum,
-                                   },
                                      Sort = new List<ISort>() {
-                                        new FieldSort (){ Field = "_score", Order = SortOrder.Descending },
+                                        new FieldSort (){ Field = "pushTime", Order = SortOrder.Descending },
                                         new FieldSort() { Field ="categorySort", Order = SortOrder.Ascending }
                                     },
                                     From = from,
@@ -450,9 +303,7 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                             },
                             { "video", new SearchRequest<NewsListResponse>(_IWebNewsElastic.IndexName)
                                 {
-                                   Query=new FunctionScoreQuery() {
-                                     Name="video",
-                                     Query = new BoolQuery() {
+                                   Query = new BoolQuery() {
                                         Must=new QueryContainer[] {
                                               new TermQuery {
                                                 Field="siteId",
@@ -468,29 +319,8 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                                             }
                                         }
                                      },
-                                   Functions = new List<IScoreFunction> {
-                                          new GaussDateDecayFunction{
-                                              Origin =DateTime.Now.AddDays(1).ToString("yyyy-MM-ddTHH:mm:ss"),
-                                              Field = "pushTime",
-                                              Decay = 0.5,
-                                              Scale = TimeSpan.FromDays(1),
-                                              Offset=TimeSpan.FromDays(1),
-                                              Weight = 1.1
-                                          },
-                                          new  LinearDecayFunction{
-                                              Field="accessCount",
-                                              Origin=150000,
-                                              Offset=50000,
-                                              Scale=10
-                                          },
-                                         new ScriptScoreFunction { Script = new InlineScript("_score * 10000") }
-                                     },
-                                     Boost=1.1,
-                                     ScoreMode = FunctionScoreMode.Multiply,
-                                     BoostMode = FunctionBoostMode.Sum,
-                                     },
                                      Sort = new List<ISort>() {
-                                        new FieldSort (){ Field = "_score", Order = SortOrder.Descending },
+                                        new FieldSort (){ Field = "pushTime", Order = SortOrder.Descending },
                                         new FieldSort() { Field ="categorySort", Order = SortOrder.Ascending }
                                      },
                                     From=from,
@@ -501,7 +331,6 @@ namespace Gbxx.WebApi.Areas.v1.Controllers {
                         }
                     };
                     var result = await this._IWebNewsElastic.Client.MultiSearchAsync(request);//es多重查询
-
 
                     var newsResult = result.GetResponse<NewsListResponse>("news");//新闻
                     var videoResult = result.GetResponse<NewsListResponse>("video");//视频
